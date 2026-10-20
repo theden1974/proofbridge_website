@@ -155,7 +155,7 @@
       "signature": null,
       "status": "pending: to be signed by Dennis with the key of the address"
     },
-    "identity_links": "proofbridge.nl and interactiondesign.nl link to each other and to the same GitHub and X accounts.",
+    "identity_links": "proofbridge.nl and interactiondesign.nl link to each other and to the same X account; interactiondesign.nl also links to the GitHub account that hosts both sites.",
     "track_record": "Computed from the public backlog at build time; see stats."
   },
   "not": [
@@ -235,6 +235,10 @@
         "saw": "The failure that keeps coming back is my inability to interface with the chat in such a way that I can draw the outline of what I expect it to do and how I expect the system to work. There are constant misalignments. And I noticed the lock-in of the different models, and the direction it is heading.",
         "after": "As for now I have just been feeding the system and building the system to understand what it is capable of."
       }
+    ],
+    "why_a_human": [
+      "AI is the calculator. It needs my numbers.",
+      "8 hours of work can represent 100 hours of work, because it is aimed at value."
     ],
     "more": [
       "https://interactiondesign.nl/setup/",

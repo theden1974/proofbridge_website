@@ -9,6 +9,7 @@
     "task_type",
     "payment_txid",
     "status",
+    "decline_reason",
     "eta",
     "delivered_at",
     "verdict",

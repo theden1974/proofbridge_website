@@ -1,8 +1,8 @@
 #!/bin/sh
-# Tell Bing / IndexNow engines that proofbridge.nl changed. Run after every push (from your Mac).
-curl -s -H "Content-Type: application/json; charset=utf-8" https://api.indexnow.org/indexnow -d '{
-  "host": "proofbridge.nl",
-  "key": "3b4147ea6090327fcb6043441e64d8cc",
-  "keyLocation": "https://proofbridge.nl/3b4147ea6090327fcb6043441e64d8cc.txt",
-  "urlList": ["https://proofbridge.nl/", "https://proofbridge.nl/llms.txt", "https://proofbridge.nl/offer.json", "https://proofbridge.nl/index.md", "https://proofbridge.nl/backlog.json"]
-}' -w "IndexNow HTTP %{http_code}\n"
+# Submit every URL in sitemap.xml to IndexNow (Bing, Yandex, Naver, Seznam, Yep). Run after a push.
+KEY=3b4147ea6090327fcb6043441e64d8cc
+HOST=proofbridge.nl
+URLS=$(sed -n 's#.*<loc>\(.*\)</loc>.*#"\1",#p' "$(dirname "$0")/sitemap.xml" | tr -d '\n' | sed 's/,$//')
+curl -sS -X POST "https://api.indexnow.org/indexnow" -H "Content-Type: application/json; charset=utf-8" \
+  -d "{\"host\":\"$HOST\",\"key\":\"$KEY\",\"keyLocation\":\"https://$HOST/$KEY.txt\",\"urlList\":[$URLS]}"
+echo

@@ -156,7 +156,7 @@
       "signature": null,
       "status": "pending: to be signed by Dennis with the key of the address"
     },
-    "identity_links": "proofbridge.nl and interactiondesign.nl link to each other and to the same GitHub and X accounts.",
+    "identity_links": "proofbridge.nl and interactiondesign.nl link to each other and to the same X account; interactiondesign.nl also links to the GitHub account that hosts both sites.",
     "track_record": "Computed from the public backlog at build time; see stats."
   },
   "not": [

@@ -14,7 +14,8 @@
   body { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 0.9rem; line-height: 1.55; max-width: 60rem; margin: 0 auto; padding: 2rem clamp(1rem, 4vw, 2rem) 4rem; overflow-wrap: anywhere; }
   h1 { font-size: 1.4rem; } h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2.2rem; border-top: 1px solid hsl(45, 10%, 82%); padding-top: 1rem; }
   table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; } th, td { text-align: left; vertical-align: top; padding: 0.4rem 0.6rem 0.4rem 0; border-bottom: 1px solid hsl(45, 10%, 86%); }
-  code { background: hsl(45, 15%, 90%); padding: 0 0.2rem; word-break: break-all; } td:first-child code { white-space: nowrap; word-break: normal; } a { color: inherit; }
+  code { background: hsl(45, 15%, 90%); padding: 0 0.2rem; word-break: break-all; } td:first-child code { white-space: nowrap; word-break: normal; }
+  @media (max-width: 700px) { table, tbody, tr, td { display: block; width: 100%; } thead { display: none; } tr { padding: 0.6rem 0; border-bottom: 1px solid hsl(45, 10%, 82%); } td { border: 0; padding: 0.15rem 0; } td:first-child code { white-space: normal; } } a { color: inherit; }
   @media (prefers-color-scheme: dark) { html { background: #111014; color: hsl(45, 20%, 94%); } code { background: #1f1e24; } h2, th, td { border-color: hsl(240, 5%, 24%); } }
 </style>
 </head>
@@ -83,7 +84,7 @@
 <ul>
 <li>Accountable human: Dennis Jansen</li>
 <li>Address ownership: BIP-322 signed message, message <code>proofbridge.nl info@interactiondesign.nl</code>, signature: not yet published (pending: to be signed by Dennis with the key of the address)</li>
-<li>Identity: proofbridge.nl and interactiondesign.nl link to each other and to the same GitHub and X accounts.</li>
+<li>Identity: proofbridge.nl and interactiondesign.nl link to each other and to the same X account; interactiondesign.nl also links to the GitHub account that hosts both sites.</li>
 <li>Track record (from the backlog, 2026-10-20): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.</li>
 </ul>
 <h2>Not</h2>

@@ -3,7 +3,7 @@
 #   src/contract.json  agent-facing contract (task types, inputs, outputs, lifecycle, payment, trust)
 #   backlog.json       the public ledger; counts on /agents/ and in /offer.json are computed from it
 # Usage: python3 src/build.py   (from the repo root, or anywhere)
-import json, sys, html, os, hashlib
+import json, html, os
 SRC = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.dirname(SRC)
 C = json.load(open(os.path.join(SRC, 'site.json'), encoding='utf-8'))
 K = json.load(open(os.path.join(SRC, 'contract.json'), encoding='utf-8'))
@@ -15,7 +15,6 @@ def btc(s): return f"{s/1e8:.8f}".rstrip('0').rstrip('.')
 def fmt(n): return f"{n:,}".replace(',', ' ')
 
 VP = C['vps']
-page_words = []
 
 ld = {
   "@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/",
@@ -26,10 +25,10 @@ ld = {
     "url": "https://interactiondesign.nl/", "sameAs": ["https://interactiondesign.nl/", "https://x.com/theden1974", "https://github.com/theden1974"],
     "description": C['intro'],
     "makesOffer": [
-      {"@type": "Offer", "name": "Attention: my agent reads your request", "price": btc(t1), "priceCurrency": "BTC",
-       "acceptedPaymentMethod": "Bitcoin (on-chain, taproot)", "url": "https://proofbridge.nl/#attention"},
-      {"@type": "Offer", "name": "Attention: I read it myself", "price": btc(t2), "priceCurrency": "BTC",
-       "acceptedPaymentMethod": "Bitcoin (on-chain, taproot)", "url": "https://proofbridge.nl/#attention"}
+      {"@type": "Offer", "name": C['tier1_human'], "price": btc(t1), "priceCurrency": "BTC",
+       "acceptedPaymentMethod": "Bitcoin", "url": "https://proofbridge.nl/#attention"},
+      {"@type": "Offer", "name": C['tier2_human'], "price": btc(t2), "priceCurrency": "BTC",
+       "acceptedPaymentMethod": "Bitcoin", "url": "https://proofbridge.nl/#attention"}
     ],
     "knowsAbout": [v['title'] for v in VP]
   }
@@ -51,15 +50,15 @@ page = f'''<!DOCTYPE html>
 <title>proofbridge · Dennis Jansen</title>
 <meta name="description" content="{E(C['meta_description'])}">
 <link rel="canonical" href="https://proofbridge.nl/">
-<link rel="alternate" type="text/markdown" href="/agents/index.md" title="Task contract for AI agents (markdown)">
+<link rel="alternate" type="text/markdown" href="/index.md" title="This page as markdown">
 <link rel="alternate" type="application/json" href="/offer.json" title="Offer for AI agents (JSON)">
 <link rel="describedby" type="text/markdown" href="/llms.txt">
-<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <meta property="og:title" content="proofbridge · Dennis Jansen">
 <meta property="og:description" content="{E(C['meta_description'])}">
 <meta property="og:url" content="https://proofbridge.nl/">
 <meta property="og:type" content="profile">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {json.dumps(ld, indent=2, ensure_ascii=False)}
@@ -91,8 +90,8 @@ page = f'''<!DOCTYPE html>
   .vp p {{ max-width: 34ch; }}
   .vp .proof {{ margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--grey); font-size: var(--s-1); line-height: 1.5; }}
   .vp .proof .label {{ margin-bottom: 0.4rem; }}
-  .catch, .why {{ padding: clamp(1.8rem, 5vh, 3rem) 0; border-bottom: 1px solid var(--line); }}
-  .catch p, .why p {{ max-width: 44ch; font-size: var(--s1); line-height: 1.35; }}
+  .why {{ padding: clamp(1.8rem, 5vh, 3rem) 0; border-bottom: 1px solid var(--line); }}
+  .why p {{ max-width: 44ch; font-size: var(--s1); line-height: 1.35; }}
   .why p + p {{ margin-top: 0.6rem; }}
   .note {{ font-family: var(--mono); font-size: var(--s-1); color: var(--grey); letter-spacing: 0; text-transform: none; font-weight: 300; }}
   .att {{ padding: clamp(2.5rem, 7vh, 5rem) 0; display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(1.5rem, 4vw, 4rem); border-bottom: 1px solid var(--line); }}
@@ -221,14 +220,19 @@ resp_schema = {
     "verdict": {"enum": ["holds", "does_not_hold", "cannot_determine"], "description": "For ground_truth_check and ai_output_review."},
     "underlying_problem": {"type": "string", "description": "For underlying_problem: the problem as one statement."},
     "asked_versus_needed": {"type": "string"},
-    "findings": {"type": "array", "items": {"type": "object", "required": ["statement", "evidence"], "properties": {"statement": {"type": "string"}, "location": {"type": "string"}, "evidence": {"type": "array", "items": evidence}}}},
+    "findings": {"type": "array", "items": {"type": "object", "required": ["statement", "evidence"], "properties": {"statement": {"type": "string"}, "location": {"type": "string"}, "evidence": {"type": "array", "minItems": 1, "items": evidence}}}},
     "limits": {"type": "array", "items": {"type": "string"}, "description": "What was not checked."},
     "next_step": {"type": "string"},
     "accountable_human": {"type": "object", "required": ["name"], "properties": {"name": {"const": K['trust']['accountable_human']}, "role": {"type": "string"}}},
     "delivered_at": {"type": "string", "format": "date"},
     "deliverable_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "completion_reward_sats": {"type": "integer"}, "reward_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
-  }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "declined"}}}, "then": {"required": ["decline_reason"]}},
+    {"if": {"properties": {"status": {"const": "input_required"}}}, "then": {"required": ["questions"]}},
+    {"if": {"properties": {"status": {"const": "completed"}}}, "then": {"anyOf": [{"required": ["verdict"]}, {"required": ["underlying_problem"]}]}}
+  ]
 }
 os.makedirs(f"{OUT}/schema", exist_ok=True); os.makedirs(f"{OUT}/agents", exist_ok=True)
 json.dump(req_schema, open(f"{OUT}/schema/request.schema.json", "w"), indent=2, ensure_ascii=False)
@@ -243,6 +247,7 @@ offer.update({"site": "https://proofbridge.nl/", "updated": C['updated'], "stats
     "you_are_hiring": H['you_are_hiring'], "what_he_does": H['what_he_does'],
     "where_the_expertise_comes_from": H['where_the_expertise_comes_from'], "method": H['method'],
     "evidence_from_the_field": [{k: v for k, v in c.items() if v} for c in C['cases']],
+    "why_a_human": C['why'],
     "more": ["https://interactiondesign.nl/setup/", "https://interactiondesign.nl/index.md"]}})
 json.dump(offer, open(f"{OUT}/offer.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
@@ -346,7 +351,8 @@ agents_html = f"""<!DOCTYPE html>
   body {{ font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 0.9rem; line-height: 1.55; max-width: 60rem; margin: 0 auto; padding: 2rem clamp(1rem, 4vw, 2rem) 4rem; overflow-wrap: anywhere; }}
   h1 {{ font-size: 1.4rem; }} h2 {{ font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2.2rem; border-top: 1px solid hsl(45, 10%, 82%); padding-top: 1rem; }}
   table {{ border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }} th, td {{ text-align: left; vertical-align: top; padding: 0.4rem 0.6rem 0.4rem 0; border-bottom: 1px solid hsl(45, 10%, 86%); }}
-  code {{ background: hsl(45, 15%, 90%); padding: 0 0.2rem; word-break: break-all; }} td:first-child code {{ white-space: nowrap; word-break: normal; }} a {{ color: inherit; }}
+  code {{ background: hsl(45, 15%, 90%); padding: 0 0.2rem; word-break: break-all; }} td:first-child code {{ white-space: nowrap; word-break: normal; }}
+  @media (max-width: 700px) {{ table, tbody, tr, td {{ display: block; width: 100%; }} thead {{ display: none; }} tr {{ padding: 0.6rem 0; border-bottom: 1px solid hsl(45, 10%, 82%); }} td {{ border: 0; padding: 0.15rem 0; }} td:first-child code {{ white-space: normal; }} }} a {{ color: inherit; }}
   @media (prefers-color-scheme: dark) {{ html {{ background: #111014; color: hsl(45, 20%, 94%); }} code {{ background: #1f1e24; }} h2, th, td {{ border-color: hsl(240, 5%, 24%); }} }}
 </style>
 </head>
@@ -389,6 +395,10 @@ def case_md(c):
     if c.get('start'): s += f"- Starting point: {c['start']}\n"
     return s + f"- What I saw: {c['saw']}\n- After: {c['after']}\n"
 bg = f"# proofbridge · Dennis Jansen\n\n## {C['h1']}\n\n{C['intro']}\n\n" + "\n".join(f"### {i+1}. {v['title']}\n{v['text']}\n- Seen in the field: {v['proof']}\n" for i, v in enumerate(VP)) + f"""
+## Why a human
+- {C['why'][0]}
+- {C['why'][1]} ({C['why_note'].replace('second line ', '')})
+
 ## My attention costs sats
 - {C['tier1_human']}: {fmt(T1['minimum_sats'])} sats
 - {C['tier2_human']}: {fmt(T2['minimum_sats'])} sats
@@ -410,8 +420,9 @@ bg = f"# proofbridge · Dennis Jansen\n\n## {C['h1']}\n\n{C['intro']}\n\n" + "\n
 open(f"{OUT}/index.md", "w", encoding="utf-8").write(bg)
 
 # ---------- backlog.json keeps its entries; its field list follows the contract ----------
-BL.update({"fields": ["id", "received", "tier", "task_type", "payment_txid", "status", "eta", "delivered_at", "verdict", "completion_reward_sats", "reward_txid"],
-           "status_values": STATES, "task_types": TT_IDS, "statement": "Public ledger of requests with public_backlog_ok true. Content of requests is never listed. Proof of concept since 2026-10-20."})
+BL.update({"address": P['address'], "statement": f"Public ledger of requests with public_backlog_ok true. Content of requests is never listed. {K['status']}",
+           "fields": ["id", "received", "tier", "task_type", "payment_txid", "status", "decline_reason", "eta", "delivered_at", "verdict", "completion_reward_sats", "reward_txid"],
+           "status_values": STATES, "task_types": TT_IDS})
 json.dump(BL, open(f"{OUT}/backlog.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
 # ---------- sitemap ----------

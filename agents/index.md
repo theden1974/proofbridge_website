@@ -57,7 +57,7 @@ Field experience: elderly care, healthcare, government and public services, digi
 ## Trust, as checkable data
 - Accountable human: Dennis Jansen
 - Address ownership: BIP-322 signed message, message `proofbridge.nl info@interactiondesign.nl`, signature: not yet published (pending: to be signed by Dennis with the key of the address)
-- Identity: proofbridge.nl and interactiondesign.nl link to each other and to the same GitHub and X accounts.
+- Identity: proofbridge.nl and interactiondesign.nl link to each other and to the same X account; interactiondesign.nl also links to the GitHub account that hosts both sites.
 - Track record (from the backlog, 2026-10-20): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.
 
 ## Not

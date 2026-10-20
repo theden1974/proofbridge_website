@@ -16,6 +16,10 @@ Intelligence and reasoning are useless when there is no validated real-world dat
 Only an expert can audit the output. Outside your expertise, everything keeps sounding reasonable.
 - Seen in the field: Legal. An architect's AI summary of a 60-page document sounded legit. The referenced paragraphs were off. It would never stand before court.
 
+## Why a human
+- AI is the calculator. It needs my numbers.
+- 8 hours of work can represent 100 hours of work, because it is aimed at value. (translated from Dutch)
+
 ## My attention costs sats
 - First read by my own setup, checked by me: 5 000 sats
 - I read it myself: 50 000 sats
