@@ -128,8 +128,6 @@
   "tier2_human": "I read it myself",
   "att_how": "Pay in bitcoin to this address. Mail the transaction ID and your question to info@interactiondesign.nl. If I pick it up after the first read, what you paid counts toward my own read.",
   "h1_note": "",
-  "catch_label": "catch against myself",
-  "catch": "I have not had a paid project yet where I used AI to see its value. The first ones will show on the backlog.",
   "why_label": "why a human",
   "why": [
     "AI is the calculator. It needs my numbers.",

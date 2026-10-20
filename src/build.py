@@ -134,11 +134,6 @@ page = f'''<!DOCTYPE html>
 {chr(10).join(vp_html(i+1, v) for i, v in enumerate(VP))}
 </section>
 
-<section class="catch" aria-label="Catch against myself">
-  <span class="label">↳ {E(C['catch_label'])}</span>
-  <p>{E(C['catch'])}</p>
-</section>
-
 <section class="why" aria-label="Why a human">
   <span class="label">↳ {E(C['why_label'])}</span>
   <p>{E(C['why'][0])}</p>
