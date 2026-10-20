@@ -1,6 +1,6 @@
 # proofbridge · Dennis Jansen
 
-## I know what needs to be built. And what not.
+## I find the real problem before you build the wrong solution.
 
 Proofbridge connects the AI, digital and data world with real, actual ground work: being in the field, validating the theoretical world.
 

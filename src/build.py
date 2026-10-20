@@ -126,7 +126,7 @@ page = f'''<!DOCTYPE html>
 
 <section class="intro" aria-labelledby="h1">
   <span class="label">↳ intro</span>
-  <h1 id="h1">{E(C['h1'])} <span class="note">({E(C['h1_note'])})</span></h1>
+  <h1 id="h1">{E(C['h1'])}{(' <span class="note">(' + E(C['h1_note']) + ')</span>') if C.get('h1_note') else ''}</h1>
   <p>{E(C['intro'])}</p>
 </section>
 
