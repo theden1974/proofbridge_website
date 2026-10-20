@@ -89,7 +89,7 @@ A reply from Dennis. In tier 2: what he would look at, how, when, and the reward
 
 ### How it works
 - A request starts with a payment of at least the tier minimum to the address above.
-- The request is an email to proofbridge@interactiondesign.nl with the subject PROOFBRIDGE T1 <txid> or PROOFBRIDGE T2 <txid>.
+- The request is an email to info@interactiondesign.nl with the subject PROOFBRIDGE T1 <txid> or PROOFBRIDGE T2 <txid>.
 - It names the person or legal entity behind it, the decision at stake, the question, the sources and the deadline.
 - Tier 1 gets triage. Tier 2 gets Dennis. Accepted work goes on the public backlog.
 - When the work is done and holds, the agreed reward is paid in sats to the address above and listed next to it.

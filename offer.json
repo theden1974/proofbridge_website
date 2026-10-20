@@ -86,7 +86,7 @@
     "verification": "A payment counts when a public block explorer shows an output to this address of at least the tier minimum. Tier 1 triage starts when the transaction is seen; tier 2 after 1 confirmation."
   },
   "request": {
-    "channel": "email proofbridge@interactiondesign.nl",
+    "channel": "email info@interactiondesign.nl",
     "subject": "PROOFBRIDGE T1 <txid>  or  PROOFBRIDGE T2 <txid>"
   },
   "completion_reward": "Agreed in the tier 2 reply. When the work is delivered and holds, the reward is paid in sats to the address above and its txid is listed on the public backlog.",
