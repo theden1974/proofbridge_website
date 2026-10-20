@@ -30,7 +30,7 @@ ld = {
       {"@type": "Offer", "name": C['tier2_human'], "price": btc(t2), "priceCurrency": "BTC",
        "acceptedPaymentMethod": "Bitcoin", "url": "https://proofbridge.nl/#attention"}
     ],
-    "knowsAbout": [v['title'] for v in VP]
+    "knowsAbout": [x['name'] for x in K['task_types']]
   }
 }
 

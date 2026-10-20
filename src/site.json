@@ -91,7 +91,7 @@
   "att_title": "My attention costs sats.",
   "tier1_human": "First read by my own setup, checked by me",
   "tier2_human": "I read it myself",
-  "att_how": "Pay in bitcoin to this address. Mail the transaction ID and your question to info@interactiondesign.nl. If I pick it up after the first read, what you paid counts toward my own read.",
+  "att_how": "Pay in bitcoin to this address. Mail the transaction ID and your question to info@interactiondesign.nl. Reply within 7 days. The fee buys attention, not a yes, and is not refunded. If I pick it up after the first read, what you paid counts toward my own read.",
   "h1_note": "",
   "why_label": "why a human",
   "why": [

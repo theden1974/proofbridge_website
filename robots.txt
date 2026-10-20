@@ -1,19 +1,6 @@
 # proofbridge.nl · people and AI agents are welcome to read everything here.
 # The page states the offer in brief; /agents/ and /offer.json carry the task contract, with the same facts.
 
-User-agent: OAI-SearchBot
-User-agent: ChatGPT-User
-User-agent: Claude-SearchBot
-User-agent: Claude-User
-User-agent: PerplexityBot
-User-agent: Perplexity-User
-Allow: /
-
-User-agent: GPTBot
-User-agent: ClaudeBot
-User-agent: Google-Extended
-Allow: /
-
 User-agent: *
 Allow: /
 

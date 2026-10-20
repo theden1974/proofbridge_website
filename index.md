@@ -23,7 +23,7 @@ Only an expert can audit the output. Outside your expertise, everything keeps so
 ## My attention costs sats
 - First read by my own setup, checked by me: 5 000 sats
 - I read it myself: 50 000 sats
-- Pay in bitcoin to this address. Mail the transaction ID and your question to info@interactiondesign.nl. If I pick it up after the first read, what you paid counts toward my own read.
+- Pay in bitcoin to this address. Mail the transaction ID and your question to info@interactiondesign.nl. Reply within 7 days. The fee buys attention, not a yes, and is not refunded. If I pick it up after the first read, what you paid counts toward my own read.
 
 ## Background
 A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.
