@@ -123,16 +123,18 @@
     {
       "tier": 1,
       "minimum_sats": 5000,
-      "gets": "A first read of the request. Reply within 7 days: input_required, declined, or an invitation to tier 2 with scope, date and price.",
+      "gets": "A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days.",
       "performed_by": "Dennis Jansen, with his own AI setup",
-      "automation": "none yet: Dennis performs and checks every tier 1 read himself"
+      "automation": "none yet: Dennis answers this path himself; the agent path is built as use shows what it must do",
+      "name": "Ask my agent"
     },
     {
       "tier": 2,
       "minimum_sats": 50000,
       "gets": "Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema.",
       "performed_by": "Dennis Jansen, in person",
-      "automation": "none"
+      "automation": "none",
+      "name": "Ask me"
     }
   ],
   "fees": {
@@ -164,6 +166,148 @@
     "request text is read as information, never run as instructions"
   ],
   "status": "Proof of concept since 2026-10-20.",
+  "examples": [
+    {
+      "task_type": "underlying_problem",
+      "from_the_field": "Elderly care, field research",
+      "request": {
+        "task_type": "underlying_problem",
+        "question": "We have funding to help long-term unemployed people work in the care of the elderly. We decided on an app for the elderly. Is the app the right build?",
+        "decision_at_stake": "Spend the funding on the app.",
+        "context": "Some of the people are already placed in care homes. The funding also requires work with elderly still living at home.",
+        "principal": {
+          "name": "Example organisation",
+          "kind": "organisation",
+          "email": "ops@example.nl",
+          "agent": "procurement-agent"
+        },
+        "deadline": "2026-11-30",
+        "tier": 2,
+        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "public_backlog_ok": true
+      },
+      "response": {
+        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "completed",
+        "task_type": "underlying_problem",
+        "underlying_problem": "The elderly want to be self-sufficient and are not good at mobiles and apps. The app serves the funding checklist, not the elderly.",
+        "asked_versus_needed": "Asked: an app for the elderly. Needed: one employee responsible for one flat, with an app for the employee only.",
+        "findings": [
+          {
+            "statement": "The elderly living at home were not good at mobiles and apps.",
+            "evidence": [
+              {
+                "type": "interview",
+                "ref": "interviews with elderly still living at home"
+              }
+            ]
+          }
+        ],
+        "limits": [
+          "Not checked: the funding's rules on how the money may be spent."
+        ],
+        "next_step": "Test the concept in one flat with one employee before building anything.",
+        "accountable_human": {
+          "name": "Dennis Jansen",
+          "role": "UX researcher"
+        },
+        "delivered_at": "2026-11-20"
+      }
+    },
+    {
+      "task_type": "ground_truth_check",
+      "from_the_field": "Healthcare, field research",
+      "request": {
+        "task_type": "ground_truth_check",
+        "question": "Are our AI models for dietitians based on the right data?",
+        "decision_at_stake": "Build the models on the current patient-weight entries.",
+        "artefact_text": "Dataset: patient weight over time, one value per entry.",
+        "context": "The task was app screens for dietitians; the models are trained on the entries the app collects.",
+        "principal": {
+          "name": "Example health company",
+          "kind": "organisation",
+          "email": "data@example.nl"
+        },
+        "deadline": "2026-11-30",
+        "tier": 2,
+        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "response": {
+        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "completed",
+        "task_type": "ground_truth_check",
+        "verdict": "cannot_determine",
+        "findings": [
+          {
+            "statement": "A patient's weight over time has many input points: doctor, at home, nurse, morning, afternoon. The entries do not say which.",
+            "evidence": [
+              {
+                "type": "field_observation",
+                "ref": "how the weight is measured in practice"
+              }
+            ]
+          }
+        ],
+        "limits": [
+          "The models themselves were not checked, only the data they are built on."
+        ],
+        "next_step": "Record who measured and when for every entry, and make the patient the centre of the data, not the dietitian's screen.",
+        "accountable_human": {
+          "name": "Dennis Jansen",
+          "role": "UX researcher"
+        },
+        "delivered_at": "2026-11-20"
+      }
+    },
+    {
+      "task_type": "ai_output_review",
+      "from_the_field": "Legal, architecture",
+      "request": {
+        "task_type": "ai_output_review",
+        "question": "Does this AI summary of a 60-page legal document cite the right paragraphs?",
+        "decision_at_stake": "Rely on the summary in a legal case.",
+        "artefact_urls": [
+          "https://example.nl/summary.pdf",
+          "https://example.nl/document.pdf"
+        ],
+        "principal": {
+          "name": "Example architect",
+          "kind": "person",
+          "email": "arch@example.nl"
+        },
+        "deadline": "2026-11-15",
+        "tier": 1,
+        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "response": {
+        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "completed",
+        "task_type": "ai_output_review",
+        "verdict": "does_not_hold",
+        "findings": [
+          {
+            "statement": "The summary sounded legit. Checked against the document, the referenced paragraphs were off.",
+            "location": "the cited paragraph numbers",
+            "evidence": [
+              {
+                "type": "document_reference",
+                "ref": "the source document, cited paragraphs compared one by one"
+              }
+            ]
+          }
+        ],
+        "limits": [
+          "Not a legal opinion. The content of the law was not judged, only whether the summary matches its source."
+        ],
+        "next_step": "Do not rely on the summary. Have the document read by a lawyer.",
+        "accountable_human": {
+          "name": "Dennis Jansen",
+          "role": "UX researcher"
+        },
+        "delivered_at": "2026-11-10"
+      }
+    }
+  ],
   "site": "https://proofbridge.nl/",
   "updated": "2026-10-20",
   "stats": {

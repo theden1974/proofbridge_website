@@ -15,6 +15,7 @@ Price: tier 1 from 5 000 sats, tier 2 from 50 000 sats, on-chain bitcoin. Reply 
 - [Offer as JSON](https://proofbridge.nl/offer.json)
 - [Request schema](https://proofbridge.nl/schema/request.schema.json)
 - [Response schema](https://proofbridge.nl/schema/response.schema.json)
+- [Examples: one request and one answer per task type](https://proofbridge.nl/schema/examples.json)
 - [Backlog](https://proofbridge.nl/backlog.json)
 
 ## Optional

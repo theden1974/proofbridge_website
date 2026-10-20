@@ -98,7 +98,7 @@ page = f'''<!DOCTYPE html>
   .att h2 {{ font-weight: 500; font-size: var(--s3); line-height: 1.1; }}
   .tiers {{ list-style: none; }}
   .tiers li {{ display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }}
-  .tiers b {{ font-weight: 500; white-space: nowrap; }}
+  .tiers b {{ font-weight: 500; white-space: nowrap; }} .tiers span b {{ white-space: normal; }} .tiers small {{ display: block; color: var(--grey); font-size: var(--s-1); max-width: 34ch; margin-top: 0.2rem; }}
   .tiers .hi {{ color: var(--accent); }}
   .addr {{ font-family: var(--mono); font-size: var(--s-1); word-break: break-all; margin-top: 1.2rem; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 1rem; background: #fff; }}
   .how {{ margin-top: 1rem; color: var(--grey); font-size: var(--s-1); }}
@@ -146,12 +146,13 @@ page = f'''<!DOCTYPE html>
   </div>
   <div>
     <ul class="tiers">
-      <li><span>{E(C['tier1_human'])}</span><b>{fmt(t1)} sats</b></li>
-      <li><span>{E(C['tier2_human'])}</span><b class="hi">{fmt(t2)} sats</b></li>
+      <li><span><b>{E(C['tier1_human'])}</b><br><small>{E(C['tier1_gets'])}</small></span><b>{fmt(t1)} sats</b></li>
+      <li><span><b>{E(C['tier2_human'])}</b><br><small>{E(C['tier2_gets'])}</small></span><b class="hi">{fmt(t2)} sats</b></li>
     </ul>
+    <p class="how">{E(C['att_status'])}</p>
     <p class="addr" id="addr">{addr}</p>
     <button class="copy" type="button" onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText('{addr}').then(()=>this.textContent='copied')">Copy address</button>
-    <p class="how">{E(C['att_how'])}</p>
+    <p class="how">{E(C['att_how']).replace('the task contract', '<a href="/agents/#examples">the task contract</a>')}</p>
   </div>
 </section>
 
@@ -237,6 +238,7 @@ resp_schema = {
 os.makedirs(f"{OUT}/schema", exist_ok=True); os.makedirs(f"{OUT}/agents", exist_ok=True)
 json.dump(req_schema, open(f"{OUT}/schema/request.schema.json", "w"), indent=2, ensure_ascii=False)
 json.dump(resp_schema, open(f"{OUT}/schema/response.schema.json", "w"), indent=2, ensure_ascii=False)
+json.dump({"$comment": "One request and one response per task type, valid against the schemas. Names invented, txids placeholders.", "examples": K['examples']}, open(f"{OUT}/schema/examples.json", "w"), indent=2, ensure_ascii=False)
 
 # ---------- offer.json: contract first, background after ----------
 offer = {k: v for k, v in K.items() if not k.startswith('_')}
@@ -296,6 +298,10 @@ Field experience: {', '.join(K['domains_with_field_experience'])}.
 - Schema: {K['response']['schema']}
 - Completed work carries `verdict` (holds / does_not_hold / cannot_determine) or `underlying_problem`, `findings` with typed `evidence`, `limits`, `next_step`, and `accountable_human`.
 
+## Examples (from the field; names invented, txids placeholders)
+One request and one answer per task type, both valid against the schemas. Full JSON: [examples.json](https://proofbridge.nl/schema/examples.json).
+
+""" + "\n".join(f"### `{ex['task_type']}` · {ex['from_the_field']}\n- Request: {ex['request']['question']} Decision at stake: {ex['request']['decision_at_stake']}\n- Answer: " + (('verdict `' + ex['response']['verdict'] + '`. ') if ex['response'].get('verdict') else ('underlying problem: ' + ex['response']['underlying_problem'] + ' ')) + ex['response']['findings'][0]['statement'] + " Next step: " + ex['response']['next_step'] + "\n" for ex in K['examples']) + f"""
 ## Trust, as checkable data
 - Accountable human: {K['trust']['accountable_human']}
 - Address ownership: {K['trust']['address_ownership']['method']}, message `{K['trust']['address_ownership']['message']}`, signature: {K['trust']['address_ownership']['signature'] or 'not yet published'} ({K['trust']['address_ownership']['status']})
@@ -329,7 +335,8 @@ def md_to_html(md):
             out.append(f'<li>{inline(line[2:])}</li>'); continue
         if inlist: out.append('</ul>'); inlist = False
         if line.startswith('# '): out.append(f'<h1>{inline(line[2:])}</h1>')
-        elif line.startswith('## '): out.append(f'<h2>{inline(line[3:])}</h2>')
+        elif line.startswith('## '): out.append(f'<h2 id="{line[3:].split(" ")[0].strip("(,").lower()}">{inline(line[3:])}</h2>')
+        elif line.startswith('### '): out.append(f'<h3>{inline(line[4:])}</h3>')
         elif line.strip(): out.append(f'<p>{inline(line)}</p>')
     if inlist: out.append('</ul>')
     if intable: out.append('</table>')
@@ -380,6 +387,7 @@ Price: tier 1 from {fmt(T1['minimum_sats'])} sats, tier 2 from {fmt(T2['minimum_
 - [Offer as JSON](https://proofbridge.nl/offer.json)
 - [Request schema](https://proofbridge.nl/schema/request.schema.json)
 - [Response schema](https://proofbridge.nl/schema/response.schema.json)
+- [Examples: one request and one answer per task type](https://proofbridge.nl/schema/examples.json)
 - [Backlog](https://proofbridge.nl/backlog.json)
 
 ## Optional
@@ -426,7 +434,7 @@ BL.update({"address": P['address'], "statement": f"Public ledger of requests wit
 json.dump(BL, open(f"{OUT}/backlog.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
 # ---------- sitemap ----------
-urls = ["https://proofbridge.nl/", "https://proofbridge.nl/agents/", "https://proofbridge.nl/agents/index.md", "https://proofbridge.nl/llms.txt", "https://proofbridge.nl/offer.json", "https://proofbridge.nl/index.md", "https://proofbridge.nl/backlog.json", "https://proofbridge.nl/schema/request.schema.json", "https://proofbridge.nl/schema/response.schema.json"]
+urls = ["https://proofbridge.nl/", "https://proofbridge.nl/agents/", "https://proofbridge.nl/agents/index.md", "https://proofbridge.nl/llms.txt", "https://proofbridge.nl/offer.json", "https://proofbridge.nl/index.md", "https://proofbridge.nl/backlog.json", "https://proofbridge.nl/schema/request.schema.json", "https://proofbridge.nl/schema/response.schema.json", "https://proofbridge.nl/schema/examples.json"]
 open(f"{OUT}/sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{u}</loc><lastmod>{C['updated']}</lastmod></url>\n" for u in urls) + "</urlset>\n")
 
 import re

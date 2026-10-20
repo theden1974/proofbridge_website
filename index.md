@@ -21,9 +21,9 @@ Only an expert can audit the output. Outside your expertise, everything keeps so
 - 8 hours of work can represent 100 hours of work, because it is aimed at value. (translated from Dutch)
 
 ## My attention costs sats
-- First read by my own setup, checked by me: 5 000 sats
-- I read it myself: 50 000 sats
-- Pay in bitcoin to this address. Mail the transaction ID and your question to info@interactiondesign.nl. Reply within 7 days. The fee buys attention, not a yes, and is not refunded. If I pick it up after the first read, what you paid counts toward my own read.
+- Ask my agent: 5 000 sats
+- Ask me: 50 000 sats
+- Pay to this address and mail the transaction ID with your request to info@interactiondesign.nl. What a request and an answer look like: the task contract.
 
 ## Background
 A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.

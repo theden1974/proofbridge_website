@@ -38,7 +38,7 @@
     "makesOffer": [
       {
         "@type": "Offer",
-        "name": "First read by my own setup, checked by me",
+        "name": "Ask my agent",
         "price": "0.00005",
         "priceCurrency": "BTC",
         "acceptedPaymentMethod": "Bitcoin",
@@ -46,7 +46,7 @@
       },
       {
         "@type": "Offer",
-        "name": "I read it myself",
+        "name": "Ask me",
         "price": "0.0005",
         "priceCurrency": "BTC",
         "acceptedPaymentMethod": "Bitcoin",
@@ -96,7 +96,7 @@
   .att h2 { font-weight: 500; font-size: var(--s3); line-height: 1.1; }
   .tiers { list-style: none; }
   .tiers li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
-  .tiers b { font-weight: 500; white-space: nowrap; }
+  .tiers b { font-weight: 500; white-space: nowrap; } .tiers span b { white-space: normal; } .tiers small { display: block; color: var(--grey); font-size: var(--s-1); max-width: 34ch; margin-top: 0.2rem; }
   .tiers .hi { color: var(--accent); }
   .addr { font-family: var(--mono); font-size: var(--s-1); word-break: break-all; margin-top: 1.2rem; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 1rem; background: #fff; }
   .how { margin-top: 1rem; color: var(--grey); font-size: var(--s-1); }
@@ -161,12 +161,13 @@
   </div>
   <div>
     <ul class="tiers">
-      <li><span>First read by my own setup, checked by me</span><b>5 000 sats</b></li>
-      <li><span>I read it myself</span><b class="hi">50 000 sats</b></li>
+      <li><span><b>Ask my agent</b><br><small>Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.</small></span><b>5 000 sats</b></li>
+      <li><span><b>Ask me</b><br><small>I read it myself and answer in days.</small></span><b class="hi">50 000 sats</b></li>
     </ul>
+    <p class="how">Today I answer both paths myself.</p>
     <p class="addr" id="addr">bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty</p>
     <button class="copy" type="button" onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText('bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty').then(()=>this.textContent='copied')">Copy address</button>
-    <p class="how">Pay in bitcoin to this address. Mail the transaction ID and your question to info@interactiondesign.nl. Reply within 7 days. The fee buys attention, not a yes, and is not refunded. If I pick it up after the first read, what you paid counts toward my own read.</p>
+    <p class="how">Pay to this address and mail the transaction ID with your request to info@interactiondesign.nl. What a request and an answer look like: <a href="/agents/#examples">the task contract</a>.</p>
   </div>
 </section>
 

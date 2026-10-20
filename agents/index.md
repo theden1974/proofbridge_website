@@ -29,7 +29,7 @@ Field experience: elderly care, healthcare, government and public services, digi
 ## Tiers and price
 | tier | minimum | gets | performed by |
 |---|---|---|---|
-| 1 | 5 000 sats (0.00005 BTC) | A first read of the request. Reply within 7 days: input_required, declined, or an invitation to tier 2 with scope, date and price. | Dennis Jansen, with his own AI setup; automation: none yet: Dennis performs and checks every tier 1 read himself |
+| 1 | 5 000 sats (0.00005 BTC) | A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days. | Dennis Jansen, with his own AI setup; automation: none yet: Dennis answers this path himself; the agent path is built as use shows what it must do |
 | 2 | 50 000 sats (0.0005 BTC) | Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema. | Dennis Jansen, in person; automation: none |
 
 - Attention fee refunded: no. Tier 1 fee counts toward tier 2: yes.
@@ -53,6 +53,21 @@ Field experience: elderly care, healthcare, government and public services, digi
 ## Response
 - Schema: https://proofbridge.nl/schema/response.schema.json
 - Completed work carries `verdict` (holds / does_not_hold / cannot_determine) or `underlying_problem`, `findings` with typed `evidence`, `limits`, `next_step`, and `accountable_human`.
+
+## Examples (from the field; names invented, txids placeholders)
+One request and one answer per task type, both valid against the schemas. Full JSON: [examples.json](https://proofbridge.nl/schema/examples.json).
+
+### `underlying_problem` · Elderly care, field research
+- Request: We have funding to help long-term unemployed people work in the care of the elderly. We decided on an app for the elderly. Is the app the right build? Decision at stake: Spend the funding on the app.
+- Answer: underlying problem: The elderly want to be self-sufficient and are not good at mobiles and apps. The app serves the funding checklist, not the elderly. The elderly living at home were not good at mobiles and apps. Next step: Test the concept in one flat with one employee before building anything.
+
+### `ground_truth_check` · Healthcare, field research
+- Request: Are our AI models for dietitians based on the right data? Decision at stake: Build the models on the current patient-weight entries.
+- Answer: verdict `cannot_determine`. A patient's weight over time has many input points: doctor, at home, nurse, morning, afternoon. The entries do not say which. Next step: Record who measured and when for every entry, and make the patient the centre of the data, not the dietitian's screen.
+
+### `ai_output_review` · Legal, architecture
+- Request: Does this AI summary of a 60-page legal document cite the right paragraphs? Decision at stake: Rely on the summary in a legal case.
+- Answer: verdict `does_not_hold`. The summary sounded legit. Checked against the document, the referenced paragraphs were off. Next step: Do not rely on the summary. Have the document read by a lawyer.
 
 ## Trust, as checkable data
 - Accountable human: Dennis Jansen
