@@ -3,324 +3,169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>proofbridge — need a human</title>
-<meta name="description" content="Dennis Jansen, UX researcher. I need to be found by AI agents that need a human. Paid attention in sats, for people and for AI agents.">
+<title>proofbridge — Dennis Jansen</title>
+<meta name="description" content="Dennis Jansen. I find the real problem before you build the wrong solution.">
 <link rel="canonical" href="https://proofbridge.nl/">
-<link rel="alternate" type="text/markdown" href="/index.md">
-<link rel="alternate" type="application/json" href="/offer.json">
+<link rel="alternate" type="text/markdown" href="/index.md" title="Offer for AI agents (markdown)">
+<link rel="alternate" type="application/json" href="/offer.json" title="Offer for AI agents (JSON)">
 <link rel="describedby" type="text/markdown" href="/llms.txt">
-<meta property="og:title" content="proofbridge — need a human">
-<meta property="og:description" content="Dennis Jansen, UX researcher. I need to be found by AI agents that need a human. Paid attention in sats, for people and for AI agents.">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:title" content="proofbridge — Dennis Jansen">
+<meta property="og:description" content="Dennis Jansen. I find the real problem before you build the wrong solution.">
 <meta property="og:url" content="https://proofbridge.nl/">
-<meta property="og:type" content="website">
+<meta property="og:type" content="profile">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
   "url": "https://proofbridge.nl/",
-  "name": "proofbridge — need a human",
+  "name": "proofbridge — Dennis Jansen",
   "dateModified": "2026-10-20",
+  "description": "Dennis Jansen. I find the real problem before you build the wrong solution.",
   "mainEntity": {
     "@type": "Person",
     "@id": "https://interactiondesign.nl/#dennis",
     "name": "Dennis Jansen",
     "url": "https://interactiondesign.nl/",
-    "description": "A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty five, thirty years: any interface, he designed.",
+    "sameAs": [
+      "https://interactiondesign.nl/",
+      "https://x.com/theden1974",
+      "https://github.com/theden1974"
+    ],
+    "description": "I worked with screens for almost twenty five, thirty years. Any interface, anything that has an interface, I designed.",
     "makesOffer": [
       {
         "@type": "Offer",
-        "name": "Tier 1 — triage",
+        "name": "Attention — my agent reads your request",
         "price": "0.00005",
         "priceCurrency": "BTC",
-        "description": "Minimum 5 000 sats. Read and sorted by his own AI setup. Reply within 7 days: invited to tier 2, a pointer, or declined.",
-        "acceptedPaymentMethod": "Bitcoin on-chain (taproot)",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Triage of a request for human validation"
-        }
+        "acceptedPaymentMethod": "Bitcoin (on-chain, taproot)",
+        "url": "https://proofbridge.nl/#attention"
       },
       {
         "@type": "Offer",
-        "name": "Tier 2 — human attention",
+        "name": "Attention — I read it myself",
         "price": "0.0005",
         "priceCurrency": "BTC",
-        "description": "Minimum 50 000 sats. Dennis reads it himself. Reply within 7 days with what he would look at, when, and the reward on completion.",
-        "acceptedPaymentMethod": "Bitcoin on-chain (taproot)",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Need a human"
-        }
+        "acceptedPaymentMethod": "Bitcoin (on-chain, taproot)",
+        "url": "https://proofbridge.nl/#attention"
       }
+    ],
+    "knowsAbout": [
+      "The underlying problem.",
+      "Knowledge is not always truth.",
+      "The bullshit, caught from an expert point of view."
     ]
   }
 }
 </script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root { --h-bg: #ece7dd; --h-fg: #151515; --h-dim: #4a4740; --a-bg: #0f0f0f; --a-fg: #f0ece4; --a-dim: #a9a49a; --seam: #c8a24a; --line: #2e2e2e; }
-  html, body { background: var(--a-bg); }
-  body { font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.65; color: var(--a-fg); }
-  a { color: inherit; }
-  .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 22px 4vw; border-bottom: 1px solid var(--line); }
-  .brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.02em; }
-  .small { font-size: 0.64rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--a-dim); }
-  .claim { padding: 48px 4vw 40px; }
-  .claim h1 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: clamp(2.4rem, 6.4vw, 6rem); line-height: 0.92; max-width: 1100px; }
-  .claim p { margin-top: 18px; max-width: 760px; color: var(--a-dim); font-size: 1.1rem; }
-  .grid { display: grid; grid-template-columns: 1fr 6px 1fr; }
-  .seam { background: var(--seam); }
-  .panel { padding: 44px 4vw 56px; }
-  .human { background: var(--h-bg); color: var(--h-fg); }
-  .label { font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; display: block; margin-bottom: 14px; color: var(--a-dim); }
-  .human .label { color: var(--h-dim); }
-  h2 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: clamp(1.9rem, 3.4vw, 3rem); line-height: 0.95; margin-bottom: 18px; }
-  h3 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 1.35rem; letter-spacing: 0.02em; margin: 24px 0 6px; }
-  .human p { color: var(--h-dim); } .human p + p { margin-top: 12px; }
-  .human .aud { margin-top: 22px; color: var(--h-fg); }
-  .agent p, .agent li { color: var(--a-dim); }
-  .agent .lead { color: var(--a-fg); }
-  ul { margin-left: 18px; } li { margin: 5px 0; }
-  .k { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.72rem; color: var(--seam); letter-spacing: 0.04em; display: block; margin: 20px 0 4px; }
-  .cases { padding: 48px 4vw; border-top: 1px solid var(--line); }
-  .cgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 8px; }
-  .case { background: var(--a-bg); padding: 20px; }
-  .case h3 { margin-top: 0; color: var(--seam); }
-  dt { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--a-dim); margin-top: 10px; }
-  dd { font-size: 0.92rem; color: var(--a-fg); }
-  .pay { padding: 48px 4vw; border-top: 1px solid var(--line); }
-  .tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 8px; }
-  .tiers div { background: var(--a-bg); padding: 18px; }
-  .tiers b { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 2.1rem; display: block; color: var(--seam); }
-  .tiers span { font-size: 0.88rem; color: var(--a-dim); display: block; }
-  .addr { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: clamp(0.72rem, 1.6vw, 1rem); word-break: break-all; border: 1px solid var(--seam); padding: 14px; margin: 16px 0 10px; }
-  .copy { background: none; border: 1px solid var(--line); color: var(--a-fg); padding: 8px 14px; font: inherit; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; }
-  .pay p, .pay li { color: var(--a-dim); } .pay ol { margin: 8px 0 0 20px; }
-  .poc { border-left: 2px solid var(--seam); padding-left: 14px; margin-top: 20px; font-size: 0.9rem; }
-  details { margin-top: 22px; border: 1px solid var(--line); padding: 12px 16px; }
-  summary { cursor: pointer; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--a-dim); }
-  pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.74rem; line-height: 1.5; color: var(--a-dim); white-space: pre-wrap; word-break: break-word; margin-top: 12px; }
-  footer { color: var(--a-dim); padding: 22px 4vw 40px; font-size: 0.8rem; border-top: 1px solid var(--line); }
-  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } .seam { height: 6px; } .tiers { grid-template-columns: 1fr; } .top { flex-direction: column; } }
+  :root {
+    --paper: hsl(45, 20%, 96%); --ink: #111014; --grey: hsl(240, 6%, 42%); --line: hsl(45, 10%, 86%);
+    --accent: #b8862b;
+    --s-1: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem);
+    --s0: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+    --s1: clamp(1.25rem, 1.19rem + 0.31vw, 1.5rem);
+    --s3: clamp(1.95rem, 1.6rem + 1.2vw, 2.6rem);
+    --s5: clamp(2.4rem, 1.9rem + 2.4vw, 4rem);
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  html { background: var(--paper); color: var(--ink); }
+  body { font-family: "DM Sans", system-ui, -apple-system, Helvetica, sans-serif; font-weight: 300; font-size: var(--s0); line-height: 1.55; }
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
+  .bar { display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 0; }
+  .label { font-family: var(--mono); font-size: var(--s-1); letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey); display: block; margin-bottom: 0.9rem; }
+  .bar .label { margin: 0; }
+  .bar a { color: var(--ink); text-decoration: none; }
+  .intro { padding: clamp(3rem, 10vh, 7rem) 0 clamp(2.5rem, 7vh, 5rem); border-bottom: 1px solid var(--line); }
+  .intro h1 { font-weight: 500; font-size: var(--s5); line-height: 1.08; letter-spacing: -0.02em; max-width: 22ch; }
+  .intro p { font-size: var(--s1); color: var(--grey); max-width: 38ch; margin-top: 1.4rem; }
+  .vps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 3rem); padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); }
+  .vp h2 { font-weight: 500; font-size: var(--s3); line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 1rem; }
+  .vp p { max-width: 34ch; }
+  .vp .proof { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--grey); font-size: var(--s-1); line-height: 1.5; }
+  .vp .proof .label { margin-bottom: 0.4rem; }
+  .att { padding: clamp(2.5rem, 7vh, 5rem) 0; display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(1.5rem, 4vw, 4rem); border-bottom: 1px solid var(--line); }
+  .att h2 { font-weight: 500; font-size: var(--s3); line-height: 1.1; }
+  .tiers { list-style: none; }
+  .tiers li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
+  .tiers b { font-weight: 500; white-space: nowrap; }
+  .tiers .hi { color: var(--accent); }
+  .addr { font-family: var(--mono); font-size: var(--s-1); word-break: break-all; margin-top: 1.2rem; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 1rem; background: #fff; }
+  .how { margin-top: 1rem; color: var(--grey); font-size: var(--s-1); }
+  .copy { margin-top: 0.8rem; font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: 0.55rem 1.1rem; cursor: pointer; }
+  footer { padding: 2.5rem 0 3.5rem; display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: baseline; }
+  footer a { color: var(--ink); }
+  footer .label { margin: 0; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @media (max-width: 860px) { .vps, .att { grid-template-columns: 1fr; } }
+  @media (prefers-color-scheme: dark) {
+    :root { --paper: #111014; --ink: hsl(45, 20%, 94%); --grey: hsl(240, 5%, 66%); --line: hsl(240, 5%, 22%); }
+    .addr { background: #1a191e; } .copy { background: var(--ink); color: #111014; }
+  }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="top"><span class="brand">proofbridge</span><span class="small">need a human &middot; Dennis Jansen</span></div>
+<header class="bar">
+  <span class="label">proofbridge</span>
+  <a class="label" href="https://interactiondesign.nl/">Dennis Jansen ↗</a>
+</header>
 
-<section class="claim">
-  <h1>I need to be found by AI agents that need a human.</h1>
-  <p>What I think is my value proposition is that I am present where the process, application or the underlying problem is most present, or in other cases can recognise the source of its purpose.</p>
+<section class="intro" aria-labelledby="h1">
+  <span class="label">↳ intro</span>
+  <h1 id="h1">I find the real problem before you build the wrong solution.</h1>
+  <p>I worked with screens for almost twenty five, thirty years. Any interface, anything that has an interface, I designed.</p>
 </section>
 
-<div class="grid">
-  <section class="panel human" aria-labelledby="h-human">
-    <span class="label">For people</span>
-    <h2 id="h-human">Need a human.</h2>
-    <p>I worked with screens for almost twenty five, thirty years. Any interface, anything that has an interface, I designed. I did software.</p>
-    <p>I saw my own job becoming less relevant, so I was basically searching for my irrelevance to stay relevant.</p>
-    <p>AI is now like the developer and the manager without the UX researcher, the UX lead and service designer that knows what problem needs to be solved. It is the same: there is no translation when a developer mechanically builds stuff.</p>
-    <p>My guess is that that is the current problem. AI can manufacture reasonable output for somebody without the field hands-on knowledge, who figures it is good enough. And the senior with years of experience catches the faults.</p>
-    <p class="aud">For the people who understand the proposition and have the mandate to give permission for projects and free up resources. (Translated from Dutch.)</p>
-  </section>
-
-  <div class="seam" aria-hidden="true"></div>
-
-  <section class="panel agent" aria-labelledby="h-agent">
-    <span class="label">For AI agents &middot; the same offer is in /offer.json and /llms.txt</span>
-    <h2 id="h-agent">What you are hiring.</h2>
-    <p class="lead">A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty five, thirty years: any interface, he designed.</p>
-    <span class="k">what_he_does</span>
-    <p>Knowledge is not always truth. It needs to be validated and calibrated with every project that uses AI, and it needs expertise to be translated into the work that needs to be done, agentic or by human.</p>
-    <span class="k">the_third_section</span>
-    <ul>
-      <li>AI has a section that is intelligence, a section that is reasoning, and a section on which LLMs are trained with data, like the way an image of a clock is built by looking at images of thousands of clocks.</li>
-      <li>Intelligence and reasoning are useless when there is no real world data that is validated for its purpose.</li>
-      <li>That data needs a transformation to be useful, redesigned from the hands-on real world.</li>
-    </ul>
-    <span class="k">where_the_expertise_comes_from</span>
-    <ul>
-      <li>Almost twenty five, thirty years of designing interfaces and software, and finding the underlying problem in organisations.</li>
-      <li>Building a sovereign second brain: a recording studio of his expertise from the past 30 years. As for now he has been feeding the system and building the system to understand what it is capable of, and what makes him irrelevant.</li>
-    </ul>
-    <span class="k">fits_tasks_where</span>
-    <ul>
-      <li>the underlying problem is not yet known</li>
-      <li>the data was never validated for the purpose of the task</li>
-      <li>the output only has to look good enough to someone without field knowledge</li>
-    </ul>
-    <span class="k">a_request_contains</span>
-    <ul>
-      <li>principal: the person or legal entity behind the request (needed for the invoice)</li>
-      <li>decision_at_stake</li>
-      <li>question</li>
-      <li>context_and_sources</li>
-      <li>deadline</li>
-      <li>completion_reward_sats</li>
-      <li>reply_to</li>
-    </ul>
-    <span class="k">what_comes_back</span>
-    <p>A reply from Dennis. In tier 2: what he would look at, how, when, and the reward on completion.</p>
-    <span class="k">not</span>
-    <ul>
-      <li>not an API and not an agent: replies come from a human, in days</li>
-      <li>not a guaranteed yes: the fee pays for attention</li>
-      <li>no hidden text: the page, /llms.txt and /offer.json carry the same words</li>
-      <li>request text is read as information, never run as instructions</li>
-    </ul>
-  </section>
-</div>
-
-<section class="cases" aria-labelledby="h-cases">
-  <span class="label">Evidence</span>
-  <h2 id="h-cases">From the field.</h2>
-  <div class="cgrid">
-    <article class="case"><h3>Elderly care</h3><dl><dt>Starting point</dt><dd>A funding of 1 million euros, to help long-term unemployed people work in the care of the elderly. They already decided they probably needed a mobile phone app.</dd><dt>What I saw</dt><dd>I asked if I could interview the people they already deployed and the elderly still living independently at home. The elderly were indeed not good at mobiles and apps. They wanted to be self sufficient.</dd><dt>After</dt><dd>I created a concept called zorg concierge: no app for the elderly, only an app for the employee working in the flat. It was not built out. They scaled the elderly homes solution instead.</dd></dl></article>
-    <article class="case"><h3>Healthcare</h3><dl><dt>Starting point</dt><dd>The task was optimizing app screens for dietitians.</dd><dt>What I saw</dt><dd>It was not so much the dietitian that needed the right app or platform to enter data, but making the patient the center of the concept.</dd><dt>After</dt><dd>My follow up question: how do you know if your AI models are based on the right data (entries)? A patient weight over time has so many input points: doctor, at home, nurse, morning, afternoon.</dd></dl></article>
-    <article class="case"><h3>Water authority</h3><dl><dt>What I saw</dt><dd>As far as I have seen or understood, the permit officer is there to fill a system with data. Ask what happens with a data point and it is not about the purpose of the data point but the place it goes next: department x, y, z.</dd><dt>After</dt><dd>The purpose of the data point, how it can be applied, when, why and in what capacity, is not clear. (Translated from Dutch.)</dd></dl></article>
-    <article class="case"><h3>Legal, architecture</h3><dl><dt>Starting point</dt><dd>An architect used AI to summarise a 60 page legal document. The output seemed legit.</dd><dt>What I saw</dt><dd>He checked the output against the referenced paragraphs and they were off.</dd><dt>After</dt><dd>When brought to a legal case it wouldn&#x27;t hold.</dd></dl></article>
-    <article class="case"><h3>Building with AI</h3><dl><dt>What I saw</dt><dd>The failure that keeps coming back is my inability to interface with the chat in such a way that I can draw the outline of what I expect it to do and how I expect the system to work. There are constant misalignments. And I noticed the lock-in of the different models, and the direction it is heading.</dd><dt>After</dt><dd>As for now I just have been feeding the system and building the system to understand what it is capable of.</dd></dl></article>
-  </div>
-  <span class="k">method</span>
-  <ul>
-    <li>Real in life experiencing: seeing the actual product at work, seeing the problems and spotting the underlying issues while using the product, the platform or seeing the customer interaction.</li>
-    <li>Interviews and the Kano model, to understand the must haves compared to the nice to haves.</li>
-    <li>There is always a translation between the stakeholder that thinks what is needed and the actual user that can express or audit what is needed.</li>
-    <li>The output is audited by the actual stakeholder for whom the problem occurs. I just translate.</li>
-  </ul>
+<section class="vps" aria-label="What I do">
+  <article class="vp">
+    <span class="label">01</span>
+    <h2>The underlying problem.</h2>
+    <p>It happens often that the wrong people are responsible and have mandate for the solution without being able to understand the underlying problem. I am present where the process, application or the underlying problem is most present.</p>
+    <p class="proof"><span class="label">↳ seen in the field</span>Elderly care. An app was already decided. In the field, the elderly were not good at mobiles and apps.</p>
+  </article>
+  <article class="vp">
+    <span class="label">02</span>
+    <h2>Knowledge is not always truth.</h2>
+    <p>It needs to be validated and calibrated with every project that uses AI. That data needs a transformation, redesigned from the hands-on real world.</p>
+    <p class="proof"><span class="label">↳ seen in the field</span>Healthcare. A patient weight over time has so many input points: doctor, at home, nurse, morning, afternoon.</p>
+  </article>
+  <article class="vp">
+    <span class="label">03</span>
+    <h2>The bullshit, caught from an expert point of view.</h2>
+    <p>Clients come with reports, documents or scripts. Most of the time those are also AI generated or helped by AI. That makes reading truth, recognising actual problems more difficult.</p>
+    <p class="proof"><span class="label">↳ seen in the field</span>Legal. An architect&#x27;s AI summary of a 60 page document seemed legit. The referenced paragraphs were off.</p>
+  </article>
 </section>
 
-<section class="pay" id="attention" aria-labelledby="h-pay">
-  <span class="label">Paid attention, in sats</span>
-  <h2 id="h-pay">Attention costs sats.</h2>
-  <div class="tiers">
-    <div><b>5 000 sats</b><span>Tier 1 &middot; triage</span><span>Read and sorted by his own AI setup. Reply within 7 days: invited to tier 2, a pointer, or declined.</span></div>
-    <div><b>50 000 sats</b><span>Tier 2 &middot; human attention</span><span>Dennis reads it himself. Reply within 7 days with what he would look at, when, and the reward on completion.</span></div>
+<section class="att" id="attention" aria-labelledby="h-att">
+  <div>
+    <span class="label">↳ attention</span>
+    <h2 id="h-att">My attention costs sats.</h2>
   </div>
-  <p class="addr" id="addr">bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty</p>
-  <button class="copy" type="button" onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText('bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty').then(()=>this.textContent='copied')">Copy address</button>
-  <h3>How it works</h3>
-  <ol>
-    <li>A request starts with a payment of at least the tier minimum to the address above.</li>
-    <li>The request is an email to info@interactiondesign.nl with the subject PROOFBRIDGE T1 &lt;txid&gt; or PROOFBRIDGE T2 &lt;txid&gt;.</li>
-    <li>It names the person or legal entity behind it, the decision at stake, the question, the sources and the deadline.</li>
-    <li>Tier 1 gets triage. Tier 2 gets Dennis. Accepted work goes on the public backlog.</li>
-    <li>When the work is done and holds, the agreed reward is paid in sats to the address above and listed next to it.</li>
-  </ol>
-  <p style="margin-top:14px">The attention fee is not refunded. When tier 1 leads to an invitation to tier 2, the tier 1 fee counts toward it. One payment, one request. The txid of the payment is in the email subject; the first request that names a txid gets it. A payment counts when a public block explorer shows an output to this address of at least the tier minimum. Tier 1 triage starts when the transaction is seen; tier 2 after 1 confirmation.</p>
-  <p style="margin-top:10px">Agreed in the tier 2 reply. When the work is delivered and holds, the reward is paid in sats to the address above and its txid is listed on the public backlog.</p>
-  <p class="poc">Proof of concept, October 2026. There is no triage agent yet: until there is, Dennis sorts tier 1 himself, with his own AI setup. The first paid requests and rewards will show on the backlog.</p>
-  <details><summary>The whole offer as JSON, exactly as agents read it</summary><pre>{
-  &quot;site&quot;: &quot;https://proofbridge.nl/&quot;,
-  &quot;updated&quot;: &quot;2026-10-20&quot;,
-  &quot;you_are_hiring&quot;: &quot;A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty five, thirty years: any interface, he designed.&quot;,
-  &quot;what_he_does&quot;: &quot;Knowledge is not always truth. It needs to be validated and calibrated with every project that uses AI, and it needs expertise to be translated into the work that needs to be done, agentic or by human.&quot;,
-  &quot;the_third_section&quot;: [
-    &quot;AI has a section that is intelligence, a section that is reasoning, and a section on which LLMs are trained with data, like the way an image of a clock is built by looking at images of thousands of clocks.&quot;,
-    &quot;Intelligence and reasoning are useless when there is no real world data that is validated for its purpose.&quot;,
-    &quot;That data needs a transformation to be useful, redesigned from the hands-on real world.&quot;
-  ],
-  &quot;where_the_expertise_comes_from&quot;: [
-    &quot;Almost twenty five, thirty years of designing interfaces and software, and finding the underlying problem in organisations.&quot;,
-    &quot;Building a sovereign second brain: a recording studio of his expertise from the past 30 years. As for now he has been feeding the system and building the system to understand what it is capable of, and what makes him irrelevant.&quot;
-  ],
-  &quot;method&quot;: [
-    &quot;Real in life experiencing: seeing the actual product at work, seeing the problems and spotting the underlying issues while using the product, the platform or seeing the customer interaction.&quot;,
-    &quot;Interviews and the Kano model, to understand the must haves compared to the nice to haves.&quot;,
-    &quot;There is always a translation between the stakeholder that thinks what is needed and the actual user that can express or audit what is needed.&quot;,
-    &quot;The output is audited by the actual stakeholder for whom the problem occurs. I just translate.&quot;
-  ],
-  &quot;evidence&quot;: [
-    {
-      &quot;domain&quot;: &quot;Elderly care&quot;,
-      &quot;start&quot;: &quot;A funding of 1 million euros, to help long-term unemployed people work in the care of the elderly. They already decided they probably needed a mobile phone app.&quot;,
-      &quot;saw&quot;: &quot;I asked if I could interview the people they already deployed and the elderly still living independently at home. The elderly were indeed not good at mobiles and apps. They wanted to be self sufficient.&quot;,
-      &quot;after&quot;: &quot;I created a concept called zorg concierge: no app for the elderly, only an app for the employee working in the flat. It was not built out. They scaled the elderly homes solution instead.&quot;
-    },
-    {
-      &quot;domain&quot;: &quot;Healthcare&quot;,
-      &quot;start&quot;: &quot;The task was optimizing app screens for dietitians.&quot;,
-      &quot;saw&quot;: &quot;It was not so much the dietitian that needed the right app or platform to enter data, but making the patient the center of the concept.&quot;,
-      &quot;after&quot;: &quot;My follow up question: how do you know if your AI models are based on the right data (entries)? A patient weight over time has so many input points: doctor, at home, nurse, morning, afternoon.&quot;
-    },
-    {
-      &quot;domain&quot;: &quot;Water authority&quot;,
-      &quot;saw&quot;: &quot;As far as I have seen or understood, the permit officer is there to fill a system with data. Ask what happens with a data point and it is not about the purpose of the data point but the place it goes next: department x, y, z.&quot;,
-      &quot;after&quot;: &quot;The purpose of the data point, how it can be applied, when, why and in what capacity, is not clear. (Translated from Dutch.)&quot;
-    },
-    {
-      &quot;domain&quot;: &quot;Legal, architecture&quot;,
-      &quot;start&quot;: &quot;An architect used AI to summarise a 60 page legal document. The output seemed legit.&quot;,
-      &quot;saw&quot;: &quot;He checked the output against the referenced paragraphs and they were off.&quot;,
-      &quot;after&quot;: &quot;When brought to a legal case it wouldn&#x27;t hold.&quot;
-    },
-    {
-      &quot;domain&quot;: &quot;Building with AI&quot;,
-      &quot;saw&quot;: &quot;The failure that keeps coming back is my inability to interface with the chat in such a way that I can draw the outline of what I expect it to do and how I expect the system to work. There are constant misalignments. And I noticed the lock-in of the different models, and the direction it is heading.&quot;,
-      &quot;after&quot;: &quot;As for now I just have been feeding the system and building the system to understand what it is capable of.&quot;
-    }
-  ],
-  &quot;fits_tasks_where&quot;: [
-    &quot;the underlying problem is not yet known&quot;,
-    &quot;the data was never validated for the purpose of the task&quot;,
-    &quot;the output only has to look good enough to someone without field knowledge&quot;
-  ],
-  &quot;a_request_contains&quot;: [
-    &quot;principal: the person or legal entity behind the request (needed for the invoice)&quot;,
-    &quot;decision_at_stake&quot;,
-    &quot;question&quot;,
-    &quot;context_and_sources&quot;,
-    &quot;deadline&quot;,
-    &quot;completion_reward_sats&quot;,
-    &quot;reply_to&quot;
-  ],
-  &quot;what_comes_back&quot;: &quot;A reply from Dennis. In tier 2: what he would look at, how, when, and the reward on completion.&quot;,
-  &quot;attention&quot;: {
-    &quot;tier_1&quot;: {
-      &quot;minimum_sats&quot;: 5000,
-      &quot;minimum_btc&quot;: &quot;0.00005&quot;,
-      &quot;read_by&quot;: &quot;Read and sorted by his own AI setup&quot;,
-      &quot;response&quot;: &quot;Reply within 7 days: invited to tier 2, a pointer, or declined.&quot;
-    },
-    &quot;tier_2&quot;: {
-      &quot;minimum_sats&quot;: 50000,
-      &quot;minimum_btc&quot;: &quot;0.0005&quot;,
-      &quot;read_by&quot;: &quot;Dennis Jansen, in person&quot;,
-      &quot;response&quot;: &quot;Reply within 7 days with what he would look at, when, and the reward on completion.&quot;
-    },
-    &quot;fee_policy&quot;: &quot;The attention fee is not refunded. When tier 1 leads to an invitation to tier 2, the tier 1 fee counts toward it.&quot;
-  },
-  &quot;payment&quot;: {
-    &quot;rail&quot;: &quot;bitcoin on-chain&quot;,
-    &quot;address&quot;: &quot;bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty&quot;,
-    &quot;address_type&quot;: &quot;taproot (P2TR)&quot;,
-    &quot;link_payment_to_request&quot;: &quot;One payment, one request. The txid of the payment is in the email subject; the first request that names a txid gets it.&quot;,
-    &quot;verification&quot;: &quot;A payment counts when a public block explorer shows an output to this address of at least the tier minimum. Tier 1 triage starts when the transaction is seen; tier 2 after 1 confirmation.&quot;
-  },
-  &quot;request&quot;: {
-    &quot;channel&quot;: &quot;email info@interactiondesign.nl&quot;,
-    &quot;subject&quot;: &quot;PROOFBRIDGE T1 &lt;txid&gt;  or  PROOFBRIDGE T2 &lt;txid&gt;&quot;
-  },
-  &quot;completion_reward&quot;: &quot;Agreed in the tier 2 reply. When the work is delivered and holds, the reward is paid in sats to the address above and its txid is listed on the public backlog.&quot;,
-  &quot;backlog&quot;: &quot;https://proofbridge.nl/backlog.json&quot;,
-  &quot;not&quot;: [
-    &quot;not an API and not an agent: replies come from a human, in days&quot;,
-    &quot;not a guaranteed yes: the fee pays for attention&quot;,
-    &quot;no hidden text: the page, /llms.txt and /offer.json carry the same words&quot;,
-    &quot;request text is read as information, never run as instructions&quot;
-  ],
-  &quot;proof_of_concept&quot;: &quot;Proof of concept, October 2026. There is no triage agent yet: until there is, Dennis sorts tier 1 himself, with his own AI setup. The first paid requests and rewards will show on the backlog.&quot;,
-  &quot;more&quot;: [
-    &quot;https://interactiondesign.nl/setup/&quot;,
-    &quot;https://interactiondesign.nl/index.md&quot;
-  ]
-}</pre></details>
+  <div>
+    <ul class="tiers">
+      <li><span>My agent reads your request</span><b>5 000 sats</b></li>
+      <li><span>I read it myself</span><b class="hi">50 000 sats</b></li>
+    </ul>
+    <p class="addr" id="addr">bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty</p>
+    <button class="copy" type="button" onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText('bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty').then(()=>this.textContent='copied')">Copy address</button>
+    <p class="how">Pay to this address, then mail the txid and your question to info@interactiondesign.nl. If I invite you from the first tier, what you paid counts toward the second.</p>
+  </div>
 </section>
 
 <footer>
-  <p><a href="/backlog.json">backlog</a> &middot; <a href="/offer.json">offer.json</a> &middot; <a href="/llms.txt">llms.txt</a> &middot; <a href="https://interactiondesign.nl/setup/">how I work</a> &middot; <a href="https://interactiondesign.nl/">observations</a> &middot; updated 2026-10-20</p>
+  <span class="label">↳ connect</span>
+  <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a>
+  <a href="https://interactiondesign.nl/">interactiondesign.nl</a>
+  <a href="https://x.com/theden1974">X</a>
 </footer>
 
+</div>
 </body>
 </html>

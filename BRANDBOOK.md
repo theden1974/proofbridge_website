@@ -45,3 +45,17 @@ design:
 deploy_mechanism:
   decision: Same as interactiondesign.nl — public trail in git, GitHub Pages from main, custom domain via CNAME, DNS at Namecheap. .nojekyll so .md, .txt and .json are served as-is.
   status: pending use
+
+---
+# REFINEMENTS — 2026-10-20 15:30 Lisbon (v3)
+
+refinement_v3_human_page:
+  changes: site_purpose, design, agent_layer
+  instruction: Dennis 14:27 — "use the best practices for content, look & feel and the amount of information … There is no value proposition just a lot of AI good enough copy writing … draw it back to max 2 or 3 Human value propositions … All agentic needs to be hidden for humans".
+  applied:
+    - Human page in jonyablonski.com discipline (measured 2026-10-20): one intro sentence, three value propositions each with one field proof, attention block, connect. ~270 words. One accent, used once (the tier-2 price). Mono labels with ↳. Fluid type scale, ratio ~1.25. Light paper, dark mode by system setting.
+    - Value propositions, all his words: (1) The underlying problem. (2) Knowledge is not always truth. (3) The bullshit, caught from an expert point of view.
+    - Agent offer removed from the page body. It lives in /offer.json, /llms.txt, /index.md, the head JSON-LD (only values that are on the page) and <link rel> tags. Same claims as the page, in full. No hidden text in the body.
+    - Discovery: sitemap, robots, IndexNow key file + indexnow.sh (ping after each push). Bing Webmaster Tools and Google Search Console verification are his steps (codes come from his accounts).
+  laws_of_ux: Hick / choice overload (3 propositions, 1 action each), serial position (strongest first, contact last), Von Restorff (one accent), aesthetic-usability, Jakob (name–what–proof–contact), proximity/common region (proof inside its proposition), Tesler (agent complexity moved to machine files).
+  status: pending use
