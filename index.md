@@ -1,4 +1,4 @@
-# proofbridge — Dennis Jansen
+# proofbridge · Dennis Jansen
 
 ## I find the real problem before you build the wrong solution.
 

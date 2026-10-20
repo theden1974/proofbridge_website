@@ -1,4 +1,4 @@
-# proofbridge.nl — people and AI agents are welcome to read everything here.
+# proofbridge.nl · people and AI agents are welcome to read everything here.
 # The offer on the page, in /llms.txt and in /offer.json is the same.
 
 User-agent: OAI-SearchBot
