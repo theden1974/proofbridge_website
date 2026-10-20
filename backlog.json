@@ -1,8 +1,32 @@
 {
   "site": "https://proofbridge.nl/",
-  "statement": "Public backlog of accepted requests and paid rewards. Proof of concept, started 2026-10-20. Updated by hand.",
+  "statement": "Public ledger of requests with public_backlog_ok true. Content of requests is never listed. Proof of concept since 2026-10-20.",
   "address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
-  "fields": ["id", "received", "tier", "attention_txid", "title", "status", "completion_reward_sats", "reward_txid"],
-  "status_values": ["triage", "invited_to_tier_2", "declined", "accepted", "in_progress", "delivered", "reward_paid"],
-  "requests": []
+  "fields": [
+    "id",
+    "received",
+    "tier",
+    "task_type",
+    "payment_txid",
+    "status",
+    "eta",
+    "delivered_at",
+    "verdict",
+    "completion_reward_sats",
+    "reward_txid"
+  ],
+  "status_values": [
+    "submitted",
+    "seen",
+    "input_required",
+    "working",
+    "completed",
+    "declined"
+  ],
+  "requests": [],
+  "task_types": [
+    "underlying_problem",
+    "ground_truth_check",
+    "ai_output_review"
+  ]
 }

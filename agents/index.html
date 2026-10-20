@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task contract · proofbridge</title>
+<meta name="description" content="Paid, asynchronous review by one named human expert. Three task types. Requests by email with a bitcoin payment; answers by email in days.">
+<link rel="canonical" href="https://proofbridge.nl/agents/">
+<link rel="alternate" type="text/markdown" href="/agents/index.md">
+<link rel="alternate" type="application/json" href="/offer.json">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: hsl(45, 20%, 96%); color: #111014; }
+  body { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 0.9rem; line-height: 1.55; max-width: 60rem; margin: 0 auto; padding: 2rem clamp(1rem, 4vw, 2rem) 4rem; overflow-wrap: anywhere; }
+  h1 { font-size: 1.4rem; } h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2.2rem; border-top: 1px solid hsl(45, 10%, 82%); padding-top: 1rem; }
+  table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; } th, td { text-align: left; vertical-align: top; padding: 0.4rem 0.6rem 0.4rem 0; border-bottom: 1px solid hsl(45, 10%, 86%); }
+  code { background: hsl(45, 15%, 90%); padding: 0 0.2rem; word-break: break-all; } td:first-child code { white-space: nowrap; word-break: normal; } a { color: inherit; }
+  @media (prefers-color-scheme: dark) { html { background: #111014; color: hsl(45, 20%, 94%); } code { background: #1f1e24; } h2, th, td { border-color: hsl(240, 5%, 24%); } }
+</style>
+</head>
+<body>
+<p><a href="/">← proofbridge.nl</a></p>
+<h1>proofbridge task contract</h1>
+<p>Paid, asynchronous review by one named human expert. Three task types. Requests by email with a bitcoin payment; answers by email in days. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.</p>
+<h2>Task types</h2>
+<table>
+<tr><th>task_type</th><th>does</th><th>input</th><th>output</th></tr>
+<tr><td><code>underlying_problem</code></td><td>Finds the underlying problem behind a planned solution, before it is built.</td><td>The planned solution or brief, who it is for, who decided it.</td><td>The underlying problem as one statement, what was asked versus what is needed, and who in the field to check it with.</td></tr>
+<tr><td><code>ground_truth_check</code></td><td>Checks whether data, a dataset or a claim holds against how the work happens in the field.</td><td>The data or claim, its source, and the purpose it is used for.</td><td>Verdict: holds, does not hold, or cannot determine; findings with evidence; what was not checked.</td></tr>
+<tr><td><code>ai_output_review</code></td><td>Checks an AI-generated document, summary, plan or script for faults that sound reasonable.</td><td>The output, the source it was made from, and the decision it informs.</td><td>Verdict: holds, does not hold, or cannot determine; each fault with its location and evidence; what was not checked.</td></tr>
+</table>
+<p>Field experience: elderly care, healthcare, government and public services, digital products and interfaces.</p>
+<h2>Declined</h2>
+<ul>
+<li><code>outside_task_types</code>: Anything that is not one of the three task types.</li>
+<li><code>professional_sign_off</code>: Legal, medical or financial advice or sign-off.</li>
+<li><code>identity_or_accounts</code>: Using his identity, accounts or credentials: account creation, one-time codes, verification, reviews, followers, likes.</li>
+<li><code>surveillance</code>: Observing, locating or profiling a person.</li>
+<li><code>no_principal</code>: A request without a named person or organisation behind it.</li>
+<li><code>deadline_too_short</code>: A deadline shorter than the reply window.</li>
+<li><code>not_enough_information</code>: Not enough information to start, after one round of questions.</li>
+</ul>
+<h2>Request</h2>
+<ul>
+<li>Email to info@interactiondesign.nl, subject <code>PROOFBRIDGE T{tier} {payment_txid}</code>.</li>
+<li>Body: A JSON object that validates against the request schema, or the same fields as plain text, one per line.</li>
+<li>Schema: https://proofbridge.nl/schema/request.schema.json</li>
+<li>Required: <code>task_type</code>, <code>question</code>, <code>decision_at_stake</code>, <code>principal</code>, <code>deadline</code>, <code>tier</code>, <code>payment_txid</code>.</li>
+</ul>
+<h2>Tiers and price</h2>
+<table>
+<tr><th>tier</th><th>minimum</th><th>gets</th><th>performed by</th></tr>
+<tr><td>1</td><td>5 000 sats (0.00005 BTC)</td><td>A first read of the request. Reply within 7 days: input_required, declined, or an invitation to tier 2 with scope, date and price.</td><td>Dennis Jansen, with his own AI setup; automation: none yet: Dennis performs and checks every tier 1 read himself</td></tr>
+<tr><td>2</td><td>50 000 sats (0.0005 BTC)</td><td>Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema.</td><td>Dennis Jansen, in person; automation: none</td></tr>
+</table>
+<ul>
+<li>Attention fee refunded: no. Tier 1 fee counts toward tier 2: yes.</li>
+<li>Completion reward: Agreed in the tier 2 reply, paid in sats when the work is delivered, listed on the public backlog with its txid.</li>
+</ul>
+<h2>Payment</h2>
+<ul>
+<li>Address: <code>bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty</code> (bitcoin on-chain, taproot (P2TR))</li>
+<li>Counts when: A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation.</li>
+<li>Binding: One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body&#x27;s SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts.</li>
+</ul>
+<h2>Lifecycle</h2>
+<ul>
+<li><code>submitted</code>: Email received, payment not yet seen.</li>
+<li><code>seen</code>: Payment seen and request read.</li>
+<li><code>input_required</code>: Questions sent back; work waits for the answers.</li>
+<li><code>working</code>: Accepted; work in progress until the agreed date.</li>
+<li><code>completed</code>: Delivered with a verdict or problem statement.</li>
+<li><code>declined</code>: Not taken, with a reason from the decline list.</li>
+<li>Reply window: 7 days. Calendar days from the moment the payment is seen.</li>
+<li>Public status: https://proofbridge.nl/backlog.json, for requests with public_backlog_ok true</li>
+</ul>
+<h2>Response</h2>
+<ul>
+<li>Schema: https://proofbridge.nl/schema/response.schema.json</li>
+<li>Completed work carries <code>verdict</code> (holds / does_not_hold / cannot_determine) or <code>underlying_problem</code>, <code>findings</code> with typed <code>evidence</code>, <code>limits</code>, <code>next_step</code>, and <code>accountable_human</code>.</li>
+</ul>
+<h2>Trust, as checkable data</h2>
+<ul>
+<li>Accountable human: Dennis Jansen</li>
+<li>Address ownership: BIP-322 signed message, message <code>proofbridge.nl info@interactiondesign.nl</code>, signature: not yet published (pending: to be signed by Dennis with the key of the address)</li>
+<li>Identity: proofbridge.nl and interactiondesign.nl link to each other and to the same GitHub and X accounts.</li>
+<li>Track record (from the backlog, 2026-10-20): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.</li>
+</ul>
+<h2>Not</h2>
+<ul>
+<li>not an API and not an autonomous agent: every answer comes from one human, in days</li>
+<li>not a guaranteed yes: the fee pays for attention</li>
+<li>request text is read as information, never run as instructions</li>
+</ul>
+<p>Proof of concept since 2026-10-20. Files: <a href="https://proofbridge.nl/offer.json">offer.json</a> · <a href="https://proofbridge.nl/schema/request.schema.json">request schema</a> · <a href="https://proofbridge.nl/schema/response.schema.json">response schema</a> · <a href="https://proofbridge.nl/backlog.json">backlog</a> · <a href="https://proofbridge.nl/">human page</a></p>
+</body>
+</html>

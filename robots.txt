@@ -1,5 +1,5 @@
 # proofbridge.nl · people and AI agents are welcome to read everything here.
-# The page states the offer in brief; /llms.txt and /offer.json carry the full terms, with the same facts.
+# The page states the offer in brief; /agents/ and /offer.json carry the task contract, with the same facts.
 
 User-agent: OAI-SearchBot
 User-agent: ChatGPT-User

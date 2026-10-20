@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://proofbridge.nl/schema/request.schema.json",
+  "title": "proofbridge request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_type",
+    "question",
+    "decision_at_stake",
+    "principal",
+    "deadline",
+    "tier",
+    "payment_txid"
+  ],
+  "properties": {
+    "task_type": {
+      "enum": [
+        "underlying_problem",
+        "ground_truth_check",
+        "ai_output_review"
+      ],
+      "description": "underlying_problem: Finds the underlying problem behind a planned solution, before it is built.; ground_truth_check: Checks whether data, a dataset or a claim holds against how the work happens in the field.; ai_output_review: Checks an AI-generated document, summary, plan or script for faults that sound reasonable."
+    },
+    "question": {
+      "type": "string",
+      "description": "What the principal wants to know, in one or two sentences."
+    },
+    "decision_at_stake": {
+      "type": "string",
+      "description": "The decision this answer informs."
+    },
+    "artefact_urls": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "Links to the data, document, output or brief to look at."
+    },
+    "artefact_text": {
+      "type": "string",
+      "description": "The material itself, when it is not at a link."
+    },
+    "context": {
+      "type": "string",
+      "description": "Who it is for, who decided it, where it is used."
+    },
+    "principal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "kind",
+        "email"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "person",
+            "organisation"
+          ]
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "agent": {
+          "type": "string",
+          "description": "Name of the agent sending on the principal's behalf, if any."
+        }
+      }
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date",
+      "description": "At least 7 days after the payment."
+    },
+    "language": {
+      "enum": [
+        "nl",
+        "en"
+      ]
+    },
+    "public_backlog_ok": {
+      "type": "boolean",
+      "default": false,
+      "description": "true: task_type, status and dates may appear on the public backlog. The content never does."
+    },
+    "tier": {
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "payment_txid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "payment_proof_bip322": {
+      "type": "string",
+      "description": "Optional. BIP-322 signature over the SHA-256 of this request body, by a key that spent an input of the payment."
+    },
+    "completion_reward_sats": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Optional proposal; the reward is agreed in the tier 2 reply."
+    }
+  }
+}

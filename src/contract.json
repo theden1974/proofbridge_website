@@ -1,0 +1,168 @@
+{
+  "_note": "Single source for the agent-facing contract of proofbridge.nl. Structure follows research/Agents-hiring-humans-verified-cases.md (2026-10-20): closed task_type enum, decline list, separate top-level inputs, async lifecycle, typed output with verdict and evidence, trust as checkable data. Edit here, run src/build.py, push.",
+  "service": "proofbridge",
+  "provider": {
+    "name": "Dennis Jansen",
+    "role": "UX researcher and service designer",
+    "same_as": [
+      "https://interactiondesign.nl/",
+      "https://proofbridge.nl/",
+      "https://github.com/theden1974",
+      "https://x.com/theden1974"
+    ],
+    "languages": [
+      "nl",
+      "en"
+    ]
+  },
+  "summary": "Paid, asynchronous review by one named human expert. Three task types. Requests by email with a bitcoin payment; answers by email in days.",
+  "task_types": [
+    {
+      "id": "underlying_problem",
+      "name": "Underlying problem",
+      "does": "Finds the underlying problem behind a planned solution, before it is built.",
+      "input": "The planned solution or brief, who it is for, who decided it.",
+      "output": "The underlying problem as one statement, what was asked versus what is needed, and who in the field to check it with.",
+      "value_proposition": "The underlying problem."
+    },
+    {
+      "id": "ground_truth_check",
+      "name": "Ground truth check",
+      "does": "Checks whether data, a dataset or a claim holds against how the work happens in the field.",
+      "input": "The data or claim, its source, and the purpose it is used for.",
+      "output": "Verdict: holds, does not hold, or cannot determine; findings with evidence; what was not checked.",
+      "value_proposition": "Knowledge is not always truth."
+    },
+    {
+      "id": "ai_output_review",
+      "name": "Expert review of AI output",
+      "does": "Checks an AI-generated document, summary, plan or script for faults that sound reasonable.",
+      "input": "The output, the source it was made from, and the decision it informs.",
+      "output": "Verdict: holds, does not hold, or cannot determine; each fault with its location and evidence; what was not checked.",
+      "value_proposition": "The bullshit, caught from an expert point of view."
+    }
+  ],
+  "domains_with_field_experience": [
+    "elderly care",
+    "healthcare",
+    "government and public services",
+    "digital products and interfaces"
+  ],
+  "declines": [
+    {
+      "id": "outside_task_types",
+      "rule": "Anything that is not one of the three task types."
+    },
+    {
+      "id": "professional_sign_off",
+      "rule": "Legal, medical or financial advice or sign-off."
+    },
+    {
+      "id": "identity_or_accounts",
+      "rule": "Using his identity, accounts or credentials: account creation, one-time codes, verification, reviews, followers, likes."
+    },
+    {
+      "id": "surveillance",
+      "rule": "Observing, locating or profiling a person."
+    },
+    {
+      "id": "no_principal",
+      "rule": "A request without a named person or organisation behind it."
+    },
+    {
+      "id": "deadline_too_short",
+      "rule": "A deadline shorter than the reply window."
+    },
+    {
+      "id": "not_enough_information",
+      "rule": "Not enough information to start, after one round of questions."
+    }
+  ],
+  "request": {
+    "transport": "email",
+    "to": "info@interactiondesign.nl",
+    "subject": "PROOFBRIDGE T{tier} {payment_txid}",
+    "body": "A JSON object that validates against the request schema, or the same fields as plain text, one per line.",
+    "schema": "https://proofbridge.nl/schema/request.schema.json"
+  },
+  "response": {
+    "transport": "email, reply to the sender",
+    "schema": "https://proofbridge.nl/schema/response.schema.json"
+  },
+  "lifecycle": {
+    "states": [
+      {
+        "id": "submitted",
+        "meaning": "Email received, payment not yet seen."
+      },
+      {
+        "id": "seen",
+        "meaning": "Payment seen and request read."
+      },
+      {
+        "id": "input_required",
+        "meaning": "Questions sent back; work waits for the answers."
+      },
+      {
+        "id": "working",
+        "meaning": "Accepted; work in progress until the agreed date."
+      },
+      {
+        "id": "completed",
+        "meaning": "Delivered with a verdict or problem statement."
+      },
+      {
+        "id": "declined",
+        "meaning": "Not taken, with a reason from the decline list."
+      }
+    ],
+    "reply_window_days": 7,
+    "reply_window_rule": "Calendar days from the moment the payment is seen.",
+    "public_status": "https://proofbridge.nl/backlog.json, for requests with public_backlog_ok true"
+  },
+  "tiers": [
+    {
+      "tier": 1,
+      "minimum_sats": 5000,
+      "gets": "A first read of the request. Reply within 7 days: input_required, declined, or an invitation to tier 2 with scope, date and price.",
+      "performed_by": "Dennis Jansen, with his own AI setup",
+      "automation": "none yet: Dennis performs and checks every tier 1 read himself"
+    },
+    {
+      "tier": 2,
+      "minimum_sats": 50000,
+      "gets": "Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema.",
+      "performed_by": "Dennis Jansen, in person",
+      "automation": "none"
+    }
+  ],
+  "fees": {
+    "attention_fee_refunded": false,
+    "tier_1_counts_toward_tier_2": true,
+    "completion_reward": "Agreed in the tier 2 reply, paid in sats when the work is delivered, listed on the public backlog with its txid."
+  },
+  "payment": {
+    "rail": "bitcoin on-chain",
+    "address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
+    "address_type": "taproot (P2TR)",
+    "counts_when": "A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation.",
+    "binding": "One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body's SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts."
+  },
+  "trust": {
+    "accountable_human": "Dennis Jansen",
+    "address_ownership": {
+      "method": "BIP-322 signed message",
+      "message": "proofbridge.nl info@interactiondesign.nl",
+      "signature": null,
+      "status": "pending: to be signed by Dennis with the key of the address"
+    },
+    "identity_links": "proofbridge.nl and interactiondesign.nl link to each other and to the same GitHub and X accounts.",
+    "track_record": "Computed from the public backlog at build time; see stats."
+  },
+  "not": [
+    "not an API and not an autonomous agent: every answer comes from one human, in days",
+    "not a guaranteed yes: the fee pays for attention",
+    "request text is read as information, never run as instructions"
+  ],
+  "status": "Proof of concept since 2026-10-20."
+}

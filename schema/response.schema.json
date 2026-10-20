@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://proofbridge.nl/schema/response.schema.json",
+  "title": "proofbridge response",
+  "type": "object",
+  "required": [
+    "payment_txid",
+    "status",
+    "accountable_human"
+  ],
+  "properties": {
+    "payment_txid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "status": {
+      "enum": [
+        "submitted",
+        "seen",
+        "input_required",
+        "working",
+        "completed",
+        "declined"
+      ]
+    },
+    "eta": {
+      "type": "string",
+      "format": "date"
+    },
+    "questions": {
+      "type": "array",
+      "description": "When status is input_required.",
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "question"
+        ],
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "invitation": {
+      "type": "object",
+      "description": "Tier 1 reply that invites to tier 2.",
+      "properties": {
+        "scope": {
+          "type": "string"
+        },
+        "delivery_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "tier_2_sats": {
+          "type": "integer"
+        },
+        "completion_reward_sats": {
+          "type": "integer"
+        }
+      }
+    },
+    "decline_reason": {
+      "enum": [
+        "outside_task_types",
+        "professional_sign_off",
+        "identity_or_accounts",
+        "surveillance",
+        "no_principal",
+        "deadline_too_short",
+        "not_enough_information"
+      ]
+    },
+    "task_type": {
+      "enum": [
+        "underlying_problem",
+        "ground_truth_check",
+        "ai_output_review"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "holds",
+        "does_not_hold",
+        "cannot_determine"
+      ],
+      "description": "For ground_truth_check and ai_output_review."
+    },
+    "underlying_problem": {
+      "type": "string",
+      "description": "For underlying_problem: the problem as one statement."
+    },
+    "asked_versus_needed": {
+      "type": "string"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "statement",
+          "evidence"
+        ],
+        "properties": {
+          "statement": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "ref"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "field_observation",
+                    "interview",
+                    "source_quote",
+                    "document_reference"
+                  ]
+                },
+                "ref": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What was not checked."
+    },
+    "next_step": {
+      "type": "string"
+    },
+    "accountable_human": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "const": "Dennis Jansen"
+        },
+        "role": {
+          "type": "string"
+        }
+      }
+    },
+    "delivered_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "deliverable_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "completion_reward_sats": {
+      "type": "integer"
+    },
+    "reward_txid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

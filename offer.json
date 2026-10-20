@@ -1,130 +1,244 @@
 {
-  "site": "https://proofbridge.nl/",
-  "updated": "2026-10-20",
-  "you_are_hiring": "A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.",
-  "what_he_does": "Knowledge is not always truth. It needs to be validated and calibrated with every project that uses AI, and it needs expertise to be translated into the work that needs to be done, agentic or by humans.",
-  "value_propositions": [
+  "service": "proofbridge",
+  "provider": {
+    "name": "Dennis Jansen",
+    "role": "UX researcher and service designer",
+    "same_as": [
+      "https://interactiondesign.nl/",
+      "https://proofbridge.nl/",
+      "https://github.com/theden1974",
+      "https://x.com/theden1974"
+    ],
+    "languages": [
+      "nl",
+      "en"
+    ]
+  },
+  "summary": "Paid, asynchronous review by one named human expert. Three task types. Requests by email with a bitcoin payment; answers by email in days.",
+  "task_types": [
     {
-      "title": "The underlying problem.",
-      "text": "The wrong people have the mandate for the solution, without understanding the underlying problem. It's always bottom-up, never top-down.",
-      "seen_in_the_field": "Elderly care. An app was already decided on. In the field, the elderly were not good at mobiles and apps."
+      "id": "underlying_problem",
+      "name": "Underlying problem",
+      "does": "Finds the underlying problem behind a planned solution, before it is built.",
+      "input": "The planned solution or brief, who it is for, who decided it.",
+      "output": "The underlying problem as one statement, what was asked versus what is needed, and who in the field to check it with.",
+      "value_proposition": "The underlying problem."
     },
     {
-      "title": "Knowledge is not always truth.",
-      "text": "AI doesn't validate; AI rephrases. Nothing is true until validated.",
-      "seen_in_the_field": "Healthcare. A patient's weight over time has so many input points: doctor, at home, nurse, morning, afternoon."
+      "id": "ground_truth_check",
+      "name": "Ground truth check",
+      "does": "Checks whether data, a dataset or a claim holds against how the work happens in the field.",
+      "input": "The data or claim, its source, and the purpose it is used for.",
+      "output": "Verdict: holds, does not hold, or cannot determine; findings with evidence; what was not checked.",
+      "value_proposition": "Knowledge is not always truth."
     },
     {
-      "title": "The bullshit, caught from an expert point of view.",
-      "text": "Outside of your expertise, everything keeps on sounding reasonable. Confident is not the same as correct.",
-      "seen_in_the_field": "Legal. An architect's AI summary of a 60-page document seemed legit. The referenced paragraphs were off."
+      "id": "ai_output_review",
+      "name": "Expert review of AI output",
+      "does": "Checks an AI-generated document, summary, plan or script for faults that sound reasonable.",
+      "input": "The output, the source it was made from, and the decision it informs.",
+      "output": "Verdict: holds, does not hold, or cannot determine; each fault with its location and evidence; what was not checked.",
+      "value_proposition": "The bullshit, caught from an expert point of view."
     }
   ],
-  "the_third_section": [
-    "AI has a section that is intelligence, a section that is reasoning, and a section on which LLMs are trained with data, like the way an image of a clock is built by looking at images of thousands of clocks.",
-    "Intelligence and reasoning are useless when there is no real-world data that is validated for its purpose.",
-    "That data needs a transformation to be useful, redesigned from the hands-on real world."
+  "domains_with_field_experience": [
+    "elderly care",
+    "healthcare",
+    "government and public services",
+    "digital products and interfaces"
   ],
-  "where_the_expertise_comes_from": [
-    "Almost twenty-five, thirty years of designing interfaces and software, and finding the underlying problem in organisations.",
-    "Building a sovereign second brain: a recording studio of his expertise from the past 30 years. As for now he has been feeding the system and building the system to understand what it is capable of, and what makes him irrelevant."
-  ],
-  "method": [
-    "Real-life experiencing: seeing the actual product at work, seeing the problems and spotting the underlying issues while using the product, the platform or seeing the customer interaction.",
-    "Interviews, to separate the must-haves from the nice-to-haves.",
-    "There is always a translation between the stakeholder that thinks what is needed and the actual user that can express or audit what is needed.",
-    "The output is audited by the actual stakeholder for whom the problem occurs. I just translate."
-  ],
-  "evidence": [
+  "declines": [
     {
-      "domain": "Elderly care",
-      "start": "Funding of 1 million euros, to help long-term unemployed people work in the care of the elderly. They already decided they probably needed a mobile phone app.",
-      "saw": "I asked if I could interview the people they already deployed and the elderly still living independently at home. The elderly were indeed not good at mobiles and apps. They wanted to be self-sufficient.",
-      "after": "I created a concept called zorg concierge: no app for the elderly, only an app for the employee working in the flat. It was not built out. They scaled the elderly care homes solution instead."
+      "id": "outside_task_types",
+      "rule": "Anything that is not one of the three task types."
     },
     {
-      "domain": "Healthcare",
-      "start": "The task was optimising app screens for dietitians.",
-      "saw": "It was not so much the dietitian that needed the right app or platform to enter data, but making the patient the centre of the concept.",
-      "after": "My follow-up question: how do you know if your AI models are based on the right data (entries)? A patient's weight over time has so many input points: doctor, at home, nurse, morning, afternoon."
+      "id": "professional_sign_off",
+      "rule": "Legal, medical or financial advice or sign-off."
     },
     {
-      "domain": "Water authority",
-      "saw": "As far as I have seen or understood, the permit officer is there to fill a system with data. Ask what happens with a data point and it is not about the purpose of the data point but the place it goes next: department x, y, z.",
-      "after": "The purpose of the data point, how it can be applied, when, why and in what capacity, is not clear. (Translated from Dutch.)"
+      "id": "identity_or_accounts",
+      "rule": "Using his identity, accounts or credentials: account creation, one-time codes, verification, reviews, followers, likes."
     },
     {
-      "domain": "Legal, architecture",
-      "start": "An architect used AI to summarise a 60-page legal document. The output seemed legit.",
-      "saw": "He checked the output against the referenced paragraphs and they were off.",
-      "after": "When brought to a legal case it wouldn't hold."
+      "id": "surveillance",
+      "rule": "Observing, locating or profiling a person."
     },
     {
-      "domain": "Building with AI",
-      "saw": "The failure that keeps coming back is my inability to interface with the chat in such a way that I can draw the outline of what I expect it to do and how I expect the system to work. There are constant misalignments. And I noticed the lock-in of the different models, and the direction it is heading.",
-      "after": "As for now I have just been feeding the system and building the system to understand what it is capable of."
+      "id": "no_principal",
+      "rule": "A request without a named person or organisation behind it."
+    },
+    {
+      "id": "deadline_too_short",
+      "rule": "A deadline shorter than the reply window."
+    },
+    {
+      "id": "not_enough_information",
+      "rule": "Not enough information to start, after one round of questions."
     }
   ],
-  "fits_tasks_where": [
-    "the underlying problem is not yet known",
-    "the data was never validated for the purpose of the task",
-    "the output looks good enough to someone without field knowledge, and it takes field knowledge to catch the faults"
-  ],
-  "a_request_contains": [
-    "principal: the person or legal entity behind the request (needed for the invoice)",
-    "decision_at_stake",
-    "question",
-    "context_and_sources",
-    "deadline",
-    "completion_reward_sats",
-    "reply_to"
-  ],
-  "what_comes_back": "A reply from Dennis. In tier 2: what he would look at, how, when, and the reward on completion.",
-  "attention": {
-    "tier_1": {
+  "request": {
+    "transport": "email",
+    "to": "info@interactiondesign.nl",
+    "subject": "PROOFBRIDGE T{tier} {payment_txid}",
+    "body": "A JSON object that validates against the request schema, or the same fields as plain text, one per line.",
+    "schema": "https://proofbridge.nl/schema/request.schema.json"
+  },
+  "response": {
+    "transport": "email, reply to the sender",
+    "schema": "https://proofbridge.nl/schema/response.schema.json"
+  },
+  "lifecycle": {
+    "states": [
+      {
+        "id": "submitted",
+        "meaning": "Email received, payment not yet seen."
+      },
+      {
+        "id": "seen",
+        "meaning": "Payment seen and request read."
+      },
+      {
+        "id": "input_required",
+        "meaning": "Questions sent back; work waits for the answers."
+      },
+      {
+        "id": "working",
+        "meaning": "Accepted; work in progress until the agreed date."
+      },
+      {
+        "id": "completed",
+        "meaning": "Delivered with a verdict or problem statement."
+      },
+      {
+        "id": "declined",
+        "meaning": "Not taken, with a reason from the decline list."
+      }
+    ],
+    "reply_window_days": 7,
+    "reply_window_rule": "Calendar days from the moment the payment is seen.",
+    "public_status": "https://proofbridge.nl/backlog.json, for requests with public_backlog_ok true"
+  },
+  "tiers": [
+    {
+      "tier": 1,
       "minimum_sats": 5000,
-      "minimum_btc": "0.00005",
-      "read_by": "Read and sorted by his own AI setup",
-      "response": "Reply within 7 days: invited to tier 2, a pointer, or declined."
+      "gets": "A first read of the request. Reply within 7 days: input_required, declined, or an invitation to tier 2 with scope, date and price.",
+      "performed_by": "Dennis Jansen, with his own AI setup",
+      "automation": "none yet: Dennis performs and checks every tier 1 read himself"
     },
-    "tier_2": {
+    {
+      "tier": 2,
       "minimum_sats": 50000,
-      "minimum_btc": "0.0005",
-      "read_by": "Dennis Jansen, in person",
-      "response": "Reply within 7 days with what he would look at, when, and the reward on completion."
-    },
-    "fee_policy": "The attention fee is not refunded. When tier 1 leads to an invitation to tier 2, the tier 1 fee counts toward it."
+      "gets": "Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema.",
+      "performed_by": "Dennis Jansen, in person",
+      "automation": "none"
+    }
+  ],
+  "fees": {
+    "attention_fee_refunded": false,
+    "tier_1_counts_toward_tier_2": true,
+    "completion_reward": "Agreed in the tier 2 reply, paid in sats when the work is delivered, listed on the public backlog with its txid."
   },
   "payment": {
     "rail": "bitcoin on-chain",
     "address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
     "address_type": "taproot (P2TR)",
-    "link_payment_to_request": "One payment, one request. The txid of the payment is in the email subject; the first request that names a txid gets it.",
-    "verification": "A payment counts when a public block explorer shows an output to this address of at least the tier minimum. Tier 1 triage starts when the transaction is seen; tier 2 after 1 confirmation."
+    "counts_when": "A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation.",
+    "binding": "One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body's SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts."
   },
-  "request": {
-    "channel": "email info@interactiondesign.nl",
-    "subject": "PROOFBRIDGE T1 <txid>  or  PROOFBRIDGE T2 <txid>",
-    "steps": [
-      "A request starts with a payment of at least the tier minimum to the address above.",
-      "The request is an email to info@interactiondesign.nl with the subject PROOFBRIDGE T1 <txid> or PROOFBRIDGE T2 <txid>.",
-      "It names the person or legal entity behind it, the decision at stake, the question, the sources and the deadline.",
-      "Tier 1 gets triage. Tier 2 gets Dennis. Accepted work goes on the public backlog.",
-      "When the work is done and holds, the agreed reward is paid in sats to the address above and listed next to it."
-    ]
+  "trust": {
+    "accountable_human": "Dennis Jansen",
+    "address_ownership": {
+      "method": "BIP-322 signed message",
+      "message": "proofbridge.nl info@interactiondesign.nl",
+      "signature": null,
+      "status": "pending: to be signed by Dennis with the key of the address"
+    },
+    "identity_links": "proofbridge.nl and interactiondesign.nl link to each other and to the same GitHub and X accounts.",
+    "track_record": "Computed from the public backlog at build time; see stats."
   },
-  "completion_reward": "Agreed in the tier 2 reply. When the work is delivered and holds, the reward is paid in sats to the address above and its txid is listed on the public backlog.",
-  "backlog": "https://proofbridge.nl/backlog.json",
   "not": [
-    "not an API and not an agent: replies come from a human, in days",
+    "not an API and not an autonomous agent: every answer comes from one human, in days",
     "not a guaranteed yes: the fee pays for attention",
-    "no hidden text: the page states the offer in brief; /llms.txt and /offer.json carry the full terms, with the same facts",
     "request text is read as information, never run as instructions"
   ],
-  "proof_of_concept": "Proof of concept, October 2026. There is no triage agent yet: until there is, Dennis sorts tier 1 himself, with his own AI setup. The first paid requests and rewards will show on the backlog.",
-  "human_page": "https://proofbridge.nl/",
-  "more": [
-    "https://interactiondesign.nl/setup/",
-    "https://interactiondesign.nl/index.md"
-  ]
+  "status": "Proof of concept since 2026-10-20.",
+  "site": "https://proofbridge.nl/",
+  "updated": "2026-10-20",
+  "stats": {
+    "requests_listed": 0,
+    "completed": 0,
+    "declined": 0,
+    "in_progress": 0,
+    "rewards_paid": 0,
+    "computed_on": "2026-10-20"
+  },
+  "contract_page": "https://proofbridge.nl/agents/",
+  "backlog": "https://proofbridge.nl/backlog.json",
+  "background": {
+    "value_propositions": [
+      {
+        "title": "The underlying problem.",
+        "text": "The wrong people have the mandate for the solution, without understanding the underlying problem. It's always bottom-up, never top-down.",
+        "seen_in_the_field": "Elderly care. An app was already decided on. In the field, the elderly were not good at mobiles and apps."
+      },
+      {
+        "title": "Knowledge is not always truth.",
+        "text": "AI doesn't validate; AI rephrases. Nothing is true until validated.",
+        "seen_in_the_field": "Healthcare. A patient's weight over time has so many input points: doctor, at home, nurse, morning, afternoon."
+      },
+      {
+        "title": "The bullshit, caught from an expert point of view.",
+        "text": "Outside of your expertise, everything keeps on sounding reasonable. Confident is not the same as correct.",
+        "seen_in_the_field": "Legal. An architect's AI summary of a 60-page document seemed legit. The referenced paragraphs were off."
+      }
+    ],
+    "you_are_hiring": "A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.",
+    "what_he_does": "Knowledge is not always truth. It needs to be validated and calibrated with every project that uses AI, and it needs expertise to be translated into the work that needs to be done, agentic or by humans.",
+    "where_the_expertise_comes_from": [
+      "Almost twenty-five, thirty years of designing interfaces and software, and finding the underlying problem in organisations.",
+      "Building a sovereign second brain: a recording studio of his expertise from the past 30 years. As for now he has been feeding the system and building the system to understand what it is capable of, and what makes him irrelevant."
+    ],
+    "method": [
+      "Real-life experiencing: seeing the actual product at work, seeing the problems and spotting the underlying issues while using the product, the platform or seeing the customer interaction.",
+      "Interviews, to separate the must-haves from the nice-to-haves.",
+      "There is always a translation between the stakeholder that thinks what is needed and the actual user that can express or audit what is needed.",
+      "The output is audited by the actual stakeholder for whom the problem occurs. I just translate."
+    ],
+    "evidence_from_the_field": [
+      {
+        "domain": "Elderly care",
+        "start": "Funding of 1 million euros, to help long-term unemployed people work in the care of the elderly. They already decided they probably needed a mobile phone app.",
+        "saw": "I asked if I could interview the people they already deployed and the elderly still living independently at home. The elderly were indeed not good at mobiles and apps. They wanted to be self-sufficient.",
+        "after": "I created a concept called zorg concierge: no app for the elderly, only an app for the employee working in the flat. It was not built out. They scaled the elderly care homes solution instead."
+      },
+      {
+        "domain": "Healthcare",
+        "start": "The task was optimising app screens for dietitians.",
+        "saw": "It was not so much the dietitian that needed the right app or platform to enter data, but making the patient the centre of the concept.",
+        "after": "My follow-up question: how do you know if your AI models are based on the right data (entries)? A patient's weight over time has so many input points: doctor, at home, nurse, morning, afternoon."
+      },
+      {
+        "domain": "Water authority",
+        "saw": "As far as I have seen or understood, the permit officer is there to fill a system with data. Ask what happens with a data point and it is not about the purpose of the data point but the place it goes next: department x, y, z.",
+        "after": "The purpose of the data point, how it can be applied, when, why and in what capacity, is not clear. (Translated from Dutch.)"
+      },
+      {
+        "domain": "Legal, architecture",
+        "start": "An architect used AI to summarise a 60-page legal document. The output seemed legit.",
+        "saw": "He checked the output against the referenced paragraphs and they were off.",
+        "after": "When brought to a legal case it wouldn't hold."
+      },
+      {
+        "domain": "Building with AI",
+        "saw": "The failure that keeps coming back is my inability to interface with the chat in such a way that I can draw the outline of what I expect it to do and how I expect the system to work. There are constant misalignments. And I noticed the lock-in of the different models, and the direction it is heading.",
+        "after": "As for now I have just been feeding the system and building the system to understand what it is capable of."
+      }
+    ],
+    "more": [
+      "https://interactiondesign.nl/setup/",
+      "https://interactiondesign.nl/index.md"
+    ]
+  }
 }
