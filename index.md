@@ -1,25 +1,25 @@
 # proofbridge · Dennis Jansen
 
-## I find the real problem before you build the wrong solution.
+## I know what needs to be built. And what not.
 
-I worked with screens for almost twenty-five, thirty years. Any interface, anything that has an interface, I designed.
+Proofbridge connects the AI, digital and data world with real, actual ground work: being in the field, validating the theoretical world.
 
 ### 1. The underlying problem.
-The wrong people have the mandate for the solution, without understanding the underlying problem. It's always bottom-up, never top-down.
-- Seen in the field: Elderly care. An app was already decided on. In the field, the elderly were not good at mobiles and apps.
+The wrong people often have the mandate for the solution, without understanding the underlying problem. When somebody starts with a solution, I listen, and come back with the underlying issue by asking the why of the direction.
+- Seen in the field: Elderly care. The funding was for an app. In the field, the elderly were not good at mobiles and apps. The concept without an app was not built out: the money was spent for the wrong reasons.
 
 ### 2. Knowledge is not always truth.
-AI doesn't validate; AI rephrases. Nothing is true until validated.
-- Seen in the field: Healthcare. A patient's weight over time has so many input points: doctor, at home, nurse, morning, afternoon.
+Intelligence and reasoning are useless when there is no validated real-world data, validated for its purpose. AI doesn't validate; AI rephrases.
+- Seen in the field: Healthcare. The task was app screens for dietitians. The question that mattered: are your AI models based on the right data? A patient's weight has many input points: doctor, home, nurse, morning, afternoon.
 
 ### 3. The bullshit, caught from an expert point of view.
-Outside of your expertise, everything keeps on sounding reasonable. Confident is not the same as correct.
-- Seen in the field: Legal. An architect's AI summary of a 60-page document seemed legit. The referenced paragraphs were off.
+Only an expert can audit the output. Outside your expertise, everything keeps sounding reasonable.
+- Seen in the field: Legal. An architect's AI summary of a 60-page document sounded legit. The referenced paragraphs were off. It would never stand before court.
 
 ## My attention costs sats
-- My agent reads your request: 5 000 sats
+- First read by my own setup, checked by me: 5 000 sats
 - I read it myself: 50 000 sats
-- Pay to this address. Mail the transaction ID and your question to info@interactiondesign.nl. If I pick it up after my agent, what you paid counts toward my own read.
+- Pay in bitcoin to this address. Mail the transaction ID and your question to info@interactiondesign.nl. If I pick it up after the first read, what you paid counts toward my own read.
 
 ## Background
 A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.

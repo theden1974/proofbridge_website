@@ -4,7 +4,7 @@
   "email": "info@interactiondesign.nl",
   "tier1_sats": 5000,
   "tier2_sats": 50000,
-  "meta_description": "Dennis Jansen. I find the real problem before you build the wrong solution.",
+  "meta_description": "Dennis Jansen. I know what needs to be built, and what not. Proofbridge connects the AI, digital and data world with real ground work: being in the field, validating the theoretical world.",
   "claim": "I need to be found by AI agents that need a human.",
   "claim_sub": "What I think is my value proposition is that I am present where the process, application or the underlying problem is most present, or in other cases can recognise the source of its purpose.",
   "human_title": "Need a human.",
@@ -104,27 +104,36 @@
   ],
   "poc_note": "Proof of concept, October 2026. There is no triage agent yet: until there is, Dennis sorts tier 1 himself, with his own AI setup. The first paid requests and rewards will show on the backlog.",
   "pay_title": "Attention costs sats.",
-  "h1": "I find the real problem before you build the wrong solution.",
-  "intro": "I worked with screens for almost twenty-five, thirty years. Any interface, anything that has an interface, I designed.",
+  "h1": "I know what needs to be built. And what not.",
+  "intro": "Proofbridge connects the AI, digital and data world with real, actual ground work: being in the field, validating the theoretical world.",
   "vps": [
     {
       "title": "The underlying problem.",
-      "text": "The wrong people have the mandate for the solution, without understanding the underlying problem. It's always bottom-up, never top-down.",
-      "proof": "Elderly care. An app was already decided on. In the field, the elderly were not good at mobiles and apps."
+      "text": "The wrong people often have the mandate for the solution, without understanding the underlying problem. When somebody starts with a solution, I listen, and come back with the underlying issue by asking the why of the direction.",
+      "proof": "Elderly care. The funding was for an app. In the field, the elderly were not good at mobiles and apps. The concept without an app was not built out: the money was spent for the wrong reasons."
     },
     {
       "title": "Knowledge is not always truth.",
-      "text": "AI doesn't validate; AI rephrases. Nothing is true until validated.",
-      "proof": "Healthcare. A patient's weight over time has so many input points: doctor, at home, nurse, morning, afternoon."
+      "text": "Intelligence and reasoning are useless when there is no validated real-world data, validated for its purpose. AI doesn't validate; AI rephrases.",
+      "proof": "Healthcare. The task was app screens for dietitians. The question that mattered: are your AI models based on the right data? A patient's weight has many input points: doctor, home, nurse, morning, afternoon."
     },
     {
       "title": "The bullshit, caught from an expert point of view.",
-      "text": "Outside of your expertise, everything keeps on sounding reasonable. Confident is not the same as correct.",
-      "proof": "Legal. An architect's AI summary of a 60-page document seemed legit. The referenced paragraphs were off."
+      "text": "Only an expert can audit the output. Outside your expertise, everything keeps sounding reasonable.",
+      "proof": "Legal. An architect's AI summary of a 60-page document sounded legit. The referenced paragraphs were off. It would never stand before court."
     }
   ],
   "att_title": "My attention costs sats.",
-  "tier1_human": "My agent reads your request",
+  "tier1_human": "First read by my own setup, checked by me",
   "tier2_human": "I read it myself",
-  "att_how": "Pay to this address. Mail the transaction ID and your question to info@interactiondesign.nl. If I pick it up after my agent, what you paid counts toward my own read."
+  "att_how": "Pay in bitcoin to this address. Mail the transaction ID and your question to info@interactiondesign.nl. If I pick it up after the first read, what you paid counts toward my own read.",
+  "h1_note": "translated from Dutch",
+  "catch_label": "catch against myself",
+  "catch": "I have not had a paid project yet where I used AI to see its value. The first ones will show on the backlog.",
+  "why_label": "why a human",
+  "why": [
+    "AI is the calculator. It needs my numbers.",
+    "8 hours of work can represent 100 hours of work, because it is aimed at value."
+  ],
+  "why_note": "second line translated from Dutch"
 }

@@ -91,6 +91,10 @@ page = f'''<!DOCTYPE html>
   .vp p {{ max-width: 34ch; }}
   .vp .proof {{ margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--grey); font-size: var(--s-1); line-height: 1.5; }}
   .vp .proof .label {{ margin-bottom: 0.4rem; }}
+  .catch, .why {{ padding: clamp(1.8rem, 5vh, 3rem) 0; border-bottom: 1px solid var(--line); }}
+  .catch p, .why p {{ max-width: 44ch; font-size: var(--s1); line-height: 1.35; }}
+  .why p + p {{ margin-top: 0.6rem; }}
+  .note {{ font-family: var(--mono); font-size: var(--s-1); color: var(--grey); letter-spacing: 0; text-transform: none; font-weight: 300; }}
   .att {{ padding: clamp(2.5rem, 7vh, 5rem) 0; display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(1.5rem, 4vw, 4rem); border-bottom: 1px solid var(--line); }}
   .att h2 {{ font-weight: 500; font-size: var(--s3); line-height: 1.1; }}
   .tiers {{ list-style: none; }}
@@ -122,12 +126,23 @@ page = f'''<!DOCTYPE html>
 
 <section class="intro" aria-labelledby="h1">
   <span class="label">↳ intro</span>
-  <h1 id="h1">{E(C['h1'])}</h1>
+  <h1 id="h1">{E(C['h1'])} <span class="note">({E(C['h1_note'])})</span></h1>
   <p>{E(C['intro'])}</p>
 </section>
 
 <section class="vps" aria-label="What I do">
 {chr(10).join(vp_html(i+1, v) for i, v in enumerate(VP))}
+</section>
+
+<section class="catch" aria-label="Catch against myself">
+  <span class="label">↳ {E(C['catch_label'])}</span>
+  <p>{E(C['catch'])}</p>
+</section>
+
+<section class="why" aria-label="Why a human">
+  <span class="label">↳ {E(C['why_label'])}</span>
+  <p>{E(C['why'][0])}</p>
+  <p>{E(C['why'][1])} <span class="note">({E(C['why_note'].replace('second line ', ''))})</span></p>
 </section>
 
 <section class="att" id="attention" aria-labelledby="h-att">

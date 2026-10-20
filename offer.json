@@ -180,18 +180,18 @@
     "value_propositions": [
       {
         "title": "The underlying problem.",
-        "text": "The wrong people have the mandate for the solution, without understanding the underlying problem. It's always bottom-up, never top-down.",
-        "seen_in_the_field": "Elderly care. An app was already decided on. In the field, the elderly were not good at mobiles and apps."
+        "text": "The wrong people often have the mandate for the solution, without understanding the underlying problem. When somebody starts with a solution, I listen, and come back with the underlying issue by asking the why of the direction.",
+        "seen_in_the_field": "Elderly care. The funding was for an app. In the field, the elderly were not good at mobiles and apps. The concept without an app was not built out: the money was spent for the wrong reasons."
       },
       {
         "title": "Knowledge is not always truth.",
-        "text": "AI doesn't validate; AI rephrases. Nothing is true until validated.",
-        "seen_in_the_field": "Healthcare. A patient's weight over time has so many input points: doctor, at home, nurse, morning, afternoon."
+        "text": "Intelligence and reasoning are useless when there is no validated real-world data, validated for its purpose. AI doesn't validate; AI rephrases.",
+        "seen_in_the_field": "Healthcare. The task was app screens for dietitians. The question that mattered: are your AI models based on the right data? A patient's weight has many input points: doctor, home, nurse, morning, afternoon."
       },
       {
         "title": "The bullshit, caught from an expert point of view.",
-        "text": "Outside of your expertise, everything keeps on sounding reasonable. Confident is not the same as correct.",
-        "seen_in_the_field": "Legal. An architect's AI summary of a 60-page document seemed legit. The referenced paragraphs were off."
+        "text": "Only an expert can audit the output. Outside your expertise, everything keeps sounding reasonable.",
+        "seen_in_the_field": "Legal. An architect's AI summary of a 60-page document sounded legit. The referenced paragraphs were off. It would never stand before court."
       }
     ],
     "you_are_hiring": "A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.",
