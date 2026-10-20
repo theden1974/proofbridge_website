@@ -11,15 +11,15 @@ Knowledge is not always truth. It needs to be validated and calibrated with ever
 
 ## Value propositions
 ### 1. The underlying problem.
-It happens often that the wrong people are responsible and have mandate for the solution without being able to understand the underlying problem. I am present where the process, application or the underlying problem is most present.
+The wrong people have mandate for the solution, without understanding the underlying problem. It's always bottom-up, never top-down.
 - Seen in the field: Elderly care. An app was already decided. In the field, the elderly were not good at mobiles and apps.
 
 ### 2. Knowledge is not always truth.
-It needs to be validated and calibrated with every project that uses AI. That data needs a transformation, redesigned from the hands-on real world.
+AI doesn't validate; AI rephrases. Nothing is true until validated.
 - Seen in the field: Healthcare. A patient weight over time has so many input points: doctor, at home, nurse, morning, afternoon.
 
 ### 3. The bullshit, caught from an expert point of view.
-Clients come with reports, documents or scripts. Most of the time those are also AI generated or helped by AI. That makes reading truth, recognising actual problems more difficult.
+Outside of your expertise, everything keeps on sounding reasonable. Confident is not the same as correct.
 - Seen in the field: Legal. An architect's AI summary of a 60 page document seemed legit. The referenced paragraphs were off.
 
 ## The third section
@@ -33,7 +33,7 @@ Clients come with reports, documents or scripts. Most of the time those are also
 
 ## Method
 - Real in life experiencing: seeing the actual product at work, seeing the problems and spotting the underlying issues while using the product, the platform or seeing the customer interaction.
-- Interviews and the Kano model, to understand the must haves compared to the nice to haves.
+- Interviews, to separate the must haves from the nice to haves.
 - There is always a translation between the stakeholder that thinks what is needed and the actual user that can express or audit what is needed.
 - The output is audited by the actual stakeholder for whom the problem occurs. I just translate.
 
