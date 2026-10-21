@@ -30,7 +30,7 @@ Field experience: elderly care, healthcare, government and public services, digi
 ## Tiers and price
 | tier | minimum | gets | performed by |
 |---|---|---|---|
-| 1 | 5 000 sats (0.00005 BTC) | A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days. | Dennis Jansen, with his own AI setup; automation: none yet: Dennis answers this path himself. The agent path (a model reading his lens) waits for his system's evaluation, or his explicit exception. |
+| 1 | 5 000 sats (0.00005 BTC) | A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days. | Dennis Jansen, with his own AI setup; automation: being built: a model reads his lens on his own machines and prepares the answer; it is released when the mechanical checks pass, and validated by his own judgement when the checks or the tier ask for it. Until it runs, Dennis answers this path himself. |
 | 2 | 50 000 sats (0.0005 BTC) | Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema. | Dennis Jansen, in person; automation: none |
 
 - Attention fee refunded: no. Tier 1 fee counts toward tier 2: yes.
@@ -43,7 +43,7 @@ Field experience: elderly care, healthcare, government and public services, digi
 ## Processing
 - Where: On Dennis Jansen's own machines only.
 - External models: Never. The lens and every check run on his own machines; request text does not leave them.
-- Prepared by: Answers are prepared with his own AI setup and released by him. Every answer says so.
+- Prepared by: Answers are prepared by his own AI setup, through his lens, on his own machines, and validated by him when needed. Every answer says which.
 - Terms on answers: An answer is for the principal's decision. No resale, no training on it.
 
 ## Lifecycle

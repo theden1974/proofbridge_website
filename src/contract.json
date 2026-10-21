@@ -130,7 +130,7 @@
       "minimum_sats": 5000,
       "gets": "A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days.",
       "performed_by": "Dennis Jansen, with his own AI setup",
-      "automation": "none yet: Dennis answers this path himself. The agent path (a model reading his lens) waits for his system's evaluation, or his explicit exception.",
+      "automation": "being built: a model reads his lens on his own machines and prepares the answer; it is released when the mechanical checks pass, and validated by his own judgement when the checks or the tier ask for it. Until it runs, Dennis answers this path himself.",
       "name": "Ask my agent"
     },
     {
@@ -330,7 +330,7 @@
   "processing": {
     "where": "On Dennis Jansen's own machines only.",
     "external_models": "Never. The lens and every check run on his own machines; request text does not leave them.",
-    "prepared_by": "Answers are prepared with his own AI setup and released by him. Every answer says so.",
+    "prepared_by": "Answers are prepared by his own AI setup, through his lens, on his own machines, and validated by him when needed. Every answer says which.",
     "outputs_terms": "An answer is for the principal's decision. No resale, no training on it."
   }
 }

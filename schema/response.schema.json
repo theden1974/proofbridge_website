@@ -168,7 +168,7 @@
     },
     "prepared_by": {
       "type": "string",
-      "description": "Answers are prepared with his own AI setup and released by him. Every answer says so."
+      "description": "Answers are prepared by his own AI setup, through his lens, on his own machines, and validated by him when needed. Every answer says which."
     },
     "delivered_at": {
       "type": "string",
