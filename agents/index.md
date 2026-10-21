@@ -22,15 +22,15 @@ Field experience: elderly care, healthcare, government and public services, digi
 - `method_extraction`: Requests about how the lens works, or general questions with no decision behind them, instead of a case to judge.
 
 ## Request
-- Email to info@interactiondesign.nl, subject `PROOFBRIDGE T{tier} {payment_txid}`.
-- Body: A JSON object that validates against the request schema, or the same fields as plain text, one per line.
+- Email to info@interactiondesign.nl, subject `PROOFBRIDGE T{tier} {payment_txid}` (the request_id may follow the payment reference).
+- Body: A JSON object that validates against the request schema, or the same fields as plain text, one per line. Artefacts as text in the request: links are not opened.
 - Schema: https://proofbridge.nl/schema/request.schema.json
-- Required: `task_type`, `question`, `decision_at_stake`, `principal`, `deadline`, `tier`, `payment_txid`.
+- Required: `request_id`, `task_type`, `question`, `decision_at_stake`, `principal`, `deadline`, `tier`, `payment_txid`.
 
 ## Tiers and price
 | tier | minimum | gets | performed by |
 |---|---|---|---|
-| 1 | 5 000 sats (0.00005 BTC) | A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days. | Dennis Jansen, with his own AI setup; automation: none yet: Dennis answers this path himself; the agent path is built as use shows what it must do |
+| 1 | 5 000 sats (0.00005 BTC) | A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days. | Dennis Jansen, with his own AI setup; automation: none yet: Dennis answers this path himself. The agent path (a model reading his lens) waits for his system's evaluation, or his explicit exception. |
 | 2 | 50 000 sats (0.0005 BTC) | Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema. | Dennis Jansen, in person; automation: none |
 
 - Attention fee refunded: no. Tier 1 fee counts toward tier 2: yes.
@@ -38,11 +38,11 @@ Field experience: elderly care, healthcare, government and public services, digi
 
 ## Payment
 - On-chain: `bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty` (taproot (P2TR)). Counts when: A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation. Binding: One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body's SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts.
-- Lightning: planned: one invoice per request from his own node; the request id travels with the payment
+- Lightning: planned: one invoice per request, sent by email from his own node; the invoice hash binds the request. No public endpoint.
 
 ## Processing
-- Where: On Dennis Jansen's own machines. The lens runs locally.
-- External models: Never, unless the request sets external_check_ok true; then an external model may check the draft answer (never produce it) and the request text leaves his machines.
+- Where: On Dennis Jansen's own machines only.
+- External models: Never. The lens and every check run on his own machines; request text does not leave them.
 - Prepared by: Answers are prepared with his own AI setup and released by him. Every answer says so.
 - Terms on answers: An answer is for the principal's decision. No resale, no training on it.
 

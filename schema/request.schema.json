@@ -5,6 +5,7 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "request_id",
     "task_type",
     "question",
     "decision_at_stake",
@@ -14,6 +15,11 @@
     "payment_txid"
   ],
   "properties": {
+    "request_id": {
+      "type": "string",
+      "pattern": "^REQ-[A-Z0-9-]{4,24}$",
+      "description": "Chosen by the sender; travels with the payment (invoice memo) and in the email subject."
+    },
     "task_type": {
       "enum": [
         "underlying_problem",
@@ -36,7 +42,7 @@
         "type": "string",
         "format": "uri"
       },
-      "description": "Links to the data, document, output or brief to look at."
+      "description": "For reference only: links are not opened. Put the material in artefact_text."
     },
     "artefact_text": {
       "type": "string",
@@ -107,11 +113,6 @@
         "lightning"
       ],
       "default": "onchain"
-    },
-    "external_check_ok": {
-      "type": "boolean",
-      "default": false,
-      "description": "true: an external model may check the draft answer, so the request text leaves his machines. Default false: local only."
     },
     "payment_proof_bip322": {
       "type": "string",

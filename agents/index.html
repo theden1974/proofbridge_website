@@ -44,15 +44,15 @@
 </ul>
 <h2 id="request">Request</h2>
 <ul>
-<li>Email to info@interactiondesign.nl, subject <code>PROOFBRIDGE T{tier} {payment_txid}</code>.</li>
-<li>Body: A JSON object that validates against the request schema, or the same fields as plain text, one per line.</li>
+<li>Email to info@interactiondesign.nl, subject <code>PROOFBRIDGE T{tier} {payment_txid}</code> (the request_id may follow the payment reference).</li>
+<li>Body: A JSON object that validates against the request schema, or the same fields as plain text, one per line. Artefacts as text in the request: links are not opened.</li>
 <li>Schema: https://proofbridge.nl/schema/request.schema.json</li>
-<li>Required: <code>task_type</code>, <code>question</code>, <code>decision_at_stake</code>, <code>principal</code>, <code>deadline</code>, <code>tier</code>, <code>payment_txid</code>.</li>
+<li>Required: <code>request_id</code>, <code>task_type</code>, <code>question</code>, <code>decision_at_stake</code>, <code>principal</code>, <code>deadline</code>, <code>tier</code>, <code>payment_txid</code>.</li>
 </ul>
 <h2 id="tiers">Tiers and price</h2>
 <table>
 <tr><th>tier</th><th>minimum</th><th>gets</th><th>performed by</th></tr>
-<tr><td>1</td><td>5 000 sats (0.00005 BTC)</td><td>A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days.</td><td>Dennis Jansen, with his own AI setup; automation: none yet: Dennis answers this path himself; the agent path is built as use shows what it must do</td></tr>
+<tr><td>1</td><td>5 000 sats (0.00005 BTC)</td><td>A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days.</td><td>Dennis Jansen, with his own AI setup; automation: none yet: Dennis answers this path himself. The agent path (a model reading his lens) waits for his system&#x27;s evaluation, or his explicit exception.</td></tr>
 <tr><td>2</td><td>50 000 sats (0.0005 BTC)</td><td>Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema.</td><td>Dennis Jansen, in person; automation: none</td></tr>
 </table>
 <ul>
@@ -62,12 +62,12 @@
 <h2 id="payment">Payment</h2>
 <ul>
 <li>On-chain: <code>bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty</code> (taproot (P2TR)). Counts when: A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation. Binding: One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body&#x27;s SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts.</li>
-<li>Lightning: planned: one invoice per request from his own node; the request id travels with the payment</li>
+<li>Lightning: planned: one invoice per request, sent by email from his own node; the invoice hash binds the request. No public endpoint.</li>
 </ul>
 <h2 id="processing">Processing</h2>
 <ul>
-<li>Where: On Dennis Jansen&#x27;s own machines. The lens runs locally.</li>
-<li>External models: Never, unless the request sets external_check_ok true; then an external model may check the draft answer (never produce it) and the request text leaves his machines.</li>
+<li>Where: On Dennis Jansen&#x27;s own machines only.</li>
+<li>External models: Never. The lens and every check run on his own machines; request text does not leave them.</li>
 <li>Prepared by: Answers are prepared with his own AI setup and released by him. Every answer says so.</li>
 <li>Terms on answers: An answer is for the principal&#x27;s decision. No resale, no training on it.</li>
 </ul>

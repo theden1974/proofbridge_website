@@ -184,12 +184,13 @@ T1, T2 = K['tiers']
 req_schema = {
   "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://proofbridge.nl/schema/request.schema.json",
   "title": "proofbridge request", "type": "object", "additionalProperties": False,
-  "required": ["task_type", "question", "decision_at_stake", "principal", "deadline", "tier", "payment_txid"],
+  "required": ["request_id", "task_type", "question", "decision_at_stake", "principal", "deadline", "tier", "payment_txid"],
   "properties": {
+    "request_id": {"type": "string", "pattern": "^REQ-[A-Z0-9-]{4,24}$", "description": "Chosen by the sender; travels with the payment (invoice memo) and in the email subject."},
     "task_type": {"enum": TT_IDS, "description": "; ".join(f"{x['id']}: {x['does']}" for x in TT)},
     "question": {"type": "string", "description": "What the principal wants to know, in one or two sentences."},
     "decision_at_stake": {"type": "string", "description": "The decision this answer informs."},
-    "artefact_urls": {"type": "array", "items": {"type": "string", "format": "uri"}, "description": "Links to the data, document, output or brief to look at."},
+    "artefact_urls": {"type": "array", "items": {"type": "string", "format": "uri"}, "description": "For reference only: links are not opened. Put the material in artefact_text."},
     "artefact_text": {"type": "string", "description": "The material itself, when it is not at a link."},
     "context": {"type": "string", "description": "Who it is for, who decided it, where it is used."},
     "principal": {"type": "object", "additionalProperties": False, "required": ["name", "kind", "email"],
@@ -201,7 +202,6 @@ req_schema = {
     "tier": {"enum": [1, 2]},
     "payment_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "On-chain txid, or the Lightning payment hash once the Lightning rail is live."},
     "payment_rail": {"enum": ["onchain", "lightning"], "default": "onchain"},
-    "external_check_ok": {"type": "boolean", "default": False, "description": "true: an external model may check the draft answer, so the request text leaves his machines. Default false: local only."},
     "payment_proof_bip322": {"type": "string", "description": "Optional. BIP-322 signature over the SHA-256 of this request body, by a key that spent an input of the payment."},
     "completion_reward_sats": {"type": "integer", "minimum": 0, "description": "Optional proposal; the reward is agreed in the tier 2 reply."}
   }
@@ -274,7 +274,7 @@ Field experience: {', '.join(K['domains_with_field_experience'])}.
 """ + "\n".join(f"- `{d['id']}`: {d['rule']}" for d in K['declines']) + f"""
 
 ## Request
-- Email to {K['request']['to']}, subject `{K['request']['subject']}`.
+- Email to {K['request']['to']}, subject `{K['request']['subject']}` (the request_id may follow the payment reference).
 - Body: {K['request']['body']}
 - Schema: {K['request']['schema']}
 - Required: {', '.join('`'+r+'`' for r in req_schema['required'])}.
