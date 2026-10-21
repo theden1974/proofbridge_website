@@ -18,7 +18,7 @@ Only an expert can audit the output. Outside your expertise, everything keeps so
 
 ## Why a human
 - AI is the calculator. It needs my numbers.
-- 8 hours of work can represent 100 hours of work, because it is aimed at value. (translated from Dutch)
+- 8 hours of work can, at best, represent 100 hours of work, because it is aimed at value. (translated from Dutch)
 
 ## My attention costs sats
 - Ask my agent: 5 000 sats

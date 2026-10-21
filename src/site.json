@@ -96,7 +96,7 @@
   "why_label": "why a human",
   "why": [
     "AI is the calculator. It needs my numbers.",
-    "8 hours of work can represent 100 hours of work, because it is aimed at value."
+    "8 hours of work can, at best, represent 100 hours of work, because it is aimed at value."
   ],
   "why_note": "second line translated from Dutch",
   "tier1_gets": "Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.",
