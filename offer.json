@@ -75,6 +75,10 @@
     {
       "id": "not_enough_information",
       "rule": "Not enough information to start, after one round of questions."
+    },
+    {
+      "id": "method_extraction",
+      "rule": "Requests about how the lens works, or general questions with no decision behind them, instead of a case to judge."
     }
   ],
   "request": {
@@ -143,8 +147,22 @@
     "completion_reward": "Agreed in the tier 2 reply, paid in sats when the work is delivered, listed on the public backlog with its txid."
   },
   "payment": {
-    "rail": "bitcoin on-chain",
+    "rails": [
+      {
+        "rail": "onchain",
+        "address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
+        "address_type": "taproot (P2TR)",
+        "counts_when": "A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation.",
+        "binding": "One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body's SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts."
+      },
+      {
+        "rail": "lightning",
+        "status": "planned: one invoice per request from his own node; the request id travels with the payment",
+        "counts_when": "The invoice is settled."
+      }
+    ],
     "address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
+    "rail": "bitcoin on-chain (lightning planned)",
     "address_type": "taproot (P2TR)",
     "counts_when": "A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation.",
     "binding": "One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body's SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts."
@@ -308,6 +326,12 @@
       }
     }
   ],
+  "processing": {
+    "where": "On Dennis Jansen's own machines. The lens runs locally.",
+    "external_models": "Never, unless the request sets external_check_ok true; then an external model may check the draft answer (never produce it) and the request text leaves his machines.",
+    "prepared_by": "Answers are prepared with his own AI setup and released by him. Every answer says so.",
+    "outputs_terms": "An answer is for the principal's decision. No resale, no training on it."
+  },
   "site": "https://proofbridge.nl/",
   "updated": "2026-10-20",
   "stats": {

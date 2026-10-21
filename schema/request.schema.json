@@ -98,7 +98,20 @@
     },
     "payment_txid": {
       "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "On-chain txid, or the Lightning payment hash once the Lightning rail is live."
+    },
+    "payment_rail": {
+      "enum": [
+        "onchain",
+        "lightning"
+      ],
+      "default": "onchain"
+    },
+    "external_check_ok": {
+      "type": "boolean",
+      "default": false,
+      "description": "true: an external model may check the draft answer, so the request text leaves his machines. Default false: local only."
     },
     "payment_proof_bip322": {
       "type": "string",

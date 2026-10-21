@@ -73,7 +73,8 @@
         "surveillance",
         "no_principal",
         "deadline_too_short",
-        "not_enough_information"
+        "not_enough_information",
+        "method_extraction"
       ]
     },
     "task_type": {
@@ -164,6 +165,10 @@
           "type": "string"
         }
       }
+    },
+    "prepared_by": {
+      "type": "string",
+      "description": "Answers are prepared with his own AI setup and released by him. Every answer says so."
     },
     "delivered_at": {
       "type": "string",

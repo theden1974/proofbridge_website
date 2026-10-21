@@ -19,6 +19,7 @@ Field experience: elderly care, healthcare, government and public services, digi
 - `no_principal`: A request without a named person or organisation behind it.
 - `deadline_too_short`: A deadline shorter than the reply window.
 - `not_enough_information`: Not enough information to start, after one round of questions.
+- `method_extraction`: Requests about how the lens works, or general questions with no decision behind them, instead of a case to judge.
 
 ## Request
 - Email to info@interactiondesign.nl, subject `PROOFBRIDGE T{tier} {payment_txid}`.
@@ -36,9 +37,14 @@ Field experience: elderly care, healthcare, government and public services, digi
 - Completion reward: Agreed in the tier 2 reply, paid in sats when the work is delivered, listed on the public backlog with its txid.
 
 ## Payment
-- Address: `bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty` (bitcoin on-chain, taproot (P2TR))
-- Counts when: A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation.
-- Binding: One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body's SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts.
+- On-chain: `bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty` (taproot (P2TR)). Counts when: A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation. Binding: One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body's SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts.
+- Lightning: planned: one invoice per request from his own node; the request id travels with the payment
+
+## Processing
+- Where: On Dennis Jansen's own machines. The lens runs locally.
+- External models: Never, unless the request sets external_check_ok true; then an external model may check the draft answer (never produce it) and the request text leaves his machines.
+- Prepared by: Answers are prepared with his own AI setup and released by him. Every answer says so.
+- Terms on answers: An answer is for the principal's decision. No resale, no training on it.
 
 ## Lifecycle
 - `submitted`: Email received, payment not yet seen.

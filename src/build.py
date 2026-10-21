@@ -199,7 +199,9 @@ req_schema = {
     "language": {"enum": K['provider']['languages']},
     "public_backlog_ok": {"type": "boolean", "default": False, "description": "true: task_type, status and dates may appear on the public backlog. The content never does."},
     "tier": {"enum": [1, 2]},
-    "payment_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "payment_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "On-chain txid, or the Lightning payment hash once the Lightning rail is live."},
+    "payment_rail": {"enum": ["onchain", "lightning"], "default": "onchain"},
+    "external_check_ok": {"type": "boolean", "default": False, "description": "true: an external model may check the draft answer, so the request text leaves his machines. Default false: local only."},
     "payment_proof_bip322": {"type": "string", "description": "Optional. BIP-322 signature over the SHA-256 of this request body, by a key that spent an input of the payment."},
     "completion_reward_sats": {"type": "integer", "minimum": 0, "description": "Optional proposal; the reward is agreed in the tier 2 reply."}
   }
@@ -225,6 +227,7 @@ resp_schema = {
     "limits": {"type": "array", "items": {"type": "string"}, "description": "What was not checked."},
     "next_step": {"type": "string"},
     "accountable_human": {"type": "object", "required": ["name"], "properties": {"name": {"const": K['trust']['accountable_human']}, "role": {"type": "string"}}},
+    "prepared_by": {"type": "string", "description": K['processing']['prepared_by']},
     "delivered_at": {"type": "string", "format": "date"},
     "deliverable_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "completion_reward_sats": {"type": "integer"}, "reward_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
@@ -285,9 +288,14 @@ Field experience: {', '.join(K['domains_with_field_experience'])}.
 - Completion reward: {K['fees']['completion_reward']}
 
 ## Payment
-- Address: `{P['address']}` ({P['rail']}, {P['address_type']})
-- Counts when: {P['counts_when']}
-- Binding: {P['binding']}
+- On-chain: `{P['address']}` ({P['address_type']}). Counts when: {P['counts_when']} Binding: {P['binding']}
+- Lightning: {P['rails'][1]['status']}
+
+## Processing
+- Where: {K['processing']['where']}
+- External models: {K['processing']['external_models']}
+- Prepared by: {K['processing']['prepared_by']}
+- Terms on answers: {K['processing']['outputs_terms']}
 
 ## Lifecycle
 """ + "\n".join(f"- `{s['id']}`: {s['meaning']}" for s in K['lifecycle']['states']) + f"""

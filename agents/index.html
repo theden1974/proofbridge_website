@@ -40,6 +40,7 @@
 <li><code>no_principal</code>: A request without a named person or organisation behind it.</li>
 <li><code>deadline_too_short</code>: A deadline shorter than the reply window.</li>
 <li><code>not_enough_information</code>: Not enough information to start, after one round of questions.</li>
+<li><code>method_extraction</code>: Requests about how the lens works, or general questions with no decision behind them, instead of a case to judge.</li>
 </ul>
 <h2 id="request">Request</h2>
 <ul>
@@ -60,9 +61,15 @@
 </ul>
 <h2 id="payment">Payment</h2>
 <ul>
-<li>Address: <code>bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty</code> (bitcoin on-chain, taproot (P2TR))</li>
-<li>Counts when: A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation.</li>
-<li>Binding: One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body&#x27;s SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts.</li>
+<li>On-chain: <code>bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty</code> (taproot (P2TR)). Counts when: A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation. Binding: One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body&#x27;s SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts.</li>
+<li>Lightning: planned: one invoice per request from his own node; the request id travels with the payment</li>
+</ul>
+<h2 id="processing">Processing</h2>
+<ul>
+<li>Where: On Dennis Jansen&#x27;s own machines. The lens runs locally.</li>
+<li>External models: Never, unless the request sets external_check_ok true; then an external model may check the draft answer (never produce it) and the request text leaves his machines.</li>
+<li>Prepared by: Answers are prepared with his own AI setup and released by him. Every answer says so.</li>
+<li>Terms on answers: An answer is for the principal&#x27;s decision. No resale, no training on it.</li>
 </ul>
 <h2 id="lifecycle">Lifecycle</h2>
 <ul>
