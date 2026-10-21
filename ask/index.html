@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask · proofbridge</title>
+<meta name="description" content="Six questions, in the order I ask them. Nothing is paid on this page: I read what you send and mail you the invoice.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://proofbridge.nl/ask/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Six questions, in the order I ask them. Nothing is paid on this page: I read what you send and mail you the invoice.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper: hsl(45, 20%, 96%); --ink: #111014; --grey: hsl(240, 6%, 42%); --line: hsl(45, 10%, 86%);
+    --accent: #b8862b;
+    --s-1: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem);
+    --s0: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+    --s1: clamp(1.25rem, 1.19rem + 0.31vw, 1.5rem);
+    --s3: clamp(1.95rem, 1.6rem + 1.2vw, 2.6rem);
+    --s5: clamp(2.4rem, 1.9rem + 2.4vw, 4rem);
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  html { background: var(--paper); color: var(--ink); }
+  body { font-family: "DM Sans", system-ui, -apple-system, Helvetica, sans-serif; font-weight: 300; font-size: var(--s0); line-height: 1.55; }
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
+  .bar { display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 0; }
+  .label { font-family: var(--mono); font-size: var(--s-1); letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey); display: block; margin-bottom: 0.9rem; }
+  .bar .label { margin: 0; }
+  .bar a { color: var(--ink); text-decoration: none; }
+  .intro { padding: clamp(3rem, 10vh, 7rem) 0 clamp(2.5rem, 7vh, 5rem); border-bottom: 1px solid var(--line); }
+  .intro h1 { font-weight: 500; font-size: var(--s5); line-height: 1.08; letter-spacing: -0.02em; max-width: 22ch; }
+  .intro p { font-size: var(--s1); color: var(--grey); max-width: 38ch; margin-top: 1.4rem; }
+  .vps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 3rem); padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); }
+  .vp h2 { font-weight: 500; font-size: var(--s3); line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 1rem; }
+  .vp p { max-width: 34ch; }
+  .vp .proof { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--grey); font-size: var(--s-1); line-height: 1.5; }
+  .vp .proof .label { margin-bottom: 0.4rem; }
+  .why { padding: clamp(1.8rem, 5vh, 3rem) 0; border-bottom: 1px solid var(--line); }
+  .why p { max-width: 44ch; font-size: var(--s1); line-height: 1.35; }
+  .why p + p { margin-top: 0.6rem; }
+  .note { font-family: var(--mono); font-size: var(--s-1); color: var(--grey); letter-spacing: 0; text-transform: none; font-weight: 300; }
+  .att { padding: clamp(2.5rem, 7vh, 5rem) 0; display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(1.5rem, 4vw, 4rem); border-bottom: 1px solid var(--line); }
+  .att h2 { font-weight: 500; font-size: var(--s3); line-height: 1.1; }
+  .tiers { list-style: none; }
+  .tiers li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
+  .tiers b { font-weight: 500; white-space: nowrap; } .tiers span b { white-space: normal; } .tiers small { display: block; color: var(--grey); font-size: var(--s-1); max-width: 34ch; margin-top: 0.2rem; }
+  .tiers .hi { color: var(--accent); }
+  .addr { font-family: var(--mono); font-size: var(--s-1); word-break: break-all; margin-top: 1.2rem; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 1rem; background: #fff; }
+  .how { margin-top: 1rem; color: var(--grey); font-size: var(--s-1); }
+  .copy { margin-top: 0.8rem; font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: 0.55rem 1.1rem; cursor: pointer; }
+  footer { padding: 2.5rem 0 3.5rem; display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: baseline; }
+  footer a { color: var(--ink); }
+  footer .label { margin: 0; }
+  footer .agents { flex-basis: 100%; color: var(--grey); } footer .agents a { color: var(--grey); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @media (max-width: 860px) { .vps, .att { grid-template-columns: 1fr; } }
+  @media (prefers-color-scheme: dark) {
+    :root { --paper: #111014; --ink: hsl(45, 20%, 94%); --grey: hsl(240, 5%, 66%); --line: hsl(240, 5%, 22%); }
+    .addr { background: #1a191e; } .copy { background: var(--ink); color: #111014; }
+  }
+</style>
+<style>
+  form { display: grid; gap: 1.4rem; margin-top: 1.6rem; max-width: 60ch; }
+  label b { display: block; font-weight: 500; } label small { display: block; color: var(--grey); font-size: var(--s-1); margin-top: 0.15rem; }
+  input, textarea { font: inherit; width: 100%; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; background: #fff; color: var(--ink); margin-top: 0.4rem; }
+  textarea { resize: vertical; }
+  fieldset { border: 0; padding: 0; margin: 0; } legend b { font-weight: 500; }
+  .opts { display: grid; gap: 0.6rem; margin-top: 0.5rem; }
+  .opts label { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
+  .opts input { width: auto; margin: 0; }
+  .check { margin-top: 1.6rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 1rem; max-width: 60ch; }
+  .check ul { list-style: none; padding: 0; margin: 0.6rem 0 0; display: grid; gap: 0.3rem; font-size: var(--s-1); }
+  .check li::before { content: "·"; margin-right: 0.5rem; color: var(--grey); } .check li.ok::before { content: "✓"; color: var(--accent); }
+  .check .route { margin-top: 0.8rem; font-weight: 500; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.2rem; }
+  .actions a.copy { text-decoration: none; display: inline-block; }
+  .status { color: var(--grey); font-size: var(--s-1); }
+  @media (prefers-color-scheme: dark) { input, textarea { background: #1a191e; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="bar">
+  <a class="label" href="/">proofbridge</a>
+  <span class="label">prototype</span>
+</header>
+<section class="intro" aria-labelledby="h1">
+  <span class="label">↳ ask</span>
+  <h1 id="h1">Ask</h1>
+  <p>Six questions, in the order I ask them. Nothing is paid on this page: I read what you send and mail you the invoice.</p>
+</section>
+<form id="ask" onsubmit="return false">
+<label for="who"><b>Who are you</b><small>Person or organisation, and an email address to answer to.</small>
+<input type="text" id="who" name="who" data-slot="who"></label>
+<label for="decides"><b>Who decides, and who will use it</b><small>The one with the mandate is rarely the one who uses it.</small>
+<textarea rows="2" id="decides" name="decides" data-slot="who"></textarea></label>
+<label for="build"><b>What are you about to build or decide</b><small>The solution as it stands now.</small>
+<textarea rows="2" id="build" name="build" data-slot="task"></textarea></label>
+<label for="have"><b>What do you have</b><small>Paste the text. Links are not opened.</small>
+<textarea rows="6" id="have" name="have" data-slot="material"></textarea></label>
+<label for="assume"><b>What do you already assume</b><small>What is taken as true without being checked.</small>
+<textarea rows="2" id="assume" name="assume" data-slot="problem"></textarea></label>
+<label for="question"><b>The one question</b><small>What decision does this answer inform.</small>
+<textarea rows="2" id="question" name="question" data-slot="problem"></textarea></label>
+<fieldset><legend><b>Who reads it</b></legend>
+<div class="opts">
+  <label><input type="radio" name="tier" value="1" checked> <span><b>Ask my agent</b> · 5 000 sats<br><small>Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.</small></span></label>
+  <label><input type="radio" name="tier" value="2"> <span><b>Ask me</b> · 50 000 sats<br><small>I read it myself and answer in days.</small></span></label>
+</div></fieldset>
+<label for="deadline"><b>Needed by</b><small>At least 7 days from payment.</small>
+<input type="date" id="deadline" name="deadline"></label>
+</form>
+<aside class="check" aria-live="polite">
+  <span class="label">↳ Mechanical check</span>
+  <ul id="slots"></ul>
+  <p class="route" id="route"></p>
+  <p class="status">No model. The same rules the pre-scan test uses: three things must be present before a request is taken.</p>
+</aside>
+<div class="actions">
+  <a class="copy" id="send" href="#">Send by email</a>
+  <button class="copy" type="button" id="copy">Copy the request</button>
+  <span class="status">Opens your mail program with the request filled in. If it does not open, copy the request and paste it in a mail to <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a></span>
+</div>
+<p class="how" style="max-width:60ch">What happens then: I read it, mail the invoice from my own node, and the reply window of 7 days starts when the payment is seen.</p>
+<footer>
+  <span class="label">↳ connect</span>
+  <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a>
+  <p class="agents label">↳ What a request and an answer look like: <a href="/agents/">the task contract</a>.</p>
+</footer>
+</div>
+<script>
+// Mechanical pre-scan: the same three slots and rule classes as the pre-scan test's key (step 2). No model; nothing leaves the page.
+const SLOTS = {"who": "who is asking and who decides", "task": "what is being built or decided", "problem": "what hurts now, or what is already assumed"}, ROUTES = {"take": "Complete enough to be read.", "ask": "Before it can be read, still missing:", "decline": "Not a task I take: a question about the method, or no one behind it."};
+const R = {
+  who: /\b(i|we|me|my|our|us|team|client|board|manager|director|ceo|cto|founder|owner|department|organisation|organization|company|municipality|authority|hospital|school|agency|lead|officer|adviser|advisor|nurse|doctor|lawyer|architect|developer|designer|researcher)\b/i,
+  task: /\b(build|building|built|decide|deciding|decision|choose|choosing|validate|validating|check|checking|review|reviewing|redesign|launch|implement|migrate|buy|app|website|platform|model|dataset|document|summary|plan|screens?|system|feature|service|product|tool|process)\b/i,
+  problem: /\b(doesn'?t|don'?t|can'?t|cannot|won'?t|not sure|unsure|wrong|fail|failing|failed|complain|complaint|slow|unclear|stuck|why|how do we know|no one|nobody|assume|assumed|assumption|hurts|problem|issue|risk|late|delay|double)\b/i,
+  solution_only: /\b(we need an?|build us|should we add|just build|make us an?)\b/i,
+  method: /\b(how do you (work|do this|decide)|your method|which model|what prompt|how does the lens|how is this built)\b/i,
+  agent_alone: /\b(i am an (ai|agent)|as an (ai|autonomous) agent|no human|on my own behalf)\b/i
+};
+const TT = [["ai_output_review", /\b(ai|llm|chatgpt|copilot|claude|gemini|generated|summary|summar|hallucinat|output|script|draft)\b/i],
+            ["ground_truth_check", /\b(data|dataset|measure|measured|numbers|figures|claim|report|statistic|source|entered|record)\b/i],
+            ["underlying_problem", /\b(build|app|feature|redesign|platform|solution|decide|strategy|roadmap|efficien|workforce|process)\b/i]];
+function text(slot){ return [...document.querySelectorAll('[data-slot="'+slot+'"]')].map(e=>e.value).join(' '); }
+function scan(){
+  const all = [...document.querySelectorAll('[data-slot]')].map(e=>e.value).join(' ');
+  const who = text('who').trim().length > 2 || R.who.test(all);
+  const task = R.task.test(text('task')+' '+text('problem')) || text('task').trim().length > 8;
+  const prob = (R.problem.test(text('problem')) || text('problem').trim().length > 12) && !R.solution_only.test(text('problem'));
+  const present = {who: who, task: task, problem: prob};
+  const missing = Object.keys(present).filter(k => !present[k]);
+  let route = 'take';
+  if (R.method.test(all) || R.agent_alone.test(all)) route = 'decline';
+  else if (missing.length) route = 'ask';
+  let tt = null; if (route === 'take') for (const [id, re] of TT) if (re.test(all)) { tt = id; break; }
+  document.getElementById('slots').innerHTML = Object.keys(SLOTS).map(k => '<li class="' + (present[k] ? 'ok' : '') + '">' + SLOTS[k] + '</li>').join('');
+  document.getElementById('route').textContent = ROUTES[route] + (route === 'ask' ? ' ' + missing.map(k => SLOTS[k]).join('; ') + '.' : '') + (tt ? ' Task type: ' + tt + '.' : '');
+  return {route: route, missing: missing, tt: tt};
+}
+function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
+const RID = reqId();
+function body(){
+  const r = scan(); const f = id => document.getElementById(id).value.trim();
+  const tier = document.querySelector('input[name=tier]:checked').value;
+  return ['request_id: ' + RID, 'tier: ' + tier, 'task_type: ' + (r.tt || 'to be set by triage'), 'deadline: ' + f('deadline'),
+          'principal: ' + f('who'), 'context (who decides, who uses it): ' + f('decides'), 'about to build or decide: ' + f('build'),
+          'question (the decision this informs): ' + f('question'), 'assumed: ' + f('assume'), 'payment: invoice requested', 'artefact_text:', f('have')].join('\n');
+}
+function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { document.getElementById('copy').textContent = 'copied'; }); }
+function refresh(){
+  const b = body(); const tier = document.querySelector('input[name=tier]:checked').value;
+  const href = 'mailto:info@interactiondesign.nl?subject=' + encodeURIComponent('PROOFBRIDGE T' + tier + ' ' + RID) + '&body=' + encodeURIComponent(b);
+  const a = document.getElementById('send');
+  if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; }
+}
+document.getElementById('copy').onclick = copy;
+document.getElementById('ask').addEventListener('input', refresh); refresh();
+</script>
+</body>
+</html>

@@ -441,6 +441,10 @@ BL.update({"address": P['address'], "statement": f"Public ledger of requests wit
            "status_values": STATES, "task_types": TT_IDS})
 json.dump(BL, open(f"{OUT}/backlog.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
+# ---------- /ask/ (prototype; src/ask.json + src/ask.template.html via build_ask.py) ----------
+import sys; sys.path.insert(0, SRC); from build_ask import build_ask
+ask_html = build_ask(C, page, E, fmt, t1, t2, mail, OUT, SRC)
+
 # ---------- sitemap ----------
 urls = ["https://proofbridge.nl/", "https://proofbridge.nl/agents/", "https://proofbridge.nl/agents/index.md", "https://proofbridge.nl/llms.txt", "https://proofbridge.nl/offer.json", "https://proofbridge.nl/index.md", "https://proofbridge.nl/backlog.json", "https://proofbridge.nl/schema/request.schema.json", "https://proofbridge.nl/schema/response.schema.json", "https://proofbridge.nl/schema/examples.json"]
 open(f"{OUT}/sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{u}</loc><lastmod>{C['updated']}</lastmod></url>\n" for u in urls) + "</urlset>\n")

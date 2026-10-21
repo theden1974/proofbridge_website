@@ -1,0 +1,69 @@
+{
+  "status": "prototype",
+  "title": "Ask",
+  "lead": "Six questions, in the order I ask them. Nothing is paid on this page: I read what you send and mail you the invoice.",
+  "fields": [
+    {
+      "id": "who",
+      "label": "Who are you",
+      "hint": "Person or organisation, and an email address to answer to.",
+      "rows": 1,
+      "slot": "who"
+    },
+    {
+      "id": "decides",
+      "label": "Who decides, and who will use it",
+      "hint": "The one with the mandate is rarely the one who uses it.",
+      "rows": 2,
+      "slot": "who"
+    },
+    {
+      "id": "build",
+      "label": "What are you about to build or decide",
+      "hint": "The solution as it stands now.",
+      "rows": 2,
+      "slot": "task"
+    },
+    {
+      "id": "have",
+      "label": "What do you have",
+      "hint": "Paste the text. Links are not opened.",
+      "rows": 6,
+      "slot": "material"
+    },
+    {
+      "id": "assume",
+      "label": "What do you already assume",
+      "hint": "What is taken as true without being checked.",
+      "rows": 2,
+      "slot": "problem"
+    },
+    {
+      "id": "question",
+      "label": "The one question",
+      "hint": "What decision does this answer inform.",
+      "rows": 2,
+      "slot": "problem"
+    }
+  ],
+  "tiers_label": "Who reads it",
+  "deadline_label": "Needed by",
+  "deadline_hint": "At least 7 days from payment.",
+  "check_label": "Mechanical check",
+  "check_note": "No model. The same rules the pre-scan test uses: three things must be present before a request is taken.",
+  "slots": {
+    "who": "who is asking and who decides",
+    "task": "what is being built or decided",
+    "problem": "what hurts now, or what is already assumed"
+  },
+  "routes": {
+    "take": "Complete enough to be read.",
+    "ask": "Before it can be read, still missing:",
+    "decline": "Not a task I take: a question about the method, or no one behind it."
+  },
+  "send_label": "Send by email",
+  "copy_label": "Copy the request",
+  "send_note": "Opens your mail program with the request filled in. If it does not open, copy the request and paste it in a mail to",
+  "after": "What happens then: I read it, mail the invoice from my own node, and the reply window of 7 days starts when the payment is seen.",
+  "contract_line": "What a request and an answer look like: the task contract."
+}

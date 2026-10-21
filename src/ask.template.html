@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__ · proofbridge</title>
+<meta name="description" content="__LEAD__">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://proofbridge.nl/ask/">
+<script type="application/ld+json">__LD__</script>
+__CSS__
+<style>
+  form { display: grid; gap: 1.4rem; margin-top: 1.6rem; max-width: 60ch; }
+  label b { display: block; font-weight: 500; } label small { display: block; color: var(--grey); font-size: var(--s-1); margin-top: 0.15rem; }
+  input, textarea { font: inherit; width: 100%; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; background: #fff; color: var(--ink); margin-top: 0.4rem; }
+  textarea { resize: vertical; }
+  fieldset { border: 0; padding: 0; margin: 0; } legend b { font-weight: 500; }
+  .opts { display: grid; gap: 0.6rem; margin-top: 0.5rem; }
+  .opts label { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
+  .opts input { width: auto; margin: 0; }
+  .check { margin-top: 1.6rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 1rem; max-width: 60ch; }
+  .check ul { list-style: none; padding: 0; margin: 0.6rem 0 0; display: grid; gap: 0.3rem; font-size: var(--s-1); }
+  .check li::before { content: "·"; margin-right: 0.5rem; color: var(--grey); } .check li.ok::before { content: "✓"; color: var(--accent); }
+  .check .route { margin-top: 0.8rem; font-weight: 500; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.2rem; }
+  .actions a.copy { text-decoration: none; display: inline-block; }
+  .status { color: var(--grey); font-size: var(--s-1); }
+  @media (prefers-color-scheme: dark) { input, textarea { background: #1a191e; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="bar">
+  <a class="label" href="/">proofbridge</a>
+  <span class="label">__STATUS__</span>
+</header>
+<section class="intro" aria-labelledby="h1">
+  <span class="label">↳ ask</span>
+  <h1 id="h1">__TITLE__</h1>
+  <p>__LEAD__</p>
+</section>
+<form id="ask" onsubmit="return false">
+__FIELDS__
+<fieldset><legend><b>__TIERS_LABEL__</b></legend>
+<div class="opts">
+  <label><input type="radio" name="tier" value="1" checked> <span><b>__T1__</b> · __T1S__ sats<br><small>__T1G__</small></span></label>
+  <label><input type="radio" name="tier" value="2"> <span><b>__T2__</b> · __T2S__ sats<br><small>__T2G__</small></span></label>
+</div></fieldset>
+<label for="deadline"><b>__DL__</b><small>__DLH__</small>
+<input type="date" id="deadline" name="deadline"></label>
+</form>
+<aside class="check" aria-live="polite">
+  <span class="label">↳ __CHECK_LABEL__</span>
+  <ul id="slots"></ul>
+  <p class="route" id="route"></p>
+  <p class="status">__CHECK_NOTE__</p>
+</aside>
+<div class="actions">
+  <a class="copy" id="send" href="#">__SEND__</a>
+  <button class="copy" type="button" id="copy">__COPY__</button>
+  <span class="status">__SEND_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a></span>
+</div>
+<p class="how" style="max-width:60ch">__AFTER__</p>
+<footer>
+  <span class="label">↳ connect</span>
+  <a href="mailto:__MAIL__">__MAIL__</a>
+  <p class="agents label">↳ __CONTRACT_LINE__</p>
+</footer>
+</div>
+<script>
+// Mechanical pre-scan: the same three slots and rule classes as the pre-scan test's key (step 2). No model; nothing leaves the page.
+const SLOTS = __SLOTS_JSON__, ROUTES = __ROUTES_JSON__;
+const R = {
+  who: /\b(i|we|me|my|our|us|team|client|board|manager|director|ceo|cto|founder|owner|department|organisation|organization|company|municipality|authority|hospital|school|agency|lead|officer|adviser|advisor|nurse|doctor|lawyer|architect|developer|designer|researcher)\b/i,
+  task: /\b(build|building|built|decide|deciding|decision|choose|choosing|validate|validating|check|checking|review|reviewing|redesign|launch|implement|migrate|buy|app|website|platform|model|dataset|document|summary|plan|screens?|system|feature|service|product|tool|process)\b/i,
+  problem: /\b(doesn'?t|don'?t|can'?t|cannot|won'?t|not sure|unsure|wrong|fail|failing|failed|complain|complaint|slow|unclear|stuck|why|how do we know|no one|nobody|assume|assumed|assumption|hurts|problem|issue|risk|late|delay|double)\b/i,
+  solution_only: /\b(we need an?|build us|should we add|just build|make us an?)\b/i,
+  method: /\b(how do you (work|do this|decide)|your method|which model|what prompt|how does the lens|how is this built)\b/i,
+  agent_alone: /\b(i am an (ai|agent)|as an (ai|autonomous) agent|no human|on my own behalf)\b/i
+};
+const TT = [["ai_output_review", /\b(ai|llm|chatgpt|copilot|claude|gemini|generated|summary|summar|hallucinat|output|script|draft)\b/i],
+            ["ground_truth_check", /\b(data|dataset|measure|measured|numbers|figures|claim|report|statistic|source|entered|record)\b/i],
+            ["underlying_problem", /\b(build|app|feature|redesign|platform|solution|decide|strategy|roadmap|efficien|workforce|process)\b/i]];
+function text(slot){ return [...document.querySelectorAll('[data-slot="'+slot+'"]')].map(e=>e.value).join(' '); }
+function scan(){
+  const all = [...document.querySelectorAll('[data-slot]')].map(e=>e.value).join(' ');
+  const who = text('who').trim().length > 2 || R.who.test(all);
+  const task = R.task.test(text('task')+' '+text('problem')) || text('task').trim().length > 8;
+  const prob = (R.problem.test(text('problem')) || text('problem').trim().length > 12) && !R.solution_only.test(text('problem'));
+  const present = {who: who, task: task, problem: prob};
+  const missing = Object.keys(present).filter(k => !present[k]);
+  let route = 'take';
+  if (R.method.test(all) || R.agent_alone.test(all)) route = 'decline';
+  else if (missing.length) route = 'ask';
+  let tt = null; if (route === 'take') for (const [id, re] of TT) if (re.test(all)) { tt = id; break; }
+  document.getElementById('slots').innerHTML = Object.keys(SLOTS).map(k => '<li class="' + (present[k] ? 'ok' : '') + '">' + SLOTS[k] + '</li>').join('');
+  document.getElementById('route').textContent = ROUTES[route] + (route === 'ask' ? ' ' + missing.map(k => SLOTS[k]).join('; ') + '.' : '') + (tt ? ' Task type: ' + tt + '.' : '');
+  return {route: route, missing: missing, tt: tt};
+}
+function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
+const RID = reqId();
+function body(){
+  const r = scan(); const f = id => document.getElementById(id).value.trim();
+  const tier = document.querySelector('input[name=tier]:checked').value;
+  return ['request_id: ' + RID, 'tier: ' + tier, 'task_type: ' + (r.tt || 'to be set by triage'), 'deadline: ' + f('deadline'),
+          'principal: ' + f('who'), 'context (who decides, who uses it): ' + f('decides'), 'about to build or decide: ' + f('build'),
+          'question (the decision this informs): ' + f('question'), 'assumed: ' + f('assume'), 'payment: invoice requested', 'artefact_text:', f('have')].join('\n');
+}
+function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { document.getElementById('copy').textContent = 'copied'; }); }
+function refresh(){
+  const b = body(); const tier = document.querySelector('input[name=tier]:checked').value;
+  const href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE T' + tier + ' ' + RID) + '&body=' + encodeURIComponent(b);
+  const a = document.getElementById('send');
+  if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; }
+}
+document.getElementById('copy').onclick = copy;
+document.getElementById('ask').addEventListener('input', refresh); refresh();
+</script>
+</body>
+</html>
