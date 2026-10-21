@@ -19,7 +19,7 @@
         "tier": 2,
         "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "public_backlog_ok": true,
-        "request_id": "REQ-UNDE-0001"
+        "request_id": "REQ-UNDERLYING-0001"
       },
       "response": {
         "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -66,7 +66,7 @@
         "deadline": "2026-11-30",
         "tier": 2,
         "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "request_id": "REQ-GROU-0001"
+        "request_id": "REQ-GROUND-0001"
       },
       "response": {
         "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -111,7 +111,7 @@
         "tier": 1,
         "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "artefact_text": "[the AI summary and the 60-page document, pasted as text]",
-        "request_id": "REQ-AI_O-0001"
+        "request_id": "REQ-REVIEW-0001"
       },
       "response": {
         "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
