@@ -1,69 +1,50 @@
 {
   "status": "prototype",
   "title": "Ask",
-  "lead": "Six questions, in the order I ask them. Nothing is paid on this page: I read what you send and mail you the invoice.",
-  "fields": [
-    {
-      "id": "who",
-      "label": "Who are you",
-      "hint": "Person or organisation, and an email address to answer to.",
-      "rows": 1,
-      "slot": "who"
-    },
-    {
-      "id": "decides",
-      "label": "Who decides, and who will use it",
-      "hint": "The one with the mandate is rarely the one who uses it.",
-      "rows": 2,
-      "slot": "who"
-    },
-    {
-      "id": "build",
-      "label": "What are you about to build or decide",
-      "hint": "The solution as it stands now.",
-      "rows": 2,
-      "slot": "task"
-    },
-    {
-      "id": "have",
-      "label": "What do you have",
-      "hint": "Paste the text. Links are not opened.",
-      "rows": 6,
-      "slot": "material"
-    },
-    {
-      "id": "assume",
-      "label": "What do you already assume",
-      "hint": "What is taken as true without being checked.",
-      "rows": 2,
-      "slot": "problem"
-    },
-    {
-      "id": "question",
-      "label": "The one question",
-      "hint": "What decision does this answer inform.",
-      "rows": 2,
-      "slot": "problem"
-    }
+  "lead": "Write it as you would tell a colleague. While you type, the problem takes shape on the right. When it holds enough, you can send it.",
+  "box_label": "What is going on",
+  "box_placeholder": "Who you are, what you are about to build or decide, what hurts now, what has already been decided, and the decision this should inform.",
+  "container_label": "The problem, as read so far",
+  "container_note": "Mechanical reading, no model; nothing leaves this page until you send. Each line shows the words it was read from. Correct it by writing, not by choosing.",
+  "chunks": [
+    {"id": "who", "label": "Who has the problem, and who decides", "required": true},
+    {"id": "object", "label": "Where it sits", "required": true},
+    {"id": "current", "label": "What hurts now, and the evidence", "required": true},
+    {"id": "decision", "label": "The decision this informs", "required": true},
+    {"id": "decided", "label": "Already decided or fixed", "required": false, "default": "nothing stated"}
   ],
+  "objects": [
+    {"id": "website", "label": "the public website"},
+    {"id": "product", "label": "the product or app people use"},
+    {"id": "flow", "label": "a flow: sign-up, checkout, onboarding"},
+    {"id": "content", "label": "the wording and what is said"},
+    {"id": "data", "label": "data, numbers, a dataset or model"},
+    {"id": "ai_output", "label": "an AI-generated document or output"},
+    {"id": "organisation", "label": "the team or organisation"},
+    {"id": "process", "label": "the way of working"},
+    {"id": "strategy", "label": "a strategic decision or roadmap"}
+  ],
+  "flags": {
+    "solution": "This reads as a solution. The question I work from is what hurts now, and for whom.",
+    "method": "A question about how I work is not a request; the task contract describes it.",
+    "agent_alone": "An agent asking on its own behalf is declined; name the person or organisation behind the request."
+  },
+  "ready_label": "Holds enough to be read.",
+  "notready_label": "Not yet. One thing first:",
+  "askback": {
+    "object": "Is this about the public site, the app people log into, the data, or how the organisation works?",
+    "decision": "What do you need to decide, or get moving, once this is clear?",
+    "who": "Who has this problem day to day, and who says yes?",
+    "current": "What hurts now, and for whom? One observed fact is enough."
+  },
+  "step2_label": "Send",
+  "email_label": "Your email",
   "tiers_label": "Who reads it",
   "deadline_label": "Needed by",
   "deadline_hint": "At least 7 days from payment.",
-  "check_label": "Mechanical check",
-  "check_note": "No model. The same rules the pre-scan test uses: three things must be present before a request is taken.",
-  "slots": {
-    "who": "who is asking and who decides",
-    "task": "what is being built or decided",
-    "problem": "what hurts now, or what is already assumed"
-  },
-  "routes": {
-    "take": "Complete enough to be read.",
-    "ask": "Before it can be read, still missing:",
-    "decline": "Not a task I take: a question about the method, or no one behind it."
-  },
   "send_label": "Send by email",
   "copy_label": "Copy the request",
-  "send_note": "Opens your mail program with the request filled in. If it does not open, copy the request and paste it in a mail to",
-  "after": "What happens then: I read it, mail the invoice from my own node, and the reply window of 7 days starts when the payment is seen.",
+  "send_note": "Opens your mail program with the request filled in, your words and the reading side by side. If it does not open, copy and paste it in a mail to",
+  "after": "What happens then: I read it, mail the invoice from my own node, and the reply window of 7 days starts when the payment is seen. Nothing is paid on this page.",
   "contract_line": "What a request and an answer look like: the task contract."
 }

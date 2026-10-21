@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ask · proofbridge</title>
-<meta name="description" content="Six questions, in the order I ask them. Nothing is paid on this page: I read what you send and mail you the invoice.">
+<meta name="description" content="Write it as you would tell a colleague. While you type, the problem takes shape on the right. When it holds enough, you can send it.">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://proofbridge.nl/ask/">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Six questions, in the order I ask them. Nothing is paid on this page: I read what you send and mail you the invoice.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Write it as you would tell a colleague. While you type, the problem takes shape on the right. When it holds enough, you can send it.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -60,22 +60,35 @@
   }
 </style>
 <style>
-  form { display: grid; gap: 1.4rem; margin-top: 1.6rem; max-width: 60ch; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.6rem; align-items: start; }
   label b { display: block; font-weight: 500; } label small { display: block; color: var(--grey); font-size: var(--s-1); margin-top: 0.15rem; }
-  input, textarea { font: inherit; width: 100%; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; background: #fff; color: var(--ink); margin-top: 0.4rem; }
-  textarea { resize: vertical; }
-  fieldset { border: 0; padding: 0; margin: 0; } legend b { font-weight: 500; }
-  .opts { display: grid; gap: 0.6rem; margin-top: 0.5rem; }
+  textarea, input { font: inherit; width: 100%; padding: 0.8rem 0.9rem; border: 1px solid var(--line); border-radius: 0.8rem; background: #fff; color: var(--ink); margin-top: 0.5rem; }
+  textarea { resize: vertical; min-height: 16rem; line-height: 1.5; }
+  .box { position: relative; }
+  .container { padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 1rem; }
+  .container ol { list-style: none; padding: 0; margin: 0.8rem 0 0; display: grid; gap: 0.9rem; }
+  .container li { padding-left: 1.4rem; position: relative; }
+  .container li::before { content: "○"; position: absolute; left: 0; color: var(--grey); }
+  .container li.ok::before { content: "●"; color: var(--accent); }
+  .container li.opt::before { content: "◌"; }
+  .container li b { font-weight: 500; display: block; font-size: var(--s-1); }
+  .container li q { display: block; color: var(--grey); font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
+  .container li q.inf { font-style: italic; }
+  .state { margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--line); font-weight: 500; }
+  .state small { display: block; font-weight: 400; color: var(--grey); margin-top: 0.3rem; font-size: var(--s-1); }
+  .flag { margin-top: 0.8rem; color: var(--accent); font-size: var(--s-1); }
+  .step2 { margin-top: 2rem; display: none; }
+  .step2.on { display: block; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60ch; margin-top: 1rem; }
+  .opts { display: grid; gap: 0.6rem; margin-top: 0.5rem; max-width: 60ch; }
   .opts label { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
   .opts input { width: auto; margin: 0; }
-  .check { margin-top: 1.6rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 1rem; max-width: 60ch; }
-  .check ul { list-style: none; padding: 0; margin: 0.6rem 0 0; display: grid; gap: 0.3rem; font-size: var(--s-1); }
-  .check li::before { content: "·"; margin-right: 0.5rem; color: var(--grey); } .check li.ok::before { content: "✓"; color: var(--accent); }
-  .check .route { margin-top: 0.8rem; font-weight: 500; }
+  fieldset { border: 0; padding: 0; margin: 1rem 0 0; } legend b { font-weight: 500; }
   .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.2rem; }
   .actions a.copy { text-decoration: none; display: inline-block; }
   .status { color: var(--grey); font-size: var(--s-1); }
-  @media (prefers-color-scheme: dark) { input, textarea { background: #1a191e; } }
+  @media (max-width: 860px) { .two, .row { grid-template-columns: 1fr; } textarea { min-height: 11rem; } }
+  @media (prefers-color-scheme: dark) { textarea, input { background: #1a191e; } }
 </style>
 </head>
 <body>
@@ -87,41 +100,42 @@
 <section class="intro" aria-labelledby="h1">
   <span class="label">↳ ask</span>
   <h1 id="h1">Ask</h1>
-  <p>Six questions, in the order I ask them. Nothing is paid on this page: I read what you send and mail you the invoice.</p>
+  <p>Write it as you would tell a colleague. While you type, the problem takes shape on the right. When it holds enough, you can send it.</p>
 </section>
-<form id="ask" onsubmit="return false">
-<label for="who"><b>Who are you</b><small>Person or organisation, and an email address to answer to.</small>
-<input type="text" id="who" name="who" data-slot="who"></label>
-<label for="decides"><b>Who decides, and who will use it</b><small>The one with the mandate is rarely the one who uses it.</small>
-<textarea rows="2" id="decides" name="decides" data-slot="who"></textarea></label>
-<label for="build"><b>What are you about to build or decide</b><small>The solution as it stands now.</small>
-<textarea rows="2" id="build" name="build" data-slot="task"></textarea></label>
-<label for="have"><b>What do you have</b><small>Paste the text. Links are not opened.</small>
-<textarea rows="6" id="have" name="have" data-slot="material"></textarea></label>
-<label for="assume"><b>What do you already assume</b><small>What is taken as true without being checked.</small>
-<textarea rows="2" id="assume" name="assume" data-slot="problem"></textarea></label>
-<label for="question"><b>The one question</b><small>What decision does this answer inform.</small>
-<textarea rows="2" id="question" name="question" data-slot="problem"></textarea></label>
-<fieldset><legend><b>Who reads it</b></legend>
-<div class="opts">
-  <label><input type="radio" name="tier" value="1" checked> <span><b>Ask my agent</b> · 5 000 sats<br><small>Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.</small></span></label>
-  <label><input type="radio" name="tier" value="2"> <span><b>Ask me</b> · 50 000 sats<br><small>I read it myself and answer in days.</small></span></label>
-</div></fieldset>
-<label for="deadline"><b>Needed by</b><small>At least 7 days from payment.</small>
-<input type="date" id="deadline" name="deadline"></label>
-</form>
-<aside class="check" aria-live="polite">
-  <span class="label">↳ Mechanical check</span>
-  <ul id="slots"></ul>
-  <p class="route" id="route"></p>
-  <p class="status">No model. The same rules the pre-scan test uses: three things must be present before a request is taken.</p>
-</aside>
-<div class="actions">
-  <a class="copy" id="send" href="#">Send by email</a>
-  <button class="copy" type="button" id="copy">Copy the request</button>
-  <span class="status">Opens your mail program with the request filled in. If it does not open, copy the request and paste it in a mail to <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a></span>
+
+<div class="two">
+  <div class="box">
+    <label for="story"><b>What is going on</b>
+    <textarea id="story" placeholder="Who you are, what you are about to build or decide, what hurts now, what has already been decided, and the decision this should inform."></textarea></label>
+  </div>
+  <aside class="container" aria-live="polite">
+    <span class="label">↳ The problem, as read so far</span>
+    <ol id="chunks"></ol>
+    <p class="flag" id="flag" hidden></p>
+    <p class="state" id="state"></p>
+    <p class="status">Mechanical reading, no model; nothing leaves this page until you send. Each line shows the words it was read from. Correct it by writing, not by choosing.</p>
+  </aside>
 </div>
-<p class="how" style="max-width:60ch">What happens then: I read it, mail the invoice from my own node, and the reply window of 7 days starts when the payment is seen.</p>
+
+<section class="step2" id="step2" aria-label="Send">
+  <span class="label">↳ Send</span>
+  <div class="row">
+    <label for="email"><b>Your email</b><input type="email" id="email"></label>
+    <label for="deadline"><b>Needed by</b><small>At least 7 days from payment.</small><input type="date" id="deadline"></label>
+  </div>
+  <fieldset><legend><b>Who reads it</b></legend>
+  <div class="opts">
+    <label><input type="radio" name="tier" value="1" checked> <span><b>Ask my agent</b> · 5 000 sats<br><small>Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.</small></span></label>
+    <label><input type="radio" name="tier" value="2"> <span><b>Ask me</b> · 50 000 sats<br><small>I read it myself and answer in days.</small></span></label>
+  </div></fieldset>
+  <div class="actions">
+    <a class="copy" id="send" href="#">Send by email</a>
+    <button class="copy" type="button" id="copy">Copy the request</button>
+    <span class="status">Opens your mail program with the request filled in, your words and the reading side by side. If it does not open, copy and paste it in a mail to <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a></span>
+  </div>
+  <p class="how" style="max-width:60ch">What happens then: I read it, mail the invoice from my own node, and the reply window of 7 days starts when the payment is seen. Nothing is paid on this page.</p>
+</section>
+
 <footer>
   <span class="label">↳ connect</span>
   <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a>
@@ -129,43 +143,68 @@
 </footer>
 </div>
 <script>
-// Mechanical pre-scan: the same three slots and rule classes as the pre-scan test's key (step 2). No model; nothing leaves the page.
-const SLOTS = {"who": "who is asking and who decides", "task": "what is being built or decided", "problem": "what hurts now, or what is already assumed"}, ROUTES = {"take": "Complete enough to be read.", "ask": "Before it can be read, still missing:", "decline": "Not a task I take: a question about the method, or no one behind it."};
-const R = {
-  who: /\b(i|we|me|my|our|us|team|client|board|manager|director|ceo|cto|founder|owner|department|organisation|organization|company|municipality|authority|hospital|school|agency|lead|officer|adviser|advisor|nurse|doctor|lawyer|architect|developer|designer|researcher)\b/i,
-  task: /\b(build|building|built|decide|deciding|decision|choose|choosing|validate|validating|check|checking|review|reviewing|redesign|launch|implement|migrate|buy|app|website|platform|model|dataset|document|summary|plan|screens?|system|feature|service|product|tool|process)\b/i,
-  problem: /\b(doesn'?t|don'?t|can'?t|cannot|won'?t|not sure|unsure|wrong|fail|failing|failed|complain|complaint|slow|unclear|stuck|why|how do we know|no one|nobody|assume|assumed|assumption|hurts|problem|issue|risk|late|delay|double)\b/i,
-  solution_only: /\b(we need an?|build us|should we add|just build|make us an?)\b/i,
-  method: /\b(how do you (work|do this|decide)|your method|which model|what prompt|how does the lens|how is this built)\b/i,
-  agent_alone: /\b(i am an (ai|agent)|as an (ai|autonomous) agent|no human|on my own behalf)\b/i
+// Mechanical reading of free text into the problem container. No model; nothing leaves the page.
+// Chunks and the readiness rule come from src/ask.json; the rule classes are the same as the pre-scan test's key (step 2).
+const CH = [{"id": "who", "label": "Who has the problem, and who decides", "required": true}, {"id": "object", "label": "Where it sits", "required": true}, {"id": "current", "label": "What hurts now, and the evidence", "required": true}, {"id": "decision", "label": "The decision this informs", "required": true}, {"id": "decided", "label": "Already decided or fixed", "required": false, "default": "nothing stated"}], OBJ = [{"id": "website", "label": "the public website"}, {"id": "product", "label": "the product or app people use"}, {"id": "flow", "label": "a flow: sign-up, checkout, onboarding"}, {"id": "content", "label": "the wording and what is said"}, {"id": "data", "label": "data, numbers, a dataset or model"}, {"id": "ai_output", "label": "an AI-generated document or output"}, {"id": "organisation", "label": "the team or organisation"}, {"id": "process", "label": "the way of working"}, {"id": "strategy", "label": "a strategic decision or roadmap"}], FLAGS = {"solution": "This reads as a solution. The question I work from is what hurts now, and for whom.", "method": "A question about how I work is not a request; the task contract describes it.", "agent_alone": "An agent asking on its own behalf is declined; name the person or organisation behind the request."}, ASK = {"object": "Is this about the public site, the app people log into, the data, or how the organisation works?", "decision": "What do you need to decide, or get moving, once this is clear?", "who": "Who has this problem day to day, and who says yes?", "current": "What hurts now, and for whom? One observed fact is enough."};
+const READY = "Holds enough to be read.", NOTREADY = "Not yet. One thing first:";
+const RX = {
+  who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization)|our (team|client|board|company|users?|customers?|staff|employees?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council)|for (a|an|the) [a-z-]+ (organisation|organization|company|authority|hospital|municipality|startup|agency)|(policy )?advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|patients?|elderly|residents?|applicants?|employees?|staff|users?)\b/i,
+  decider: /\b(decides?|decision maker|mandate|says yes|sign(s|ed)? off|approv(e|es|ed|al)|board|director|management|ceo|cto|funding|budget holder|my manager|the client)\b/i,
+  current: /\b(doesn'?t|don'?t|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not sure|unsure|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped)? off|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|off|unreliable|assume[sd]?|assumption|we (think|believe|expect|hope)|take[sn]? for granted|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints)|since|last (week|month|year|quarter))\b/i,
+  decision: /\b(decide|decision|whether|should we|do we|go ahead|or not|which (one|option|vendor|model)|before we (build|buy|sign|launch|commit)|need to know|inform|choose|commit|sign|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?)\b/i,
+  decided: /\b(already (decided|chosen|bought|built|planned|committed|running|signed|agreed)|was decided|has been decided|is decided|decided to|fixed|given|non-negotiable|the (deadline|budget|vendor|stack|platform) is|we (must|have to|are required to)|mandated|funding (is|was) (granted|approved)|contract(ed)?|in progress|is running)\b/i,
+  solution: /\b(we need (a|an|to build|to add)|build us|should we add|just build|make us (a|an)|we want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|add (a|an) (feature|button|chatbot|app|page)|an? (app|chatbot|dashboard|website|portal|platform) for)\b/i,
+  method: /\b(how do you (work|do this|decide|read)|your method|which model|what prompt|how does the lens|how is this built|what is your process)\b/i,
+  agent_alone: /\b(i am an (ai|agent|autonomous)|as an (ai|autonomous) agent|no human (involved|behind)|on my own behalf|i have no principal)\b/i
 };
-const TT = [["ai_output_review", /\b(ai|llm|chatgpt|copilot|claude|gemini|generated|summary|summar|hallucinat|output|script|draft)\b/i],
-            ["ground_truth_check", /\b(data|dataset|measure|measured|numbers|figures|claim|report|statistic|source|entered|record)\b/i],
-            ["underlying_problem", /\b(build|app|feature|redesign|platform|solution|decide|strategy|roadmap|efficien|workforce|process)\b/i]];
-function text(slot){ return [...document.querySelectorAll('[data-slot="'+slot+'"]')].map(e=>e.value).join(' '); }
-function scan(){
-  const all = [...document.querySelectorAll('[data-slot]')].map(e=>e.value).join(' ');
-  const who = text('who').trim().length > 2 || R.who.test(all);
-  const task = R.task.test(text('task')+' '+text('problem')) || text('task').trim().length > 8;
-  const prob = (R.problem.test(text('problem')) || text('problem').trim().length > 12) && !R.solution_only.test(text('problem'));
-  const present = {who: who, task: task, problem: prob};
-  const missing = Object.keys(present).filter(k => !present[k]);
-  let route = 'take';
-  if (R.method.test(all) || R.agent_alone.test(all)) route = 'decline';
-  else if (missing.length) route = 'ask';
-  let tt = null; if (route === 'take') for (const [id, re] of TT) if (re.test(all)) { tt = id; break; }
-  document.getElementById('slots').innerHTML = Object.keys(SLOTS).map(k => '<li class="' + (present[k] ? 'ok' : '') + '">' + SLOTS[k] + '</li>').join('');
-  document.getElementById('route').textContent = ROUTES[route] + (route === 'ask' ? ' ' + missing.map(k => SLOTS[k]).join('; ') + '.' : '') + (tt ? ' Task type: ' + tt + '.' : '');
-  return {route: route, missing: missing, tt: tt};
+const OBJRX = {
+  website: /\b(website|homepage|landing page|our site|the site|seo|google|public (site|page)|web ?page|visitors?)\b/i,
+  product: /\b(the app|our app|mobile app|the tool|the product|software|platform|portal|screens?|interface|ui|users? (can'?t|don'?t|never|struggle))\b/i,
+  flow: /\b(sign[- ]?ups?|check ?out|onboarding|funnel|conversion|registration|log ?in|drop[- ]?off|cart|payment flow|application (form|process)|permit (application|process))\b/i,
+  content: /\b(wording|copy|the text|messaging|what we say|tone|nobody (gets|understands)|unclear (text|message)|translation|labels?)\b/i,
+  data: /\b(data|dataset|numbers|figures|dashboard|metrics|kpi|report(s|ing)?|measure(d|ment)?|statistics?|model (is|was) trained|training data|entries|records?|weight|sensor)\b/i,
+  ai_output: /\b(ai[- ]generated|generated by|chatgpt|copilot|claude|gemini|llm|the summary|summar(y|ised|ized)|the output|a script|draft(ed)? by ai|hallucinat)\b/i,
+  organisation: /\b(team|organisation|organization|department|who owns|ownership|no designer|headcount|workforce|staff|culture|stakeholders?|silo|management)\b/i,
+  process: /\b(how we work|process|hand ?off|workflow|way of working|takes forever|approval (takes|process)|procedure|meetings?|double entry|legacy system)\b/i,
+  strategy: /\b(strategy|roadmap|the boss wants|which one|direction|priorit(y|ies|ise|ize)|invest|30 ?%|cut|budget|vision|positioning)\b/i
+};
+function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean); }
+function pick(rx, ss){ const hits = ss.filter(s => rx.test(s)); return hits.length ? {text: hits[0], n: hits.length} : null; }
+function objects(t){ const sc = Object.entries(OBJRX).map(([k,rx]) => [k, (t.match(new RegExp(rx.source, 'gi')) || []).length]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]); return sc; }
+function read(){
+  const t = document.getElementById('story').value; const ss = sentences(t); const words = t.trim().split(/\s+/).filter(Boolean).length;
+  const out = {}; const objs = objects(t);
+  const who = pick(RX.who, ss), dec = pick(RX.decider, ss);
+  out.who = who ? {text: who.text + (dec && dec.text !== who.text ? ' · ' + dec.text : ''), ok: true} : {ok: false};
+  if (objs.length) {
+    const top = OBJ.find(o => o.id === objs[0][0]); const second = objs[1] && objs[1][1] === objs[0][1] ? OBJ.find(o => o.id === objs[1][0]) : null;
+    out.object = {text: top.label + (second ? ' or ' + second.label : ''), ok: !second, ambiguous: !!second, inferred: true};
+  } else out.object = {ok: false};
+  const cur = pick(RX.current, ss); out.current = cur ? {text: cur.text, ok: true} : {ok: false};
+  const dcs = pick(RX.decision, ss); out.decision = dcs ? {text: dcs.text, ok: true} : {ok: false};
+  const dd = pick(RX.decided, ss); out.decided = dd ? {text: dd.text, ok: true} : {text: CH.find(c=>c.id==='decided').default, ok: true, inferred: true};
+  const solWord = RX.solution.test(t); const sol = solWord && !cur; const method = RX.method.test(t); const alone = RX.agent_alone.test(t);
+  let flag = method ? FLAGS.method : alone ? FLAGS.agent_alone : solWord ? FLAGS.solution : null;
+  let missing = CH.filter(c => c.required && !out[c.id].ok).map(c => c.id);
+  // one question back, in the researched order: object ambiguous → decision → who → current
+  let ask = null;
+  if (!method && !alone && words >= 8) { const order = sol ? ['current','object','decision','who'] : ['object','decision','who','current']; for (const k of order) { if (missing.includes(k) || (k==='object' && out.object.ambiguous)) { ask = ASK[k]; break; } } }
+  const ready = !method && !alone && missing.length === 0 && words >= 25;
+  document.getElementById('chunks').innerHTML = CH.map(c => { const v = out[c.id]; return '<li class="' + (v.ok ? 'ok' : '') + (c.required ? '' : ' opt') + '"><b>' + c.label + '</b>' + (v.text ? '<q class="' + (v.inferred ? 'inf' : '') + '">' + esc(v.text) + '</q>' : '') + '</li>'; }).join('');
+  const f = document.getElementById('flag'); if (flag) { f.textContent = flag; f.hidden = false; } else f.hidden = true;
+  document.getElementById('state').innerHTML = ready ? READY : NOTREADY + (ask ? '<small>' + esc(ask) + '</small>' : (words < 25 && missing.length === 0 ? '<small>A few more words.</small>' : ''));
+  document.getElementById('step2').classList.toggle('on', ready);
+  return {out, ready, flag, objs};
 }
+function esc(s){ return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
 const RID = reqId();
 function body(){
-  const r = scan(); const f = id => document.getElementById(id).value.trim();
-  const tier = document.querySelector('input[name=tier]:checked').value;
-  return ['request_id: ' + RID, 'tier: ' + tier, 'task_type: ' + (r.tt || 'to be set by triage'), 'deadline: ' + f('deadline'),
-          'principal: ' + f('who'), 'context (who decides, who uses it): ' + f('decides'), 'about to build or decide: ' + f('build'),
-          'question (the decision this informs): ' + f('question'), 'assumed: ' + f('assume'), 'payment: invoice requested', 'artefact_text:', f('have')].join('\n');
+  const r = read(); const tier = document.querySelector('input[name=tier]:checked').value; const v = id => document.getElementById(id).value.trim();
+  const lines = ['request_id: ' + RID, 'tier: ' + tier, 'deadline: ' + v('deadline'), 'principal_email: ' + v('email'), 'payment: invoice requested', '', 'In my words:', v('story'), '', 'As read on the page (mechanical, to be corrected by Dennis):'];
+  for (const c of CH) { const x = r.out[c.id]; lines.push(c.label + ': ' + (x && x.text ? x.text : '(not found)')); }
+  if (r.objs.length) lines.push('object_class: ' + r.objs.slice(0,2).map(o=>o[0]).join(' | '));
+  return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { document.getElementById('copy').textContent = 'copied'; }); }
 function refresh(){
@@ -175,7 +214,7 @@ function refresh(){
   if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; }
 }
 document.getElementById('copy').onclick = copy;
-document.getElementById('ask').addEventListener('input', refresh); refresh();
+document.addEventListener('input', refresh); refresh();
 </script>
 </body>
 </html>

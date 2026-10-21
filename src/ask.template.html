@@ -10,22 +10,35 @@
 <script type="application/ld+json">__LD__</script>
 __CSS__
 <style>
-  form { display: grid; gap: 1.4rem; margin-top: 1.6rem; max-width: 60ch; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.6rem; align-items: start; }
   label b { display: block; font-weight: 500; } label small { display: block; color: var(--grey); font-size: var(--s-1); margin-top: 0.15rem; }
-  input, textarea { font: inherit; width: 100%; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; background: #fff; color: var(--ink); margin-top: 0.4rem; }
-  textarea { resize: vertical; }
-  fieldset { border: 0; padding: 0; margin: 0; } legend b { font-weight: 500; }
-  .opts { display: grid; gap: 0.6rem; margin-top: 0.5rem; }
+  textarea, input { font: inherit; width: 100%; padding: 0.8rem 0.9rem; border: 1px solid var(--line); border-radius: 0.8rem; background: #fff; color: var(--ink); margin-top: 0.5rem; }
+  textarea { resize: vertical; min-height: 16rem; line-height: 1.5; }
+  .box { position: relative; }
+  .container { padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 1rem; }
+  .container ol { list-style: none; padding: 0; margin: 0.8rem 0 0; display: grid; gap: 0.9rem; }
+  .container li { padding-left: 1.4rem; position: relative; }
+  .container li::before { content: "○"; position: absolute; left: 0; color: var(--grey); }
+  .container li.ok::before { content: "●"; color: var(--accent); }
+  .container li.opt::before { content: "◌"; }
+  .container li b { font-weight: 500; display: block; font-size: var(--s-1); }
+  .container li q { display: block; color: var(--grey); font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
+  .container li q.inf { font-style: italic; }
+  .state { margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--line); font-weight: 500; }
+  .state small { display: block; font-weight: 400; color: var(--grey); margin-top: 0.3rem; font-size: var(--s-1); }
+  .flag { margin-top: 0.8rem; color: var(--accent); font-size: var(--s-1); }
+  .step2 { margin-top: 2rem; display: none; }
+  .step2.on { display: block; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60ch; margin-top: 1rem; }
+  .opts { display: grid; gap: 0.6rem; margin-top: 0.5rem; max-width: 60ch; }
   .opts label { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
   .opts input { width: auto; margin: 0; }
-  .check { margin-top: 1.6rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 1rem; max-width: 60ch; }
-  .check ul { list-style: none; padding: 0; margin: 0.6rem 0 0; display: grid; gap: 0.3rem; font-size: var(--s-1); }
-  .check li::before { content: "·"; margin-right: 0.5rem; color: var(--grey); } .check li.ok::before { content: "✓"; color: var(--accent); }
-  .check .route { margin-top: 0.8rem; font-weight: 500; }
+  fieldset { border: 0; padding: 0; margin: 1rem 0 0; } legend b { font-weight: 500; }
   .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.2rem; }
   .actions a.copy { text-decoration: none; display: inline-block; }
   .status { color: var(--grey); font-size: var(--s-1); }
-  @media (prefers-color-scheme: dark) { input, textarea { background: #1a191e; } }
+  @media (max-width: 860px) { .two, .row { grid-template-columns: 1fr; } textarea { min-height: 11rem; } }
+  @media (prefers-color-scheme: dark) { textarea, input { background: #1a191e; } }
 </style>
 </head>
 <body>
@@ -39,28 +52,40 @@ __CSS__
   <h1 id="h1">__TITLE__</h1>
   <p>__LEAD__</p>
 </section>
-<form id="ask" onsubmit="return false">
-__FIELDS__
-<fieldset><legend><b>__TIERS_LABEL__</b></legend>
-<div class="opts">
-  <label><input type="radio" name="tier" value="1" checked> <span><b>__T1__</b> · __T1S__ sats<br><small>__T1G__</small></span></label>
-  <label><input type="radio" name="tier" value="2"> <span><b>__T2__</b> · __T2S__ sats<br><small>__T2G__</small></span></label>
-</div></fieldset>
-<label for="deadline"><b>__DL__</b><small>__DLH__</small>
-<input type="date" id="deadline" name="deadline"></label>
-</form>
-<aside class="check" aria-live="polite">
-  <span class="label">↳ __CHECK_LABEL__</span>
-  <ul id="slots"></ul>
-  <p class="route" id="route"></p>
-  <p class="status">__CHECK_NOTE__</p>
-</aside>
-<div class="actions">
-  <a class="copy" id="send" href="#">__SEND__</a>
-  <button class="copy" type="button" id="copy">__COPY__</button>
-  <span class="status">__SEND_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a></span>
+
+<div class="two">
+  <div class="box">
+    <label for="story"><b>__BOX_LABEL__</b>
+    <textarea id="story" placeholder="__BOX_PLACEHOLDER__"></textarea></label>
+  </div>
+  <aside class="container" aria-live="polite">
+    <span class="label">↳ __CONTAINER_LABEL__</span>
+    <ol id="chunks"></ol>
+    <p class="flag" id="flag" hidden></p>
+    <p class="state" id="state"></p>
+    <p class="status">__CONTAINER_NOTE__</p>
+  </aside>
 </div>
-<p class="how" style="max-width:60ch">__AFTER__</p>
+
+<section class="step2" id="step2" aria-label="__STEP2_LABEL__">
+  <span class="label">↳ __STEP2_LABEL__</span>
+  <div class="row">
+    <label for="email"><b>__EMAIL_LABEL__</b><input type="email" id="email"></label>
+    <label for="deadline"><b>__DL__</b><small>__DLH__</small><input type="date" id="deadline"></label>
+  </div>
+  <fieldset><legend><b>__TIERS_LABEL__</b></legend>
+  <div class="opts">
+    <label><input type="radio" name="tier" value="1" checked> <span><b>__T1__</b> · __T1S__ sats<br><small>__T1G__</small></span></label>
+    <label><input type="radio" name="tier" value="2"> <span><b>__T2__</b> · __T2S__ sats<br><small>__T2G__</small></span></label>
+  </div></fieldset>
+  <div class="actions">
+    <a class="copy" id="send" href="#">__SEND__</a>
+    <button class="copy" type="button" id="copy">__COPY__</button>
+    <span class="status">__SEND_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a></span>
+  </div>
+  <p class="how" style="max-width:60ch">__AFTER__</p>
+</section>
+
 <footer>
   <span class="label">↳ connect</span>
   <a href="mailto:__MAIL__">__MAIL__</a>
@@ -68,43 +93,68 @@ __FIELDS__
 </footer>
 </div>
 <script>
-// Mechanical pre-scan: the same three slots and rule classes as the pre-scan test's key (step 2). No model; nothing leaves the page.
-const SLOTS = __SLOTS_JSON__, ROUTES = __ROUTES_JSON__;
-const R = {
-  who: /\b(i|we|me|my|our|us|team|client|board|manager|director|ceo|cto|founder|owner|department|organisation|organization|company|municipality|authority|hospital|school|agency|lead|officer|adviser|advisor|nurse|doctor|lawyer|architect|developer|designer|researcher)\b/i,
-  task: /\b(build|building|built|decide|deciding|decision|choose|choosing|validate|validating|check|checking|review|reviewing|redesign|launch|implement|migrate|buy|app|website|platform|model|dataset|document|summary|plan|screens?|system|feature|service|product|tool|process)\b/i,
-  problem: /\b(doesn'?t|don'?t|can'?t|cannot|won'?t|not sure|unsure|wrong|fail|failing|failed|complain|complaint|slow|unclear|stuck|why|how do we know|no one|nobody|assume|assumed|assumption|hurts|problem|issue|risk|late|delay|double)\b/i,
-  solution_only: /\b(we need an?|build us|should we add|just build|make us an?)\b/i,
-  method: /\b(how do you (work|do this|decide)|your method|which model|what prompt|how does the lens|how is this built)\b/i,
-  agent_alone: /\b(i am an (ai|agent)|as an (ai|autonomous) agent|no human|on my own behalf)\b/i
+// Mechanical reading of free text into the problem container. No model; nothing leaves the page.
+// Chunks and the readiness rule come from src/ask.json; the rule classes are the same as the pre-scan test's key (step 2).
+const CH = __CHUNKS_JSON__, OBJ = __OBJECTS_JSON__, FLAGS = __FLAGS_JSON__, ASK = __ASKBACK_JSON__;
+const READY = "__READY__", NOTREADY = "__NOTREADY__";
+const RX = {
+  who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization)|our (team|client|board|company|users?|customers?|staff|employees?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council)|for (a|an|the) [a-z-]+ (organisation|organization|company|authority|hospital|municipality|startup|agency)|(policy )?advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|patients?|elderly|residents?|applicants?|employees?|staff|users?)\b/i,
+  decider: /\b(decides?|decision maker|mandate|says yes|sign(s|ed)? off|approv(e|es|ed|al)|board|director|management|ceo|cto|funding|budget holder|my manager|the client)\b/i,
+  current: /\b(doesn'?t|don'?t|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not sure|unsure|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped)? off|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|off|unreliable|assume[sd]?|assumption|we (think|believe|expect|hope)|take[sn]? for granted|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints)|since|last (week|month|year|quarter))\b/i,
+  decision: /\b(decide|decision|whether|should we|do we|go ahead|or not|which (one|option|vendor|model)|before we (build|buy|sign|launch|commit)|need to know|inform|choose|commit|sign|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?)\b/i,
+  decided: /\b(already (decided|chosen|bought|built|planned|committed|running|signed|agreed)|was decided|has been decided|is decided|decided to|fixed|given|non-negotiable|the (deadline|budget|vendor|stack|platform) is|we (must|have to|are required to)|mandated|funding (is|was) (granted|approved)|contract(ed)?|in progress|is running)\b/i,
+  solution: /\b(we need (a|an|to build|to add)|build us|should we add|just build|make us (a|an)|we want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|add (a|an) (feature|button|chatbot|app|page)|an? (app|chatbot|dashboard|website|portal|platform) for)\b/i,
+  method: /\b(how do you (work|do this|decide|read)|your method|which model|what prompt|how does the lens|how is this built|what is your process)\b/i,
+  agent_alone: /\b(i am an (ai|agent|autonomous)|as an (ai|autonomous) agent|no human (involved|behind)|on my own behalf|i have no principal)\b/i
 };
-const TT = [["ai_output_review", /\b(ai|llm|chatgpt|copilot|claude|gemini|generated|summary|summar|hallucinat|output|script|draft)\b/i],
-            ["ground_truth_check", /\b(data|dataset|measure|measured|numbers|figures|claim|report|statistic|source|entered|record)\b/i],
-            ["underlying_problem", /\b(build|app|feature|redesign|platform|solution|decide|strategy|roadmap|efficien|workforce|process)\b/i]];
-function text(slot){ return [...document.querySelectorAll('[data-slot="'+slot+'"]')].map(e=>e.value).join(' '); }
-function scan(){
-  const all = [...document.querySelectorAll('[data-slot]')].map(e=>e.value).join(' ');
-  const who = text('who').trim().length > 2 || R.who.test(all);
-  const task = R.task.test(text('task')+' '+text('problem')) || text('task').trim().length > 8;
-  const prob = (R.problem.test(text('problem')) || text('problem').trim().length > 12) && !R.solution_only.test(text('problem'));
-  const present = {who: who, task: task, problem: prob};
-  const missing = Object.keys(present).filter(k => !present[k]);
-  let route = 'take';
-  if (R.method.test(all) || R.agent_alone.test(all)) route = 'decline';
-  else if (missing.length) route = 'ask';
-  let tt = null; if (route === 'take') for (const [id, re] of TT) if (re.test(all)) { tt = id; break; }
-  document.getElementById('slots').innerHTML = Object.keys(SLOTS).map(k => '<li class="' + (present[k] ? 'ok' : '') + '">' + SLOTS[k] + '</li>').join('');
-  document.getElementById('route').textContent = ROUTES[route] + (route === 'ask' ? ' ' + missing.map(k => SLOTS[k]).join('; ') + '.' : '') + (tt ? ' Task type: ' + tt + '.' : '');
-  return {route: route, missing: missing, tt: tt};
+const OBJRX = {
+  website: /\b(website|homepage|landing page|our site|the site|seo|google|public (site|page)|web ?page|visitors?)\b/i,
+  product: /\b(the app|our app|mobile app|the tool|the product|software|platform|portal|screens?|interface|ui|users? (can'?t|don'?t|never|struggle))\b/i,
+  flow: /\b(sign[- ]?ups?|check ?out|onboarding|funnel|conversion|registration|log ?in|drop[- ]?off|cart|payment flow|application (form|process)|permit (application|process))\b/i,
+  content: /\b(wording|copy|the text|messaging|what we say|tone|nobody (gets|understands)|unclear (text|message)|translation|labels?)\b/i,
+  data: /\b(data|dataset|numbers|figures|dashboard|metrics|kpi|report(s|ing)?|measure(d|ment)?|statistics?|model (is|was) trained|training data|entries|records?|weight|sensor)\b/i,
+  ai_output: /\b(ai[- ]generated|generated by|chatgpt|copilot|claude|gemini|llm|the summary|summar(y|ised|ized)|the output|a script|draft(ed)? by ai|hallucinat)\b/i,
+  organisation: /\b(team|organisation|organization|department|who owns|ownership|no designer|headcount|workforce|staff|culture|stakeholders?|silo|management)\b/i,
+  process: /\b(how we work|process|hand ?off|workflow|way of working|takes forever|approval (takes|process)|procedure|meetings?|double entry|legacy system)\b/i,
+  strategy: /\b(strategy|roadmap|the boss wants|which one|direction|priorit(y|ies|ise|ize)|invest|30 ?%|cut|budget|vision|positioning)\b/i
+};
+function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean); }
+function pick(rx, ss){ const hits = ss.filter(s => rx.test(s)); return hits.length ? {text: hits[0], n: hits.length} : null; }
+function objects(t){ const sc = Object.entries(OBJRX).map(([k,rx]) => [k, (t.match(new RegExp(rx.source, 'gi')) || []).length]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]); return sc; }
+function read(){
+  const t = document.getElementById('story').value; const ss = sentences(t); const words = t.trim().split(/\s+/).filter(Boolean).length;
+  const out = {}; const objs = objects(t);
+  const who = pick(RX.who, ss), dec = pick(RX.decider, ss);
+  out.who = who ? {text: who.text + (dec && dec.text !== who.text ? ' · ' + dec.text : ''), ok: true} : {ok: false};
+  if (objs.length) {
+    const top = OBJ.find(o => o.id === objs[0][0]); const second = objs[1] && objs[1][1] === objs[0][1] ? OBJ.find(o => o.id === objs[1][0]) : null;
+    out.object = {text: top.label + (second ? ' or ' + second.label : ''), ok: !second, ambiguous: !!second, inferred: true};
+  } else out.object = {ok: false};
+  const cur = pick(RX.current, ss); out.current = cur ? {text: cur.text, ok: true} : {ok: false};
+  const dcs = pick(RX.decision, ss); out.decision = dcs ? {text: dcs.text, ok: true} : {ok: false};
+  const dd = pick(RX.decided, ss); out.decided = dd ? {text: dd.text, ok: true} : {text: CH.find(c=>c.id==='decided').default, ok: true, inferred: true};
+  const solWord = RX.solution.test(t); const sol = solWord && !cur; const method = RX.method.test(t); const alone = RX.agent_alone.test(t);
+  let flag = method ? FLAGS.method : alone ? FLAGS.agent_alone : solWord ? FLAGS.solution : null;
+  let missing = CH.filter(c => c.required && !out[c.id].ok).map(c => c.id);
+  // one question back, in the researched order: object ambiguous → decision → who → current
+  let ask = null;
+  if (!method && !alone && words >= 8) { const order = sol ? ['current','object','decision','who'] : ['object','decision','who','current']; for (const k of order) { if (missing.includes(k) || (k==='object' && out.object.ambiguous)) { ask = ASK[k]; break; } } }
+  const ready = !method && !alone && missing.length === 0 && words >= 25;
+  document.getElementById('chunks').innerHTML = CH.map(c => { const v = out[c.id]; return '<li class="' + (v.ok ? 'ok' : '') + (c.required ? '' : ' opt') + '"><b>' + c.label + '</b>' + (v.text ? '<q class="' + (v.inferred ? 'inf' : '') + '">' + esc(v.text) + '</q>' : '') + '</li>'; }).join('');
+  const f = document.getElementById('flag'); if (flag) { f.textContent = flag; f.hidden = false; } else f.hidden = true;
+  document.getElementById('state').innerHTML = ready ? READY : NOTREADY + (ask ? '<small>' + esc(ask) + '</small>' : (words < 25 && missing.length === 0 ? '<small>A few more words.</small>' : ''));
+  document.getElementById('step2').classList.toggle('on', ready);
+  return {out, ready, flag, objs};
 }
+function esc(s){ return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
 const RID = reqId();
 function body(){
-  const r = scan(); const f = id => document.getElementById(id).value.trim();
-  const tier = document.querySelector('input[name=tier]:checked').value;
-  return ['request_id: ' + RID, 'tier: ' + tier, 'task_type: ' + (r.tt || 'to be set by triage'), 'deadline: ' + f('deadline'),
-          'principal: ' + f('who'), 'context (who decides, who uses it): ' + f('decides'), 'about to build or decide: ' + f('build'),
-          'question (the decision this informs): ' + f('question'), 'assumed: ' + f('assume'), 'payment: invoice requested', 'artefact_text:', f('have')].join('\n');
+  const r = read(); const tier = document.querySelector('input[name=tier]:checked').value; const v = id => document.getElementById(id).value.trim();
+  const lines = ['request_id: ' + RID, 'tier: ' + tier, 'deadline: ' + v('deadline'), 'principal_email: ' + v('email'), 'payment: invoice requested', '', 'In my words:', v('story'), '', 'As read on the page (mechanical, to be corrected by Dennis):'];
+  for (const c of CH) { const x = r.out[c.id]; lines.push(c.label + ': ' + (x && x.text ? x.text : '(not found)')); }
+  if (r.objs.length) lines.push('object_class: ' + r.objs.slice(0,2).map(o=>o[0]).join(' | '));
+  return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { document.getElementById('copy').textContent = 'copied'; }); }
 function refresh(){
@@ -114,7 +164,7 @@ function refresh(){
   if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; }
 }
 document.getElementById('copy').onclick = copy;
-document.getElementById('ask').addEventListener('input', refresh); refresh();
+document.addEventListener('input', refresh); refresh();
 </script>
 </body>
 </html>
