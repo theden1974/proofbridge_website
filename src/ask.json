@@ -1,61 +1,51 @@
 {
-  "status": "prototype · test phase, no payment",
-  "script_version": "ask-v6-2026-10-22",
+  "status": "prototype",
+  "script_version": "ask-v7-2026-10-22",
   "title": "Ask",
-  "lead": "Tell it as you would tell a colleague who does not know your work. While you write, the right side shows what I can already read and what I cannot yet. I read it myself and come back; if I cannot start, I ask you one thing first.",
+  "lead": "Tell it as you would tell a colleague who does not know your work.",
   "doors": {
     "tell": "Tell it",
-    "chat": "Hand over a chat with an AI"
+    "chat": "or hand over a chat with an AI",
+    "back": "or tell it yourself"
   },
-  "chat_lead": "Paste the conversation you already had with an AI about this. I read it as your introduction: what happens, what you wanted, and what was proposed to you.",
   "email_label": "Your email",
-  "send_label": "Send by email",
-  "copy_label": "Copy the request",
-  "send_note": "Opens your mail program with your text filled in. If it does not open, copy and paste it in a mail to",
+  "send_label": "Send",
+  "copy_label": "Copy",
+  "send_note": "If your mail program does not open, copy and paste it in a mail to",
   "contract_line": "What a request and an answer look like: the task contract.",
   "prompt1": "What happens?",
   "prompt2": "What would you like to be different?",
-  "box_hint": "Your words. No form, no categories.",
-  "then_label": "Then",
-  "then_lines": [
-    "I read it myself. If I cannot start, one question by mail, before anything else.",
-    "Test phase: no payment. You get my reading back by mail, in the shape every answer has: the underlying problem or a verdict, the evidence, what I did not check, the next step.",
-    "Your text stays on my machines. No external model reads it."
-  ],
+  "box_hint": "",
   "floor": {
-    "short": "A few more sentences: what happens, and to whom.",
-    "method": "A question about how I work is not a request; the task contract describes it.",
-    "agent_alone": "An agent asking on its own behalf is declined; name the person or organisation behind it.",
-    "ok": "Send it to me when it feels complete. If I cannot start, I ask one thing."
+    "short": "",
+    "method": "A question about how I work is not a request.",
+    "agent_alone": "Name the person or organisation behind this.",
+    "ok": ""
   },
   "chat_placeholder": "Paste the whole chat, your messages and the AI's answers.",
   "guide_label": "What I read so far",
-  "guide_note": "Mechanical reading, no model; nothing leaves this page until you send. Your sentences, sorted by what I look for. It can be wrong; your text is what counts.",
   "guide": [
     {
       "id": "who",
-      "label": "Who has the problem, and who decided",
-      "missing": "not in your text yet: who lives with this day to day, and who decided"
+      "label": "Who has the problem, and who decided"
     },
     {
       "id": "happens",
-      "label": "What happens now",
-      "missing": "not in your text yet: one thing that happens, to whom"
+      "label": "What happens now"
     },
     {
       "id": "asked",
-      "label": "What was asked for",
-      "missing": "no solution named, good; if one was already decided, say so"
+      "label": "What was asked for"
     },
     {
       "id": "assumed",
-      "label": "What is taken as true without being checked",
-      "missing": "not in your text yet: what everyone assumes"
+      "label": "What is taken as true without being checked"
     },
     {
       "id": "differently",
-      "label": "What you would do differently once it is clear",
-      "missing": "not in your text yet: what you would decide or stop"
+      "label": "What you would do differently once it is clear"
     }
-  ]
+  ],
+  "guide_empty": "appears while you write",
+  "chat_lead": "Paste the conversation you had with an AI about this."
 }

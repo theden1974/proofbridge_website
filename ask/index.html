@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ask · proofbridge</title>
-<meta name="description" content="Tell it as you would tell a colleague who does not know your work. While you write, the right side shows what I can already read and what I cannot yet. I read it myself and come back; if I cannot start, I ask you one thing first.">
+<meta name="description" content="Tell it as you would tell a colleague who does not know your work.">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://proofbridge.nl/ask/">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Tell it as you would tell a colleague who does not know your work. While you write, the right side shows what I can already read and what I cannot yet. I read it myself and come back; if I cannot start, I ask you one thing first.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Tell it as you would tell a colleague who does not know your work.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -60,9 +60,9 @@
   }
 </style>
 <style>
-  .doors { display: flex; gap: 0.6rem; margin-top: 1.4rem; flex-wrap: wrap; }
-  .doors button { font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 2rem; padding: 0.5rem 1rem; cursor: pointer; }
-  .doors button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .alt { margin: 0.6rem 0 0; font-size: var(--s-1); }
+  .link { font: inherit; font-size: var(--s-1); background: none; border: 0; padding: 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
+  .guide li.hint::before { content: "○"; color: var(--accent); }
   .two { display: grid; grid-template-columns: 3fr 2fr; gap: 2.5rem; margin-top: 1.6rem; align-items: start; }
   .door { display: none; } .door.on { display: block; }
   .q { font-size: var(--s1, 1.25rem); font-weight: 500; margin: 0 0 0.5rem; }
@@ -76,7 +76,7 @@
   .side .label + ol { margin-top: 0.6rem; }
   .guide { list-style: none; padding: 0; margin: 0.8rem 0 0.4rem; display: grid; gap: 0.8rem; }
   .guide li { padding-left: 1.3rem; position: relative; }
-  .guide li::before { content: "○"; position: absolute; left: 0; color: var(--grey); }
+  .guide li::before { content: ""; position: absolute; left: 0; color: var(--grey); }
   .guide li.ok::before { content: "●"; color: var(--accent); }
   .guide li b { display: block; font-weight: 500; font-size: var(--s-1); }
   .guide li q { display: block; font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
@@ -99,51 +99,46 @@
 <div class="wrap">
 <header class="bar">
   <a class="label" href="/">proofbridge</a>
-  <span class="label">prototype · test phase, no payment</span>
+  <span class="label">prototype</span>
 </header>
 <section class="intro" aria-labelledby="h1">
   <span class="label">↳ ask</span>
   <h1 id="h1">Ask</h1>
-  <p>Tell it as you would tell a colleague who does not know your work. While you write, the right side shows what I can already read and what I cannot yet. I read it myself and come back; if I cannot start, I ask you one thing first.</p>
+  <p>Tell it as you would tell a colleague who does not know your work.</p>
 </section>
 
-<div class="doors">
-  <button type="button" id="door-tell" aria-pressed="true">Tell it</button>
-  <button type="button" id="door-chat" aria-pressed="false">Hand over a chat with an AI</button>
-</div>
 
 <div class="two">
   <div>
     <div class="door on" id="tell">
-      <label for="story"><p class="q">What happens?<small>Your words. No form, no categories.</small></p>
+      <label for="story"><p class="q">What happens?</p>
       <textarea id="story"></textarea></label>
+      <p class="alt"><button type="button" class="link" id="door-chat">or hand over a chat with an AI</button></p>
       <div class="second" id="second">
         <label for="wish"><p class="q">What would you like to be different?</p>
         <textarea id="wish"></textarea></label>
       </div>
     </div>
     <div class="door" id="chat">
-      <p class="how" style="margin-top:0">Paste the conversation you already had with an AI about this. I read it as your introduction: what happens, what you wanted, and what was proposed to you.</p>
-      <textarea id="paste" placeholder="Paste the whole chat, your messages and the AI&#x27;s answers." style="min-height:14rem"></textarea>
+      <label for="paste"><p class="q">Paste the conversation you had with an AI about this.</p>
+      <textarea id="paste" style="min-height:14rem"></textarea></label>
+      <p class="alt"><button type="button" class="link" id="door-tell">or tell it yourself</button></p>
     </div>
-    <p class="floor off" id="floor"></p>
+    <p class="floor off" id="floor" hidden></p>
     <section class="step2" id="step2" aria-label="Send">
       <div class="row">
         <label><b>Your email</b><input type="email" id="email"></label>
       </div>
       <div class="actions">
-        <a class="btn" id="send" href="#">Send by email</a>
-        <button class="btn" type="button" id="copy">Copy the request</button>
-        <span class="status">Opens your mail program with your text filled in. If it does not open, copy and paste it in a mail to <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a></span>
+        <a class="btn" id="send" href="#">Send</a>
+        <button class="btn" type="button" id="copy">Copy</button>
+        <span class="status">If your mail program does not open, copy and paste it in a mail to <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a></span>
       </div>
     </section>
   </div>
-  <aside class="side" aria-live="polite">
+  <aside class="side" id="side" aria-live="polite" hidden>
     <span class="label">↳ What I read so far</span>
     <ul class="guide" id="guide"></ul>
-    <p class="status">Mechanical reading, no model; nothing leaves this page until you send. Your sentences, sorted by what I look for. It can be wrong; your text is what counts.</p>
-    <span class="label">↳ Then</span>
-    <ol><li>I read it myself. If I cannot start, one question by mail, before anything else.</li><li>Test phase: no payment. You get my reading back by mail, in the shape every answer has: the underlying problem or a verdict, the evidence, what I did not check, the next step.</li><li>Your text stays on my machines. No external model reads it.</li></ol>
   </aside>
 </div>
 
@@ -154,9 +149,9 @@
 </footer>
 </div>
 <script>
-// v5: two prompts in the asker's words; no reading, no categories, no judgement on the page. A floor only: something happens, not a method question, not an agent alone.
-// Script version ask-v6-2026-10-22. Texts from src/ask.json.
-const F = {"short": "A few more sentences: what happens, and to whom.", "method": "A question about how I work is not a request; the task contract describes it.", "agent_alone": "An agent asking on its own behalf is declined; name the person or organisation behind it.", "ok": "Send it to me when it feels complete. If I cannot start, I ask one thing."}, GUIDE = [{"id": "who", "label": "Who has the problem, and who decided", "missing": "not in your text yet: who lives with this day to day, and who decided"}, {"id": "happens", "label": "What happens now", "missing": "not in your text yet: one thing that happens, to whom"}, {"id": "asked", "label": "What was asked for", "missing": "no solution named, good; if one was already decided, say so"}, {"id": "assumed", "label": "What is taken as true without being checked", "missing": "not in your text yet: what everyone assumes"}, {"id": "differently", "label": "What you would do differently once it is clear", "missing": "not in your text yet: what you would decide or stop"}];
+// v7: empty state first. Two prompts in the asker's words; the right side appears only when a sentence is read, and shows only what was read. No notes, no hints, no promises. A floor only: something happens, not a method question, not an agent alone.
+// Script version ask-v7-2026-10-22. Texts from src/ask.json.
+const F = {"short": "", "method": "A question about how I work is not a request.", "agent_alone": "Name the person or organisation behind this.", "ok": ""}, GUIDE = [{"id": "who", "label": "Who has the problem, and who decided"}, {"id": "happens", "label": "What happens now"}, {"id": "asked", "label": "What was asked for"}, {"id": "assumed", "label": "What is taken as true without being checked"}, {"id": "differently", "label": "What you would do differently once it is clear"}];
 const GRX = {
   who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council|client|customer)|owner of|lead at|work(s|ing)? (at|for)|advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|(she|he|they) decides?|decided|mandate|funding)\b/i,
   happens: /\b(doesn'?t|don'?t|does not|do not|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not (sure|tracking|working|getting|converting|enough|clear|happening|used|using)|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped|s)? ?(off)?|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|unreliable|problems?|issues?|decline|declin(ed|ing)|down|lost|losing|less|fewer|worse|struggl(e|es|ing)|hard(er)? to|difficult|no longer|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints|visitors|leads)|call(s|ed)? (us|instead)|since (last|the)|last (week|month|year|quarter))/i,
@@ -169,7 +164,9 @@ function guide(text){
   const ss = sentences(text); const used = new Set(); const out = {};
   const DEC = /\b(decides?|decided|mandate|says yes|the (board|director|client|customer|management))\b/i;
   for (const g of GUIDE) { const rx = GRX[g.id]; let c = ss.filter(x => rx.test(x)); if (g.id === 'who') { const d = c.filter(x => DEC.test(x)); if (d.length) c = d.concat(c); } if (g.id === 'differently') c = c.filter(x => !/\binstead of\b/i.test(x) || /\b(decide|whether|should)\b/i.test(x)); const pick = c.find(x => !used.has(x)) || c[0]; if (pick) { out[g.id] = pick; used.add(pick); } }
-  $('guide').innerHTML = GUIDE.map(g => out[g.id] ? '<li class="ok"><b>' + g.label + '</b><q>' + esc(out[g.id].length > 160 ? out[g.id].slice(0,160) + '…' : out[g.id]) + '</q></li>' : '<li><b>' + g.label + '</b><span>' + g.missing + '</span></li>').join('');
+  const found = GUIDE.filter(g => out[g.id]);
+  $('guide').innerHTML = found.map(g => '<li class="ok"><b>' + g.label + '</b><q>' + esc(out[g.id].length > 160 ? out[g.id].slice(0,160) + '…' : out[g.id]) + '</q></li>').join('');
+  $('side').hidden = found.length === 0;
   return out;
 }
 function esc(x){ return String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
@@ -191,16 +188,16 @@ function floor(){
   else if (words(story) < 20 || !RX.happens.test(story)) msg = F.short;
   else ok = true;
   $('second').classList.toggle('on', arm === 'tell' && words(story) >= 20 && !RX.wish.test(story));
-  const f = $('floor'); f.textContent = ok ? F.ok : msg; f.classList.toggle('off', !ok);
+  const f = $('floor'); f.textContent = ok ? '' : (msg || ''); f.hidden = !f.textContent;
   $('step2').classList.toggle('on', ok); refresh();
 }
-$('door-tell').onclick = () => { arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); $('door-tell').setAttribute('aria-pressed','true'); $('door-chat').setAttribute('aria-pressed','false'); floor(); };
-$('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); $('door-chat').setAttribute('aria-pressed','true'); $('door-tell').setAttribute('aria-pressed','false'); floor(); };
+$('door-tell').onclick = () => { arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); floor(); $('story').focus(); };
+$('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); floor(); $('paste').focus(); };
 function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
 const RID = reqId();
 function body(){
   const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: ask-v6-2026-10-22', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
+  const lines = ['request_id: ' + RID, 'script: ask-v7-2026-10-22', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); if (v('wish')) lines.push('', 'What I would like to be different:', v('wish')); }
   else lines.push('The chat with the AI:', v('paste'));
   const g = guide((arm === 'tell' ? v('story') : v('paste')) + ' ' + v('wish')); lines.push('', 'As read on the page (mechanical, to be corrected by Dennis):'); for (const x of GUIDE) lines.push(x.label + ': ' + (g[x.id] || '(not found)'));

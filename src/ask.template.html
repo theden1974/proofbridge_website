@@ -10,9 +10,9 @@
 <script type="application/ld+json">__LD__</script>
 __CSS__
 <style>
-  .doors { display: flex; gap: 0.6rem; margin-top: 1.4rem; flex-wrap: wrap; }
-  .doors button { font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 2rem; padding: 0.5rem 1rem; cursor: pointer; }
-  .doors button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .alt { margin: 0.6rem 0 0; font-size: var(--s-1); }
+  .link { font: inherit; font-size: var(--s-1); background: none; border: 0; padding: 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
+  .guide li.hint::before { content: "○"; color: var(--accent); }
   .two { display: grid; grid-template-columns: 3fr 2fr; gap: 2.5rem; margin-top: 1.6rem; align-items: start; }
   .door { display: none; } .door.on { display: block; }
   .q { font-size: var(--s1, 1.25rem); font-weight: 500; margin: 0 0 0.5rem; }
@@ -26,7 +26,7 @@ __CSS__
   .side .label + ol { margin-top: 0.6rem; }
   .guide { list-style: none; padding: 0; margin: 0.8rem 0 0.4rem; display: grid; gap: 0.8rem; }
   .guide li { padding-left: 1.3rem; position: relative; }
-  .guide li::before { content: "○"; position: absolute; left: 0; color: var(--grey); }
+  .guide li::before { content: ""; position: absolute; left: 0; color: var(--grey); }
   .guide li.ok::before { content: "●"; color: var(--accent); }
   .guide li b { display: block; font-weight: 500; font-size: var(--s-1); }
   .guide li q { display: block; font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
@@ -57,26 +57,24 @@ __CSS__
   <p>__LEAD__</p>
 </section>
 
-<div class="doors">
-  <button type="button" id="door-tell" aria-pressed="true">__DOOR_TELL__</button>
-  <button type="button" id="door-chat" aria-pressed="false">__DOOR_CHAT__</button>
-</div>
 
 <div class="two">
   <div>
     <div class="door on" id="tell">
-      <label for="story"><p class="q">__PROMPT1__<small>__BOX_HINT__</small></p>
+      <label for="story"><p class="q">__PROMPT1__</p>
       <textarea id="story"></textarea></label>
+      <p class="alt"><button type="button" class="link" id="door-chat">__DOOR_CHAT__</button></p>
       <div class="second" id="second">
         <label for="wish"><p class="q">__PROMPT2__</p>
         <textarea id="wish"></textarea></label>
       </div>
     </div>
     <div class="door" id="chat">
-      <p class="how" style="margin-top:0">__CHAT_LEAD__</p>
-      <textarea id="paste" placeholder="__CHAT_PLACEHOLDER__" style="min-height:14rem"></textarea>
+      <label for="paste"><p class="q">__CHAT_LEAD__</p>
+      <textarea id="paste" style="min-height:14rem"></textarea></label>
+      <p class="alt"><button type="button" class="link" id="door-tell">__DOOR_BACK__</button></p>
     </div>
-    <p class="floor off" id="floor"></p>
+    <p class="floor off" id="floor" hidden></p>
     <section class="step2" id="step2" aria-label="Send">
       <div class="row">
         <label><b>__EMAIL_LABEL__</b><input type="email" id="email"></label>
@@ -88,12 +86,9 @@ __CSS__
       </div>
     </section>
   </div>
-  <aside class="side" aria-live="polite">
+  <aside class="side" id="side" aria-live="polite" hidden>
     <span class="label">↳ __GUIDE_LABEL__</span>
     <ul class="guide" id="guide"></ul>
-    <p class="status">__GUIDE_NOTE__</p>
-    <span class="label">↳ __THEN_LABEL__</span>
-    <ol>__THEN_LINES__</ol>
   </aside>
 </div>
 
@@ -104,7 +99,7 @@ __CSS__
 </footer>
 </div>
 <script>
-// v5: two prompts in the asker's words; no reading, no categories, no judgement on the page. A floor only: something happens, not a method question, not an agent alone.
+// v7: empty state first. Two prompts in the asker's words; the right side appears only when a sentence is read, and shows only what was read. No notes, no hints, no promises. A floor only: something happens, not a method question, not an agent alone.
 // Script version __SCRIPT_VERSION__. Texts from src/ask.json.
 const F = __FLOOR_JSON__, GUIDE = __GUIDE_JSON__;
 const GRX = {
@@ -119,7 +114,9 @@ function guide(text){
   const ss = sentences(text); const used = new Set(); const out = {};
   const DEC = /\b(decides?|decided|mandate|says yes|the (board|director|client|customer|management))\b/i;
   for (const g of GUIDE) { const rx = GRX[g.id]; let c = ss.filter(x => rx.test(x)); if (g.id === 'who') { const d = c.filter(x => DEC.test(x)); if (d.length) c = d.concat(c); } if (g.id === 'differently') c = c.filter(x => !/\binstead of\b/i.test(x) || /\b(decide|whether|should)\b/i.test(x)); const pick = c.find(x => !used.has(x)) || c[0]; if (pick) { out[g.id] = pick; used.add(pick); } }
-  $('guide').innerHTML = GUIDE.map(g => out[g.id] ? '<li class="ok"><b>' + g.label + '</b><q>' + esc(out[g.id].length > 160 ? out[g.id].slice(0,160) + '…' : out[g.id]) + '</q></li>' : '<li><b>' + g.label + '</b><span>' + g.missing + '</span></li>').join('');
+  const found = GUIDE.filter(g => out[g.id]);
+  $('guide').innerHTML = found.map(g => '<li class="ok"><b>' + g.label + '</b><q>' + esc(out[g.id].length > 160 ? out[g.id].slice(0,160) + '…' : out[g.id]) + '</q></li>').join('');
+  $('side').hidden = found.length === 0;
   return out;
 }
 function esc(x){ return String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
@@ -141,11 +138,11 @@ function floor(){
   else if (words(story) < 20 || !RX.happens.test(story)) msg = F.short;
   else ok = true;
   $('second').classList.toggle('on', arm === 'tell' && words(story) >= 20 && !RX.wish.test(story));
-  const f = $('floor'); f.textContent = ok ? F.ok : msg; f.classList.toggle('off', !ok);
+  const f = $('floor'); f.textContent = ok ? '' : (msg || ''); f.hidden = !f.textContent;
   $('step2').classList.toggle('on', ok); refresh();
 }
-$('door-tell').onclick = () => { arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); $('door-tell').setAttribute('aria-pressed','true'); $('door-chat').setAttribute('aria-pressed','false'); floor(); };
-$('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); $('door-chat').setAttribute('aria-pressed','true'); $('door-tell').setAttribute('aria-pressed','false'); floor(); };
+$('door-tell').onclick = () => { arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); floor(); $('story').focus(); };
+$('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); floor(); $('paste').focus(); };
 function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
 const RID = reqId();
 function body(){
