@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ask · proofbridge</title>
-<meta name="description" content="Write it as you would tell a colleague. This is not an AI that answers. It asks, in my order, and shows what it heard. When the starting point holds, you can send it to me.">
+<meta name="description" content="Write it as you would tell a colleague. This is not an AI that answers. It asks one thing at a time and keeps what it heard on the right, in your words. When the starting point holds, you can send it to me.">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://proofbridge.nl/ask/">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Write it as you would tell a colleague. This is not an AI that answers. It asks, in my order, and shows what it heard. When the starting point holds, you can send it to me.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Write it as you would tell a colleague. This is not an AI that answers. It asks one thing at a time and keeps what it heard on the right, in your words. When the starting point holds, you can send it to me.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -85,8 +85,12 @@
   .heard li b { font-weight: 500; display: block; font-size: var(--s-1); }
   .heard li q { display: block; color: var(--ink); font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
   .heard li q.inf { color: var(--grey); font-style: italic; }
-  .heard li .ctl { margin-top: 0.3rem; display: flex; gap: 0.6rem; }
-  .heard li .ctl button { font: inherit; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; background: transparent; border: 1px solid var(--line); border-radius: 2rem; padding: 0.2rem 0.6rem; cursor: pointer; color: var(--ink); }
+  .heard li q[contenteditable] { cursor: text; border-bottom: 1px dashed var(--line); padding-bottom: 0.1rem; }
+  .heard li q[contenteditable]:focus { outline: none; border-bottom-color: var(--accent); }
+  .heard li.next b::after { content: " · next"; color: var(--accent); font-family: var(--mono); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.06em; }
+  .heard li.next::before { content: "○"; color: var(--accent); }
+  .progress { color: var(--grey); font-size: var(--s-1); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; margin-left: 0.6rem; }
+  .heard li.ok::before { content: "●"; color: var(--accent); }
   .state { margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--line); font-weight: 500; }
   .status { color: var(--grey); font-size: var(--s-1); }
   .step2 { margin-top: 2rem; display: none; } .step2.on { display: block; }
@@ -109,7 +113,7 @@
 <section class="intro" aria-labelledby="h1">
   <span class="label">↳ ask</span>
   <h1 id="h1">Ask</h1>
-  <p>Write it as you would tell a colleague. This is not an AI that answers. It asks, in my order, and shows what it heard. When the starting point holds, you can send it to me.</p>
+  <p>Write it as you would tell a colleague. This is not an AI that answers. It asks one thing at a time and keeps what it heard on the right, in your words. When the starting point holds, you can send it to me.</p>
 </section>
 
 <div class="doors" role="tablist">
@@ -133,10 +137,10 @@
     </div>
   </div>
   <aside class="heard" aria-live="polite">
-    <span class="label">↳ What I heard</span>
+    <span class="label">↳ What I heard</span><span class="progress" id="progress"></span>
     <ol id="lines"></ol>
     <p class="state" id="state"></p>
-    <p class="status">Mechanical reading, no model; nothing leaves this page until you send. Each line is your sentence. Confirm it or say it as it is.</p>
+    <p class="status">Mechanical reading, no model; nothing leaves this page until you send. Every line is your sentence. Click a line to change it.</p>
   </aside>
 </div>
 
@@ -166,21 +170,22 @@
 </footer>
 </div>
 <script>
-// Arm B: a chat that only mirrors. Arm A: a pasted AI chat read for the same lines. Rules only, no model; nothing leaves the page until send.
-// Script version ask-v3-2026-10-22. Chunks, questions and turns come from src/ask.json.
-const CH = [{"id": "who", "label": "Who has the problem, and who decides", "required": true}, {"id": "object", "label": "Where it sits", "required": true}, {"id": "current", "label": "What happens now, and the evidence", "required": true}, {"id": "decision", "label": "The decision this informs", "required": true}, {"id": "decided", "label": "Already decided or fixed", "required": false, "default": "nothing stated"}, {"id": "users_asked", "label": "The people who use it day to day", "required": false, "default": "not asked yet"}], OBJ = [{"id": "website", "label": "the public website"}, {"id": "product", "label": "the product or app people use"}, {"id": "flow", "label": "a flow: sign-up, checkout, onboarding"}, {"id": "content", "label": "the wording and what is said"}, {"id": "data", "label": "data, numbers, a dataset or model"}, {"id": "ai_output", "label": "an AI-generated document or output"}, {"id": "organisation", "label": "the team or organisation"}, {"id": "process", "label": "the way of working"}, {"id": "strategy", "label": "a strategic decision or roadmap"}], T = {"heard": "I heard: “{q}”. I put that under {label}.", "heard_object": "I read this as being about {label}.", "solution": "“{q}” reads as a solution. I put it under already decided. What happens now, and for whom? One observed fact is enough.", "method": "A question about how I work is not a request; the task contract describes it. What is going on at your end?", "agent_alone": "An agent asking on its own behalf is declined. Who is the person or organisation behind this?", "ask": {"object": "Where does this sit: the public site, the app people log into, the data, or how the organisation works?", "decision": "You wrote “{q}”. What do you need to decide, or get moving, once this is clear?", "who": "Who has this day to day, and who says yes?", "current": "What happens now, and for whom? One observed fact is enough.", "users_asked": "Has anyone who uses it day to day been asked? What did they say?"}, "correct": "Say it as it is, and I replace the line.", "collected": "That holds. The starting point is collected on the right; send it when you are ready.", "more": "Anything else that is already decided, or that you take as given?", "noted": "Noted on the right."};
-const L = {confirm: "that&#x27;s it", fix: "not quite", collected: "Collected: a starting point for my lens.", open: "Not collected yet.", first: "What is going on?", correct: T.correct};
+// Arm B: the left side only asks; the right side is the conclusion, in the asker's words, editable in place. Arm A: a pasted AI chat read for the same lines.
+// Rules only, no model; nothing leaves the page until send. Script version ask-v4-2026-10-22. Texts from src/ask.json.
+const CH = [{"id": "who", "label": "Who has the problem, and who decides", "required": true}, {"id": "object", "label": "Where it sits", "required": true}, {"id": "current", "label": "What happens now, and the evidence", "required": true}, {"id": "decision", "label": "The decision this informs", "required": true}, {"id": "decided", "label": "Already decided or fixed", "required": false, "default": "nothing stated"}, {"id": "users_asked", "label": "The people who use it day to day", "required": false, "default": "not asked yet"}], OBJ = [{"id": "website", "label": "the public website", "means": "the site anyone can open without logging in"}, {"id": "product", "label": "the product or app people use", "means": "the thing people log into or install and work in"}, {"id": "flow", "label": "a flow: sign-up, checkout, onboarding", "means": "a sequence of steps people have to get through"}, {"id": "content", "label": "the wording and what is said", "means": "the text, the message, the tone"}, {"id": "data", "label": "data, numbers, a dataset or model", "means": "what is measured or entered, and what is built on it"}, {"id": "ai_output", "label": "an AI-generated document or output", "means": "something an AI wrote or summarised for you"}, {"id": "organisation", "label": "the team or organisation", "means": "who owns it, who works on it, who decides"}, {"id": "process", "label": "the way of working", "means": "how the work moves from one person to the next"}, {"id": "strategy", "label": "a strategic decision or roadmap", "means": "which direction, which investment, which one first"}], T = {"solution": "“{q}” reads as a solution. I keep it under already decided. What happens now, and for whom? One observed fact is enough.", "method": "A question about how I work is not a request; the task contract describes it. What is going on at your end?", "agent_alone": "An agent asking on its own behalf is declined. Who is the person or organisation behind this?", "ask": {"object": "Where does this sit: the public site, the app people log into, the data, or how the organisation works?", "decision": "What do you need to decide, or get moving, once this is clear?", "who": "Who has this day to day, and who says yes to a change?", "current": "What happens now, and for whom? One observed fact is enough.", "users_asked": "Has anyone who uses it day to day been asked? What did they say?"}, "ask_again": {"object": "I still have no place for it. Is it the public site, the app, the data, or the organisation?", "decision": "Still missing: what you will do once this is clear. One sentence.", "who": "Still missing: who has this day to day, and who decides.", "current": "Still missing: one thing that happens now. Not the wish, the fact."}, "collected": "That holds. Check the lines on the right; click one to change it. Then send.", "noted": "Kept on the right.", "edited": "Changed on the right."}, G = {"who": "Who has the problem: the person who feels it day to day. Who decides: the one who says yes to a change.", "object": "Where it sits: the thing the problem lives in. The public website is the site anyone can open; the app is what people log into; data is what is measured; the organisation is who owns and decides.", "current": "What happens now: one observed fact, in your words. Not what you want, what you see.", "decision": "The decision this informs: what you will do differently once this is clear, and by when.", "decided": "Already decided or fixed: what is not up for discussion, including a solution that was already chosen.", "users_asked": "The people who use it day to day: whether they have been asked, and what they said.", "lens": "My lens: the way I read a problem. I find the underlying problem before you build the wrong solution. The task contract describes it.", "collected": "Collected means the four required lines are there, in your words. It is a starting point, not a judgement; the judgement comes after you send and pay."};
+const L = {collected: "Collected: a starting point for my lens.", open: "Not collected yet.", first: "What is going on?", progress: "{n} of {m} lines", gfallback: "I only ask and keep what you say; I do not answer questions here. The task contract describes what I do. Where were we:"};
 const RX = {
-  who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council)|owner of|lead at|work(s|ing)? (at|for)|(policy )?advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?)\b/i,
-  current: /\b(doesn'?t|don'?t|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not (sure|tracking|working|getting|converting|enough|clear|happening|used|using)|unsure|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped|s)? ?(off)?|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|unreliable|problems?|issues?|decline|declin(ed|ing)|down|lost|losing|less|fewer|worse|struggl(e|es|ing)|hard(er)? to|difficult|no longer|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints|visitors|leads)|since (last|the)|last (week|month|year|quarter)|assume[sd]?|assumption|we (think|believe|expect|hope)|take[sn]? for granted)/i,
+  who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council)|owner of|lead at|work(s|ing)? (at|for)|(policy )?advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|for a client|my client|the client|the customer|(she|he|they) decides?|decides)\b/i,
+  current: /\b(doesn'?t|don'?t|does not|do not|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not (sure|tracking|working|getting|converting|enough|clear|happening|used|using|what)|unsure|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped|s)? ?(off)?|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|unreliable|problems?|issues?|decline|declin(ed|ing)|down|lost|losing|less|fewer|worse|struggl(e|es|ing)|hard(er)? to|difficult|no longer|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints|visitors|leads)|since (last|the)|last (week|month|year|quarter)|assume[sd]?|assumption|we (think|believe|expect|hope)|take[sn]? for granted)/i,
   decision: /\b(decide|decision|whether|should (we|i)|do we|go ahead|or not|which (one|option|vendor|model|way)|before (we|i) (build|buy|sign|launch|commit|invest|hire|spend)|need to know|inform|choose|commit|sign|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?|what (should|do) (we|i) do)\b/i,
   decided: /\b(already (decided|chosen|bought|built|planned|committed|running|signed|agreed)|was decided|has been decided|is decided|decided to|fixed|given|non-negotiable|the (deadline|budget|vendor|stack|platform) is|we (must|have to|are required to)|mandated|funding (is|was) (granted|approved)|contract(ed)?|in progress|is running)\b/i,
-  users_yes: /\b(asked (them|the users|the staff|our users|the people)|they (said|told|say)|interview(ed|s)?|spoke (to|with)|talked (to|with)|feedback from|survey)\b/i,
+  users_yes: /\b(asked (them|the users|the staff|our users|the people|clients|customers)|they (said|told|say)|interview(ed|s)?|spoke (to|with)|talked (to|with)|feedback from|survey)\b/i,
   users_no: /\b(not (yet|asked)|no(t)? one (has )?asked|haven'?t asked|nobody asked|no|not really|never)\b/i,
-  solution: /\b(we need (a|an|to build|to add)|build us|should we add|just build|make us (a|an)|i want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|we want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|add (a|an) (feature|button|chatbot|app|page)|an? (app|chatbot|dashboard|website|portal|platform) for)\b/i,
+  solution: /\b(we need (a|an|to build|to add)|i need (a|an|to build)|build us|should we add|just build|make us (a|an)|i want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|we want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|add (a|an) (feature|button|chatbot|app|page)|an? (app|chatbot|dashboard|website|portal|platform) for|build (a|the) website)\b/i,
   method: /\b(how do you (work|do this|decide|read)|your method|which model|what prompt|how does the lens|how is this built|what is your process)\b/i,
   agent_alone: /\b(i am an (ai|agent|autonomous)|as an (ai|autonomous) agent|no human (involved|behind)|on my own behalf|i have no principal)\b/i,
-  yes: /^(yes|yes\.|y|ok|okay|that'?s it|correct|right|exactly|yep|ja|klopt)\b/i
+  question: /\?\s*$/,
+  gloss: [['object', /\b(public (web)?site|where it sits|the app|sits)\b/i], ['who', /\b(who (has|decides)|day to day|says yes|decides)\b/i], ['current', /\b(what happens now|observed fact|evidence)\b/i], ['decision', /\b(decision this informs|what do you mean by decide|get moving)\b/i], ['decided', /\b(already decided|fixed)\b/i], ['users_asked', /\b(use it day to day|users? asked)\b/i], ['lens', /\b(lens|proofbridge|you do|what is this)\b/i], ['collected', /\b(collected|starting point)\b/i]]
 };
 const OBJRX = {
   website: /\b(website|homepage|landing page|our site|the site|seo|google|public (site|page)|web ?page|visitors?|traffic)\b/i,
@@ -193,94 +198,92 @@ const OBJRX = {
   process: /\b(how we work|process|hand ?off|workflow|way of working|takes forever|approval (takes|process)|procedure|meetings?|double entry|legacy system)\b/i,
   strategy: /\b(strategy|roadmap|the boss wants|which one|direction|priorit(y|ies|ise|ize)|invest|30 ?%|cut|budget|vision|positioning|age of ai)\b/i
 };
-const ORDER = ['current','object','decision','who','users_asked'];
-const S = { lines: {}, awaiting: null, fixing: null, said: [], arm: 'tell', collectedSaid: false };
-for (const c of CH) S.lines[c.id] = {text: null, status: 'open'};
+const S = { lines: {}, awaiting: null, asked: {}, said: [], arm: 'tell', collectedSaid: false, lastPb: '' };
+for (const c of CH) S.lines[c.id] = {text: null, inferred: false};
 const $ = id => document.getElementById(id);
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function fill(tpl, q, label){ return tpl.replace('{q}', q || '').replace('{label}', label || ''); }
 function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(s => s.length > 2); }
 function objectOf(t){ const sc = Object.entries(OBJRX).map(([k,rx]) => [k, (t.match(new RegExp(rx.source,'gi'))||[]).length]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]); return sc.length ? OBJ.find(o => o.id === sc[0][0]) : null; }
-function say(who, html){ const d = document.createElement('div'); d.className = 'msg ' + who; d.innerHTML = html; $('thread').appendChild(d); d.scrollIntoView({block:'nearest'}); }
-function setLine(id, text, status, inferred){ S.lines[id] = {text, status, inferred: !!inferred}; }
+function say(who, text){ if (who === 'pb' && text === S.lastPb) return; if (who === 'pb') S.lastPb = text; const d = document.createElement('div'); d.className = 'msg ' + who; d.textContent = text; $('thread').appendChild(d); d.scrollIntoView({block:'nearest'}); }
+function setLine(id, text, inferred){ S.lines[id] = {text, inferred: !!inferred}; }
 function required(){ return CH.filter(c => c.required).map(c => c.id); }
-function collected(){ return required().every(id => S.lines[id].status === 'ok'); }
-// read a text (one turn or a whole chat) into candidate lines; returns which ids got new text
-function read(text, opts){
-  const ss = sentences(text); const got = [];
-  const isSol = RX.solution.test(text);
-  if (isSol && !S.lines.decided.text) { const s = ss.find(x => RX.solution.test(x)) || ss[0]; setLine('decided', s, 'pending'); got.push('decided'); }
+function has(id){ return !!S.lines[id].text; }
+function collected(){ return required().every(has); }
+function read(text){
+  const ss = sentences(text); const isSol = RX.solution.test(text);
+  if (isSol && !has('decided')) setLine('decided', ss.find(x => RX.solution.test(x)) || ss[0]);
+  const used = new Set(Object.values(S.lines).map(l => l.text).filter(Boolean));
   for (const [id, rx] of [['who', RX.who], ['current', RX.current], ['decision', RX.decision]]) {
-    if (S.lines[id].status === 'ok') continue;
-    const s = ss.find(x => rx.test(x) && !(id !== 'decided' && isSol && RX.solution.test(x) && id !== 'who'));
-    if (s) { setLine(id, s, 'pending'); got.push(id); }
+    if (has(id)) continue;
+    const cands = ss.filter(x => rx.test(x) && !(isSol && RX.solution.test(x)));
+    const s = cands.find(x => !used.has(x)) || cands[0];
+    if (s) { setLine(id, s); used.add(s); }
   }
-  if (S.lines.decided.status !== 'ok' && !isSol) { const s = ss.find(x => RX.decided.test(x)); if (s) { setLine('decided', s, 'pending'); got.push('decided'); } }
-  if (S.lines.object.status !== 'ok') { const o = objectOf(S.said.join(' ') + ' ' + text); if (o) { setLine('object', o.label, 'pending', true); got.push('object'); } }
-  if (S.lines.users_asked.status !== 'ok') { const s = ss.find(x => RX.users_yes.test(x)); if (s) { setLine('users_asked', s, 'pending'); got.push('users_asked'); } }
-  return {got, isSol};
+  if (!has('decided') && !isSol) { const s = ss.find(x => RX.decided.test(x)); if (s) setLine('decided', s); }
+  if (!has('object')) { const o = objectOf(S.said.join(' ') + ' ' + text); if (o) setLine('object', o.label, true); }
+  if (!has('users_asked')) { const s = ss.find(x => RX.users_yes.test(x)); if (s) setLine('users_asked', s); }
+  return isSol;
 }
-function nextQuestion(isSol){
-  const order = isSol ? ORDER : ['object','decision','who','current','users_asked'];
-  const anyPending = required().some(id => S.lines[id].status === 'pending');
-  for (const id of order) { const l = S.lines[id]; const c = CH.find(x => x.id === id); if (l.status === 'open' && c.required) return id; }
-  if (!anyPending && S.lines.users_asked.status === 'open') return 'users_asked';
+function nextId(isSol){
+  const order = isSol ? ['current','object','decision','who'] : ['object','decision','who','current'];
+  for (const id of order) if (!has(id)) return id;
+  if (!has('users_asked')) return 'users_asked';
   return null;
 }
+function ask(id){ if (!id) return; S.awaiting = id; const again = S.asked[id] && T.ask_again[id]; S.asked[id] = (S.asked[id] || 0) + 1; say('pb', again ? T.ask_again[id] : T.ask[id]); }
 function render(){
-  $('lines').innerHTML = CH.map(c => { const l = S.lines[c.id]; const cls = (l.status === 'ok' ? 'ok' : l.status === 'pending' ? 'pending' : '') + (c.required ? '' : ' opt') + (l.inferred ? ' inf' : '');
-    const text = l.text || (c.required ? '' : c.default);
-    const ctl = l.status === 'pending' ? '<div class="ctl"><button type="button" data-ok="' + c.id + '">' + L.confirm + '</button><button type="button" data-fix="' + c.id + '">' + L.fix + '</button></div>' : '';
-    return '<li class="' + cls + '"><b>' + esc(c.label) + '</b>' + (text ? '<q class="' + (l.text ? (l.inferred ? 'inf' : '') : 'inf') + '">' + esc(text) + '</q>' : '') + ctl + '</li>'; }).join('');
+  const nxt = nextId(false);
+  $('lines').innerHTML = CH.map(c => { const l = S.lines[c.id]; const text = l.text || (c.required ? '' : c.default);
+    const cls = (l.text ? 'ok' : (c.id === nxt && !collected() ? 'next' : '')) + (c.required ? '' : ' opt') + (l.text ? '' : ' inf');
+    return '<li class="' + cls + '" data-id="' + c.id + '"><b>' + esc(c.label) + '</b>' + (text ? '<q class="' + (l.text && !l.inferred ? '' : 'inf') + '" contenteditable="true" spellcheck="false" data-id="' + c.id + '">' + esc(text) + '</q>' : '') + '</li>'; }).join('');
+  const n = required().filter(has).length, m = required().length; $('progress').textContent = L.progress.replace('{n}', n).replace('{m}', m);
   const ok = collected(); $('state').textContent = ok ? L.collected : L.open; $('step2').classList.toggle('on', ok);
-  if (ok && !S.collectedSaid) { S.collectedSaid = true; say('pb', esc(T.collected)); }
+  if (ok && !S.collectedSaid) { S.collectedSaid = true; say('pb', T.collected); }
   refresh();
 }
-function ask(id){ if (!id) return; S.awaiting = id; const last = S.said[S.said.length-1] || ''; const q = sentences(last).slice(-1)[0] || last; say('pb', esc(fill(T.ask[id], q.length > 90 ? q.slice(0, 90) + '…' : q))); }
+function answerQuestion(text){ for (const [k, rx] of RX.gloss) if (rx.test(text)) return G[k]; return null; }
 function turn(text){
-  text = text.trim(); if (!text) return; S.said.push(text); say('me', esc(text));
-  if (RX.method.test(text)) { say('pb', esc(T.method)); render(); return; }
-  if (RX.agent_alone.test(text)) { say('pb', esc(T.agent_alone)); render(); return; }
-  if (S.fixing) { setLine(S.fixing, text, 'ok'); S.fixing = null; render(); if (!S.awaiting) { const n = nextQuestion(false); if (n) ask(n); } return; }
-  if (S.awaiting === 'users_asked') { if (RX.users_no.test(text) && !RX.users_yes.test(text)) setLine('users_asked', CH.find(c=>c.id==='users_asked').default, 'ok', true); else setLine('users_asked', text, 'ok'); S.awaiting = null; say('pb', esc(T.noted)); render(); const n = nextQuestion(false); if (n) ask(n); return; }
-  if (S.awaiting && RX.yes.test(text) && S.lines[S.awaiting].status === 'pending') { setLine(S.awaiting, S.lines[S.awaiting].text, 'ok'); S.awaiting = null; render(); const n = nextQuestion(false); if (n) ask(n); return; }
-  const {got, isSol} = read(text);
-  if (S.awaiting && !got.includes(S.awaiting)) { setLine(S.awaiting, text, 'pending'); if (!got.includes(S.awaiting)) got.push(S.awaiting); }
-  for (const id of got) { const l = S.lines[id]; const c = CH.find(x => x.id === id);
-    if (id === 'object') say('pb', esc(fill(T.heard_object, '', l.text)));
-    else if (id === 'decided' && isSol) say('pb', esc(fill(T.solution, l.text)));
-    else say('pb', esc(fill(T.heard, l.text.length > 110 ? l.text.slice(0,110) + '…' : l.text, c.label.toLowerCase()))); }
+  text = text.trim(); if (!text) return; say('me', text);
+  if (RX.method.test(text)) { say('pb', T.method); return; }
+  if (RX.agent_alone.test(text)) { say('pb', T.agent_alone); return; }
+  if (RX.question.test(text) && !RX.decision.test(text) && text.split(/\s+/).length <= 14) {
+    const g = answerQuestion(text); say('pb', (g || L.gfallback) + (S.awaiting ? ' ' + T.ask[S.awaiting] : '')); if (S.awaiting) S.asked[S.awaiting] = (S.asked[S.awaiting] || 0); return;
+  }
+  S.said.push(text);
+  if (S.awaiting === 'users_asked') { if (RX.users_no.test(text) && !RX.users_yes.test(text)) setLine('users_asked', CH.find(c=>c.id==='users_asked').default, true); else setLine('users_asked', text); S.awaiting = null; say('pb', T.noted); render(); return; }
+  const isSol = read(text);
+  if (S.awaiting && !has(S.awaiting)) setLine(S.awaiting, text);
+  if (isSol && !has('current')) { const d = S.lines.decided.text; say('pb', fill(T.solution, d.length > 90 ? d.slice(0,90) + '…' : d)); S.awaiting = 'current'; S.asked.current = (S.asked.current || 0) + 1; render(); return; }
   S.awaiting = null; render();
-  { const n = nextQuestion(isSol); if (n === 'current' && isSol) { S.awaiting = 'current'; } else if (n) ask(n); }
+  const n = nextId(false); if (n) ask(n);
 }
 $('compose').addEventListener('submit', () => { const t = $('say').value; $('say').value = ''; turn(t); $('say').focus(); });
 $('say').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('compose').requestSubmit(); } });
-$('lines').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
-  if (b.dataset.ok) { setLine(b.dataset.ok, S.lines[b.dataset.ok].text, 'ok', S.lines[b.dataset.ok].inferred); if (S.awaiting === b.dataset.ok) S.awaiting = null; render(); if (!S.awaiting) { const n = nextQuestion(false); if (n) ask(n); } }
-  if (b.dataset.fix) { S.fixing = b.dataset.fix; say('pb', esc(L.correct)); $('say').focus(); } });
+$('lines').addEventListener('focusout', e => { const q = e.target.closest('q[data-id]'); if (!q) return; const v = q.textContent.trim(); const id = q.dataset.id; const c = CH.find(x => x.id === id);
+  if (v && v !== (S.lines[id].text || c.default)) { setLine(id, v); say('pb', T.edited); render(); } });
+$('lines').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest('q[data-id]')) { e.preventDefault(); e.target.blur(); } });
 $('door-tell').onclick = () => { S.arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); $('door-tell').setAttribute('aria-pressed','true'); $('door-chat').setAttribute('aria-pressed','false'); };
 $('door-chat').onclick = () => { S.arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); $('door-chat').setAttribute('aria-pressed','true'); $('door-tell').setAttribute('aria-pressed','false'); };
 $('readchat').onclick = () => {
   const raw = $('paste').value; if (!raw.trim()) return;
-  // keep the human's turns for who/current/decision; the AI's turns for "already decided" (what was accepted); labels tolerated: User/You/Me/Human vs ChatGPT/Assistant/AI/Claude/Gemini/Copilot
   const turns = raw.split(/\n(?=(?:user|you|me|human|chatgpt|assistant|ai|claude|gemini|copilot)\s*:)/i);
   const human = turns.filter(t => /^(user|you|me|human)\s*:/i.test(t)).map(t => t.replace(/^[a-z]+\s*:/i,'')).join(' ') || raw;
   const ai = turns.filter(t => /^(chatgpt|assistant|ai|claude|gemini|copilot)\s*:/i.test(t)).map(t => t.replace(/^[a-z]+\s*:/i,'')).join(' ');
-  S.arm = 'tell'; $('door-tell').click(); S.said.push(human);
-  say('me', esc('[a chat with an AI, ' + raw.split(/\s+/).length + ' words]'));
-  const {got, isSol} = read(human);
-  if (ai && !S.lines.decided.text) { const rec = sentences(ai).find(s => /\b(should|recommend|best|you can|i suggest|the solution|build|implement)\b/i.test(s)); if (rec) { setLine('decided', 'the AI proposed: ' + rec, 'pending'); got.push('decided'); } }
-  for (const id of got) { const l = S.lines[id]; const c = CH.find(x => x.id === id); say('pb', esc(id === 'object' ? fill(T.heard_object, '', l.text) : fill(T.heard, l.text.length > 110 ? l.text.slice(0,110) + '…' : l.text, c.label.toLowerCase()))); }
-  render(); const n = nextQuestion(isSol); if (n) ask(n);
+  $('door-tell').click(); S.arm = 'chat'; S.said.push(human);
+  say('me', '[a chat with an AI, ' + raw.split(/\s+/).length + ' words]');
+  const isSol = read(human);
+  if (ai && !has('decided')) { const rec = sentences(ai).find(s => /\b(should|recommend|best|you can|i suggest|the solution|build|implement)\b/i.test(s)); if (rec) setLine('decided', 'the AI proposed: ' + rec); }
+  render(); const n = nextId(isSol); if (n) ask(n);
 };
 function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
 const RID = reqId();
 function body(){
   const tier = (document.querySelector('input[name=tier]:checked') || {value:'1'}).value; const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: ask-v3-2026-10-22', 'tier: ' + tier, 'deadline: ' + v('deadline'), 'principal_email: ' + v('email'), 'payment: invoice requested', '', 'Collected starting point (my lines, confirmed):'];
-  for (const c of CH) { const l = S.lines[c.id]; lines.push(c.label + ': ' + (l.text || c.default || '(open)') + (l.status === 'ok' ? '' : ' [not confirmed]')); }
+  const lines = ['request_id: ' + RID, 'script: ask-v4-2026-10-22', 'tier: ' + tier, 'deadline: ' + v('deadline'), 'principal_email: ' + v('email'), 'payment: invoice requested', '', 'Collected starting point (my lines):'];
+  for (const c of CH) { const l = S.lines[c.id]; lines.push(c.label + ': ' + (l.text || c.default || '(open)') + (l.inferred ? ' [inferred]' : '')); }
   lines.push('', 'In my words, as written:', ...S.said);
-  if (S.arm === 'chat' || $('paste').value.trim()) lines.push('', 'The chat with the AI:', $('paste').value.trim());
+  if ($('paste').value.trim()) lines.push('', 'The chat with the AI:', $('paste').value.trim());
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
@@ -288,7 +291,7 @@ function refresh(){ const b = body(); const tier = (document.querySelector('inpu
   const href = 'mailto:info@interactiondesign.nl?subject=' + encodeURIComponent('PROOFBRIDGE T' + tier + ' ' + RID) + '&body=' + encodeURIComponent(b);
   const a = $('send'); if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; } }
 $('copy').onclick = copy; $('step2').addEventListener('input', refresh);
-say('pb', esc(L.first)); render();
+say('pb', L.first); render();
 </script>
 </body>
 </html>

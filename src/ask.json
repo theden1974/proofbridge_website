@@ -1,8 +1,8 @@
 {
   "status": "prototype",
-  "script_version": "ask-v3-2026-10-22",
+  "script_version": "ask-v4-2026-10-22",
   "title": "Ask",
-  "lead": "Write it as you would tell a colleague. This is not an AI that answers. It asks, in my order, and shows what it heard. When the starting point holds, you can send it to me.",
+  "lead": "Write it as you would tell a colleague. This is not an AI that answers. It asks one thing at a time and keeps what it heard on the right, in your words. When the starting point holds, you can send it to me.",
   "doors": {
     "tell": "Tell it",
     "chat": "Hand over a chat with an AI"
@@ -10,11 +10,8 @@
   "chat_lead": "Paste the conversation you already had with an AI about this. I read it for the same five lines; what it does not contain, I ask.",
   "chat_placeholder": "Paste the whole chat, your messages and the AI's answers.",
   "chat_read": "Read it",
-  "first_prompt": "What is going on?",
-  "input_placeholder": "Write here",
-  "send_turn": "Send",
   "heard_label": "What I heard",
-  "heard_note": "Mechanical reading, no model; nothing leaves this page until you send. Each line is your sentence. Confirm it or say it as it is.",
+  "heard_note": "Mechanical reading, no model; nothing leaves this page until you send. Every line is your sentence. Click a line to change it.",
   "chunks": [
     {
       "id": "who",
@@ -52,63 +49,71 @@
   "objects": [
     {
       "id": "website",
-      "label": "the public website"
+      "label": "the public website",
+      "means": "the site anyone can open without logging in"
     },
     {
       "id": "product",
-      "label": "the product or app people use"
+      "label": "the product or app people use",
+      "means": "the thing people log into or install and work in"
     },
     {
       "id": "flow",
-      "label": "a flow: sign-up, checkout, onboarding"
+      "label": "a flow: sign-up, checkout, onboarding",
+      "means": "a sequence of steps people have to get through"
     },
     {
       "id": "content",
-      "label": "the wording and what is said"
+      "label": "the wording and what is said",
+      "means": "the text, the message, the tone"
     },
     {
       "id": "data",
-      "label": "data, numbers, a dataset or model"
+      "label": "data, numbers, a dataset or model",
+      "means": "what is measured or entered, and what is built on it"
     },
     {
       "id": "ai_output",
-      "label": "an AI-generated document or output"
+      "label": "an AI-generated document or output",
+      "means": "something an AI wrote or summarised for you"
     },
     {
       "id": "organisation",
-      "label": "the team or organisation"
+      "label": "the team or organisation",
+      "means": "who owns it, who works on it, who decides"
     },
     {
       "id": "process",
-      "label": "the way of working"
+      "label": "the way of working",
+      "means": "how the work moves from one person to the next"
     },
     {
       "id": "strategy",
-      "label": "a strategic decision or roadmap"
+      "label": "a strategic decision or roadmap",
+      "means": "which direction, which investment, which one first"
     }
   ],
   "turns": {
-    "heard": "I heard: “{q}”. I put that under {label}.",
-    "heard_object": "I read this as being about {label}.",
-    "solution": "“{q}” reads as a solution. I put it under already decided. What happens now, and for whom? One observed fact is enough.",
+    "solution": "“{q}” reads as a solution. I keep it under already decided. What happens now, and for whom? One observed fact is enough.",
     "method": "A question about how I work is not a request; the task contract describes it. What is going on at your end?",
     "agent_alone": "An agent asking on its own behalf is declined. Who is the person or organisation behind this?",
     "ask": {
       "object": "Where does this sit: the public site, the app people log into, the data, or how the organisation works?",
-      "decision": "You wrote “{q}”. What do you need to decide, or get moving, once this is clear?",
-      "who": "Who has this day to day, and who says yes?",
+      "decision": "What do you need to decide, or get moving, once this is clear?",
+      "who": "Who has this day to day, and who says yes to a change?",
       "current": "What happens now, and for whom? One observed fact is enough.",
       "users_asked": "Has anyone who uses it day to day been asked? What did they say?"
     },
-    "correct": "Say it as it is, and I replace the line.",
-    "collected": "That holds. The starting point is collected on the right; send it when you are ready.",
-    "more": "Anything else that is already decided, or that you take as given?",
-    "noted": "Noted on the right."
+    "ask_again": {
+      "object": "I still have no place for it. Is it the public site, the app, the data, or the organisation?",
+      "decision": "Still missing: what you will do once this is clear. One sentence.",
+      "who": "Still missing: who has this day to day, and who decides.",
+      "current": "Still missing: one thing that happens now. Not the wish, the fact."
+    },
+    "collected": "That holds. Check the lines on the right; click one to change it. Then send.",
+    "noted": "Kept on the right.",
+    "edited": "Changed on the right."
   },
-  "confirm": "that's it",
-  "fix": "not quite",
-  "collected_label": "Collected: a starting point for my lens.",
-  "open_label": "Not collected yet.",
   "step2_label": "Send",
   "email_label": "Your email",
   "tiers_label": "Who reads it",
@@ -118,5 +123,23 @@
   "copy_label": "Copy the request",
   "send_note": "Opens your mail program with the request filled in, your words and the collected lines. If it does not open, copy and paste it in a mail to",
   "after": "What happens then: I read it, mail the invoice from my own node, and the reply window of 7 days starts when the payment is seen. Nothing is paid on this page.",
-  "contract_line": "What a request and an answer look like: the task contract."
+  "contract_line": "What a request and an answer look like: the task contract.",
+  "progress": "{n} of {m} lines",
+  "next_label": "next",
+  "glossary": {
+    "who": "Who has the problem: the person who feels it day to day. Who decides: the one who says yes to a change.",
+    "object": "Where it sits: the thing the problem lives in. The public website is the site anyone can open; the app is what people log into; data is what is measured; the organisation is who owns and decides.",
+    "current": "What happens now: one observed fact, in your words. Not what you want, what you see.",
+    "decision": "The decision this informs: what you will do differently once this is clear, and by when.",
+    "decided": "Already decided or fixed: what is not up for discussion, including a solution that was already chosen.",
+    "users_asked": "The people who use it day to day: whether they have been asked, and what they said.",
+    "lens": "My lens: the way I read a problem. I find the underlying problem before you build the wrong solution. The task contract describes it.",
+    "collected": "Collected means the four required lines are there, in your words. It is a starting point, not a judgement; the judgement comes after you send and pay."
+  },
+  "glossary_fallback": "I only ask and keep what you say; I do not answer questions here. The task contract describes what I do. Where were we:",
+  "first_prompt": "What is going on?",
+  "input_placeholder": "Write here",
+  "send_turn": "Send",
+  "collected_label": "Collected: a starting point for my lens.",
+  "open_label": "Not collected yet."
 }
