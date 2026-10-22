@@ -12,10 +12,8 @@ def build_ask(C, page, E, fmt, t1, t2, mail, OUT, SRC):
     rep = {'__TITLE__': E(A['title']), '__LEAD__': E(A['lead']), '__LD__': json.dumps(ld, ensure_ascii=False), '__CSS__': css, '__STATUS__': E(A['status']),
            '__SCRIPT_VERSION__': E(A['script_version']), '__DOOR_TELL__': E(A['doors']['tell']), '__DOOR_CHAT__': E(A['doors']['chat']), '__CHAT_LEAD__': E(A['chat_lead']),
            '__CHAT_PLACEHOLDER__': E(A['chat_placeholder']), '__PROMPT1__': E(A['prompt1']), '__PROMPT2__': E(A['prompt2']), '__BOX_HINT__': E(A['box_hint']),
-           '__DO_LABEL__': E(A['do_label']), '__DO_LINES__': li(A['do_lines']), '__THEN_LABEL__': E(A['then_label']), '__THEN_LINES__': li(A['then_lines']),
-           '__FLOOR_JSON__': json.dumps(A['floor'], ensure_ascii=False), '__EMAIL_LABEL__': E(A['email_label']), '__TIERS_LABEL__': E(A['tiers_label']),
-           '__T1__': E(C['tier1_human']), '__T1S__': fmt(t1), '__T1G__': E(C['tier1_gets']), '__T2__': E(C['tier2_human']), '__T2S__': fmt(t2), '__T2G__': E(C['tier2_gets']),
-           '__DL__': E(A['deadline_label']), '__DLH__': E(A['deadline_hint']), '__SEND__': E(A['send_label']), '__COPY__': E(A['copy_label']), '__SEND_NOTE__': E(A['send_note']), '__MAIL__': mail,
+           '__GUIDE_LABEL__': E(A['guide_label']), '__GUIDE_NOTE__': E(A['guide_note']), '__GUIDE_JSON__': json.dumps(A['guide'], ensure_ascii=False), '__THEN_LABEL__': E(A['then_label']), '__THEN_LINES__': li(A['then_lines']),
+           '__FLOOR_JSON__': json.dumps(A['floor'], ensure_ascii=False), '__EMAIL_LABEL__': E(A['email_label']), '__SEND__': E(A['send_label']), '__COPY__': E(A['copy_label']), '__SEND_NOTE__': E(A['send_note']), '__MAIL__': mail,
            '__CONTRACT_LINE__': E(A['contract_line']).replace('the task contract', '<a href="/agents/">the task contract</a>')}
     for k, v in rep.items(): tpl = tpl.replace(k, v)
     os.makedirs(f"{OUT}/ask", exist_ok=True)

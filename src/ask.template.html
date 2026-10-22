@@ -23,7 +23,14 @@ __CSS__
   .btn { font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: 0.7rem 1.1rem; cursor: pointer; text-decoration: none; display: inline-block; }
   .side { padding: 1.1rem 1.2rem; border: 1px solid var(--line); border-radius: 1rem; }
   .side ol { padding-left: 1.2rem; margin: 0.6rem 0 0; display: grid; gap: 0.45rem; } .side li { font-size: var(--s-1); }
-  .side .label + ol { margin-top: 0.6rem; } .side .label { display: block; margin-top: 1.1rem; } .side .label:first-child { margin-top: 0; }
+  .side .label + ol { margin-top: 0.6rem; }
+  .guide { list-style: none; padding: 0; margin: 0.8rem 0 0.4rem; display: grid; gap: 0.8rem; }
+  .guide li { padding-left: 1.3rem; position: relative; }
+  .guide li::before { content: "○"; position: absolute; left: 0; color: var(--grey); }
+  .guide li.ok::before { content: "●"; color: var(--accent); }
+  .guide li b { display: block; font-weight: 500; font-size: var(--s-1); }
+  .guide li q { display: block; font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
+  .guide li span { display: block; font-size: var(--s-1); color: var(--grey); margin-top: 0.15rem; font-style: italic; } .side .label { display: block; margin-top: 1.1rem; } .side .label:first-child { margin-top: 0; }
   .floor { margin-top: 1.2rem; font-weight: 500; } .floor.off { color: var(--grey); font-weight: 400; }
   .step2 { margin-top: 1.6rem; display: none; } .step2.on { display: block; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60ch; }
@@ -73,13 +80,7 @@ __CSS__
     <section class="step2" id="step2" aria-label="Send">
       <div class="row">
         <label><b>__EMAIL_LABEL__</b><input type="email" id="email"></label>
-        <label><b>__DL__</b><small class="status">__DLH__</small><input type="date" id="deadline"></label>
       </div>
-      <fieldset><legend><b>__TIERS_LABEL__</b></legend>
-      <div class="opts">
-        <label><input type="radio" name="tier" value="1" checked> <span><b>__T1__</b> · __T1S__ sats<br><small class="status">__T1G__</small></span></label>
-        <label><input type="radio" name="tier" value="2"> <span><b>__T2__</b> · __T2S__ sats<br><small class="status">__T2G__</small></span></label>
-      </div></fieldset>
       <div class="actions">
         <a class="btn" id="send" href="#">__SEND__</a>
         <button class="btn" type="button" id="copy">__COPY__</button>
@@ -87,9 +88,10 @@ __CSS__
       </div>
     </section>
   </div>
-  <aside class="side">
-    <span class="label">↳ __DO_LABEL__</span>
-    <ol>__DO_LINES__</ol>
+  <aside class="side" aria-live="polite">
+    <span class="label">↳ __GUIDE_LABEL__</span>
+    <ul class="guide" id="guide"></ul>
+    <p class="status">__GUIDE_NOTE__</p>
     <span class="label">↳ __THEN_LABEL__</span>
     <ol>__THEN_LINES__</ol>
   </aside>
@@ -104,7 +106,23 @@ __CSS__
 <script>
 // v5: two prompts in the asker's words; no reading, no categories, no judgement on the page. A floor only: something happens, not a method question, not an agent alone.
 // Script version __SCRIPT_VERSION__. Texts from src/ask.json.
-const F = __FLOOR_JSON__;
+const F = __FLOOR_JSON__, GUIDE = __GUIDE_JSON__;
+const GRX = {
+  who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council|client|customer)|owner of|lead at|work(s|ing)? (at|for)|advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|(she|he|they) decides?|decided|mandate|funding)\b/i,
+  happens: /\b(doesn'?t|don'?t|does not|do not|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not (sure|tracking|working|getting|converting|enough|clear|happening|used|using)|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped|s)? ?(off)?|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|unreliable|problems?|issues?|decline|declin(ed|ing)|down|lost|losing|less|fewer|worse|struggl(e|es|ing)|hard(er)? to|difficult|no longer|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints|visitors|leads)|call(s|ed)? (us|instead)|since (last|the)|last (week|month|year|quarter))/i,
+  asked: /\b(we need (a|an|to build|to add)|i need (a|an|to build)|build us|should we add|just build|make us (a|an)|(i|we) want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|add (a|an) (feature|button|chatbot|app|page)|an? (app|chatbot|dashboard|website|portal|platform) for|build (a|the) (website|app)|was (already )?decided|already (decided|chosen|bought|planned)|the plan is|asked (me|us) to)\b/i,
+  assumed: /\b(assume[sd]?|assumption|we (think|believe|expect|hope)|take[sn]? for granted|obviously|of course|everyone (knows|says|thinks)|supposed to|should work|will (use|work|fix|solve))\b/i,
+  differently: /\b(decide|decision|whether|should (we|i)|do we|go ahead|or not|which (one|option|vendor|model|way)|before (we|i) (build|buy|sign|launch|commit|invest|hire|spend)|need to know|choose|commit|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?|what (should|do) (we|i) do|stop|instead|rather)\b/i
+};
+function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?])\s+/).map(x=>x.trim()).filter(x => x.length > 2); }
+function guide(text){
+  const ss = sentences(text); const used = new Set(); const out = {};
+  const DEC = /\b(decides?|decided|mandate|says yes|the (board|director|client|customer|management))\b/i;
+  for (const g of GUIDE) { const rx = GRX[g.id]; let c = ss.filter(x => rx.test(x)); if (g.id === 'who') { const d = c.filter(x => DEC.test(x)); if (d.length) c = d.concat(c); } if (g.id === 'differently') c = c.filter(x => !/\binstead of\b/i.test(x) || /\b(decide|whether|should)\b/i.test(x)); const pick = c.find(x => !used.has(x)) || c[0]; if (pick) { out[g.id] = pick; used.add(pick); } }
+  $('guide').innerHTML = GUIDE.map(g => out[g.id] ? '<li class="ok"><b>' + g.label + '</b><q>' + esc(out[g.id].length > 160 ? out[g.id].slice(0,160) + '…' : out[g.id]) + '</q></li>' : '<li><b>' + g.label + '</b><span>' + g.missing + '</span></li>').join('');
+  return out;
+}
+function esc(x){ return String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 const RX = {
   wish: /\b(i want|we want|would like|wish|hope|goal|instead|rather|ideally|decide|whether|need to (know|decide|choose)|the question is|should (we|i)|what (should|do) (we|i) do)\b/i,
   happens: /\b(is|are|was|were|do|does|did|has|have|had|can'?t|cannot|doesn'?t|don'?t|not|no|never|always|every|since|last|now|when|because|but|only|\d)\b/i,
@@ -116,6 +134,7 @@ let arm = 'tell';
 function words(t){ return t.trim().split(/\s+/).filter(Boolean).length; }
 function floor(){
   const story = arm === 'tell' ? $('story').value : $('paste').value; const wish = $('wish').value; const all = story + ' ' + wish;
+  guide(all);
   let msg = null, ok = false;
   if (RX.method.test(all)) msg = F.method;
   else if (RX.agent_alone.test(all)) msg = F.agent_alone;
@@ -130,15 +149,16 @@ $('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $(
 function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
 const RID = reqId();
 function body(){
-  const tier = (document.querySelector('input[name=tier]:checked') || {value:'1'}).value; const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: __SCRIPT_VERSION__', 'door: ' + arm, 'tier: ' + tier, 'deadline: ' + v('deadline'), 'principal_email: ' + v('email'), 'payment: invoice requested', ''];
+  const v = id => ($(id).value || '').trim();
+  const lines = ['request_id: ' + RID, 'script: __SCRIPT_VERSION__', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); if (v('wish')) lines.push('', 'What I would like to be different:', v('wish')); }
   else lines.push('The chat with the AI:', v('paste'));
+  const g = guide((arm === 'tell' ? v('story') : v('paste')) + ' ' + v('wish')); lines.push('', 'As read on the page (mechanical, to be corrected by Dennis):'); for (const x of GUIDE) lines.push(x.label + ': ' + (g[x.id] || '(not found)'));
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
-function refresh(){ const b = body(); const tier = (document.querySelector('input[name=tier]:checked') || {value:'1'}).value;
-  const href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE T' + tier + ' ' + RID) + '&body=' + encodeURIComponent(b);
+function refresh(){ const b = body();
+  const href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID) + '&body=' + encodeURIComponent(b);
   const a = $('send'); if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; } }
 $('copy').onclick = copy; document.addEventListener('input', floor); floor();
 </script>

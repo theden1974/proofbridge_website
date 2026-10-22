@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ask · proofbridge</title>
-<meta name="description" content="Tell it as you would tell a colleague who does not know your work. I read it and come back; if I cannot start, I ask you one thing first.">
+<meta name="description" content="Tell it as you would tell a colleague who does not know your work. While you write, the right side shows what I can already read and what I cannot yet. I read it myself and come back; if I cannot start, I ask you one thing first.">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://proofbridge.nl/ask/">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Tell it as you would tell a colleague who does not know your work. I read it and come back; if I cannot start, I ask you one thing first.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Tell it as you would tell a colleague who does not know your work. While you write, the right side shows what I can already read and what I cannot yet. I read it myself and come back; if I cannot start, I ask you one thing first.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -73,7 +73,14 @@
   .btn { font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: 0.7rem 1.1rem; cursor: pointer; text-decoration: none; display: inline-block; }
   .side { padding: 1.1rem 1.2rem; border: 1px solid var(--line); border-radius: 1rem; }
   .side ol { padding-left: 1.2rem; margin: 0.6rem 0 0; display: grid; gap: 0.45rem; } .side li { font-size: var(--s-1); }
-  .side .label + ol { margin-top: 0.6rem; } .side .label { display: block; margin-top: 1.1rem; } .side .label:first-child { margin-top: 0; }
+  .side .label + ol { margin-top: 0.6rem; }
+  .guide { list-style: none; padding: 0; margin: 0.8rem 0 0.4rem; display: grid; gap: 0.8rem; }
+  .guide li { padding-left: 1.3rem; position: relative; }
+  .guide li::before { content: "○"; position: absolute; left: 0; color: var(--grey); }
+  .guide li.ok::before { content: "●"; color: var(--accent); }
+  .guide li b { display: block; font-weight: 500; font-size: var(--s-1); }
+  .guide li q { display: block; font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
+  .guide li span { display: block; font-size: var(--s-1); color: var(--grey); margin-top: 0.15rem; font-style: italic; } .side .label { display: block; margin-top: 1.1rem; } .side .label:first-child { margin-top: 0; }
   .floor { margin-top: 1.2rem; font-weight: 500; } .floor.off { color: var(--grey); font-weight: 400; }
   .step2 { margin-top: 1.6rem; display: none; } .step2.on { display: block; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60ch; }
@@ -92,12 +99,12 @@
 <div class="wrap">
 <header class="bar">
   <a class="label" href="/">proofbridge</a>
-  <span class="label">prototype</span>
+  <span class="label">prototype · test phase, no payment</span>
 </header>
 <section class="intro" aria-labelledby="h1">
   <span class="label">↳ ask</span>
   <h1 id="h1">Ask</h1>
-  <p>Tell it as you would tell a colleague who does not know your work. I read it and come back; if I cannot start, I ask you one thing first.</p>
+  <p>Tell it as you would tell a colleague who does not know your work. While you write, the right side shows what I can already read and what I cannot yet. I read it myself and come back; if I cannot start, I ask you one thing first.</p>
 </section>
 
 <div class="doors">
@@ -123,13 +130,7 @@
     <section class="step2" id="step2" aria-label="Send">
       <div class="row">
         <label><b>Your email</b><input type="email" id="email"></label>
-        <label><b>Needed by</b><small class="status">At least 7 days from payment.</small><input type="date" id="deadline"></label>
       </div>
-      <fieldset><legend><b>Who reads it</b></legend>
-      <div class="opts">
-        <label><input type="radio" name="tier" value="1" checked> <span><b>Ask my agent</b> · 5 000 sats<br><small class="status">Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.</small></span></label>
-        <label><input type="radio" name="tier" value="2"> <span><b>Ask me</b> · 50 000 sats<br><small class="status">I read it myself and answer in days.</small></span></label>
-      </div></fieldset>
       <div class="actions">
         <a class="btn" id="send" href="#">Send by email</a>
         <button class="btn" type="button" id="copy">Copy the request</button>
@@ -137,11 +138,12 @@
       </div>
     </section>
   </div>
-  <aside class="side">
-    <span class="label">↳ What I do with this</span>
-    <ol><li>Who actually has the problem, and who decided over their heads.</li><li>What is taken as true without being checked.</li><li>What was asked for, and what is needed underneath it.</li><li>What you would do differently once it is clear.</li></ol>
+  <aside class="side" aria-live="polite">
+    <span class="label">↳ What I read so far</span>
+    <ul class="guide" id="guide"></ul>
+    <p class="status">Mechanical reading, no model; nothing leaves this page until you send. Your sentences, sorted by what I look for. It can be wrong; your text is what counts.</p>
     <span class="label">↳ Then</span>
-    <ol><li>I read it myself. If I cannot start, one question by mail, before anything else.</li><li>The invoice comes from my own node; the reply window of 7 days starts when the payment is seen.</li><li>Your text stays on my machines. No external model reads it.</li></ol>
+    <ol><li>I read it myself. If I cannot start, one question by mail, before anything else.</li><li>Test phase: no payment. You get my reading back by mail, in the shape every answer has: the underlying problem or a verdict, the evidence, what I did not check, the next step.</li><li>Your text stays on my machines. No external model reads it.</li></ol>
   </aside>
 </div>
 
@@ -153,8 +155,24 @@
 </div>
 <script>
 // v5: two prompts in the asker's words; no reading, no categories, no judgement on the page. A floor only: something happens, not a method question, not an agent alone.
-// Script version ask-v5-2026-10-22. Texts from src/ask.json.
-const F = {"short": "A few more sentences: what happens, and to whom.", "method": "A question about how I work is not a request; the task contract describes it.", "agent_alone": "An agent asking on its own behalf is declined; name the person or organisation behind it.", "ok": "Send it to me."};
+// Script version ask-v6-2026-10-22. Texts from src/ask.json.
+const F = {"short": "A few more sentences: what happens, and to whom.", "method": "A question about how I work is not a request; the task contract describes it.", "agent_alone": "An agent asking on its own behalf is declined; name the person or organisation behind it.", "ok": "Send it to me when it feels complete. If I cannot start, I ask one thing."}, GUIDE = [{"id": "who", "label": "Who has the problem, and who decided", "missing": "not in your text yet: who lives with this day to day, and who decided"}, {"id": "happens", "label": "What happens now", "missing": "not in your text yet: one thing that happens, to whom"}, {"id": "asked", "label": "What was asked for", "missing": "no solution named, good; if one was already decided, say so"}, {"id": "assumed", "label": "What is taken as true without being checked", "missing": "not in your text yet: what everyone assumes"}, {"id": "differently", "label": "What you would do differently once it is clear", "missing": "not in your text yet: what you would decide or stop"}];
+const GRX = {
+  who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council|client|customer)|owner of|lead at|work(s|ing)? (at|for)|advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|(she|he|they) decides?|decided|mandate|funding)\b/i,
+  happens: /\b(doesn'?t|don'?t|does not|do not|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not (sure|tracking|working|getting|converting|enough|clear|happening|used|using)|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped|s)? ?(off)?|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|unreliable|problems?|issues?|decline|declin(ed|ing)|down|lost|losing|less|fewer|worse|struggl(e|es|ing)|hard(er)? to|difficult|no longer|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints|visitors|leads)|call(s|ed)? (us|instead)|since (last|the)|last (week|month|year|quarter))/i,
+  asked: /\b(we need (a|an|to build|to add)|i need (a|an|to build)|build us|should we add|just build|make us (a|an)|(i|we) want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|add (a|an) (feature|button|chatbot|app|page)|an? (app|chatbot|dashboard|website|portal|platform) for|build (a|the) (website|app)|was (already )?decided|already (decided|chosen|bought|planned)|the plan is|asked (me|us) to)\b/i,
+  assumed: /\b(assume[sd]?|assumption|we (think|believe|expect|hope)|take[sn]? for granted|obviously|of course|everyone (knows|says|thinks)|supposed to|should work|will (use|work|fix|solve))\b/i,
+  differently: /\b(decide|decision|whether|should (we|i)|do we|go ahead|or not|which (one|option|vendor|model|way)|before (we|i) (build|buy|sign|launch|commit|invest|hire|spend)|need to know|choose|commit|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?|what (should|do) (we|i) do|stop|instead|rather)\b/i
+};
+function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?])\s+/).map(x=>x.trim()).filter(x => x.length > 2); }
+function guide(text){
+  const ss = sentences(text); const used = new Set(); const out = {};
+  const DEC = /\b(decides?|decided|mandate|says yes|the (board|director|client|customer|management))\b/i;
+  for (const g of GUIDE) { const rx = GRX[g.id]; let c = ss.filter(x => rx.test(x)); if (g.id === 'who') { const d = c.filter(x => DEC.test(x)); if (d.length) c = d.concat(c); } if (g.id === 'differently') c = c.filter(x => !/\binstead of\b/i.test(x) || /\b(decide|whether|should)\b/i.test(x)); const pick = c.find(x => !used.has(x)) || c[0]; if (pick) { out[g.id] = pick; used.add(pick); } }
+  $('guide').innerHTML = GUIDE.map(g => out[g.id] ? '<li class="ok"><b>' + g.label + '</b><q>' + esc(out[g.id].length > 160 ? out[g.id].slice(0,160) + '…' : out[g.id]) + '</q></li>' : '<li><b>' + g.label + '</b><span>' + g.missing + '</span></li>').join('');
+  return out;
+}
+function esc(x){ return String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 const RX = {
   wish: /\b(i want|we want|would like|wish|hope|goal|instead|rather|ideally|decide|whether|need to (know|decide|choose)|the question is|should (we|i)|what (should|do) (we|i) do)\b/i,
   happens: /\b(is|are|was|were|do|does|did|has|have|had|can'?t|cannot|doesn'?t|don'?t|not|no|never|always|every|since|last|now|when|because|but|only|\d)\b/i,
@@ -166,6 +184,7 @@ let arm = 'tell';
 function words(t){ return t.trim().split(/\s+/).filter(Boolean).length; }
 function floor(){
   const story = arm === 'tell' ? $('story').value : $('paste').value; const wish = $('wish').value; const all = story + ' ' + wish;
+  guide(all);
   let msg = null, ok = false;
   if (RX.method.test(all)) msg = F.method;
   else if (RX.agent_alone.test(all)) msg = F.agent_alone;
@@ -180,15 +199,16 @@ $('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $(
 function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
 const RID = reqId();
 function body(){
-  const tier = (document.querySelector('input[name=tier]:checked') || {value:'1'}).value; const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: ask-v5-2026-10-22', 'door: ' + arm, 'tier: ' + tier, 'deadline: ' + v('deadline'), 'principal_email: ' + v('email'), 'payment: invoice requested', ''];
+  const v = id => ($(id).value || '').trim();
+  const lines = ['request_id: ' + RID, 'script: ask-v6-2026-10-22', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); if (v('wish')) lines.push('', 'What I would like to be different:', v('wish')); }
   else lines.push('The chat with the AI:', v('paste'));
+  const g = guide((arm === 'tell' ? v('story') : v('paste')) + ' ' + v('wish')); lines.push('', 'As read on the page (mechanical, to be corrected by Dennis):'); for (const x of GUIDE) lines.push(x.label + ': ' + (g[x.id] || '(not found)'));
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
-function refresh(){ const b = body(); const tier = (document.querySelector('input[name=tier]:checked') || {value:'1'}).value;
-  const href = 'mailto:info@interactiondesign.nl?subject=' + encodeURIComponent('PROOFBRIDGE T' + tier + ' ' + RID) + '&body=' + encodeURIComponent(b);
+function refresh(){ const b = body();
+  const href = 'mailto:info@interactiondesign.nl?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID) + '&body=' + encodeURIComponent(b);
   const a = $('send'); if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; } }
 $('copy').onclick = copy; document.addEventListener('input', floor); floor();
 </script>
