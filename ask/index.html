@@ -132,7 +132,7 @@
       <div class="actions">
         <a class="btn" id="send" href="#">Send</a>
         <button class="btn" type="button" id="copy">Copy</button>
-        <span class="status">If your mail program does not open, copy and paste it in a mail to <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a></span>
+        <span class="status">If your mail program does not open, copy and paste it in a mail to <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a></span>
       </div>
     </section>
   </div>
@@ -144,7 +144,7 @@
 
 <footer>
   <span class="label">↳ connect</span>
-  <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a>
+  <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a>
   <p class="agents label">↳ What a request and an answer look like: <a href="/agents/">the task contract</a>.</p>
 </footer>
 </div>
@@ -205,7 +205,7 @@ function body(){
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
 function refresh(){ const b = body();
-  const href = 'mailto:info@interactiondesign.nl?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID) + '&body=' + encodeURIComponent(b);
+  const href = 'mailto:ask@proofbridge.nl?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID) + '&body=' + encodeURIComponent(b);
   const a = $('send'); if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; } }
 $('copy').onclick = copy; document.addEventListener('input', floor); floor();
 </script>

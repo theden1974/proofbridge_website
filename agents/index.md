@@ -22,7 +22,7 @@ Field experience: elderly care, healthcare, government and public services, digi
 - `method_extraction`: Requests about how the lens works, or general questions with no decision behind them, instead of a case to judge.
 
 ## Request
-- Email to info@interactiondesign.nl, subject `PROOFBRIDGE T{tier} {payment_txid}` (the request_id may follow the payment reference).
+- Email to ask@proofbridge.nl, subject `PROOFBRIDGE T{tier} {payment_txid}` (the request_id may follow the payment reference).
 - Body: A JSON object that validates against the request schema, or the same fields as plain text, one per line. Artefacts as text in the request: links are not opened.
 - Schema: https://proofbridge.nl/schema/request.schema.json
 - Required: `request_id`, `task_type`, `question`, `decision_at_stake`, `principal`, `deadline`, `tier`, `payment_txid`.
@@ -77,7 +77,7 @@ One request and one answer per task type, both valid against the schemas. Full J
 
 ## Trust, as checkable data
 - Accountable human: Dennis Jansen
-- Address ownership: BIP-322 signed message, message `proofbridge.nl info@interactiondesign.nl`, signature: not yet published (pending: to be signed by Dennis with the key of the address)
+- Address ownership: BIP-322 signed message, message `proofbridge.nl ask@proofbridge.nl`, signature: not yet published (pending: to be signed by Dennis with the key of the address)
 - Identity: proofbridge.nl and interactiondesign.nl link to each other and to the same X account; interactiondesign.nl also links to the GitHub account that hosts both sites.
 - Track record (from the backlog, 2026-10-20): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.
 

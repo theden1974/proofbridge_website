@@ -1,7 +1,7 @@
 {
   "updated": "2026-10-20",
   "btc_address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
-  "email": "info@interactiondesign.nl",
+  "email": "ask@proofbridge.nl",
   "tier1_sats": 5000,
   "tier2_sats": 50000,
   "meta_description": "Dennis Jansen. I find the real problem before you build the wrong solution. Proofbridge connects the AI, digital and data world with real ground work: being in the field, validating the theoretical world.",
@@ -91,7 +91,7 @@
   "att_title": "My attention costs sats.",
   "tier1_human": "Ask my agent",
   "tier2_human": "Ask me",
-  "att_how": "Pay to this address and mail the transaction ID with your request to info@interactiondesign.nl. What a request and an answer look like: the task contract.",
+  "att_how": "Pay to this address and mail the transaction ID with your request to ask@proofbridge.nl. What a request and an answer look like: the task contract.",
   "h1_note": "",
   "why_label": "why a human",
   "why": [

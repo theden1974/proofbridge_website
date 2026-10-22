@@ -83,7 +83,7 @@
   ],
   "request": {
     "transport": "email",
-    "to": "info@interactiondesign.nl",
+    "to": "ask@proofbridge.nl",
     "subject": "PROOFBRIDGE T{tier} {payment_txid}",
     "body": "A JSON object that validates against the request schema, or the same fields as plain text, one per line. Artefacts as text in the request: links are not opened.",
     "schema": "https://proofbridge.nl/schema/request.schema.json"
@@ -171,7 +171,7 @@
     "accountable_human": "Dennis Jansen",
     "address_ownership": {
       "method": "BIP-322 signed message",
-      "message": "proofbridge.nl info@interactiondesign.nl",
+      "message": "proofbridge.nl ask@proofbridge.nl",
       "signature": null,
       "status": "pending: to be signed by Dennis with the key of the address"
     },

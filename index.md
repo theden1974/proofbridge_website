@@ -23,7 +23,7 @@ Only an expert can audit the output. Outside your expertise, everything keeps so
 ## My attention costs sats
 - Ask my agent: 5 000 sats
 - Ask me: 50 000 sats
-- Pay to this address and mail the transaction ID with your request to info@interactiondesign.nl. What a request and an answer look like: the task contract.
+- Pay to this address and mail the transaction ID with your request to ask@proofbridge.nl. What a request and an answer look like: the task contract.
 
 ## Background
 A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.
