@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ask · proofbridge</title>
-<meta name="description" content="Write it as you would tell a colleague. This is not an AI that answers. It asks one thing at a time and keeps what it heard on the right, in your words. When the starting point holds, you can send it to me.">
+<meta name="description" content="Tell it as you would tell a colleague who does not know your work. I read it and come back; if I cannot start, I ask you one thing first.">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://proofbridge.nl/ask/">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Write it as you would tell a colleague. This is not an AI that answers. It asks one thing at a time and keeps what it heard on the right, in your words. When the starting point holds, you can send it to me.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Tell it as you would tell a colleague who does not know your work. I read it and come back; if I cannot start, I ask you one thing first.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -63,45 +63,29 @@
   .doors { display: flex; gap: 0.6rem; margin-top: 1.4rem; flex-wrap: wrap; }
   .doors button { font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 2rem; padding: 0.5rem 1rem; cursor: pointer; }
   .doors button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.4rem; align-items: start; }
+  .two { display: grid; grid-template-columns: 3fr 2fr; gap: 2.5rem; margin-top: 1.6rem; align-items: start; }
   .door { display: none; } .door.on { display: block; }
-  .thread { display: grid; gap: 0.7rem; min-height: 8rem; }
-  .msg { padding: 0.75rem 0.95rem; border-radius: 1rem; max-width: 92%; line-height: 1.45; }
-  .msg.me { background: var(--ink); color: var(--paper); justify-self: end; border-bottom-right-radius: 0.3rem; }
-  .msg.pb { border: 1px solid var(--line); background: #fff; border-bottom-left-radius: 0.3rem; }
-  .msg q { quotes: "“" "”"; }
-  .compose { display: grid; grid-template-columns: 1fr auto; gap: 0.6rem; margin-top: 0.9rem; align-items: end; }
-  textarea, input { font: inherit; width: 100%; padding: 0.8rem 0.9rem; border: 1px solid var(--line); border-radius: 0.8rem; background: #fff; color: var(--ink); }
-  textarea { resize: vertical; min-height: 4.5rem; line-height: 1.45; }
-  textarea.paste { min-height: 14rem; margin-top: 0.6rem; }
+  .q { font-size: var(--s1, 1.25rem); font-weight: 500; margin: 0 0 0.5rem; }
+  .q small { display: block; font-weight: 400; color: var(--grey); font-size: var(--s-1); margin-top: 0.2rem; }
+  textarea, input { font: inherit; width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 0.8rem; background: #fff; color: var(--ink); }
+  textarea { resize: vertical; min-height: 11rem; line-height: 1.5; }
+  .second { margin-top: 1.4rem; display: none; } .second.on { display: block; } .second textarea { min-height: 5rem; }
   .btn { font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: 0.7rem 1.1rem; cursor: pointer; text-decoration: none; display: inline-block; }
-  .heard { padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 1rem; }
-  .heard ol { list-style: none; padding: 0; margin: 0.8rem 0 0; display: grid; gap: 0.9rem; }
-  .heard li { padding-left: 1.4rem; position: relative; }
-  .heard li::before { content: "○"; position: absolute; left: 0; color: var(--grey); }
-  .heard li.pending::before { content: "◐"; color: var(--accent); }
-  .heard li.ok::before { content: "●"; color: var(--accent); }
-  .heard li.opt.inf::before { content: "◌"; }
-  .heard li b { font-weight: 500; display: block; font-size: var(--s-1); }
-  .heard li q { display: block; color: var(--ink); font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
-  .heard li q.inf { color: var(--grey); font-style: italic; }
-  .heard li q[contenteditable] { cursor: text; border-bottom: 1px dashed var(--line); padding-bottom: 0.1rem; }
-  .heard li q[contenteditable]:focus { outline: none; border-bottom-color: var(--accent); }
-  .heard li.next b::after { content: " · next"; color: var(--accent); font-family: var(--mono); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.06em; }
-  .heard li.next::before { content: "○"; color: var(--accent); }
-  .progress { color: var(--grey); font-size: var(--s-1); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; margin-left: 0.6rem; }
-  .heard li.ok::before { content: "●"; color: var(--accent); }
-  .state { margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--line); font-weight: 500; }
-  .status { color: var(--grey); font-size: var(--s-1); }
-  .step2 { margin-top: 2rem; display: none; } .step2.on { display: block; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60ch; margin-top: 1rem; }
+  .side { padding: 1.1rem 1.2rem; border: 1px solid var(--line); border-radius: 1rem; }
+  .side ol { padding-left: 1.2rem; margin: 0.6rem 0 0; display: grid; gap: 0.45rem; } .side li { font-size: var(--s-1); }
+  .side .label + ol { margin-top: 0.6rem; } .side .label { display: block; margin-top: 1.1rem; } .side .label:first-child { margin-top: 0; }
+  .floor { margin-top: 1.2rem; font-weight: 500; } .floor.off { color: var(--grey); font-weight: 400; }
+  .step2 { margin-top: 1.6rem; display: none; } .step2.on { display: block; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60ch; }
   .opts { display: grid; gap: 0.6rem; margin-top: 0.5rem; max-width: 60ch; }
   .opts label { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
   .opts input { width: auto; margin: 0; }
   fieldset { border: 0; padding: 0; margin: 1rem 0 0; } legend b { font-weight: 500; }
   .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.2rem; }
+  .status { color: var(--grey); font-size: var(--s-1); }
+  label b { display: block; font-weight: 500; }
   @media (max-width: 860px) { .two, .row { grid-template-columns: 1fr; } }
-  @media (prefers-color-scheme: dark) { textarea, input, .msg.pb { background: #1a191e; } .msg.me { background: var(--ink); color: #111014; } .btn { background: var(--ink); color: #111014; } .doors button[aria-pressed="true"] { background: var(--ink); color: #111014; } }
+  @media (prefers-color-scheme: dark) { textarea, input { background: #1a191e; } .btn { background: var(--ink); color: #111014; } .doors button[aria-pressed="true"] { background: var(--ink); color: #111014; } }
 </style>
 </head>
 <body>
@@ -113,10 +97,10 @@
 <section class="intro" aria-labelledby="h1">
   <span class="label">↳ ask</span>
   <h1 id="h1">Ask</h1>
-  <p>Write it as you would tell a colleague. This is not an AI that answers. It asks one thing at a time and keeps what it heard on the right, in your words. When the starting point holds, you can send it to me.</p>
+  <p>Tell it as you would tell a colleague who does not know your work. I read it and come back; if I cannot start, I ask you one thing first.</p>
 </section>
 
-<div class="doors" role="tablist">
+<div class="doors">
   <button type="button" id="door-tell" aria-pressed="true">Tell it</button>
   <button type="button" id="door-chat" aria-pressed="false">Hand over a chat with an AI</button>
 </div>
@@ -124,44 +108,42 @@
 <div class="two">
   <div>
     <div class="door on" id="tell">
-      <div class="thread" id="thread" aria-live="polite"></div>
-      <form class="compose" id="compose" onsubmit="return false">
-        <textarea id="say" placeholder="Write here"></textarea>
-        <button class="btn" type="submit" id="turn">Send</button>
-      </form>
+      <label for="story"><p class="q">What happens?<small>Your words. No form, no categories.</small></p>
+      <textarea id="story"></textarea></label>
+      <div class="second" id="second">
+        <label for="wish"><p class="q">What would you like to be different?</p>
+        <textarea id="wish"></textarea></label>
+      </div>
     </div>
     <div class="door" id="chat">
-      <p class="how" style="margin-top:0">Paste the conversation you already had with an AI about this. I read it for the same five lines; what it does not contain, I ask.</p>
-      <textarea class="paste" id="paste" placeholder="Paste the whole chat, your messages and the AI&#x27;s answers."></textarea>
-      <div class="actions"><button class="btn" type="button" id="readchat">Read it</button></div>
+      <p class="how" style="margin-top:0">Paste the conversation you already had with an AI about this. I read it as your introduction: what happens, what you wanted, and what was proposed to you.</p>
+      <textarea id="paste" placeholder="Paste the whole chat, your messages and the AI&#x27;s answers." style="min-height:14rem"></textarea>
     </div>
+    <p class="floor off" id="floor"></p>
+    <section class="step2" id="step2" aria-label="Send">
+      <div class="row">
+        <label><b>Your email</b><input type="email" id="email"></label>
+        <label><b>Needed by</b><small class="status">At least 7 days from payment.</small><input type="date" id="deadline"></label>
+      </div>
+      <fieldset><legend><b>Who reads it</b></legend>
+      <div class="opts">
+        <label><input type="radio" name="tier" value="1" checked> <span><b>Ask my agent</b> · 5 000 sats<br><small class="status">Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.</small></span></label>
+        <label><input type="radio" name="tier" value="2"> <span><b>Ask me</b> · 50 000 sats<br><small class="status">I read it myself and answer in days.</small></span></label>
+      </div></fieldset>
+      <div class="actions">
+        <a class="btn" id="send" href="#">Send by email</a>
+        <button class="btn" type="button" id="copy">Copy the request</button>
+        <span class="status">Opens your mail program with your text filled in. If it does not open, copy and paste it in a mail to <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a></span>
+      </div>
+    </section>
   </div>
-  <aside class="heard" aria-live="polite">
-    <span class="label">↳ What I heard</span><span class="progress" id="progress"></span>
-    <ol id="lines"></ol>
-    <p class="state" id="state"></p>
-    <p class="status">Mechanical reading, no model; nothing leaves this page until you send. Every line is your sentence. Click a line to change it.</p>
+  <aside class="side">
+    <span class="label">↳ What I do with this</span>
+    <ol><li>Who actually has the problem, and who decided over their heads.</li><li>What is taken as true without being checked.</li><li>What was asked for, and what is needed underneath it.</li><li>What you would do differently once it is clear.</li></ol>
+    <span class="label">↳ Then</span>
+    <ol><li>I read it myself. If I cannot start, one question by mail, before anything else.</li><li>The invoice comes from my own node; the reply window of 7 days starts when the payment is seen.</li><li>Your text stays on my machines. No external model reads it.</li></ol>
   </aside>
 </div>
-
-<section class="step2" id="step2" aria-label="Send">
-  <span class="label">↳ Send</span>
-  <div class="row">
-    <label><b>Your email</b><input type="email" id="email"></label>
-    <label><b>Needed by</b><small class="status">At least 7 days from payment.</small><input type="date" id="deadline"></label>
-  </div>
-  <fieldset><legend><b>Who reads it</b></legend>
-  <div class="opts">
-    <label><input type="radio" name="tier" value="1" checked> <span><b>Ask my agent</b> · 5 000 sats<br><small class="status">Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.</small></span></label>
-    <label><input type="radio" name="tier" value="2"> <span><b>Ask me</b> · 50 000 sats<br><small class="status">I read it myself and answer in days.</small></span></label>
-  </div></fieldset>
-  <div class="actions">
-    <a class="btn" id="send" href="#">Send by email</a>
-    <button class="btn" type="button" id="copy">Copy the request</button>
-    <span class="status">Opens your mail program with the request filled in, your words and the collected lines. If it does not open, copy and paste it in a mail to <a href="mailto:info@interactiondesign.nl">info@interactiondesign.nl</a></span>
-  </div>
-  <p class="how" style="max-width:60ch">What happens then: I read it, mail the invoice from my own node, and the reply window of 7 days starts when the payment is seen. Nothing is paid on this page.</p>
-</section>
 
 <footer>
   <span class="label">↳ connect</span>
@@ -170,128 +152,45 @@
 </footer>
 </div>
 <script>
-// Arm B: the left side only asks; the right side is the conclusion, in the asker's words, editable in place. Arm A: a pasted AI chat read for the same lines.
-// Rules only, no model; nothing leaves the page until send. Script version ask-v4-2026-10-22. Texts from src/ask.json.
-const CH = [{"id": "who", "label": "Who has the problem, and who decides", "required": true}, {"id": "object", "label": "Where it sits", "required": true}, {"id": "current", "label": "What happens now, and the evidence", "required": true}, {"id": "decision", "label": "The decision this informs", "required": true}, {"id": "decided", "label": "Already decided or fixed", "required": false, "default": "nothing stated"}, {"id": "users_asked", "label": "The people who use it day to day", "required": false, "default": "not asked yet"}], OBJ = [{"id": "website", "label": "the public website", "means": "the site anyone can open without logging in"}, {"id": "product", "label": "the product or app people use", "means": "the thing people log into or install and work in"}, {"id": "flow", "label": "a flow: sign-up, checkout, onboarding", "means": "a sequence of steps people have to get through"}, {"id": "content", "label": "the wording and what is said", "means": "the text, the message, the tone"}, {"id": "data", "label": "data, numbers, a dataset or model", "means": "what is measured or entered, and what is built on it"}, {"id": "ai_output", "label": "an AI-generated document or output", "means": "something an AI wrote or summarised for you"}, {"id": "organisation", "label": "the team or organisation", "means": "who owns it, who works on it, who decides"}, {"id": "process", "label": "the way of working", "means": "how the work moves from one person to the next"}, {"id": "strategy", "label": "a strategic decision or roadmap", "means": "which direction, which investment, which one first"}], T = {"solution": "“{q}” reads as a solution. I keep it under already decided. What happens now, and for whom? One observed fact is enough.", "method": "A question about how I work is not a request; the task contract describes it. What is going on at your end?", "agent_alone": "An agent asking on its own behalf is declined. Who is the person or organisation behind this?", "ask": {"object": "Where does this sit: the public site, the app people log into, the data, or how the organisation works?", "decision": "What do you need to decide, or get moving, once this is clear?", "who": "Who has this day to day, and who says yes to a change?", "current": "What happens now, and for whom? One observed fact is enough.", "users_asked": "Has anyone who uses it day to day been asked? What did they say?"}, "ask_again": {"object": "I still have no place for it. Is it the public site, the app, the data, or the organisation?", "decision": "Still missing: what you will do once this is clear. One sentence.", "who": "Still missing: who has this day to day, and who decides.", "current": "Still missing: one thing that happens now. Not the wish, the fact."}, "collected": "That holds. Check the lines on the right; click one to change it. Then send.", "noted": "Kept on the right.", "edited": "Changed on the right."}, G = {"who": "Who has the problem: the person who feels it day to day. Who decides: the one who says yes to a change.", "object": "Where it sits: the thing the problem lives in. The public website is the site anyone can open; the app is what people log into; data is what is measured; the organisation is who owns and decides.", "current": "What happens now: one observed fact, in your words. Not what you want, what you see.", "decision": "The decision this informs: what you will do differently once this is clear, and by when.", "decided": "Already decided or fixed: what is not up for discussion, including a solution that was already chosen.", "users_asked": "The people who use it day to day: whether they have been asked, and what they said.", "lens": "My lens: the way I read a problem. I find the underlying problem before you build the wrong solution. The task contract describes it.", "collected": "Collected means the four required lines are there, in your words. It is a starting point, not a judgement; the judgement comes after you send and pay."};
-const L = {collected: "Collected: a starting point for my lens.", open: "Not collected yet.", first: "What is going on?", progress: "{n} of {m} lines", gfallback: "I only ask and keep what you say; I do not answer questions here. The task contract describes what I do. Where were we:"};
+// v5: two prompts in the asker's words; no reading, no categories, no judgement on the page. A floor only: something happens, not a method question, not an agent alone.
+// Script version ask-v5-2026-10-22. Texts from src/ask.json.
+const F = {"short": "A few more sentences: what happens, and to whom.", "method": "A question about how I work is not a request; the task contract describes it.", "agent_alone": "An agent asking on its own behalf is declined; name the person or organisation behind it.", "ok": "Send it to me."};
 const RX = {
-  who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council)|owner of|lead at|work(s|ing)? (at|for)|(policy )?advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|for a client|my client|the client|the customer|(she|he|they) decides?|decides)\b/i,
-  current: /\b(doesn'?t|don'?t|does not|do not|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not (sure|tracking|working|getting|converting|enough|clear|happening|used|using|what)|unsure|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped|s)? ?(off)?|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|unreliable|problems?|issues?|decline|declin(ed|ing)|down|lost|losing|less|fewer|worse|struggl(e|es|ing)|hard(er)? to|difficult|no longer|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints|visitors|leads)|since (last|the)|last (week|month|year|quarter)|assume[sd]?|assumption|we (think|believe|expect|hope)|take[sn]? for granted)/i,
-  decision: /\b(decide|decision|whether|should (we|i)|do we|go ahead|or not|which (one|option|vendor|model|way)|before (we|i) (build|buy|sign|launch|commit|invest|hire|spend)|need to know|inform|choose|commit|sign|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?|what (should|do) (we|i) do)\b/i,
-  decided: /\b(already (decided|chosen|bought|built|planned|committed|running|signed|agreed)|was decided|has been decided|is decided|decided to|fixed|given|non-negotiable|the (deadline|budget|vendor|stack|platform) is|we (must|have to|are required to)|mandated|funding (is|was) (granted|approved)|contract(ed)?|in progress|is running)\b/i,
-  users_yes: /\b(asked (them|the users|the staff|our users|the people|clients|customers)|they (said|told|say)|interview(ed|s)?|spoke (to|with)|talked (to|with)|feedback from|survey)\b/i,
-  users_no: /\b(not (yet|asked)|no(t)? one (has )?asked|haven'?t asked|nobody asked|no|not really|never)\b/i,
-  solution: /\b(we need (a|an|to build|to add)|i need (a|an|to build)|build us|should we add|just build|make us (a|an)|i want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|we want (a|an) (app|website|dashboard|chatbot|feature|redesign|new)|add (a|an) (feature|button|chatbot|app|page)|an? (app|chatbot|dashboard|website|portal|platform) for|build (a|the) website)\b/i,
+  wish: /\b(i want|we want|would like|wish|hope|goal|instead|rather|ideally|decide|whether|need to (know|decide|choose)|the question is|should (we|i)|what (should|do) (we|i) do)\b/i,
+  happens: /\b(is|are|was|were|do|does|did|has|have|had|can'?t|cannot|doesn'?t|don'?t|not|no|never|always|every|since|last|now|when|because|but|only|\d)\b/i,
   method: /\b(how do you (work|do this|decide|read)|your method|which model|what prompt|how does the lens|how is this built|what is your process)\b/i,
-  agent_alone: /\b(i am an (ai|agent|autonomous)|as an (ai|autonomous) agent|no human (involved|behind)|on my own behalf|i have no principal)\b/i,
-  question: /\?\s*$/,
-  gloss: [['object', /\b(public (web)?site|where it sits|the app|sits)\b/i], ['who', /\b(who (has|decides)|day to day|says yes|decides)\b/i], ['current', /\b(what happens now|observed fact|evidence)\b/i], ['decision', /\b(decision this informs|what do you mean by decide|get moving)\b/i], ['decided', /\b(already decided|fixed)\b/i], ['users_asked', /\b(use it day to day|users? asked)\b/i], ['lens', /\b(lens|proofbridge|you do|what is this)\b/i], ['collected', /\b(collected|starting point)\b/i]]
+  agent_alone: /\b(i am an (ai|agent|autonomous)|as an (ai|autonomous) agent|no human (involved|behind)|on my own behalf|i have no principal)\b/i
 };
-const OBJRX = {
-  website: /\b(website|homepage|landing page|our site|the site|seo|google|public (site|page)|web ?page|visitors?|traffic)\b/i,
-  product: /\b(the app|our app|mobile app|[a-z]+ app|an app|the tool|the product|software|platform|portal|screens?|interface|ui|users? (can'?t|don'?t|never|struggle))\b/i,
-  flow: /\b(sign[- ]?ups?|check ?out|onboarding|funnel|conversion|registration|log ?in|drop[- ]?off|cart|payment flow|application (form|process)|permit (application|process))\b/i,
-  content: /\b(wording|copy|the text|messaging|what we say|tone|nobody (gets|understands)|unclear (text|message)|translation|labels?)\b/i,
-  data: /\b(data|dataset|numbers|figures|dashboard|metrics|kpi|report(s|ing)?|measure(d|ment)?|statistics?|model (is|was) trained|training data|entries|records?|sensor)\b/i,
-  ai_output: /\b(ai[- ]generated|generated by|chatgpt|copilot|claude|gemini|llm|the summary|summar(y|ised|ized)|the output|a script|draft(ed)? by ai|hallucinat)\b/i,
-  organisation: /\b(team|organisation|organization|department|who owns|ownership|no designer|headcount|workforce|staff|culture|stakeholders?|silo|management|new clients|customers)\b/i,
-  process: /\b(how we work|process|hand ?off|workflow|way of working|takes forever|approval (takes|process)|procedure|meetings?|double entry|legacy system)\b/i,
-  strategy: /\b(strategy|roadmap|the boss wants|which one|direction|priorit(y|ies|ise|ize)|invest|30 ?%|cut|budget|vision|positioning|age of ai)\b/i
-};
-const S = { lines: {}, awaiting: null, asked: {}, said: [], arm: 'tell', collectedSaid: false, lastPb: '' };
-for (const c of CH) S.lines[c.id] = {text: null, inferred: false};
 const $ = id => document.getElementById(id);
-function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-function fill(tpl, q, label){ return tpl.replace('{q}', q || '').replace('{label}', label || ''); }
-function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(s => s.length > 2); }
-function objectOf(t){ const sc = Object.entries(OBJRX).map(([k,rx]) => [k, (t.match(new RegExp(rx.source,'gi'))||[]).length]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]); return sc.length ? OBJ.find(o => o.id === sc[0][0]) : null; }
-function say(who, text){ if (who === 'pb' && text === S.lastPb) return; if (who === 'pb') S.lastPb = text; const d = document.createElement('div'); d.className = 'msg ' + who; d.textContent = text; $('thread').appendChild(d); d.scrollIntoView({block:'nearest'}); }
-function setLine(id, text, inferred){ S.lines[id] = {text, inferred: !!inferred}; }
-function required(){ return CH.filter(c => c.required).map(c => c.id); }
-function has(id){ return !!S.lines[id].text; }
-function collected(){ return required().every(has); }
-function read(text){
-  const ss = sentences(text); const isSol = RX.solution.test(text);
-  if (isSol && !has('decided')) setLine('decided', ss.find(x => RX.solution.test(x)) || ss[0]);
-  const used = new Set(Object.values(S.lines).map(l => l.text).filter(Boolean));
-  for (const [id, rx] of [['who', RX.who], ['current', RX.current], ['decision', RX.decision]]) {
-    if (has(id)) continue;
-    const cands = ss.filter(x => rx.test(x) && !(isSol && RX.solution.test(x)));
-    const s = cands.find(x => !used.has(x)) || cands[0];
-    if (s) { setLine(id, s); used.add(s); }
-  }
-  if (!has('decided') && !isSol) { const s = ss.find(x => RX.decided.test(x)); if (s) setLine('decided', s); }
-  if (!has('object')) { const o = objectOf(S.said.join(' ') + ' ' + text); if (o) setLine('object', o.label, true); }
-  if (!has('users_asked')) { const s = ss.find(x => RX.users_yes.test(x)); if (s) setLine('users_asked', s); }
-  return isSol;
+let arm = 'tell';
+function words(t){ return t.trim().split(/\s+/).filter(Boolean).length; }
+function floor(){
+  const story = arm === 'tell' ? $('story').value : $('paste').value; const wish = $('wish').value; const all = story + ' ' + wish;
+  let msg = null, ok = false;
+  if (RX.method.test(all)) msg = F.method;
+  else if (RX.agent_alone.test(all)) msg = F.agent_alone;
+  else if (words(story) < 20 || !RX.happens.test(story)) msg = F.short;
+  else ok = true;
+  $('second').classList.toggle('on', arm === 'tell' && words(story) >= 20 && !RX.wish.test(story));
+  const f = $('floor'); f.textContent = ok ? F.ok : msg; f.classList.toggle('off', !ok);
+  $('step2').classList.toggle('on', ok); refresh();
 }
-function nextId(isSol){
-  const order = isSol ? ['current','object','decision','who'] : ['object','decision','who','current'];
-  for (const id of order) if (!has(id)) return id;
-  if (!has('users_asked')) return 'users_asked';
-  return null;
-}
-function ask(id){ if (!id) return; S.awaiting = id; const again = S.asked[id] && T.ask_again[id]; S.asked[id] = (S.asked[id] || 0) + 1; say('pb', again ? T.ask_again[id] : T.ask[id]); }
-function render(){
-  const nxt = nextId(false);
-  $('lines').innerHTML = CH.map(c => { const l = S.lines[c.id]; const text = l.text || (c.required ? '' : c.default);
-    const cls = (l.text ? 'ok' : (c.id === nxt && !collected() ? 'next' : '')) + (c.required ? '' : ' opt') + (l.text ? '' : ' inf');
-    return '<li class="' + cls + '" data-id="' + c.id + '"><b>' + esc(c.label) + '</b>' + (text ? '<q class="' + (l.text && !l.inferred ? '' : 'inf') + '" contenteditable="true" spellcheck="false" data-id="' + c.id + '">' + esc(text) + '</q>' : '') + '</li>'; }).join('');
-  const n = required().filter(has).length, m = required().length; $('progress').textContent = L.progress.replace('{n}', n).replace('{m}', m);
-  const ok = collected(); $('state').textContent = ok ? L.collected : L.open; $('step2').classList.toggle('on', ok);
-  if (ok && !S.collectedSaid) { S.collectedSaid = true; say('pb', T.collected); }
-  refresh();
-}
-function answerQuestion(text){ for (const [k, rx] of RX.gloss) if (rx.test(text)) return G[k]; return null; }
-function turn(text){
-  text = text.trim(); if (!text) return; say('me', text);
-  if (RX.method.test(text)) { say('pb', T.method); return; }
-  if (RX.agent_alone.test(text)) { say('pb', T.agent_alone); return; }
-  if (RX.question.test(text) && !RX.decision.test(text) && text.split(/\s+/).length <= 14) {
-    const g = answerQuestion(text); say('pb', (g || L.gfallback) + (S.awaiting ? ' ' + T.ask[S.awaiting] : '')); if (S.awaiting) S.asked[S.awaiting] = (S.asked[S.awaiting] || 0); return;
-  }
-  S.said.push(text);
-  if (S.awaiting === 'users_asked') { if (RX.users_no.test(text) && !RX.users_yes.test(text)) setLine('users_asked', CH.find(c=>c.id==='users_asked').default, true); else setLine('users_asked', text); S.awaiting = null; say('pb', T.noted); render(); return; }
-  const isSol = read(text);
-  if (S.awaiting && !has(S.awaiting)) setLine(S.awaiting, text);
-  if (isSol && !has('current')) { const d = S.lines.decided.text; say('pb', fill(T.solution, d.length > 90 ? d.slice(0,90) + '…' : d)); S.awaiting = 'current'; S.asked.current = (S.asked.current || 0) + 1; render(); return; }
-  S.awaiting = null; render();
-  const n = nextId(false); if (n) ask(n);
-}
-$('compose').addEventListener('submit', () => { const t = $('say').value; $('say').value = ''; turn(t); $('say').focus(); });
-$('say').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('compose').requestSubmit(); } });
-$('lines').addEventListener('focusout', e => { const q = e.target.closest('q[data-id]'); if (!q) return; const v = q.textContent.trim(); const id = q.dataset.id; const c = CH.find(x => x.id === id);
-  if (v && v !== (S.lines[id].text || c.default)) { setLine(id, v); say('pb', T.edited); render(); } });
-$('lines').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest('q[data-id]')) { e.preventDefault(); e.target.blur(); } });
-$('door-tell').onclick = () => { S.arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); $('door-tell').setAttribute('aria-pressed','true'); $('door-chat').setAttribute('aria-pressed','false'); };
-$('door-chat').onclick = () => { S.arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); $('door-chat').setAttribute('aria-pressed','true'); $('door-tell').setAttribute('aria-pressed','false'); };
-$('readchat').onclick = () => {
-  const raw = $('paste').value; if (!raw.trim()) return;
-  const turns = raw.split(/\n(?=(?:user|you|me|human|chatgpt|assistant|ai|claude|gemini|copilot)\s*:)/i);
-  const human = turns.filter(t => /^(user|you|me|human)\s*:/i.test(t)).map(t => t.replace(/^[a-z]+\s*:/i,'')).join(' ') || raw;
-  const ai = turns.filter(t => /^(chatgpt|assistant|ai|claude|gemini|copilot)\s*:/i.test(t)).map(t => t.replace(/^[a-z]+\s*:/i,'')).join(' ');
-  $('door-tell').click(); S.arm = 'chat'; S.said.push(human);
-  say('me', '[a chat with an AI, ' + raw.split(/\s+/).length + ' words]');
-  const isSol = read(human);
-  if (ai && !has('decided')) { const rec = sentences(ai).find(s => /\b(should|recommend|best|you can|i suggest|the solution|build|implement)\b/i.test(s)); if (rec) setLine('decided', 'the AI proposed: ' + rec); }
-  render(); const n = nextId(isSol); if (n) ask(n);
-};
+$('door-tell').onclick = () => { arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); $('door-tell').setAttribute('aria-pressed','true'); $('door-chat').setAttribute('aria-pressed','false'); floor(); };
+$('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); $('door-chat').setAttribute('aria-pressed','true'); $('door-tell').setAttribute('aria-pressed','false'); floor(); };
 function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
 const RID = reqId();
 function body(){
   const tier = (document.querySelector('input[name=tier]:checked') || {value:'1'}).value; const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: ask-v4-2026-10-22', 'tier: ' + tier, 'deadline: ' + v('deadline'), 'principal_email: ' + v('email'), 'payment: invoice requested', '', 'Collected starting point (my lines):'];
-  for (const c of CH) { const l = S.lines[c.id]; lines.push(c.label + ': ' + (l.text || c.default || '(open)') + (l.inferred ? ' [inferred]' : '')); }
-  lines.push('', 'In my words, as written:', ...S.said);
-  if ($('paste').value.trim()) lines.push('', 'The chat with the AI:', $('paste').value.trim());
+  const lines = ['request_id: ' + RID, 'script: ask-v5-2026-10-22', 'door: ' + arm, 'tier: ' + tier, 'deadline: ' + v('deadline'), 'principal_email: ' + v('email'), 'payment: invoice requested', ''];
+  if (arm === 'tell') { lines.push('What happens:', v('story')); if (v('wish')) lines.push('', 'What I would like to be different:', v('wish')); }
+  else lines.push('The chat with the AI:', v('paste'));
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
 function refresh(){ const b = body(); const tier = (document.querySelector('input[name=tier]:checked') || {value:'1'}).value;
   const href = 'mailto:info@interactiondesign.nl?subject=' + encodeURIComponent('PROOFBRIDGE T' + tier + ' ' + RID) + '&body=' + encodeURIComponent(b);
   const a = $('send'); if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; } }
-$('copy').onclick = copy; $('step2').addEventListener('input', refresh);
-say('pb', L.first); render();
+$('copy').onclick = copy; document.addEventListener('input', floor); floor();
 </script>
 </body>
 </html>
