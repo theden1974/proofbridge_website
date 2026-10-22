@@ -1,6 +1,6 @@
 {
   "status": "prototype",
-  "script_version": "ask-v7-2026-10-22",
+  "script_version": "ask-v8-2026-10-22",
   "title": "Ask",
   "lead": "Tell it as you would tell a colleague who does not know your work.",
   "doors": {
@@ -23,29 +23,14 @@
     "ok": ""
   },
   "chat_placeholder": "Paste the whole chat, your messages and the AI's answers.",
-  "guide_label": "What I read so far",
-  "guide": [
-    {
-      "id": "who",
-      "label": "Who has the problem, and who decided"
-    },
-    {
-      "id": "happens",
-      "label": "What happens now"
-    },
-    {
-      "id": "asked",
-      "label": "What was asked for"
-    },
-    {
-      "id": "assumed",
-      "label": "What is taken as true without being checked"
-    },
-    {
-      "id": "differently",
-      "label": "What you would do differently once it is clear"
-    }
-  ],
-  "guide_empty": "appears while you write",
-  "chat_lead": "Paste the conversation you had with an AI about this."
+  "chat_lead": "Paste the conversation you had with an AI about this.",
+  "sidekick": {
+    "intro": "I think I see this. Am I wrong?",
+    "presented": "Presented",
+    "underneath": "Underneath",
+    "yes": "that is it",
+    "no": "not like that",
+    "thanks_yes": "Kept with your text.",
+    "thanks_no": "Dropped. Your text is what I read."
+  }
 }
