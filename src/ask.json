@@ -1,6 +1,6 @@
 {
   "status": "prototype",
-  "script_version": "ask-v14-2026-10-23",
+  "script_version": "ask-v15-2026-10-23",
   "title": "Prepare",
   "lead": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.",
   "doors": {
@@ -39,11 +39,10 @@
     "ask_effect": "What happens at your end because of this?",
     "ask_thanks": "Goes in with your text."
   },
-  "send_endpoint": "",
+  "send_endpoint": "https://proofbridge-send.dennis-f79.workers.dev/",
   "sent_label": "Sent. Your reference:",
   "send_fail": "Could not send from here. Copy it and mail it to",
   "send_long": "Copy and open mail",
   "copied_note": "Copied. Paste it into the mail to",
-  "announce_send": "Send is available below.",
-  "send_endpoint_pending": "https://proofbridge-send.dennis-f79.workers.dev/"
+  "announce_send": "Send is available below."
 }
