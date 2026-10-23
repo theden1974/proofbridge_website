@@ -170,7 +170,7 @@
 <script>
 // v8: side kick. One pattern at most (presented / underneath), built from two of the asker's own sentences, asked as a guess; the answer travels in the mail. Otherwise the page only takes the story and sends.
 // v7: empty state first. Two prompts in the asker's words; the right side appears only when a sentence is read, and shows only what was read. No notes, no hints, no promises. A floor only: something happens, not a method question, not an agent alone.
-// Script version ask-v13-2026-10-23. Texts from src/ask.json.
+// Script version ask-v14-2026-10-23. Texts from src/ask.json.
 const F = {"short": "", "method": "How I work is in the task contract; this page is for your situation.", "agent_alone": "Name the person or organisation this is for.", "ok": ""}; const ASKQ = { plan: 'What are you about to do about it?', people: 'Who does this day to day, and what do they say?', effect: 'What happens at your end because of this?' };
 const GRX = {
   who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council|client|customer)|owner of|lead at|work(s|ing)? (at|for)|advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|(she|he|they) decides?|decided|mandate|funding)\b/i,
@@ -241,7 +241,7 @@ function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (
 const RID = reqId();
 function body(){
   const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: ask-v13-2026-10-23', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
+  const lines = ['request_id: ' + RID, 'script: ask-v14-2026-10-23', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); }
   else lines.push('The chat with the AI:', v('paste'));
   if (SK.fired) { lines.push('', 'Side kick (pattern: presented / underneath): ' + (SK.answer || 'unanswered')); lines.push('Presented: ' + SK.fired.presented); lines.push('Underneath: ' + SK.fired.underneath); if (SK.own) lines.push('Underneath, in the asker\'s words: ' + SK.own); }
@@ -256,7 +256,7 @@ function refresh(){ const b = body();
   if (href.length < 1900) { a.href = href; a.onclick = null; a.textContent = 'Send'; }
   else { a.href = 'mailto:ask@proofbridge.nl?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID); a.textContent = 'Copy and open mail';
     a.onclick = () => { copy(); const n = $('step2').querySelector('.actions .status'); if (n) n.innerHTML = 'Copied. Paste it into the mail to <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a>'; }; } }
-const ENDPOINT = '';
+const ENDPOINT = 'https://proofbridge-send.dennis-f79.workers.dev/';
 async function sendForm(e){ e.preventDefault(); const a = $('send'); if (a.dataset.busy) return; a.dataset.busy = '1'; a.textContent = '…';
   try { const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ request_id: RID, email: ($('email').value || '').trim(), website: $('website').value, body: body() }) });
     const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || r.status);
