@@ -17,8 +17,12 @@ __CSS__
   .door { display: none; } .door.on { display: block; }
   .q { font-size: var(--s1, 1.25rem); font-weight: 500; margin: 0 0 0.5rem; }
   .q small { display: block; font-weight: 400; color: var(--grey); font-size: var(--s-1); margin-top: 0.2rem; }
-  textarea, input { font: inherit; width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 0.8rem; background: #fff; color: var(--ink); }
-  textarea { resize: vertical; min-height: 11rem; line-height: 1.5; }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .hint { color: var(--grey); font-size: var(--s-1); margin: 0 0 0.6rem; max-width: 60ch; }
+  label.q { display: block; }
+  .side label { display: block; font-size: var(--s-1); margin-top: 0.8rem; }
+  textarea, input { font: inherit; width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--grey); border-radius: 0.8rem; background: #fff; color: var(--ink); }
+  textarea { resize: vertical; min-height: 11rem; line-height: 1.5; field-sizing: content; max-height: 70vh; }
   .second { margin-top: 1.4rem; display: none; } .second.on { display: block; } .second textarea { min-height: 5rem; }
   .btn { font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: 0.7rem 1.1rem; cursor: pointer; text-decoration: none; display: inline-block; }
   .side { padding: 1.1rem 1.2rem; border: 1px solid var(--line); border-radius: 1rem; }
@@ -64,33 +68,35 @@ __CSS__
 <div class="two">
   <div>
     <div class="door on" id="tell">
-      <label for="story"><p class="q">__PROMPT1__<small>__BOX_HINT__</small></p>
-      <textarea id="story"></textarea></label>
+      <label for="story" class="q">__PROMPT1__</label>
+      <p class="hint" id="story-hint">__BOX_HINT__</p>
+      <textarea id="story" aria-describedby="story-hint"></textarea>
       <p class="alt"><button type="button" class="link" id="door-chat">__DOOR_CHAT__</button></p>
     </div>
     <div class="door" id="chat">
-      <label for="paste"><p class="q">__CHAT_LEAD__</p>
-      <textarea id="paste" style="min-height:14rem"></textarea></label>
+      <label for="paste" class="q">__CHAT_LEAD__</label>
+      <textarea id="paste" style="min-height:14rem"></textarea>
       <p class="alt"><button type="button" class="link" id="door-tell">__DOOR_BACK__</button></p>
     </div>
     <p class="floor off" id="floor" hidden></p>
   </div>
-  <aside class="side" id="side" aria-live="polite" hidden>
+  <aside class="side" id="side" hidden>
     <div id="sk-pair">
-      <p class="q" style="font-size:1rem">__SK_INTRO__</p>
+      <span class="label">↳ __SK_INTRO__</span>
       <p class="pair"><b>__SK_PRESENTED__</b><q id="sk-p"></q></p>
       <p class="pair"><b>__SK_UNDERNEATH__</b><q id="sk-u"></q></p>
-      <div class="ctl" id="sk-ctl"><span class="status" style="align-self:center">__SK_QUESTION__</span><button type="button" id="sk-yes">__SK_YES__</button><button type="button" id="sk-no">__SK_NO__</button></div>
-      <div id="sk-fix" hidden><p class="status" style="margin-top:0.8rem">__SK_CORRECT__</p><textarea id="sk-own" style="min-height:4rem"></textarea></div>
-      <p class="status" id="sk-thanks" hidden></p>
+      <div class="ctl" id="sk-ctl" role="group" aria-labelledby="sk-question"><span class="status" id="sk-question" style="align-self:center">__SK_QUESTION__</span><button type="button" id="sk-yes">__SK_YES__</button><button type="button" id="sk-no">__SK_NO__</button></div>
+      <div id="sk-fix" hidden><label for="sk-own">__SK_CORRECT__</label><textarea id="sk-own" style="min-height:4rem"></textarea></div>
+      <p class="status" id="sk-thanks" tabindex="-1" hidden></p>
     </div>
     <div id="sk-ask" hidden>
-      <p class="q" style="font-size:1rem">__SK_ASK_INTRO__</p>
-      <p class="pair" id="sk-q"></p>
+      <span class="label">↳ __SK_ASK_INTRO__</span>
+      <label for="sk-answer" id="sk-q"></label>
       <textarea id="sk-answer" style="min-height:4rem"></textarea>
       <p class="status" id="sk-ask-thanks" hidden>__SK_ASK_THANKS__</p>
     </div>
   </aside>
+  <p class="vh" role="status" id="announce"></p>
 </div>
     <section class="step2" id="step2" aria-label="Send">
       <div class="row">
@@ -127,7 +133,11 @@ function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?;])\s+|,?\s+(
 const SK = { fired: null, answer: null, own: '', ask: null, askAnswer: '' };
 const RXQ = { dontknow: /\b(i don'?t know|we don'?t know|not sure how|no idea|how do (i|we)|how to)\b/i, worldq: /\?\s*$/ };
 const DORMANT = /\b(nobody (has )?asked|no one (has )?asked|haven'?t asked|not asked|never asked|without asking)\b/i;
+function answered(){ return !!(SK.answer || SK.own || SK.askAnswer); }
+function announce(msg){ const r = $('announce'); r.textContent = ''; setTimeout(() => { r.textContent = msg; }, 50); }
 function sidekick(text){
+  if (answered()) return SK;
+  const wasShown = !$('side').hidden; const before = SK.fired ? 'pair:' + SK.fired.key : SK.ask ? 'ask:' + SK.ask : '';
   const ss = sentences(text);
   const presented = ss.find(x => GRX.asked.test(x));
   const underneath = presented ? (ss.find(x => x !== presented && (GRX.assumed.test(x) || DORMANT.test(x))) || ss.find(x => x !== presented && !GRX.asked.test(x) && GRX.happens.test(x))) : null;
@@ -142,9 +152,11 @@ function sidekick(text){
   $('sk-pair').hidden = !SK.fired; $('sk-ask').hidden = !ask || !!SK.fired;
   if (ask && !SK.fired) $('sk-q').textContent = ASKQ[ask];
   $('side').hidden = !SK.fired && !ask;
+  const after = SK.fired ? 'pair:' + SK.fired.key : SK.ask ? 'ask:' + SK.ask : '';
+  if (after && after !== before) announce(SK.fired ? '__SK_INTRO__ __SK_PRESENTED__: ' + SK.fired.presented + ' __SK_UNDERNEATH__: ' + SK.fired.underneath : '__SK_ASK_INTRO__ ' + ASKQ[SK.ask]);
   return SK;
 }
-function bindSK(){ $('sk-yes').onclick = () => { SK.answer = 'yes'; $('sk-thanks').textContent = '__SK_THANKS_YES__'; $('sk-thanks').hidden = false; $('sk-ctl').hidden = true; refresh(); };
+function bindSK(){ $('sk-yes').onclick = () => { SK.answer = 'yes'; $('sk-thanks').textContent = '__SK_THANKS_YES__'; $('sk-thanks').hidden = false; $('sk-ctl').hidden = true; $('sk-thanks').focus(); refresh(); };
   $('sk-no').onclick = () => { SK.answer = 'no'; $('sk-ctl').hidden = true; $('sk-fix').hidden = false; $('sk-own').focus(); refresh(); };
   $('sk-answer').addEventListener('input', () => { SK.askAnswer = $('sk-answer').value.trim(); $('sk-ask-thanks').hidden = !SK.askAnswer; refresh(); });
   $('sk-own').addEventListener('input', () => { SK.own = $('sk-own').value.trim(); $('sk-thanks').textContent = SK.own ? '__SK_THANKS_NO__' : ''; $('sk-thanks').hidden = !SK.own; refresh(); }); }
@@ -160,15 +172,19 @@ let arm = 'tell';
 function words(t){ return t.trim().split(/\s+/).filter(Boolean).length; }
 function floor(){
   const story = arm === 'tell' ? $('story').value : $('paste').value; const all = story;
-  sidekick(all);
   let msg = null, ok = false;
   if (RX.method.test(all)) msg = F.method;
   else if (RX.agent_alone.test(all)) msg = F.agent_alone;
   else if (words(story) < 20 || !RX.happens.test(story)) msg = F.short;
   else ok = true;
   const f = $('floor'); f.textContent = ok ? '' : (msg || ''); f.hidden = !f.textContent;
-  $('step2').classList.toggle('on', ok); refresh();
+  const was = $('step2').classList.contains('on'); $('step2').classList.toggle('on', ok); if (ok && !was) announce('__ANNOUNCE_SEND__'); refresh();
 }
+// side kick: on a pause (1500 ms without typing) or when the box is left; never per keystroke
+let pauseT = null;
+function storyText(){ return arm === 'tell' ? $('story').value : $('paste').value; }
+function schedule(){ clearTimeout(pauseT); pauseT = setTimeout(() => sidekick(storyText()), 1500); }
+['story','paste'].forEach(id => { $(id).addEventListener('input', schedule); $(id).addEventListener('blur', () => { clearTimeout(pauseT); sidekick(storyText()); }); });
 $('door-tell').onclick = () => { arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); floor(); $('story').focus(); };
 $('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); floor(); $('paste').focus(); };
 function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; }
@@ -187,7 +203,9 @@ function refresh(){ const b = body();
   const href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID) + '&body=' + encodeURIComponent(b);
   const a = $('send');
   if (ENDPOINT) { a.href = '#'; a.onclick = sendForm; return; }
-  if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; } }
+  if (href.length < 1900) { a.href = href; a.onclick = null; a.textContent = '__SEND__'; }
+  else { a.href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID); a.textContent = '__SEND_LONG__';
+    a.onclick = () => { copy(); const n = $('step2').querySelector('.actions .status'); if (n) n.innerHTML = '__COPIED_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a>'; }; } }
 const ENDPOINT = '__SEND_ENDPOINT__';
 async function sendForm(e){ e.preventDefault(); const a = $('send'); if (a.dataset.busy) return; a.dataset.busy = '1'; a.textContent = '…';
   try { const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ request_id: RID, email: ($('email').value || '').trim(), website: $('website').value, body: body() }) });
