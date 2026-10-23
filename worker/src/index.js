@@ -37,11 +37,14 @@ export default {
     if (body.split(/\s+/).length < 10) return reply(400, { ok: false, error: 'body' }, origin);
     const from = String(d.email || '').trim();
     const replyTo = EMAIL.test(from) ? { email: from } : undefined;
+    if (!env.SMTP_USER || !env.SMTP_PASS) return reply(500, { ok: false, error: 'smtp', stage: 'config', detail: 'SMTP_USER or SMTP_PASS not set' }, origin);
+    let stage = 'connect';
     try {
       const mailer = await WorkerMailer.connect({
         credentials: { username: env.SMTP_USER, password: env.SMTP_PASS },
         authType: 'plain', host: env.SMTP_HOST, port: Number(env.SMTP_PORT), secure: true,
       });
+      stage = 'send';
       await mailer.send({
         from: { name: 'proofbridge ask', email: env.SMTP_USER },
         to: { email: env.MAIL_TO },
@@ -51,7 +54,9 @@ export default {
       });
       await mailer.close();
     } catch (e) {
-      return reply(502, { ok: false, error: 'smtp' }, origin);
+      // the server's reply text (e.g. "535 authentication failed"); never the credentials
+      const detail = String((e && e.message) || e).replace(env.SMTP_PASS, '***').slice(0, 200);
+      return reply(502, { ok: false, error: 'smtp', stage, detail }, origin);
     }
     return reply(200, { ok: true, request_id: d.request_id }, origin);
   },
