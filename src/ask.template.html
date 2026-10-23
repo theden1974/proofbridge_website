@@ -42,6 +42,11 @@ __CSS__
   .opts label { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
   .opts input { width: auto; margin: 0; }
   fieldset { border: 0; padding: 0; margin: 1rem 0 0; } legend b { font-weight: 500; }
+  .hint ul { list-style: none; padding: 0; margin: 0.2rem 0 0.4rem; display: grid; gap: 0.15rem; } .hint li::before { content: '· '; }
+  .step2 a:not(.btn), .floor a, .status a { color: inherit; text-decoration: underline; text-underline-offset: 0.15em; }
+  .linkbtn { font: inherit; font-size: var(--s-1); background: none; border: 0; padding: 0.4rem 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
+  .opt { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey); margin-left: 0.5rem; }
+  .sent { margin-top: 1.2rem; } .sent b { display: block; font-weight: 500; } .sent span { color: var(--grey); font-size: var(--s-1); }
   .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.2rem; }
   .status { color: var(--grey); font-size: var(--s-1); }
   label b { display: block; font-weight: 500; }
@@ -69,7 +74,7 @@ __CSS__
   <div>
     <div class="door on" id="tell">
       <label for="story" class="q">__PROMPT1__</label>
-      <p class="hint" id="story-hint">__BOX_HINT__</p>
+      <div class="hint" id="story-hint"><ul>__HINT_ITEMS__</ul>__HINT_TAIL__</div>
       <textarea id="story" aria-describedby="story-hint"></textarea>
       <p class="alt"><button type="button" class="link" id="door-chat">__DOOR_CHAT__</button></p>
     </div>
@@ -82,7 +87,7 @@ __CSS__
   </div>
   <aside class="side" id="side" hidden>
     <div id="sk-pair">
-      <span class="label">↳ __SK_INTRO__</span>
+      <span class="label">↳ __SK_INTRO__<span class="opt">__OPTIONAL__</span></span>
       <p class="pair"><b>__SK_PRESENTED__</b><q id="sk-p"></q></p>
       <p class="pair"><b>__SK_UNDERNEATH__</b><q id="sk-u"></q></p>
       <div class="ctl" id="sk-ctl" role="group" aria-labelledby="sk-question"><span class="status" id="sk-question" style="align-self:center">__SK_QUESTION__</span><button type="button" id="sk-yes">__SK_YES__</button><button type="button" id="sk-no">__SK_NO__</button></div>
@@ -90,7 +95,7 @@ __CSS__
       <p class="status" id="sk-thanks" tabindex="-1" hidden></p>
     </div>
     <div id="sk-ask" hidden>
-      <span class="label">↳ __SK_ASK_INTRO__</span>
+      <span class="label">↳ __SK_ASK_INTRO__<span class="opt">__OPTIONAL__</span></span>
       <label for="sk-answer" id="sk-q"></label>
       <textarea id="sk-answer" style="min-height:4rem"></textarea>
       <p class="status" id="sk-ask-thanks" hidden>__SK_ASK_THANKS__</p>
@@ -100,12 +105,12 @@ __CSS__
 </div>
     <section class="step2" id="step2" aria-label="Send">
       <div class="row">
-        <label><b>__EMAIL_LABEL__</b><input type="email" id="email"></label>
+        <label><b>__EMAIL_LABEL__</b><input type="email" id="email" autocomplete="email" inputmode="email" aria-describedby="email-check"><span class="status" id="email-check" hidden>__EMAIL_CHECK__</span></label>
       </div>
       <div class="actions">
         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
         <a class="btn" id="send" href="#">__SEND__</a>
-        <button class="btn" type="button" id="copy">__COPY__</button>
+        <button class="linkbtn" type="button" id="copy">__COPY__</button>
         <span class="status">__SEND_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a></span>
       </div>
     </section>
@@ -183,7 +188,7 @@ function floor(){
 // side kick: on a pause (1500 ms without typing) or when the box is left; never per keystroke
 let pauseT = null;
 function storyText(){ return arm === 'tell' ? $('story').value : $('paste').value; }
-function schedule(){ clearTimeout(pauseT); pauseT = setTimeout(() => sidekick(storyText()), 1500); }
+function schedule(){ clearTimeout(pauseT); pauseT = setTimeout(() => { const t = storyText().trim(); if (/[.!?]$/.test(t)) sidekick(t); }, 1500); }
 ['story','paste'].forEach(id => { $(id).addEventListener('input', schedule); $(id).addEventListener('blur', () => { clearTimeout(pauseT); sidekick(storyText()); }); });
 $('door-tell').onclick = () => { arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); floor(); $('story').focus(); };
 $('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); floor(); $('paste').focus(); };
@@ -210,8 +215,12 @@ const ENDPOINT = '__SEND_ENDPOINT__';
 async function sendForm(e){ e.preventDefault(); const a = $('send'); if (a.dataset.busy) return; a.dataset.busy = '1'; a.textContent = '…';
   try { const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ request_id: RID, email: ($('email').value || '').trim(), website: $('website').value, body: body() }) });
     const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || r.status);
-    $('step2').querySelector('.actions').innerHTML = '<p class="floor">__SENT_LABEL__ ' + RID + '</p>';
+    $('step2').querySelector('.actions').innerHTML = '<p class="sent" tabindex="-1" id="sent"><b>__SENT_LABEL__ ' + RID + '</b><span>__SENT_AFTER__</span></p>'; $('sent').focus(); announce('__SENT_LABEL__ ' + RID); try { sessionStorage.removeItem('pb-ask-draft'); } catch (e) {}
   } catch (err) { a.textContent = '__SEND__'; delete a.dataset.busy; const n = $('step2').querySelector('.actions .status'); if (n) n.innerHTML = '__SEND_FAIL__ <a href="mailto:__MAIL__">__MAIL__</a>'; } }
+$('email').addEventListener('blur', () => { const v = $('email').value.trim(); $('email-check').hidden = !v || /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v); });
+// design for interruption: the draft survives a reload in this tab, nowhere else
+try { const d = JSON.parse(sessionStorage.getItem('pb-ask-draft') || 'null'); if (d && d.story) { $('story').value = d.story; $('email').value = d.email || ''; announce('__DRAFT_RESTORED__'); } } catch (e) {}
+document.addEventListener('input', () => { try { sessionStorage.setItem('pb-ask-draft', JSON.stringify({ story: $('story').value, email: $('email').value })); } catch (e) {} });
 $('copy').onclick = copy; bindSK(); document.addEventListener('input', floor); floor();
 </script>
 </body>

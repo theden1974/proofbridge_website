@@ -92,6 +92,11 @@
   .opts label { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
   .opts input { width: auto; margin: 0; }
   fieldset { border: 0; padding: 0; margin: 1rem 0 0; } legend b { font-weight: 500; }
+  .hint ul { list-style: none; padding: 0; margin: 0.2rem 0 0.4rem; display: grid; gap: 0.15rem; } .hint li::before { content: '· '; }
+  .step2 a:not(.btn), .floor a, .status a { color: inherit; text-decoration: underline; text-underline-offset: 0.15em; }
+  .linkbtn { font: inherit; font-size: var(--s-1); background: none; border: 0; padding: 0.4rem 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
+  .opt { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey); margin-left: 0.5rem; }
+  .sent { margin-top: 1.2rem; } .sent b { display: block; font-weight: 500; } .sent span { color: var(--grey); font-size: var(--s-1); }
   .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.2rem; }
   .status { color: var(--grey); font-size: var(--s-1); }
   label b { display: block; font-weight: 500; }
@@ -119,7 +124,7 @@
   <div>
     <div class="door on" id="tell">
       <label for="story" class="q">What happens?</label>
-      <p class="hint" id="story-hint">Who is involved and who decided, what you see going wrong, what was already chosen, and what you would do once it is clear. As you would tell a colleague. Length is fine.</p>
+      <div class="hint" id="story-hint"><ul><li>who is involved, and who decided</li><li>what you see going wrong</li><li>what was already chosen</li><li>what you would do once it is clear</li></ul>In any order, as you would tell a colleague. Length is fine.</div>
       <textarea id="story" aria-describedby="story-hint"></textarea>
       <p class="alt"><button type="button" class="link" id="door-chat">or hand over a chat you had with an AI about this</button></p>
     </div>
@@ -132,7 +137,7 @@
   </div>
   <aside class="side" id="side" hidden>
     <div id="sk-pair">
-      <span class="label">↳ Where my lens would start.</span>
+      <span class="label">↳ Where my lens would start.<span class="opt">optional</span></span>
       <p class="pair"><b>What is asked for</b><q id="sk-p"></q></p>
       <p class="pair"><b>What is underneath</b><q id="sk-u"></q></p>
       <div class="ctl" id="sk-ctl" role="group" aria-labelledby="sk-question"><span class="status" id="sk-question" style="align-self:center">Is that the pair?</span><button type="button" id="sk-yes">yes</button><button type="button" id="sk-no">no</button></div>
@@ -140,7 +145,7 @@
       <p class="status" id="sk-thanks" tabindex="-1" hidden></p>
     </div>
     <div id="sk-ask" hidden>
-      <span class="label">↳ One thing my lens needs.</span>
+      <span class="label">↳ One thing my lens needs.<span class="opt">optional</span></span>
       <label for="sk-answer" id="sk-q"></label>
       <textarea id="sk-answer" style="min-height:4rem"></textarea>
       <p class="status" id="sk-ask-thanks" hidden>Goes in with your text.</p>
@@ -150,12 +155,12 @@
 </div>
     <section class="step2" id="step2" aria-label="Send">
       <div class="row">
-        <label><b>Your email</b><input type="email" id="email"></label>
+        <label><b>Your email</b><input type="email" id="email" autocomplete="email" inputmode="email" aria-describedby="email-check"><span class="status" id="email-check" hidden>That address looks incomplete; without it I cannot reply.</span></label>
       </div>
       <div class="actions">
         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
         <a class="btn" id="send" href="#">Send</a>
-        <button class="btn" type="button" id="copy">Copy</button>
+        <button class="linkbtn" type="button" id="copy">copy the text instead</button>
         <span class="status">Goes from this page straight to <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a></span>
       </div>
     </section>
@@ -170,7 +175,7 @@
 <script>
 // v8: side kick. One pattern at most (presented / underneath), built from two of the asker's own sentences, asked as a guess; the answer travels in the mail. Otherwise the page only takes the story and sends.
 // v7: empty state first. Two prompts in the asker's words; the right side appears only when a sentence is read, and shows only what was read. No notes, no hints, no promises. A floor only: something happens, not a method question, not an agent alone.
-// Script version ask-v16-2026-10-23. Texts from src/ask.json.
+// Script version ask-v17-2026-10-24. Texts from src/ask.json.
 const F = {"short": "", "method": "How I work is in the task contract; this page is for your situation.", "agent_alone": "Name the person or organisation this is for.", "ok": ""}; const ASKQ = { plan: 'What are you about to do about it?', people: 'Who does this day to day, and what do they say?', effect: 'What happens at your end because of this?' };
 const GRX = {
   who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council|client|customer)|owner of|lead at|work(s|ing)? (at|for)|advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|(she|he|they) decides?|decided|mandate|funding)\b/i,
@@ -233,7 +238,7 @@ function floor(){
 // side kick: on a pause (1500 ms without typing) or when the box is left; never per keystroke
 let pauseT = null;
 function storyText(){ return arm === 'tell' ? $('story').value : $('paste').value; }
-function schedule(){ clearTimeout(pauseT); pauseT = setTimeout(() => sidekick(storyText()), 1500); }
+function schedule(){ clearTimeout(pauseT); pauseT = setTimeout(() => { const t = storyText().trim(); if (/[.!?]$/.test(t)) sidekick(t); }, 1500); }
 ['story','paste'].forEach(id => { $(id).addEventListener('input', schedule); $(id).addEventListener('blur', () => { clearTimeout(pauseT); sidekick(storyText()); }); });
 $('door-tell').onclick = () => { arm = 'tell'; $('tell').classList.add('on'); $('chat').classList.remove('on'); floor(); $('story').focus(); };
 $('door-chat').onclick = () => { arm = 'chat'; $('chat').classList.add('on'); $('tell').classList.remove('on'); floor(); $('paste').focus(); };
@@ -241,7 +246,7 @@ function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (
 const RID = reqId();
 function body(){
   const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: ask-v16-2026-10-23', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
+  const lines = ['request_id: ' + RID, 'script: ask-v17-2026-10-24', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); }
   else lines.push('The chat with the AI:', v('paste'));
   if (SK.fired) { lines.push('', 'Side kick (pattern: presented / underneath): ' + (SK.answer || 'unanswered')); lines.push('Presented: ' + SK.fired.presented); lines.push('Underneath: ' + SK.fired.underneath); if (SK.own) lines.push('Underneath, in the asker\'s words: ' + SK.own); }
@@ -260,8 +265,12 @@ const ENDPOINT = 'https://proofbridge-send.dennis-f79.workers.dev/';
 async function sendForm(e){ e.preventDefault(); const a = $('send'); if (a.dataset.busy) return; a.dataset.busy = '1'; a.textContent = '…';
   try { const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ request_id: RID, email: ($('email').value || '').trim(), website: $('website').value, body: body() }) });
     const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || r.status);
-    $('step2').querySelector('.actions').innerHTML = '<p class="floor">Sent. Your reference: ' + RID + '</p>';
+    $('step2').querySelector('.actions').innerHTML = '<p class="sent" tabindex="-1" id="sent"><b>Sent. Your reference: ' + RID + '</b><span>Replies come from ask@proofbridge.nl.</span></p>'; $('sent').focus(); announce('Sent. Your reference: ' + RID); try { sessionStorage.removeItem('pb-ask-draft'); } catch (e) {}
   } catch (err) { a.textContent = 'Send'; delete a.dataset.busy; const n = $('step2').querySelector('.actions .status'); if (n) n.innerHTML = 'Could not send from here. Copy it and mail it to <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a>'; } }
+$('email').addEventListener('blur', () => { const v = $('email').value.trim(); $('email-check').hidden = !v || /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v); });
+// design for interruption: the draft survives a reload in this tab, nowhere else
+try { const d = JSON.parse(sessionStorage.getItem('pb-ask-draft') || 'null'); if (d && d.story) { $('story').value = d.story; $('email').value = d.email || ''; announce('Your earlier text is back.'); } } catch (e) {}
+document.addEventListener('input', () => { try { sessionStorage.setItem('pb-ask-draft', JSON.stringify({ story: $('story').value, email: $('email').value })); } catch (e) {} });
 $('copy').onclick = copy; bindSK(); document.addEventListener('input', floor); floor();
 </script>
 </body>

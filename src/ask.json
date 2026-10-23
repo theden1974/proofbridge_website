@@ -1,6 +1,6 @@
 {
   "status": "prototype",
-  "script_version": "ask-v16-2026-10-23",
+  "script_version": "ask-v17-2026-10-24",
   "title": "Prepare",
   "lead": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.",
   "doors": {
@@ -10,11 +10,11 @@
   },
   "email_label": "Your email",
   "send_label": "Send",
-  "copy_label": "Copy",
+  "copy_label": "copy the text instead",
   "send_note": "Goes from this page straight to",
   "contract_line": "What a request and an answer look like: the task contract.",
   "prompt1": "What happens?",
-  "box_hint": "Who is involved and who decided, what you see going wrong, what was already chosen, and what you would do once it is clear. As you would tell a colleague. Length is fine.",
+  "box_hint": "Who is involved and who decided, what you see going wrong, what was already chosen, and what you would do once it is clear. In any order, as you would tell a colleague. Length is fine.",
   "floor": {
     "short": "",
     "method": "How I work is in the task contract; this page is for your situation.",
@@ -44,5 +44,16 @@
   "send_fail": "Could not send from here. Copy it and mail it to",
   "send_long": "Copy and open mail",
   "copied_note": "Copied. Paste it into the mail to",
-  "announce_send": "Send is available below."
+  "announce_send": "Send is available below.",
+  "box_hint_items": [
+    "who is involved, and who decided",
+    "what you see going wrong",
+    "what was already chosen",
+    "what you would do once it is clear"
+  ],
+  "box_hint_tail": "In any order, as you would tell a colleague. Length is fine.",
+  "optional": "optional",
+  "sent_after": "Replies come from ask@proofbridge.nl.",
+  "email_check": "That address looks incomplete; without it I cannot reply.",
+  "draft_restored": "Your earlier text is back."
 }
