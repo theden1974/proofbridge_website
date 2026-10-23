@@ -256,7 +256,7 @@ function refresh(){ const b = body();
   if (href.length < 1900) { a.href = href; a.onclick = null; a.textContent = 'Send'; }
   else { a.href = 'mailto:ask@proofbridge.nl?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID); a.textContent = 'Copy and open mail';
     a.onclick = () => { copy(); const n = $('step2').querySelector('.actions .status'); if (n) n.innerHTML = 'Copied. Paste it into the mail to <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a>'; }; } }
-const ENDPOINT = 'https://proofbridge-send.dennis-f79.workers.dev/';
+const ENDPOINT = '';
 async function sendForm(e){ e.preventDefault(); const a = $('send'); if (a.dataset.busy) return; a.dataset.busy = '1'; a.textContent = '…';
   try { const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ request_id: RID, email: ($('email').value || '').trim(), website: $('website').value, body: body() }) });
     const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || r.status);
