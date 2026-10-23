@@ -148,10 +148,11 @@ page = f'''<!DOCTYPE html>
   </div>
   <div>
     <ul class="tiers">
-      <li><span><b>{E(C['tier1_human'])}</b><br><small>{E(C['tier1_gets'])}</small></span><b>{fmt(t1)} sats</b></li>
-      <li><span><b>{E(C['tier2_human'])}</b><br><small>{E(C['tier2_gets'])}</small></span><b class="hi">{fmt(t2)} sats</b></li>
+      <li><span><b>{E(C['tier1_human'])}</b><br><small>{E(C['tier1_gets'])}</small></span><b>from {fmt(t1)} sats</b></li>
+      <li><span><b>{E(C['tier2_human'])}</b><br><small>{E(C['tier2_gets'])}</small></span><b class="hi">from {fmt(t2)} sats</b></li>
     </ul>
     <p class="how">{E(C['att_status'])}</p>
+    <p class="how">{E(' '.join(K['phase']['rules'][:1]) + ' The prices apply when the paid tiers open. How to ask now: ')}<a href="mailto:{mail}">{mail}</a>{E('; for agents, ')}<a href="/agents/">the task contract</a>{E('.')}</p>
     <p class="addr" id="addr">{addr}</p>
     <button class="copy" type="button" onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText('{addr}').then(()=>this.textContent='copied')">Copy address</button>
     <p class="how">{E(C['att_how']).replace('the task contract', '<a href="/agents/#examples">the task contract</a>')}</p>
