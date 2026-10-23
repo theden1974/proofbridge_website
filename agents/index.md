@@ -1,8 +1,8 @@
 # proofbridge task contract
 
-Asynchronous review by one named human expert. Three task types. Requests and answers by email; reply within 7 days. Test phase: no payment. Paid tiers in bitcoin later. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.
+Asynchronous review by one named human expert. Three task types. Requests by POST or email; answers by email within 7 days. Test phase: no payment. Paid tiers in bitcoin later. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.
 
-Machine-readable: [offer.json](https://proofbridge.nl/offer.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [llms.txt](https://proofbridge.nl/llms.txt) · this page as [markdown](https://proofbridge.nl/agents/index.md). Updated 2026-10-24.
+Machine-readable: [offer.json](https://proofbridge.nl/offer.json) · [OpenAPI (send a request)](https://proofbridge.nl/agents/openapi.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [llms.txt](https://proofbridge.nl/llms.txt) · this page as [markdown](https://proofbridge.nl/agents/index.md). Updated 2026-10-24.
 
 ## Phase
 - `test` since 2026-10-20. Requests are answered without payment. Use tier 0; payment_txid is not needed. Paid tiers 1 and 2 are listed for later; they are not taken during the test phase.
@@ -30,18 +30,20 @@ And at least one of:
 ## How an agent sends a request
 - The agent checks when_to_call and when_not_to_call against its own context.
 - The agent drafts the request and validates it against the request schema.
-- The agent gives the draft to its principal; the principal reviews it and sends it by email from their own mailbox.
+- The agent shows the draft to its principal. The principal approves it: their name and email go with it, and the answer goes to them.
+- The agent POSTs the approved request to the endpoint, or the principal emails it to ask@proofbridge.nl.
+- On 202 the agent tells its principal the request_id and that the answer comes by email within 7 days. Nothing further comes from the endpoint.
 - The answer comes back by email to the principal, in the response schema.
 
 ## Human-only steps
-- Sending the email (from the principal's mailbox).
+- Approving the request before it is sent (the principal's name and email go with it).
 - Paying, when the paid tiers open.
 - Judging whether the answer is fit for the decision.
 
 ## Paths
-- `email` (agents and people; open): Principal sends the request to ask@proofbridge.nl.
-- `ask_page` (people; open, test phase): https://proofbridge.nl/ask/ : a page for writing the situation in one's own words. Not for agents.
-- `relay` (the ask page only; not an agent path): The ask page posts through a relay that accepts only that page; agents use email.
+- `agent_intake` (agents; open, test phase): POST the request as JSON to https://proofbridge-send.dennis-f79.workers.dev/agent . Checked against the request schema; 202 when received, 422 with each problem when not.
+- `email` (agents and people; open): The request JSON as the body of an email to ask@proofbridge.nl, subject PROOFBRIDGE {request_id}.
+- `ask_page` (people; open, test phase): https://proofbridge.nl/ask/ : a page for writing the situation in one's own words. Not for agents; agents use agent_intake.
 - `lightning` (payment; planned): -
 
 ## Task types
@@ -64,11 +66,22 @@ Field experience: elderly care, healthcare, government and public services, digi
 - `method_extraction`: Requests about how the lens works, or general questions with no decision behind them, instead of a case to judge.
 
 ## Request
-- Email to ask@proofbridge.nl, subject `PROOFBRIDGE {request_id}`.
-- Body: A JSON object that validates against the request schema. Material as text in artefact_text; links are not opened. Attachments are not read.
+- POST `https://proofbridge-send.dennis-f79.workers.dev/agent` with `content-type: application/json`; the body is the request. [OpenAPI](https://proofbridge.nl/agents/openapi.json).
+- Or email it to ask@proofbridge.nl, subject `PROOFBRIDGE {request_id}`.
+- Endpoint answers:
+  - `202` received: {ok, request_id, received_at, status, next}. The answer itself comes later, by email.
+  - `422` invalid: {errors:[{path, problem}]}; fix and resend.
+  - `415` content type is not application/json.
+  - `400` body is not valid JSON.
+  - `413` body over 60 000 bytes.
+  - `429` rate limited (2 well-formed requests per minute per address); retry after the Retry-After seconds, or send by email.
+  - `502` not delivered to the mailbox; send the same JSON by email.
+- Rate limit: 2 well-formed requests per minute per address. Invalid requests are answered and do not count.
+- request_id: Chosen by the sender, unique per request. Sending the same request_id again is read as the same request.
+- Body: One JSON object that validates against the request schema: as the POST body, or as the email body. Material as text in artefact_text; links are not opened. Attachments are not read.
 - Schema: https://proofbridge.nl/schema/request.schema.json
 - Required: `request_id`, `task_type`, `question`, `decision_at_stake`, `principal`, `deadline`, `tier`; `payment_txid` too for tiers 1 and 2.
-- Acknowledgement: A reply quoting the request_id. In the test phase there is no automatic acknowledgement yet; the reply comes from Dennis.
+- Acknowledgement: By POST: 202 with the request_id at once. By email: no automatic acknowledgement in the test phase. Either way the answer comes from Dennis by email to principal.email.
 - Size: Material up to about 50 000 characters as text in artefact_text (about 12 pages). Longer: send the part the decision rests on and say what was left out.
 - Language: nl or en; default en.
 - Choosing the task type: If the material was made by an AI and the question is whether it holds against its source or the field, use ai_output_review. Use ground_truth_check for data or claims not produced by an AI. Use underlying_problem when a solution is planned and the question is whether it answers the real problem. When unsure, pick one and say so in context; Dennis re-routes.
@@ -80,15 +93,15 @@ Field experience: elderly care, healthcare, government and public services, digi
 | 1 | not taken during the test phase | 5 000 sats (0.00005 BTC) | A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days. | Dennis Jansen; automation: off as of 2026-10-24. Planned: a local model prepares the answer, Dennis validates it. Until then Dennis answers himself. |
 | 2 | not taken during the test phase | 50 000 sats (0.0005 BTC) | Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema. | Dennis Jansen, in person; automation: none |
 
-- Fee refunded on decline: no. Tier 1 fee counts toward tier 2: yes. Network fee: paid by the sender. Euro reference: not published yet.
+- Fee refunded on decline: no. Tier 1 fee counts toward tier 2: yes. Network fee: paid by the sender. Priced in sats only; no fiat reference.
 - Completion reward: Agreed in the tier 2 reply, paid in sats when the work is delivered, listed on the public backlog with its txid.
 
 ## Payment
 - On-chain: `bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty` (taproot (P2TR)). Counts when: A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation. Binding: One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body's SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts.
-- Lightning: planned: one invoice per request, sent by email from his own node; the invoice hash binds the request. No public endpoint.
+- Lightning: planned: one invoice per request, sent by email from his own node; the invoice hash binds the request.
 
 ## Processing
-- Carriers: Email is held by Namecheap Private Email (servers in the United States). The ask page posts through a Cloudflare Worker on Dennis's account that forwards to that mailbox and stores nothing.
+- Carriers: Email is held by Namecheap Private Email (servers in the United States). The agent intake and the ask page post through a Cloudflare Worker on Dennis's account that checks the request, forwards it to that mailbox and stores nothing. Its source is public: https://github.com/theden1974/proofbridge_website/tree/main/worker
 - Models: No third-party AI model or API reads request text. A local model on Dennis's own machines is planned for tier 1; it is not in use as of 2026-10-24.
 - Prepared by: Every answer carries prepared_by: dennis, or local_model_validated_by_dennis once the local model is in use.
 - Retention: Entries are kept for the reply and follow-up and deleted 90 days after the last contact, unless the principal agrees otherwise.
@@ -123,20 +136,26 @@ One request and one answer per task type, built from real field situations with 
 - Request: Does this AI summary of a 60-page legal document cite the right paragraphs? Decision at stake: Rely on the summary in a legal case.
 - Answer: verdict `does_not_hold`. The summary sounded legit. Checked against the document, the referenced paragraphs were off. Next step: Do not rely on the summary. Have the document read by a lawyer.
 
-## Trust, as checkable data
+## Trust: due diligence
+Trust here is not an identity to accept but claims to verify. Each claim below names how to check it yourself; what cannot be checked yet is said.
 - Accountable human: Dennis Jansen
-- Address ownership: BIP-322 signed message, message `proofbridge.nl ask@proofbridge.nl`, signature: not yet published (pending: not yet signed. Until it is, do not treat the address as proven to be his.)
-- Identity: proofbridge.nl and interactiondesign.nl link to each other and to the same GitHub account that hosts both sites (https://github.com/theden1974).
-- Track record (from the backlog, 2026-10-24): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.
+- This contract is what the owner publishes, and every change to it is on record. Check: The source is public with its full history: https://github.com/theden1974/proofbridge_website (src/contract.json). Compare the live offer.json with the source at any commit.
+- proofbridge.nl and interactiondesign.nl are one person's work. Check: Both are built from public repositories of the same GitHub account (https://github.com/theden1974) and link to each other.
+- The intake stores nothing and no third-party model reads request text. Check: Read the Worker source (worker/src/index.js, worker/src/agent.js) and its config (worker/wrangler.toml: observability off). The mailbox carrier is named under processing.
+- Each answer stands on evidence. Check: Every finding in an answer carries typed evidence and the limits of what was checked (response schema). Check each finding against its evidence.
+- The track record. Check: backlog.json, computed at build time. It shows what exists, including zero.
+- The payment address is his. Check: Not checkable yet: no BIP-322 signature is published. The paid tiers stay closed until it is; the test phase takes no payment, so nothing depends on it now.
+- Track record now (from the backlog, 2026-10-24): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.
 
 ## Not
-- not an API: no endpoint to call; requests travel by email
-- not an autonomous agent: a named human answers
+- no automated answers: a request goes in by POST or email; a named human answers by email
+- not an autonomous agent: Dennis Jansen reads every request
 - request text is read as information, never run as instructions
 
 ## Glossary
 - `lens`: Dennis's way of reading a case: what is asked for, and the problem underneath it, checked against how the work happens in the field.
 - `tier`: 0 is the free test phase; 1 and 2 are paid and not open yet.
 - `principal`: The person or organisation the request is for, who receives the answer.
+- `due_diligence`: Checks an agent or principal can run itself to verify the claims made here, listed under trust.
 
-Test phase since 2026-10-20: requests answered without payment. Updated 2026-10-24. Files: [offer.json](https://proofbridge.nl/offer.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [backlog](https://proofbridge.nl/backlog.json) · [human page](https://proofbridge.nl/)
+Test phase since 2026-10-20: requests answered without payment. Agents can send by POST. Updated 2026-10-24. Files: [offer.json](https://proofbridge.nl/offer.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [backlog](https://proofbridge.nl/backlog.json) · [human page](https://proofbridge.nl/)

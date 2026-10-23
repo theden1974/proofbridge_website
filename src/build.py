@@ -55,6 +55,7 @@ page = f'''<!DOCTYPE html>
 <link rel="alternate" type="text/markdown" href="/index.md" title="This page as markdown">
 <link rel="alternate" type="application/json" href="/offer.json" title="Offer for AI agents (JSON)">
 <link rel="describedby" type="text/markdown" href="/llms.txt">
+<link rel="service-desc" type="application/openapi+json" href="/agents/openapi.json">
 <meta property="og:title" content="proofbridge · Dennis Jansen">
 <meta property="og:description" content="{E(C['meta_description'])}">
 <meta property="og:url" content="https://proofbridge.nl/">
@@ -249,6 +250,26 @@ json.dump(req_schema, open(f"{OUT}/schema/request.schema.json", "w"), indent=2, 
 json.dump(resp_schema, open(f"{OUT}/schema/response.schema.json", "w"), indent=2, ensure_ascii=False)
 json.dump({"$comment": "Illustrative: one request and one response per task type, built from real field situations with names invented. Not a track record; the track record is backlog.json.", "examples": K['examples']}, open(f"{OUT}/schema/examples.json", "w"), indent=2, ensure_ascii=False)
 
+EPT = K['request']['endpoint']
+_err = {"type": "object", "properties": {"ok": {"const": False}, "error": {"type": "string"}, "detail": {"type": "string"}}}
+openapi = {
+  "openapi": "3.1.0",
+  "info": {"title": "proofbridge agent intake", "version": C['updated'],
+           "description": "One operation: send a request. It is checked against the request schema and mailed to Dennis Jansen, who answers by email to principal.email within " + str(K['lifecycle']['reply_window_days']) + " days. Nothing is answered automatically. " + " ".join(K['phase']['rules']) + " Contract: https://proofbridge.nl/agents/index.md"},
+  "servers": [{"url": EPT['url'].rsplit('/', 1)[0]}],
+  "paths": {"/agent": {
+    "get": {"operationId": "describeIntake", "summary": "What this endpoint takes", "responses": {"200": {"description": "Pointers to the schema and contract."}}},
+    "post": {"operationId": "sendRequest", "summary": "Send one request for a human expert review (answer by email)",
+      "description": "Before calling: check when_to_call and when_not_to_call in the contract, and have the principal approve the request; their name and email go with it.",
+      "requestBody": {"required": True, "content": {"application/json": {"schema": {"$ref": "https://proofbridge.nl/schema/request.schema.json"}}}},
+      "responses": {
+        "202": {"description": EPT['answers']['202'], "content": {"application/json": {"schema": {"type": "object", "required": ["ok", "request_id", "received_at", "status", "next"],
+               "properties": {"ok": {"const": True}, "request_id": {"type": "string"}, "received_at": {"type": "string", "format": "date-time"}, "status": {"const": "received"}, "next": {"type": "string"}}}}}},
+        "422": {"description": EPT['answers']['422'], "content": {"application/json": {"schema": {"type": "object", "properties": {"ok": {"const": False}, "error": {"const": "invalid"},
+               "errors": {"type": "array", "items": {"type": "object", "required": ["path", "problem"], "properties": {"path": {"type": "string"}, "problem": {"type": "string"}}}}}}}}},
+        **{c: {"description": EPT['answers'][c], "content": {"application/json": {"schema": _err}}} for c in ["400", "413", "415", "429", "502"]}}}}}}
+json.dump(openapi, open(f"{OUT}/agents/openapi.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+
 # ---------- offer.json: contract first, background after ----------
 offer = {k: v for k, v in K.items() if not k.startswith('_') and k != 'examples'}
 offer['examples'] = 'https://proofbridge.nl/schema/examples.json'
@@ -271,7 +292,7 @@ contract_md = f"""# proofbridge task contract
 
 {K['summary']} Provider: {K['provider']['name']}, {K['provider']['role']}. Languages: {', '.join(K['provider']['languages'])}.
 
-Machine-readable: [offer.json](https://proofbridge.nl/offer.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [llms.txt](https://proofbridge.nl/llms.txt) · this page as [markdown](https://proofbridge.nl/agents/index.md). Updated {C['updated']}.
+Machine-readable: [offer.json](https://proofbridge.nl/offer.json) · [OpenAPI (send a request)](https://proofbridge.nl/agents/openapi.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [llms.txt](https://proofbridge.nl/llms.txt) · this page as [markdown](https://proofbridge.nl/agents/index.md). Updated {C['updated']}.
 
 ## Phase
 - `{K['phase']['id']}` since {K['phase']['since']}. """ + " ".join(K['phase']['rules']) + f"""
@@ -305,7 +326,12 @@ Field experience: {', '.join(K['domains_with_field_experience'])}.
 """ + "\n".join(f"- `{d['id']}`: {d['rule']}" for d in K['declines']) + f"""
 
 ## Request
-- Email to {K['request']['to']}, subject `{K['request']['subject']}`.
+- POST `{EPT['url']}` with `content-type: application/json`; the body is the request. [OpenAPI]({EPT['openapi']}).
+- Or email it to {K['request']['to']}, subject `{K['request']['subject']}`.
+- Endpoint answers:
+""" + "\n".join(f"  - `{c}` {t}" for c, t in EPT['answers'].items()) + f"""
+- Rate limit: {EPT['rate_limit']}
+- request_id: {K['request']['request_id_rule']}
 - Body: {K['request']['body']}
 - Schema: {K['request']['schema']}
 - Required: {', '.join('`'+r+'`' for r in req_schema['required'])}; `payment_txid` too for tiers 1 and 2.
@@ -319,7 +345,7 @@ Field experience: {', '.join(K['domains_with_field_experience'])}.
 |---|---|---|---|---|
 """ + "\n".join(f"| {x['tier']} | {x['status']} | {fmt(x['minimum_sats'])} sats ({btc(x['minimum_sats'])} BTC) | {x['gets']} | {x['performed_by']}; automation: {x['automation']} |" for x in K['tiers']) + f"""
 
-- Fee refunded on decline: no. Tier 1 fee counts toward tier 2: yes. Network fee: paid by the sender. Euro reference: not published yet.
+- Fee refunded on decline: no. Tier 1 fee counts toward tier 2: yes. Network fee: paid by the sender. Priced in sats only; no fiat reference.
 - Completion reward: {K['fees']['completion_reward']}
 
 ## Payment
@@ -346,11 +372,11 @@ Field experience: {', '.join(K['domains_with_field_experience'])}.
 One request and one answer per task type, built from real field situations with names invented; both valid against the schemas. Full JSON: [examples.json](https://proofbridge.nl/schema/examples.json).
 
 """ + "\n".join(f"### `{ex['task_type']}` · {ex['from_the_field']}\n- Request: {ex['request']['question']} Decision at stake: {ex['request']['decision_at_stake']}\n- Answer: " + (('verdict `' + ex['response']['verdict'] + '`. ') if ex['response'].get('verdict') else ('underlying problem: ' + ex['response']['underlying_problem'] + ' ')) + ex['response']['findings'][0]['statement'] + " Next step: " + ex['response']['next_step'] + "\n" for ex in K['examples']) + f"""
-## Trust, as checkable data
+## Trust: due diligence
+{K['trust']['principle']}
 - Accountable human: {K['trust']['accountable_human']}
-- Address ownership: {K['trust']['address_ownership']['method']}, message `{K['trust']['address_ownership']['message']}`, signature: {K['trust']['address_ownership']['signature'] or 'not yet published'} ({K['trust']['address_ownership']['status']})
-- Identity: {K['trust']['identity_links']}
-- Track record (from the backlog, {stats['computed_on']}): {stats['requests_listed']} listed, {stats['completed']} completed, {stats['declined']} declined, {stats['in_progress']} in progress, {stats['rewards_paid']} rewards paid.
+""" + "\n".join(f"- {x['claim']} Check: {x['check']}" for x in K['trust']['due_diligence']) + f"""
+- Track record now (from the backlog, {stats['computed_on']}): {stats['requests_listed']} listed, {stats['completed']} completed, {stats['declined']} declined, {stats['in_progress']} in progress, {stats['rewards_paid']} rewards paid.
 
 ## Not
 {L(K['not'])}
@@ -399,6 +425,7 @@ agents_html = f"""<!DOCTYPE html>
 <link rel="canonical" href="https://proofbridge.nl/agents/">
 <link rel="alternate" type="text/markdown" href="/agents/index.md">
 <link rel="alternate" type="application/json" href="/offer.json">
+<link rel="service-desc" type="application/openapi+json" href="/agents/openapi.json">
 <style>
   *, *::before, *::after {{ box-sizing: border-box; }}
   html {{ background: hsl(45, 20%, 96%); color: #111014; }}
@@ -426,12 +453,13 @@ llms = f"""# proofbridge.nl
 Task types (closed list):
 """ + "\n".join(f"- `{x['id']}`: {x['does']} Output: {x['output']}" for x in TT) + f"""
 
-Phase: test since {K['phase']['since']}; requests are answered without payment (tier 0). Paid tiers later: tier 1 from {fmt(T1['minimum_sats'])} sats, tier 2 from {fmt(T2['minimum_sats'])} sats. An agent drafts the request; its principal sends it by email to {K['request']['to']}. Reply within {K['lifecycle']['reply_window_days']} days. Declines: {', '.join('`'+d+'`' for d in DECL_IDS)}.
+Phase: test since {K['phase']['since']}; requests are answered without payment (tier 0). Paid tiers later: tier 1 from {fmt(T1['minimum_sats'])} sats, tier 2 from {fmt(T2['minimum_sats'])} sats. An agent drafts the request, its principal approves it, and the agent POSTs it as JSON to {EPT['url']} (or it is emailed to {K['request']['to']}). The answer comes by email from Dennis. Reply within {K['lifecycle']['reply_window_days']} days. Declines: {', '.join('`'+d+'`' for d in DECL_IDS)}.
 
 ## Contract
 - [Task contract (markdown)](https://proofbridge.nl/agents/index.md)
 - [Task contract (HTML)](https://proofbridge.nl/agents/)
 - [Offer as JSON](https://proofbridge.nl/offer.json)
+- [Send a request: OpenAPI](https://proofbridge.nl/agents/openapi.json)
 - [Request schema](https://proofbridge.nl/schema/request.schema.json)
 - [Response schema](https://proofbridge.nl/schema/response.schema.json)
 - [Examples: one request and one answer per task type](https://proofbridge.nl/schema/examples.json)
@@ -485,7 +513,7 @@ import sys; sys.path.insert(0, SRC); from build_ask import build_ask
 ask_html = build_ask(C, page, E, fmt, t1, t2, mail, OUT, SRC)
 
 # ---------- sitemap ----------
-urls = ["https://proofbridge.nl/", "https://proofbridge.nl/agents/", "https://proofbridge.nl/agents/index.md", "https://proofbridge.nl/llms.txt", "https://proofbridge.nl/offer.json", "https://proofbridge.nl/index.md", "https://proofbridge.nl/backlog.json", "https://proofbridge.nl/schema/request.schema.json", "https://proofbridge.nl/schema/response.schema.json", "https://proofbridge.nl/schema/examples.json"]
+urls = ["https://proofbridge.nl/", "https://proofbridge.nl/agents/", "https://proofbridge.nl/agents/index.md", "https://proofbridge.nl/llms.txt", "https://proofbridge.nl/offer.json", "https://proofbridge.nl/index.md", "https://proofbridge.nl/backlog.json", "https://proofbridge.nl/schema/request.schema.json", "https://proofbridge.nl/schema/response.schema.json", "https://proofbridge.nl/schema/examples.json", "https://proofbridge.nl/agents/openapi.json"]
 open(f"{OUT}/sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{u}</loc><lastmod>{C['updated']}</lastmod></url>\n" for u in urls) + "</urlset>\n")
 
 import re

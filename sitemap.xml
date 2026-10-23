@@ -10,4 +10,5 @@
   <url><loc>https://proofbridge.nl/schema/request.schema.json</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://proofbridge.nl/schema/response.schema.json</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://proofbridge.nl/schema/examples.json</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://proofbridge.nl/agents/openapi.json</loc><lastmod>2026-10-24</lastmod></url>
 </urlset>
