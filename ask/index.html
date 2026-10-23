@@ -140,10 +140,11 @@
     </section>
   </div>
   <aside class="side" id="side" aria-live="polite" hidden>
-    <p class="q" style="font-size:1rem">I think I see this. Am I wrong?</p>
+    <p class="q" style="font-size:1rem">One pairing I see in your words.</p>
     <p class="pair"><b>Presented</b><q id="sk-p"></q></p>
     <p class="pair"><b>Underneath</b><q id="sk-u"></q></p>
-    <div class="ctl" id="sk-ctl"><button type="button" id="sk-yes">that is it</button><button type="button" id="sk-no">not like that</button></div>
+    <div class="ctl" id="sk-ctl"><span class="status" style="align-self:center">Is that it?</span><button type="button" id="sk-yes">yes</button><button type="button" id="sk-no">no</button></div>
+    <div id="sk-fix" hidden><p class="status" style="margin-top:0.8rem">Then what is underneath? Say it as it is.</p><textarea id="sk-own" style="min-height:4rem"></textarea></div>
     <p class="status" id="sk-thanks" hidden></p>
   </aside>
 </div>
@@ -157,7 +158,7 @@
 <script>
 // v8: side kick. One pattern at most (presented / underneath), built from two of the asker's own sentences, asked as a guess; the answer travels in the mail. Otherwise the page only takes the story and sends.
 // v7: empty state first. Two prompts in the asker's words; the right side appears only when a sentence is read, and shows only what was read. No notes, no hints, no promises. A floor only: something happens, not a method question, not an agent alone.
-// Script version ask-v8-2026-10-22. Texts from src/ask.json.
+// Script version ask-v9-2026-10-23. Texts from src/ask.json.
 const F = {"short": "", "method": "A question about how I work is not a request.", "agent_alone": "Name the person or organisation behind this.", "ok": ""};
 const GRX = {
   who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council|client|customer)|owner of|lead at|work(s|ing)? (at|for)|advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|(she|he|they) decides?|decided|mandate|funding)\b/i,
@@ -167,20 +168,21 @@ const GRX = {
   differently: /\b(decide|decision|whether|should (we|i)|do we|go ahead|or not|which (one|option|vendor|model|way)|before (we|i) (build|buy|sign|launch|commit|invest|hire|spend)|need to know|choose|commit|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?|what (should|do) (we|i) do|stop|instead|rather)\b/i
 };
 function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?;])\s+|,?\s+(?=but\b|however\b|while\b|although\b)/i).map(x=>x.trim().replace(/^(but|however|while|although)\s+/i,'')).filter(x => x.length > 2); }
-const SK = { fired: null, answer: null };
+const SK = { fired: null, answer: null, own: '' };
 const DORMANT = /\b(nobody (has )?asked|no one (has )?asked|haven'?t asked|not asked|never asked|without asking)\b/i;
 function sidekick(text){
   const ss = sentences(text);
   const presented = ss.find(x => GRX.asked.test(x));
   const underneath = presented ? (ss.find(x => x !== presented && (GRX.assumed.test(x) || DORMANT.test(x))) || ss.find(x => x !== presented && !GRX.asked.test(x) && GRX.happens.test(x))) : null;
   const key = presented && underneath ? presented + '|' + underneath : null;
-  if (key !== (SK.fired && SK.fired.key)) { SK.fired = key ? {key, presented, underneath} : null; SK.answer = null; $('sk-thanks').hidden = true; $('sk-ctl').hidden = false; }
+  if (key !== (SK.fired && SK.fired.key)) { SK.fired = key ? {key, presented, underneath} : null; SK.answer = null; SK.own = ''; $('sk-thanks').hidden = true; $('sk-ctl').hidden = false; $('sk-fix').hidden = true; }
   if (SK.fired) { $('sk-p').textContent = presented; $('sk-u').textContent = underneath; }
   $('side').hidden = !SK.fired;
   return SK;
 }
 function bindSK(){ $('sk-yes').onclick = () => { SK.answer = 'yes'; $('sk-thanks').textContent = 'Kept with your text.'; $('sk-thanks').hidden = false; $('sk-ctl').hidden = true; refresh(); };
-$('sk-no').onclick = () => { SK.answer = 'no'; $('sk-thanks').textContent = 'Dropped. Your text is what I read.'; $('sk-thanks').hidden = false; $('sk-ctl').hidden = true; refresh(); }; }
+  $('sk-no').onclick = () => { SK.answer = 'no'; $('sk-ctl').hidden = true; $('sk-fix').hidden = false; $('sk-own').focus(); refresh(); };
+  $('sk-own').addEventListener('input', () => { SK.own = $('sk-own').value.trim(); $('sk-thanks').textContent = SK.own ? 'Yours replaces mine.' : ''; $('sk-thanks').hidden = !SK.own; refresh(); }); }
 function esc(x){ return String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 const RX = {
   wish: /\b(i want|we want|would like|wish|hope|goal|instead|rather|ideally|decide|whether|need to (know|decide|choose)|the question is|should (we|i)|what (should|do) (we|i) do)\b/i,
@@ -209,10 +211,10 @@ function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (
 const RID = reqId();
 function body(){
   const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: ask-v8-2026-10-22', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
+  const lines = ['request_id: ' + RID, 'script: ask-v9-2026-10-23', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); if (v('wish')) lines.push('', 'What I would like to be different:', v('wish')); }
   else lines.push('The chat with the AI:', v('paste'));
-  if (SK.fired) { lines.push('', 'Side kick (pattern: presented / underneath): ' + (SK.answer || 'unanswered')); lines.push('Presented: ' + SK.fired.presented); lines.push('Underneath: ' + SK.fired.underneath); }
+  if (SK.fired) { lines.push('', 'Side kick (pattern: presented / underneath): ' + (SK.answer || 'unanswered')); lines.push('Presented: ' + SK.fired.presented); lines.push('Underneath: ' + SK.fired.underneath); if (SK.own) lines.push('Underneath, in the asker\'s words: ' + SK.own); }
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }

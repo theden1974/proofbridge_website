@@ -1,6 +1,6 @@
 {
   "status": "prototype",
-  "script_version": "ask-v8-2026-10-22",
+  "script_version": "ask-v9-2026-10-23",
   "title": "Ask",
   "lead": "Tell it as you would tell a colleague who does not know your work.",
   "doors": {
@@ -25,12 +25,14 @@
   "chat_placeholder": "Paste the whole chat, your messages and the AI's answers.",
   "chat_lead": "Paste the conversation you had with an AI about this.",
   "sidekick": {
-    "intro": "I think I see this. Am I wrong?",
+    "intro": "One pairing I see in your words.",
     "presented": "Presented",
     "underneath": "Underneath",
-    "yes": "that is it",
-    "no": "not like that",
+    "question": "Is that it?",
+    "yes": "yes",
+    "no": "no",
     "thanks_yes": "Kept with your text.",
-    "thanks_no": "Dropped. Your text is what I read."
+    "correct_prompt": "Then what is underneath? Say it as it is.",
+    "thanks_no": "Yours replaces mine."
   }
 }

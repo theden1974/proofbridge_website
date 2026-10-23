@@ -93,7 +93,8 @@ __CSS__
     <p class="q" style="font-size:1rem">__SK_INTRO__</p>
     <p class="pair"><b>__SK_PRESENTED__</b><q id="sk-p"></q></p>
     <p class="pair"><b>__SK_UNDERNEATH__</b><q id="sk-u"></q></p>
-    <div class="ctl" id="sk-ctl"><button type="button" id="sk-yes">__SK_YES__</button><button type="button" id="sk-no">__SK_NO__</button></div>
+    <div class="ctl" id="sk-ctl"><span class="status" style="align-self:center">__SK_QUESTION__</span><button type="button" id="sk-yes">__SK_YES__</button><button type="button" id="sk-no">__SK_NO__</button></div>
+    <div id="sk-fix" hidden><p class="status" style="margin-top:0.8rem">__SK_CORRECT__</p><textarea id="sk-own" style="min-height:4rem"></textarea></div>
     <p class="status" id="sk-thanks" hidden></p>
   </aside>
 </div>
@@ -117,20 +118,21 @@ const GRX = {
   differently: /\b(decide|decision|whether|should (we|i)|do we|go ahead|or not|which (one|option|vendor|model|way)|before (we|i) (build|buy|sign|launch|commit|invest|hire|spend)|need to know|choose|commit|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?|what (should|do) (we|i) do|stop|instead|rather)\b/i
 };
 function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?;])\s+|,?\s+(?=but\b|however\b|while\b|although\b)/i).map(x=>x.trim().replace(/^(but|however|while|although)\s+/i,'')).filter(x => x.length > 2); }
-const SK = { fired: null, answer: null };
+const SK = { fired: null, answer: null, own: '' };
 const DORMANT = /\b(nobody (has )?asked|no one (has )?asked|haven'?t asked|not asked|never asked|without asking)\b/i;
 function sidekick(text){
   const ss = sentences(text);
   const presented = ss.find(x => GRX.asked.test(x));
   const underneath = presented ? (ss.find(x => x !== presented && (GRX.assumed.test(x) || DORMANT.test(x))) || ss.find(x => x !== presented && !GRX.asked.test(x) && GRX.happens.test(x))) : null;
   const key = presented && underneath ? presented + '|' + underneath : null;
-  if (key !== (SK.fired && SK.fired.key)) { SK.fired = key ? {key, presented, underneath} : null; SK.answer = null; $('sk-thanks').hidden = true; $('sk-ctl').hidden = false; }
+  if (key !== (SK.fired && SK.fired.key)) { SK.fired = key ? {key, presented, underneath} : null; SK.answer = null; SK.own = ''; $('sk-thanks').hidden = true; $('sk-ctl').hidden = false; $('sk-fix').hidden = true; }
   if (SK.fired) { $('sk-p').textContent = presented; $('sk-u').textContent = underneath; }
   $('side').hidden = !SK.fired;
   return SK;
 }
 function bindSK(){ $('sk-yes').onclick = () => { SK.answer = 'yes'; $('sk-thanks').textContent = '__SK_THANKS_YES__'; $('sk-thanks').hidden = false; $('sk-ctl').hidden = true; refresh(); };
-$('sk-no').onclick = () => { SK.answer = 'no'; $('sk-thanks').textContent = '__SK_THANKS_NO__'; $('sk-thanks').hidden = false; $('sk-ctl').hidden = true; refresh(); }; }
+  $('sk-no').onclick = () => { SK.answer = 'no'; $('sk-ctl').hidden = true; $('sk-fix').hidden = false; $('sk-own').focus(); refresh(); };
+  $('sk-own').addEventListener('input', () => { SK.own = $('sk-own').value.trim(); $('sk-thanks').textContent = SK.own ? '__SK_THANKS_NO__' : ''; $('sk-thanks').hidden = !SK.own; refresh(); }); }
 function esc(x){ return String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 const RX = {
   wish: /\b(i want|we want|would like|wish|hope|goal|instead|rather|ideally|decide|whether|need to (know|decide|choose)|the question is|should (we|i)|what (should|do) (we|i) do)\b/i,
@@ -162,7 +164,7 @@ function body(){
   const lines = ['request_id: ' + RID, 'script: __SCRIPT_VERSION__', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); if (v('wish')) lines.push('', 'What I would like to be different:', v('wish')); }
   else lines.push('The chat with the AI:', v('paste'));
-  if (SK.fired) { lines.push('', 'Side kick (pattern: presented / underneath): ' + (SK.answer || 'unanswered')); lines.push('Presented: ' + SK.fired.presented); lines.push('Underneath: ' + SK.fired.underneath); }
+  if (SK.fired) { lines.push('', 'Side kick (pattern: presented / underneath): ' + (SK.answer || 'unanswered')); lines.push('Presented: ' + SK.fired.presented); lines.push('Underneath: ' + SK.fired.underneath); if (SK.own) lines.push('Underneath, in the asker\'s words: ' + SK.own); }
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
