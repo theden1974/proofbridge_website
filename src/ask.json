@@ -1,6 +1,6 @@
 {
   "status": "prototype",
-  "script_version": "ask-v10-2026-10-23",
+  "script_version": "ask-v11-2026-10-23",
   "title": "Prepare",
   "lead": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.",
   "doors": {
@@ -14,7 +14,6 @@
   "send_note": "If your mail program does not open, copy and paste it in a mail to",
   "contract_line": "What a request and an answer look like: the task contract.",
   "prompt1": "What happens?",
-  "prompt2": "Once this is clear, what would you decide, or stop?",
   "box_hint": "Who is involved and who decided, what you see going wrong, what was already chosen, and what you would do once it is clear. As you would tell a colleague.",
   "floor": {
     "short": "",
@@ -33,6 +32,11 @@
     "no": "no",
     "thanks_yes": "Kept with your text.",
     "correct_prompt": "Then what is underneath, as you see it?",
-    "thanks_no": "Yours goes in."
+    "thanks_no": "Yours goes in.",
+    "ask_intro": "One thing my lens needs.",
+    "ask_plan": "What are you about to do about it?",
+    "ask_people": "Who does this day to day, and what do they say?",
+    "ask_effect": "What happens at your end because of this?",
+    "ask_thanks": "Goes in with your text."
   }
 }

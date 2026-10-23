@@ -67,10 +67,6 @@ __CSS__
       <label for="story"><p class="q">__PROMPT1__<small>__BOX_HINT__</small></p>
       <textarea id="story"></textarea></label>
       <p class="alt"><button type="button" class="link" id="door-chat">__DOOR_CHAT__</button></p>
-      <div class="second" id="second">
-        <label for="wish"><p class="q">__PROMPT2__</p>
-        <textarea id="wish"></textarea></label>
-      </div>
     </div>
     <div class="door" id="chat">
       <label for="paste"><p class="q">__CHAT_LEAD__</p>
@@ -80,12 +76,20 @@ __CSS__
     <p class="floor off" id="floor" hidden></p>
   </div>
   <aside class="side" id="side" aria-live="polite" hidden>
-    <p class="q" style="font-size:1rem">__SK_INTRO__</p>
-    <p class="pair"><b>__SK_PRESENTED__</b><q id="sk-p"></q></p>
-    <p class="pair"><b>__SK_UNDERNEATH__</b><q id="sk-u"></q></p>
-    <div class="ctl" id="sk-ctl"><span class="status" style="align-self:center">__SK_QUESTION__</span><button type="button" id="sk-yes">__SK_YES__</button><button type="button" id="sk-no">__SK_NO__</button></div>
-    <div id="sk-fix" hidden><p class="status" style="margin-top:0.8rem">__SK_CORRECT__</p><textarea id="sk-own" style="min-height:4rem"></textarea></div>
-    <p class="status" id="sk-thanks" hidden></p>
+    <div id="sk-pair">
+      <p class="q" style="font-size:1rem">__SK_INTRO__</p>
+      <p class="pair"><b>__SK_PRESENTED__</b><q id="sk-p"></q></p>
+      <p class="pair"><b>__SK_UNDERNEATH__</b><q id="sk-u"></q></p>
+      <div class="ctl" id="sk-ctl"><span class="status" style="align-self:center">__SK_QUESTION__</span><button type="button" id="sk-yes">__SK_YES__</button><button type="button" id="sk-no">__SK_NO__</button></div>
+      <div id="sk-fix" hidden><p class="status" style="margin-top:0.8rem">__SK_CORRECT__</p><textarea id="sk-own" style="min-height:4rem"></textarea></div>
+      <p class="status" id="sk-thanks" hidden></p>
+    </div>
+    <div id="sk-ask" hidden>
+      <p class="q" style="font-size:1rem">__SK_ASK_INTRO__</p>
+      <p class="pair" id="sk-q"></p>
+      <textarea id="sk-answer" style="min-height:4rem"></textarea>
+      <p class="status" id="sk-ask-thanks" hidden>__SK_ASK_THANKS__</p>
+    </div>
   </aside>
 </div>
     <section class="step2" id="step2" aria-label="Send">
@@ -110,7 +114,7 @@ __CSS__
 // v8: side kick. One pattern at most (presented / underneath), built from two of the asker's own sentences, asked as a guess; the answer travels in the mail. Otherwise the page only takes the story and sends.
 // v7: empty state first. Two prompts in the asker's words; the right side appears only when a sentence is read, and shows only what was read. No notes, no hints, no promises. A floor only: something happens, not a method question, not an agent alone.
 // Script version __SCRIPT_VERSION__. Texts from src/ask.json.
-const F = __FLOOR_JSON__;
+const F = __FLOOR_JSON__; const ASKQ = { plan: '__SK_ASK_PLAN__', people: '__SK_ASK_PEOPLE__', effect: '__SK_ASK_EFFECT__' };
 const GRX = {
   who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council|client|customer)|owner of|lead at|work(s|ing)? (at|for)|advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|(she|he|they) decides?|decided|mandate|funding)\b/i,
   happens: /\b(doesn'?t|don'?t|does not|do not|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not (sure|tracking|working|getting|converting|enough|clear|happening|used|using)|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped|s)? ?(off)?|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|unreliable|outdated|out of date|incomplete|inaccurate|missing|problems?|issues?|decline|declin(ed|ing)|down|lost|losing|less|fewer|worse|struggl(e|es|ing)|hard(er)? to|difficult|no longer|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints|visitors|leads)|call(s|ed)? (us|instead)|since (last|the)|last (week|month|year|quarter))/i,
@@ -119,7 +123,8 @@ const GRX = {
   differently: /\b(decide|decision|whether|should (we|i)|do we|go ahead|or not|which (one|option|vendor|model|way)|before (we|i) (build|buy|sign|launch|commit|invest|hire|spend)|need to know|choose|commit|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?|what (should|do) (we|i) do|stop|instead|rather)\b/i
 };
 function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?;])\s+|,?\s+(?=but\b|however\b|while\b|although\b)/i).map(x=>x.trim().replace(/^(but|however|while|although)\s+/i,'')).filter(x => x.length > 2); }
-const SK = { fired: null, answer: null, own: '' };
+const SK = { fired: null, answer: null, own: '', ask: null, askAnswer: '' };
+const RXQ = { dontknow: /\b(i don'?t know|we don'?t know|not sure how|no idea|how do (i|we)|how to)\b/i, worldq: /\?\s*$/ };
 const DORMANT = /\b(nobody (has )?asked|no one (has )?asked|haven'?t asked|not asked|never asked|without asking)\b/i;
 function sidekick(text){
   const ss = sentences(text);
@@ -128,11 +133,19 @@ function sidekick(text){
   const key = presented && underneath ? presented + '|' + underneath : null;
   if (key !== (SK.fired && SK.fired.key)) { SK.fired = key ? {key, presented, underneath} : null; SK.answer = null; SK.own = ''; $('sk-thanks').hidden = true; $('sk-ctl').hidden = false; $('sk-fix').hidden = true; }
   if (SK.fired) { $('sk-p').textContent = presented; $('sk-u').textContent = underneath; }
-  $('side').hidden = !SK.fired;
+  // question mode: no pair, but enough text; one question, the first that applies
+  let ask = null; const n = text.trim().split(/\s+/).filter(Boolean).length;
+  if (!key && n >= 25) { const hurt = ss.some(x => GRX.happens.test(x)); const asked = ss.some(x => GRX.asked.test(x));
+    if (hurt && RXQ.dontknow.test(text)) ask = 'people'; else if (hurt && !asked) ask = 'plan'; else if (!hurt && !asked) ask = 'effect'; }
+  if (ask !== SK.ask) { SK.ask = ask; SK.askAnswer = ''; if ($('sk-answer')) { $('sk-answer').value = ''; $('sk-ask-thanks').hidden = true; } }
+  $('sk-pair').hidden = !SK.fired; $('sk-ask').hidden = !ask || !!SK.fired;
+  if (ask && !SK.fired) $('sk-q').textContent = ASKQ[ask];
+  $('side').hidden = !SK.fired && !ask;
   return SK;
 }
 function bindSK(){ $('sk-yes').onclick = () => { SK.answer = 'yes'; $('sk-thanks').textContent = '__SK_THANKS_YES__'; $('sk-thanks').hidden = false; $('sk-ctl').hidden = true; refresh(); };
   $('sk-no').onclick = () => { SK.answer = 'no'; $('sk-ctl').hidden = true; $('sk-fix').hidden = false; $('sk-own').focus(); refresh(); };
+  $('sk-answer').addEventListener('input', () => { SK.askAnswer = $('sk-answer').value.trim(); $('sk-ask-thanks').hidden = !SK.askAnswer; refresh(); });
   $('sk-own').addEventListener('input', () => { SK.own = $('sk-own').value.trim(); $('sk-thanks').textContent = SK.own ? '__SK_THANKS_NO__' : ''; $('sk-thanks').hidden = !SK.own; refresh(); }); }
 function esc(x){ return String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 const RX = {
@@ -145,14 +158,13 @@ const $ = id => document.getElementById(id);
 let arm = 'tell';
 function words(t){ return t.trim().split(/\s+/).filter(Boolean).length; }
 function floor(){
-  const story = arm === 'tell' ? $('story').value : $('paste').value; const wish = $('wish').value; const all = story + ' ' + wish;
+  const story = arm === 'tell' ? $('story').value : $('paste').value; const all = story;
   sidekick(all);
   let msg = null, ok = false;
   if (RX.method.test(all)) msg = F.method;
   else if (RX.agent_alone.test(all)) msg = F.agent_alone;
   else if (words(story) < 20 || !RX.happens.test(story)) msg = F.short;
   else ok = true;
-  $('second').classList.toggle('on', arm === 'tell' && words(story) >= 20 && !RX.wish.test(story));
   const f = $('floor'); f.textContent = ok ? '' : (msg || ''); f.hidden = !f.textContent;
   $('step2').classList.toggle('on', ok); refresh();
 }
@@ -163,9 +175,10 @@ const RID = reqId();
 function body(){
   const v = id => ($(id).value || '').trim();
   const lines = ['request_id: ' + RID, 'script: __SCRIPT_VERSION__', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
-  if (arm === 'tell') { lines.push('What happens:', v('story')); if (v('wish')) lines.push('', 'What I would like to be different:', v('wish')); }
+  if (arm === 'tell') { lines.push('What happens:', v('story')); }
   else lines.push('The chat with the AI:', v('paste'));
   if (SK.fired) { lines.push('', 'Side kick (pattern: presented / underneath): ' + (SK.answer || 'unanswered')); lines.push('Presented: ' + SK.fired.presented); lines.push('Underneath: ' + SK.fired.underneath); if (SK.own) lines.push('Underneath, in the asker\'s words: ' + SK.own); }
+  if (SK.ask) { lines.push('', 'Side kick (question: ' + SK.ask + '): ' + ASKQ[SK.ask]); lines.push('Answer: ' + (SK.askAnswer || '(none)')); }
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
