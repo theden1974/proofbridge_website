@@ -88,7 +88,9 @@
     "subject": "PROOFBRIDGE {request_id}",
     "body": "A JSON object that validates against the request schema. Material as text in artefact_text; links are not opened. Attachments are not read.",
     "schema": "https://proofbridge.nl/schema/request.schema.json",
-    "acknowledgement": "A reply quoting the request_id. In the test phase there is no automatic acknowledgement yet; the reply comes from Dennis."
+    "acknowledgement": "A reply quoting the request_id. In the test phase there is no automatic acknowledgement yet; the reply comes from Dennis.",
+    "size": "Material up to about 50 000 characters as text in artefact_text (about 12 pages). Longer: send the part the decision rests on and say what was left out.",
+    "default_language": "en"
   },
   "response": {
     "transport": "email, reply to the sender",
@@ -439,5 +441,6 @@
     "lens": "Dennis's way of reading a case: what is asked for, and the problem underneath it, checked against how the work happens in the field.",
     "tier": "0 is the free test phase; 1 and 2 are paid and not open yet.",
     "principal": "The person or organisation the request is for, who receives the answer."
-  }
+  },
+  "choosing_task_type": "If the material was made by an AI and the question is whether it holds against its source or the field, use ai_output_review. Use ground_truth_check for data or claims not produced by an AI. Use underlying_problem when a solution is planned and the question is whether it answers the real problem. When unsure, pick one and say so in context; Dennis re-routes."
 }

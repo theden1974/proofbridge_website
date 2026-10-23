@@ -25,7 +25,7 @@
         "ground_truth_check",
         "ai_output_review"
       ],
-      "description": "underlying_problem: Finds the underlying problem behind a planned solution, before it is built.; ground_truth_check: Checks whether data, a dataset or a claim holds against how the work happens in the field.; ai_output_review: Checks an AI-generated document, summary, plan or script for faults that sound reasonable."
+      "description": "underlying_problem: Finds the underlying problem behind a planned solution, before it is built.; ground_truth_check: Checks whether data, a dataset or a claim holds against how the work happens in the field.; ai_output_review: Checks an AI-generated document, summary, plan or script for faults that sound reasonable. Choosing: If the material was made by an AI and the question is whether it holds against its source or the field, use ai_output_review. Use ground_truth_check for data or claims not produced by an AI. Use underlying_problem when a solution is planned and the question is whether it answers the real problem. When unsure, pick one and say so in context; Dennis re-routes."
     },
     "question": {
       "type": "string",
@@ -45,7 +45,8 @@
     },
     "artefact_text": {
       "type": "string",
-      "description": "The material itself, when it is not at a link."
+      "maxLength": 50000,
+      "description": "The material itself, as text (up to about 50 000 characters)."
     },
     "context": {
       "type": "string",
@@ -88,7 +89,8 @@
       "enum": [
         "nl",
         "en"
-      ]
+      ],
+      "default": "en"
     },
     "public_backlog_ok": {
       "type": "boolean",

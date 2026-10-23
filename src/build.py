@@ -190,17 +190,17 @@ req_schema = {
   "required": ["request_id", "task_type", "question", "decision_at_stake", "principal", "deadline", "tier"],
   "properties": {
     "request_id": {"type": "string", "pattern": "^REQ-[A-Z0-9-]{4,24}$", "description": "Chosen by the sender. Goes in the email subject as PROOFBRIDGE {request_id} and in the body."},
-    "task_type": {"enum": TT_IDS, "description": "; ".join(f"{x['id']}: {x['does']}" for x in TT)},
+    "task_type": {"enum": TT_IDS, "description": "; ".join(f"{x['id']}: {x['does']}" for x in TT) + " Choosing: " + K['choosing_task_type']},
     "question": {"type": "string", "description": "What the principal wants to know, in one or two sentences."},
     "decision_at_stake": {"type": "string", "description": "The decision this answer informs."},
     "artefact_urls": {"type": "array", "items": {"type": "string", "format": "uri"}, "description": "For reference only: links are not opened. Put the material in artefact_text."},
-    "artefact_text": {"type": "string", "description": "The material itself, when it is not at a link."},
+    "artefact_text": {"type": "string", "maxLength": 50000, "description": "The material itself, as text (up to about 50 000 characters)."},
     "context": {"type": "string", "description": "Who it is for, who decided it, where it is used."},
     "principal": {"type": "object", "additionalProperties": False, "required": ["name", "kind", "email"],
                   "properties": {"name": {"type": "string"}, "kind": {"enum": ["person", "organisation"]},
                                  "email": {"type": "string", "format": "email"}, "agent": {"type": "string", "description": "Name of the agent sending on the principal's behalf, if any."}}},
     "deadline": {"type": "string", "format": "date", "description": f"Date (UTC) at least {K['lifecycle']['reply_window_days']} days after the request is sent (test phase) or after the payment is seen (paid tiers)."},
-    "language": {"enum": K['provider']['languages']},
+    "language": {"enum": K['provider']['languages'], "default": K['request']['default_language']},
     "public_backlog_ok": {"type": "boolean", "default": False, "description": "true: task_type, status and dates may appear on the public backlog. The content never does."},
     "tier": {"enum": [0, 1, 2], "description": "0: test phase, no payment. 1 and 2: paid, not open during the test phase."},
     "payment_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "On-chain txid, or the Lightning payment hash once the Lightning rail is live."},
@@ -310,6 +310,9 @@ Field experience: {', '.join(K['domains_with_field_experience'])}.
 - Schema: {K['request']['schema']}
 - Required: {', '.join('`'+r+'`' for r in req_schema['required'])}; `payment_txid` too for tiers 1 and 2.
 - Acknowledgement: {K['request']['acknowledgement']}
+- Size: {K['request']['size']}
+- Language: nl or en; default {K['request']['default_language']}.
+- Choosing the task type: {K['choosing_task_type']}
 
 ## Tiers and price
 | tier | status | minimum | gets | performed by |

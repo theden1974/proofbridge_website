@@ -69,6 +69,9 @@ Field experience: elderly care, healthcare, government and public services, digi
 - Schema: https://proofbridge.nl/schema/request.schema.json
 - Required: `request_id`, `task_type`, `question`, `decision_at_stake`, `principal`, `deadline`, `tier`; `payment_txid` too for tiers 1 and 2.
 - Acknowledgement: A reply quoting the request_id. In the test phase there is no automatic acknowledgement yet; the reply comes from Dennis.
+- Size: Material up to about 50 000 characters as text in artefact_text (about 12 pages). Longer: send the part the decision rests on and say what was left out.
+- Language: nl or en; default en.
+- Choosing the task type: If the material was made by an AI and the question is whether it holds against its source or the field, use ai_output_review. Use ground_truth_check for data or claims not produced by an AI. Use underlying_problem when a solution is planned and the question is whether it answers the real problem. When unsure, pick one and say so in context; Dennis re-routes.
 
 ## Tiers and price
 | tier | status | minimum | gets | performed by |
