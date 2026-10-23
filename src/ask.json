@@ -1,6 +1,6 @@
 {
   "status": "prototype",
-  "script_version": "ask-v15-2026-10-23",
+  "script_version": "ask-v16-2026-10-23",
   "title": "Prepare",
   "lead": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.",
   "doors": {
@@ -11,7 +11,7 @@
   "email_label": "Your email",
   "send_label": "Send",
   "copy_label": "Copy",
-  "send_note": "If your mail program does not open, copy and paste it in a mail to",
+  "send_note": "Goes from this page straight to",
   "contract_line": "What a request and an answer look like: the task contract.",
   "prompt1": "What happens?",
   "box_hint": "Who is involved and who decided, what you see going wrong, what was already chosen, and what you would do once it is clear. As you would tell a colleague. Length is fine.",

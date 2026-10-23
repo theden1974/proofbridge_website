@@ -37,7 +37,7 @@ export default {
     if (body.split(/\s+/).length < 10) return reply(400, { ok: false, error: 'body' }, origin);
     const from = String(d.email || '').trim();
     const replyTo = EMAIL.test(from) ? { email: from } : undefined;
-    if (!env.SMTP_USER || !env.SMTP_PASS) return reply(500, { ok: false, error: 'smtp', stage: 'config', detail: 'SMTP_USER or SMTP_PASS not set', names_seen: Object.keys(env).sort() }, origin);
+    if (!env.SMTP_USER || !env.SMTP_PASS) return reply(500, { ok: false, error: 'smtp', stage: 'config', detail: 'SMTP_USER or SMTP_PASS not set' }, origin);
     let stage = 'connect';
     try {
       const mailer = await WorkerMailer.connect({
