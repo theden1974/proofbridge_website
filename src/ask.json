@@ -1,11 +1,11 @@
 {
   "status": "prototype",
-  "script_version": "ask-v9-2026-10-23",
-  "title": "Ask",
-  "lead": "Tell it as you would tell a colleague who does not know your work.",
+  "script_version": "ask-v10-2026-10-23",
+  "title": "Prepare",
+  "lead": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.",
   "doors": {
     "tell": "Tell it",
-    "chat": "or hand over a chat with an AI",
+    "chat": "or hand over a chat you had with an AI about this",
     "back": "or tell it yourself"
   },
   "email_label": "Your email",
@@ -14,25 +14,25 @@
   "send_note": "If your mail program does not open, copy and paste it in a mail to",
   "contract_line": "What a request and an answer look like: the task contract.",
   "prompt1": "What happens?",
-  "prompt2": "What would you like to be different?",
-  "box_hint": "",
+  "prompt2": "Once this is clear, what would you decide, or stop?",
+  "box_hint": "Who is involved and who decided, what you see going wrong, what was already chosen, and what you would do once it is clear. As you would tell a colleague.",
   "floor": {
     "short": "",
-    "method": "A question about how I work is not a request.",
-    "agent_alone": "Name the person or organisation behind this.",
+    "method": "How I work is in the task contract; this page is for your situation.",
+    "agent_alone": "Name the person or organisation this is for.",
     "ok": ""
   },
-  "chat_placeholder": "Paste the whole chat, your messages and the AI's answers.",
-  "chat_lead": "Paste the conversation you had with an AI about this.",
+  "chat_placeholder": "Your messages and the AI's answers, as they were.",
+  "chat_lead": "Paste the whole chat. I read what you asked, what it proposed, and what you accepted without checking.",
   "sidekick": {
-    "intro": "One pairing I see in your words.",
-    "presented": "Presented",
-    "underneath": "Underneath",
-    "question": "Is that it?",
+    "intro": "Where my lens would start.",
+    "presented": "What is asked for",
+    "underneath": "What is underneath",
+    "question": "Is that the pair?",
     "yes": "yes",
     "no": "no",
     "thanks_yes": "Kept with your text.",
-    "correct_prompt": "Then what is underneath? Say it as it is.",
-    "thanks_no": "Yours replaces mine."
+    "correct_prompt": "Then what is underneath, as you see it?",
+    "thanks_no": "Yours goes in."
   }
 }

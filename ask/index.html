@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ask · proofbridge</title>
-<meta name="description" content="Tell it as you would tell a colleague who does not know your work.">
+<title>Prepare · proofbridge</title>
+<meta name="description" content="Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://proofbridge.nl/ask/">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Ask · proofbridge", "dateModified": "2026-10-20", "description": "Tell it as you would tell a colleague who does not know your work.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Prepare · proofbridge", "dateModified": "2026-10-20", "description": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -82,7 +82,7 @@
   .guide li q { display: block; font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
   .guide li span { display: block; font-size: var(--s-1); color: var(--grey); margin-top: 0.15rem; font-style: italic; } .side .label { display: block; margin-top: 1.1rem; } .side .label:first-child { margin-top: 0; }
   .floor { margin-top: 1.2rem; font-weight: 500; } .floor.off { color: var(--grey); font-weight: 400; }
-  .step2 { margin-top: 1.6rem; display: none; } .step2.on { display: block; }
+  .step2 { margin-top: 1.6rem; display: none; max-width: 60ch; } .step2.on { display: block; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60ch; }
   .opts { display: grid; gap: 0.6rem; margin-top: 0.5rem; max-width: 60ch; }
   .opts label { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
@@ -106,28 +106,38 @@
 </header>
 <section class="intro" aria-labelledby="h1">
   <span class="label">↳ ask</span>
-  <h1 id="h1">Ask</h1>
-  <p>Tell it as you would tell a colleague who does not know your work.</p>
+  <h1 id="h1">Prepare</h1>
+  <p>Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.</p>
 </section>
 
 
 <div class="two">
   <div>
     <div class="door on" id="tell">
-      <label for="story"><p class="q">What happens?</p>
+      <label for="story"><p class="q">What happens?<small>Who is involved and who decided, what you see going wrong, what was already chosen, and what you would do once it is clear. As you would tell a colleague.</small></p>
       <textarea id="story"></textarea></label>
-      <p class="alt"><button type="button" class="link" id="door-chat">or hand over a chat with an AI</button></p>
+      <p class="alt"><button type="button" class="link" id="door-chat">or hand over a chat you had with an AI about this</button></p>
       <div class="second" id="second">
-        <label for="wish"><p class="q">What would you like to be different?</p>
+        <label for="wish"><p class="q">Once this is clear, what would you decide, or stop?</p>
         <textarea id="wish"></textarea></label>
       </div>
     </div>
     <div class="door" id="chat">
-      <label for="paste"><p class="q">Paste the conversation you had with an AI about this.</p>
+      <label for="paste"><p class="q">Paste the whole chat. I read what you asked, what it proposed, and what you accepted without checking.</p>
       <textarea id="paste" style="min-height:14rem"></textarea></label>
       <p class="alt"><button type="button" class="link" id="door-tell">or tell it yourself</button></p>
     </div>
     <p class="floor off" id="floor" hidden></p>
+  </div>
+  <aside class="side" id="side" aria-live="polite" hidden>
+    <p class="q" style="font-size:1rem">Where my lens would start.</p>
+    <p class="pair"><b>What is asked for</b><q id="sk-p"></q></p>
+    <p class="pair"><b>What is underneath</b><q id="sk-u"></q></p>
+    <div class="ctl" id="sk-ctl"><span class="status" style="align-self:center">Is that the pair?</span><button type="button" id="sk-yes">yes</button><button type="button" id="sk-no">no</button></div>
+    <div id="sk-fix" hidden><p class="status" style="margin-top:0.8rem">Then what is underneath, as you see it?</p><textarea id="sk-own" style="min-height:4rem"></textarea></div>
+    <p class="status" id="sk-thanks" hidden></p>
+  </aside>
+</div>
     <section class="step2" id="step2" aria-label="Send">
       <div class="row">
         <label><b>Your email</b><input type="email" id="email"></label>
@@ -138,16 +148,7 @@
         <span class="status">If your mail program does not open, copy and paste it in a mail to <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a></span>
       </div>
     </section>
-  </div>
-  <aside class="side" id="side" aria-live="polite" hidden>
-    <p class="q" style="font-size:1rem">One pairing I see in your words.</p>
-    <p class="pair"><b>Presented</b><q id="sk-p"></q></p>
-    <p class="pair"><b>Underneath</b><q id="sk-u"></q></p>
-    <div class="ctl" id="sk-ctl"><span class="status" style="align-self:center">Is that it?</span><button type="button" id="sk-yes">yes</button><button type="button" id="sk-no">no</button></div>
-    <div id="sk-fix" hidden><p class="status" style="margin-top:0.8rem">Then what is underneath? Say it as it is.</p><textarea id="sk-own" style="min-height:4rem"></textarea></div>
-    <p class="status" id="sk-thanks" hidden></p>
-  </aside>
-</div>
+
 
 <footer>
   <span class="label">↳ connect</span>
@@ -158,8 +159,8 @@
 <script>
 // v8: side kick. One pattern at most (presented / underneath), built from two of the asker's own sentences, asked as a guess; the answer travels in the mail. Otherwise the page only takes the story and sends.
 // v7: empty state first. Two prompts in the asker's words; the right side appears only when a sentence is read, and shows only what was read. No notes, no hints, no promises. A floor only: something happens, not a method question, not an agent alone.
-// Script version ask-v9-2026-10-23. Texts from src/ask.json.
-const F = {"short": "", "method": "A question about how I work is not a request.", "agent_alone": "Name the person or organisation behind this.", "ok": ""};
+// Script version ask-v10-2026-10-23. Texts from src/ask.json.
+const F = {"short": "", "method": "How I work is in the task contract; this page is for your situation.", "agent_alone": "Name the person or organisation this is for.", "ok": ""};
 const GRX = {
   who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council|client|customer)|owner of|lead at|work(s|ing)? (at|for)|advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|(she|he|they) decides?|decided|mandate|funding)\b/i,
   happens: /\b(doesn'?t|don'?t|does not|do not|can'?t|cannot|won'?t|isn'?t|aren'?t|wasn'?t|not (sure|tracking|working|getting|converting|enough|clear|happening|used|using)|wrong|fail(s|ed|ing)?|complain(s|ed|t|ts)?|slow|unclear|stuck|nobody|no one|drop(ped|s)? ?(off)?|abandon|churn|late|delays?|double (entry|work)|twice|errors?|mistakes?|hallucinat|unreliable|outdated|out of date|incomplete|inaccurate|missing|problems?|issues?|decline|declin(ed|ing)|down|lost|losing|less|fewer|worse|struggl(e|es|ing)|hard(er)? to|difficult|no longer|too (long|many|few|slow)|only \d|\d+ ?%|\d+ (users|people|clients|hours|days|weeks|minutes|calls|complaints|visitors|leads)|call(s|ed)? (us|instead)|since (last|the)|last (week|month|year|quarter))/i,
@@ -182,7 +183,7 @@ function sidekick(text){
 }
 function bindSK(){ $('sk-yes').onclick = () => { SK.answer = 'yes'; $('sk-thanks').textContent = 'Kept with your text.'; $('sk-thanks').hidden = false; $('sk-ctl').hidden = true; refresh(); };
   $('sk-no').onclick = () => { SK.answer = 'no'; $('sk-ctl').hidden = true; $('sk-fix').hidden = false; $('sk-own').focus(); refresh(); };
-  $('sk-own').addEventListener('input', () => { SK.own = $('sk-own').value.trim(); $('sk-thanks').textContent = SK.own ? 'Yours replaces mine.' : ''; $('sk-thanks').hidden = !SK.own; refresh(); }); }
+  $('sk-own').addEventListener('input', () => { SK.own = $('sk-own').value.trim(); $('sk-thanks').textContent = SK.own ? 'Yours goes in.' : ''; $('sk-thanks').hidden = !SK.own; refresh(); }); }
 function esc(x){ return String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 const RX = {
   wish: /\b(i want|we want|would like|wish|hope|goal|instead|rather|ideally|decide|whether|need to (know|decide|choose)|the question is|should (we|i)|what (should|do) (we|i) do)\b/i,
@@ -211,7 +212,7 @@ function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (
 const RID = reqId();
 function body(){
   const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: ask-v9-2026-10-23', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
+  const lines = ['request_id: ' + RID, 'script: ask-v10-2026-10-23', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); if (v('wish')) lines.push('', 'What I would like to be different:', v('wish')); }
   else lines.push('The chat with the AI:', v('paste'));
   if (SK.fired) { lines.push('', 'Side kick (pattern: presented / underneath): ' + (SK.answer || 'unanswered')); lines.push('Presented: ' + SK.fired.presented); lines.push('Underneath: ' + SK.fired.underneath); if (SK.own) lines.push('Underneath, in the asker\'s words: ' + SK.own); }

@@ -32,7 +32,7 @@ __CSS__
   .guide li q { display: block; font-size: var(--s-1); margin-top: 0.15rem; quotes: "“" "”"; }
   .guide li span { display: block; font-size: var(--s-1); color: var(--grey); margin-top: 0.15rem; font-style: italic; } .side .label { display: block; margin-top: 1.1rem; } .side .label:first-child { margin-top: 0; }
   .floor { margin-top: 1.2rem; font-weight: 500; } .floor.off { color: var(--grey); font-weight: 400; }
-  .step2 { margin-top: 1.6rem; display: none; } .step2.on { display: block; }
+  .step2 { margin-top: 1.6rem; display: none; max-width: 60ch; } .step2.on { display: block; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60ch; }
   .opts { display: grid; gap: 0.6rem; margin-top: 0.5rem; max-width: 60ch; }
   .opts label { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
@@ -64,7 +64,7 @@ __CSS__
 <div class="two">
   <div>
     <div class="door on" id="tell">
-      <label for="story"><p class="q">__PROMPT1__</p>
+      <label for="story"><p class="q">__PROMPT1__<small>__BOX_HINT__</small></p>
       <textarea id="story"></textarea></label>
       <p class="alt"><button type="button" class="link" id="door-chat">__DOOR_CHAT__</button></p>
       <div class="second" id="second">
@@ -78,16 +78,6 @@ __CSS__
       <p class="alt"><button type="button" class="link" id="door-tell">__DOOR_BACK__</button></p>
     </div>
     <p class="floor off" id="floor" hidden></p>
-    <section class="step2" id="step2" aria-label="Send">
-      <div class="row">
-        <label><b>__EMAIL_LABEL__</b><input type="email" id="email"></label>
-      </div>
-      <div class="actions">
-        <a class="btn" id="send" href="#">__SEND__</a>
-        <button class="btn" type="button" id="copy">__COPY__</button>
-        <span class="status">__SEND_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a></span>
-      </div>
-    </section>
   </div>
   <aside class="side" id="side" aria-live="polite" hidden>
     <p class="q" style="font-size:1rem">__SK_INTRO__</p>
@@ -98,6 +88,17 @@ __CSS__
     <p class="status" id="sk-thanks" hidden></p>
   </aside>
 </div>
+    <section class="step2" id="step2" aria-label="Send">
+      <div class="row">
+        <label><b>__EMAIL_LABEL__</b><input type="email" id="email"></label>
+      </div>
+      <div class="actions">
+        <a class="btn" id="send" href="#">__SEND__</a>
+        <button class="btn" type="button" id="copy">__COPY__</button>
+        <span class="status">__SEND_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a></span>
+      </div>
+    </section>
+
 
 <footer>
   <span class="label">↳ connect</span>
