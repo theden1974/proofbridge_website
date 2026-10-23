@@ -1,6 +1,6 @@
 {
   "site": "https://proofbridge.nl/",
-  "statement": "Public ledger of requests with public_backlog_ok true. Content of requests is never listed. Proof of concept since 2026-10-20.",
+  "statement": "Public ledger of requests with public_backlog_ok true. Content of requests is never listed. Test phase since 2026-10-20: requests answered without payment. Updated 2026-10-24.",
   "address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
   "fields": [
     "id",

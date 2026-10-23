@@ -1,5 +1,5 @@
 {
-  "$comment": "One request and one response per task type, valid against the schemas. Names invented, txids placeholders.",
+  "$comment": "Illustrative: one request and one response per task type, built from real field situations with names invented. Not a track record; the track record is backlog.json.",
   "examples": [
     {
       "task_type": "underlying_problem",
@@ -16,13 +16,11 @@
           "agent": "procurement-agent"
         },
         "deadline": "2026-11-30",
-        "tier": 2,
-        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tier": 0,
         "public_backlog_ok": true,
         "request_id": "REQ-UNDERLYING-0001"
       },
       "response": {
-        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "status": "completed",
         "task_type": "underlying_problem",
         "underlying_problem": "The elderly want to be self-sufficient and are not good at mobiles and apps. The app serves the funding checklist, not the elderly.",
@@ -46,8 +44,10 @@
           "name": "Dennis Jansen",
           "role": "UX researcher"
         },
-        "delivered_at": "2026-11-20"
-      }
+        "request_id": "REQ-UNDERLYING-0001",
+        "prepared_by": "dennis"
+      },
+      "illustrative": true
     },
     {
       "task_type": "ground_truth_check",
@@ -64,12 +64,10 @@
           "email": "data@example.nl"
         },
         "deadline": "2026-11-30",
-        "tier": 2,
-        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tier": 0,
         "request_id": "REQ-GROUND-0001"
       },
       "response": {
-        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "status": "completed",
         "task_type": "ground_truth_check",
         "verdict": "cannot_determine",
@@ -92,8 +90,10 @@
           "name": "Dennis Jansen",
           "role": "UX researcher"
         },
-        "delivered_at": "2026-11-20"
-      }
+        "request_id": "REQ-GROUND-0001",
+        "prepared_by": "dennis"
+      },
+      "illustrative": true
     },
     {
       "task_type": "ai_output_review",
@@ -108,13 +108,11 @@
           "email": "arch@example.nl"
         },
         "deadline": "2026-11-15",
-        "tier": 1,
-        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tier": 0,
         "artefact_text": "[the AI summary and the 60-page document, pasted as text]",
         "request_id": "REQ-REVIEW-0001"
       },
       "response": {
-        "payment_txid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "status": "completed",
         "task_type": "ai_output_review",
         "verdict": "does_not_hold",
@@ -138,8 +136,10 @@
           "name": "Dennis Jansen",
           "role": "UX researcher"
         },
-        "delivered_at": "2026-11-10"
-      }
+        "request_id": "REQ-REVIEW-0001",
+        "prepared_by": "dennis"
+      },
+      "illustrative": true
     }
   ]
 }

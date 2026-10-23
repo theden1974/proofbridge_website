@@ -11,14 +11,13 @@
     "decision_at_stake",
     "principal",
     "deadline",
-    "tier",
-    "payment_txid"
+    "tier"
   ],
   "properties": {
     "request_id": {
       "type": "string",
       "pattern": "^REQ-[A-Z0-9-]{4,24}$",
-      "description": "Chosen by the sender; travels with the payment (invoice memo) and in the email subject."
+      "description": "Chosen by the sender. Goes in the email subject as PROOFBRIDGE {request_id} and in the body."
     },
     "task_type": {
       "enum": [
@@ -83,7 +82,7 @@
     "deadline": {
       "type": "string",
       "format": "date",
-      "description": "At least 7 days after the payment."
+      "description": "Date (UTC) at least 7 days after the request is sent (test phase) or after the payment is seen (paid tiers)."
     },
     "language": {
       "enum": [
@@ -98,9 +97,11 @@
     },
     "tier": {
       "enum": [
+        0,
         1,
         2
-      ]
+      ],
+      "description": "0: test phase, no payment. 1 and 2: paid, not open during the test phase."
     },
     "payment_txid": {
       "type": "string",
@@ -123,5 +124,27 @@
       "minimum": 0,
       "description": "Optional proposal; the reward is agreed in the tier 2 reply."
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "tier": {
+            "enum": [
+              1,
+              2
+            ]
+          }
+        },
+        "required": [
+          "tier"
+        ]
+      },
+      "then": {
+        "required": [
+          "payment_txid"
+        ]
+      }
+    }
+  ]
 }

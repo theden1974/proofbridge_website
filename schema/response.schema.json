@@ -4,14 +4,24 @@
   "title": "proofbridge response",
   "type": "object",
   "required": [
-    "payment_txid",
+    "request_id",
     "status",
-    "accountable_human"
+    "accountable_human",
+    "prepared_by"
   ],
   "properties": {
+    "request_id": {
+      "type": "string",
+      "pattern": "^REQ-[A-Z0-9-]{4,24}$"
+    },
     "payment_txid": {
       "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Paid tiers only."
+    },
+    "illustrative": {
+      "type": "boolean",
+      "description": "true on published examples: not a real case, not a track record."
     },
     "status": {
       "enum": [
@@ -167,8 +177,11 @@
       }
     },
     "prepared_by": {
-      "type": "string",
-      "description": "Answers are prepared by his own AI setup, through his lens, on his own machines, and validated by him when needed. Every answer says which."
+      "enum": [
+        "dennis",
+        "local_model_validated_by_dennis"
+      ],
+      "description": "Every answer carries prepared_by: dennis, or local_model_validated_by_dennis once the local model is in use."
     },
     "delivered_at": {
       "type": "string",

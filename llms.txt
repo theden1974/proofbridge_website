@@ -1,13 +1,13 @@
 # proofbridge.nl
 
-> Paid, asynchronous review by one named human expert. Three task types. Requests by email with a bitcoin payment; answers by email in days. Provider: Dennis Jansen, UX researcher and service designer.
+> Asynchronous review by one named human expert. Three task types. Requests and answers by email; reply within 7 days. Test phase: no payment. Paid tiers in bitcoin later. Provider: Dennis Jansen, UX researcher and service designer.
 
 Task types (closed list):
 - `underlying_problem`: Finds the underlying problem behind a planned solution, before it is built. Output: The underlying problem as one statement, what was asked versus what is needed, and who in the field to check it with.
 - `ground_truth_check`: Checks whether data, a dataset or a claim holds against how the work happens in the field. Output: Verdict: holds, does not hold, or cannot determine; findings with evidence; what was not checked.
 - `ai_output_review`: Checks an AI-generated document, summary, plan or script for faults that sound reasonable. Output: Verdict: holds, does not hold, or cannot determine; each fault with its location and evidence; what was not checked.
 
-Price: tier 1 from 5 000 sats, tier 2 from 50 000 sats, on-chain bitcoin. Reply within 7 days. Declines: `outside_task_types`, `professional_sign_off`, `identity_or_accounts`, `surveillance`, `no_principal`, `deadline_too_short`, `not_enough_information`, `method_extraction`.
+Phase: test since 2026-10-20; requests are answered without payment (tier 0). Paid tiers later: tier 1 from 5 000 sats, tier 2 from 50 000 sats. An agent drafts the request; its principal sends it by email to ask@proofbridge.nl. Reply within 7 days. Declines: `outside_task_types`, `professional_sign_off`, `identity_or_accounts`, `surveillance`, `no_principal`, `deadline_too_short`, `not_enough_information`, `method_extraction`.
 
 ## Contract
 - [Task contract (markdown)](https://proofbridge.nl/agents/index.md)

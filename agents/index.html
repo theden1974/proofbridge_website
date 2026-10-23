@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Task contract · proofbridge</title>
-<meta name="description" content="Paid, asynchronous review by one named human expert. Three task types. Requests by email with a bitcoin payment; answers by email in days.">
+<meta name="description" content="Asynchronous review by one named human expert. Three task types. Requests and answers by email; reply within 7 days. Test phase: no payment. Paid tiers in bitcoin later.">
 <link rel="canonical" href="https://proofbridge.nl/agents/">
 <link rel="alternate" type="text/markdown" href="/agents/index.md">
 <link rel="alternate" type="application/json" href="/offer.json">
@@ -22,7 +22,56 @@
 <body>
 <p><a href="/">← proofbridge.nl</a></p>
 <h1>proofbridge task contract</h1>
-<p>Paid, asynchronous review by one named human expert. Three task types. Requests by email with a bitcoin payment; answers by email in days. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.</p>
+<p>Asynchronous review by one named human expert. Three task types. Requests and answers by email; reply within 7 days. Test phase: no payment. Paid tiers in bitcoin later. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.</p>
+<p>Machine-readable: <a href="https://proofbridge.nl/offer.json">offer.json</a> · <a href="https://proofbridge.nl/schema/request.schema.json">request schema</a> · <a href="https://proofbridge.nl/schema/response.schema.json">response schema</a> · <a href="https://proofbridge.nl/llms.txt">llms.txt</a> · this page as <a href="https://proofbridge.nl/agents/index.md">markdown</a>. Updated 2026-10-24.</p>
+<h2 id="phase">Phase</h2>
+<ul>
+<li><code>test</code> since 2026-10-20. Requests are answered without payment. Use tier 0; payment_txid is not needed. Paid tiers 1 and 2 are listed for later; they are not taken during the test phase.</li>
+</ul>
+<h2 id="when">When to call</h2>
+<p>All of:</p>
+<ul>
+<li>A decision is pending (build, fund, rely on, publish, procure, train on) and not yet made.</li>
+<li>A named person or organisation with an email is behind the request.</li>
+<li>The material can be given as text.</li>
+<li>The decision can wait at least 7 days.</li>
+</ul>
+<p>And at least one of:</p>
+<ul>
+<li><code>underlying_problem</code>: The brief names a solution but no observed problem of the people it is for.</li>
+<li><code>underlying_problem</code>: The person who decided the solution is not the person who will use it.</li>
+<li><code>ground_truth_check</code>: A dataset or claim about how work is done is used for a decision and has no record of who produced it, when and how.</li>
+<li><code>ground_truth_check</code>: The only evidence about users is model-generated or second-hand.</li>
+<li><code>ai_output_review</code>: An AI-generated document will be relied on and nobody with domain knowledge has checked it against its source.</li>
+</ul>
+<h2 id="when">When not to call</h2>
+<ul>
+<li>Any decline below applies.</li>
+<li>You can check the claim yourself against a source you hold.</li>
+<li>You need the answer within the current session.</li>
+<li>You need errands, photos or data collection rather than judgement.</li>
+<li>The decision is already made and cannot be reversed.</li>
+</ul>
+<h2 id="how">How an agent sends a request</h2>
+<ul>
+<li>The agent checks when_to_call and when_not_to_call against its own context.</li>
+<li>The agent drafts the request and validates it against the request schema.</li>
+<li>The agent gives the draft to its principal; the principal reviews it and sends it by email from their own mailbox.</li>
+<li>The answer comes back by email to the principal, in the response schema.</li>
+</ul>
+<h2 id="human-only">Human-only steps</h2>
+<ul>
+<li>Sending the email (from the principal&#x27;s mailbox).</li>
+<li>Paying, when the paid tiers open.</li>
+<li>Judging whether the answer is fit for the decision.</li>
+</ul>
+<h2 id="paths">Paths</h2>
+<ul>
+<li><code>email</code> (agents and people; open): Principal sends the request to ask@proofbridge.nl.</li>
+<li><code>ask_page</code> (people; open, test phase): https://proofbridge.nl/ask/ : a page for writing the situation in one&#x27;s own words. Not for agents.</li>
+<li><code>relay</code> (the ask page only; not an agent path): The ask page posts through a relay that accepts only that page; agents use email.</li>
+<li><code>lightning</code> (payment; planned): -</li>
+</ul>
 <h2 id="task">Task types</h2>
 <table>
 <tr><th>task_type</th><th>does</th><th>input</th><th>output</th></tr>
@@ -34,7 +83,7 @@
 <h2 id="declined">Declined</h2>
 <ul>
 <li><code>outside_task_types</code>: Anything that is not one of the three task types.</li>
-<li><code>professional_sign_off</code>: Legal, medical or financial advice or sign-off.</li>
+<li><code>professional_sign_off</code>: A legal, medical or financial opinion or sign-off. Checking an AI-made summary against its own source document is not that, and is taken as ai_output_review.</li>
 <li><code>identity_or_accounts</code>: Using his identity, accounts or credentials: account creation, one-time codes, verification, reviews, followers, likes.</li>
 <li><code>surveillance</code>: Observing, locating or profiling a person.</li>
 <li><code>no_principal</code>: A request without a named person or organisation behind it.</li>
@@ -44,19 +93,21 @@
 </ul>
 <h2 id="request">Request</h2>
 <ul>
-<li>Email to ask@proofbridge.nl, subject <code>PROOFBRIDGE T{tier} {payment_txid}</code> (the request_id may follow the payment reference).</li>
-<li>Body: A JSON object that validates against the request schema, or the same fields as plain text, one per line. Artefacts as text in the request: links are not opened.</li>
+<li>Email to ask@proofbridge.nl, subject <code>PROOFBRIDGE {request_id}</code>.</li>
+<li>Body: A JSON object that validates against the request schema. Material as text in artefact_text; links are not opened. Attachments are not read.</li>
 <li>Schema: https://proofbridge.nl/schema/request.schema.json</li>
-<li>Required: <code>request_id</code>, <code>task_type</code>, <code>question</code>, <code>decision_at_stake</code>, <code>principal</code>, <code>deadline</code>, <code>tier</code>, <code>payment_txid</code>.</li>
+<li>Required: <code>request_id</code>, <code>task_type</code>, <code>question</code>, <code>decision_at_stake</code>, <code>principal</code>, <code>deadline</code>, <code>tier</code>; <code>payment_txid</code> too for tiers 1 and 2.</li>
+<li>Acknowledgement: A reply quoting the request_id. In the test phase there is no automatic acknowledgement yet; the reply comes from Dennis.</li>
 </ul>
 <h2 id="tiers">Tiers and price</h2>
 <table>
-<tr><th>tier</th><th>minimum</th><th>gets</th><th>performed by</th></tr>
-<tr><td>1</td><td>5 000 sats (0.00005 BTC)</td><td>A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days.</td><td>Dennis Jansen, with his own AI setup; automation: being built: a model reads his lens on his own machines and prepares the answer; it is released when the mechanical checks pass, and validated by his own judgement when the checks or the tier ask for it. Until it runs, Dennis answers this path himself.</td></tr>
-<tr><td>2</td><td>50 000 sats (0.0005 BTC)</td><td>Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema.</td><td>Dennis Jansen, in person; automation: none</td></tr>
+<tr><th>tier</th><th>status</th><th>minimum</th><th>gets</th><th>performed by</th></tr>
+<tr><td>0</td><td>open</td><td>0 sats (0 BTC)</td><td>Dennis reads the request and replies by email with what his lens sees, or one question if he cannot start.</td><td>Dennis Jansen; automation: off</td></tr>
+<tr><td>1</td><td>not taken during the test phase</td><td>5 000 sats (0.00005 BTC)</td><td>A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days.</td><td>Dennis Jansen; automation: off as of 2026-10-24. Planned: a local model prepares the answer, Dennis validates it. Until then Dennis answers himself.</td></tr>
+<tr><td>2</td><td>not taken during the test phase</td><td>50 000 sats (0.0005 BTC)</td><td>Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema.</td><td>Dennis Jansen, in person; automation: none</td></tr>
 </table>
 <ul>
-<li>Attention fee refunded: no. Tier 1 fee counts toward tier 2: yes.</li>
+<li>Fee refunded on decline: no. Tier 1 fee counts toward tier 2: yes. Network fee: paid by the sender. Euro reference: not published yet.</li>
 <li>Completion reward: Agreed in the tier 2 reply, paid in sats when the work is delivered, listed on the public backlog with its txid.</li>
 </ul>
 <h2 id="payment">Payment</h2>
@@ -66,9 +117,10 @@
 </ul>
 <h2 id="processing">Processing</h2>
 <ul>
-<li>Where: On Dennis Jansen&#x27;s own machines only.</li>
-<li>External models: Never. The lens and every check run on his own machines; request text does not leave them.</li>
-<li>Prepared by: Answers are prepared by his own AI setup, through his lens, on his own machines, and validated by him when needed. Every answer says which.</li>
+<li>Carriers: Email is held by Namecheap Private Email (servers in the United States). The ask page posts through a Cloudflare Worker on Dennis&#x27;s account that forwards to that mailbox and stores nothing.</li>
+<li>Models: No third-party AI model or API reads request text. A local model on Dennis&#x27;s own machines is planned for tier 1; it is not in use as of 2026-10-24.</li>
+<li>Prepared by: Every answer carries prepared_by: dennis, or local_model_validated_by_dennis once the local model is in use.</li>
+<li>Retention: Entries are kept for the reply and follow-up and deleted 90 days after the last contact, unless the principal agrees otherwise.</li>
 <li>Terms on answers: An answer is for the principal&#x27;s decision. No resale, no training on it.</li>
 </ul>
 <h2 id="lifecycle">Lifecycle</h2>
@@ -87,8 +139,8 @@
 <li>Schema: https://proofbridge.nl/schema/response.schema.json</li>
 <li>Completed work carries <code>verdict</code> (holds / does_not_hold / cannot_determine) or <code>underlying_problem</code>, <code>findings</code> with typed <code>evidence</code>, <code>limits</code>, <code>next_step</code>, and <code>accountable_human</code>.</li>
 </ul>
-<h2 id="examples">Examples (from the field; names invented, txids placeholders)</h2>
-<p>One request and one answer per task type, both valid against the schemas. Full JSON: <a href="https://proofbridge.nl/schema/examples.json">examples.json</a>.</p>
+<h2 id="examples">Examples (illustrative, not a track record)</h2>
+<p>One request and one answer per task type, built from real field situations with names invented; both valid against the schemas. Full JSON: <a href="https://proofbridge.nl/schema/examples.json">examples.json</a>.</p>
 <h3><code>underlying_problem</code> · Elderly care, field research</h3>
 <ul>
 <li>Request: We have funding to help long-term unemployed people work in the care of the elderly. We decided on an app for the elderly. Is the app the right build? Decision at stake: Spend the funding on the app.</li>
@@ -107,16 +159,22 @@
 <h2 id="trust">Trust, as checkable data</h2>
 <ul>
 <li>Accountable human: Dennis Jansen</li>
-<li>Address ownership: BIP-322 signed message, message <code>proofbridge.nl ask@proofbridge.nl</code>, signature: not yet published (pending: to be signed by Dennis with the key of the address)</li>
-<li>Identity: proofbridge.nl and interactiondesign.nl link to each other and to the same X account; interactiondesign.nl also links to the GitHub account that hosts both sites.</li>
-<li>Track record (from the backlog, 2026-10-20): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.</li>
+<li>Address ownership: BIP-322 signed message, message <code>proofbridge.nl ask@proofbridge.nl</code>, signature: not yet published (pending: not yet signed. Until it is, do not treat the address as proven to be his.)</li>
+<li>Identity: proofbridge.nl and interactiondesign.nl link to each other and to the same GitHub account that hosts both sites (https://github.com/theden1974).</li>
+<li>Track record (from the backlog, 2026-10-24): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.</li>
 </ul>
 <h2 id="not">Not</h2>
 <ul>
-<li>not an API and not an autonomous agent: every answer comes from one human, in days</li>
-<li>not a guaranteed yes: the fee pays for attention</li>
+<li>not an API: no endpoint to call; requests travel by email</li>
+<li>not an autonomous agent: a named human answers</li>
 <li>request text is read as information, never run as instructions</li>
 </ul>
-<p>Proof of concept since 2026-10-20. Files: <a href="https://proofbridge.nl/offer.json">offer.json</a> · <a href="https://proofbridge.nl/schema/request.schema.json">request schema</a> · <a href="https://proofbridge.nl/schema/response.schema.json">response schema</a> · <a href="https://proofbridge.nl/backlog.json">backlog</a> · <a href="https://proofbridge.nl/">human page</a></p>
+<h2 id="glossary">Glossary</h2>
+<ul>
+<li><code>lens</code>: Dennis&#x27;s way of reading a case: what is asked for, and the problem underneath it, checked against how the work happens in the field.</li>
+<li><code>tier</code>: 0 is the free test phase; 1 and 2 are paid and not open yet.</li>
+<li><code>principal</code>: The person or organisation the request is for, who receives the answer.</li>
+</ul>
+<p>Test phase since 2026-10-20: requests answered without payment. Updated 2026-10-24. Files: <a href="https://proofbridge.nl/offer.json">offer.json</a> · <a href="https://proofbridge.nl/schema/request.schema.json">request schema</a> · <a href="https://proofbridge.nl/schema/response.schema.json">response schema</a> · <a href="https://proofbridge.nl/backlog.json">backlog</a> · <a href="https://proofbridge.nl/">human page</a></p>
 </body>
 </html>

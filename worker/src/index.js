@@ -49,7 +49,7 @@ export default {
         from: { name: 'proofbridge ask', email: env.SMTP_USER },
         to: { email: env.MAIL_TO },
         reply: replyTo,
-        subject: 'PROOFBRIDGE TEST ' + d.request_id,
+        subject: 'PROOFBRIDGE ' + d.request_id,
         text: body + (replyTo ? '' : '\n\n(no valid reply address given)'),
       });
       await mailer.close();

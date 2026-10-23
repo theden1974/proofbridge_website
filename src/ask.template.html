@@ -7,6 +7,7 @@
 <meta name="description" content="__LEAD__">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://proofbridge.nl/ask/">
+<link rel="alternate" type="text/markdown" href="/agents/index.md" title="Task contract for agents">
 <script type="application/ld+json">__LD__</script>
 __CSS__
 <style>
@@ -116,6 +117,7 @@ __CSS__
   <span class="label">↳ connect</span>
   <a href="mailto:__MAIL__">__MAIL__</a>
   <p class="agents label">↳ __CONTRACT_LINE__</p>
+  <p class="agents label">↳ __AGENT_LINE__ <a href="/agents/index.md">/agents/index.md</a>.</p>
 </footer>
 </div>
 <script>
@@ -201,11 +203,11 @@ function body(){
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
 function refresh(){ const b = body();
-  const href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID) + '&body=' + encodeURIComponent(b);
+  const href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE ' + RID) + '&body=' + encodeURIComponent(b);
   const a = $('send');
   if (ENDPOINT) { a.href = '#'; a.onclick = sendForm; return; }
   if (href.length < 1900) { a.href = href; a.onclick = null; a.textContent = '__SEND__'; }
-  else { a.href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID); a.textContent = '__SEND_LONG__';
+  else { a.href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE ' + RID); a.textContent = '__SEND_LONG__';
     a.onclick = () => { copy(); const n = $('step2').querySelector('.actions .status'); if (n) n.innerHTML = '__COPIED_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a>'; }; } }
 const ENDPOINT = '__SEND_ENDPOINT__';
 async function sendForm(e){ e.preventDefault(); const a = $('send'); if (a.dataset.busy) return;
