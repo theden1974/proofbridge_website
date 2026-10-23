@@ -47,6 +47,14 @@ __CSS__
   .linkbtn { font: inherit; font-size: var(--s-1); background: none; border: 0; padding: 0.4rem 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
   .opt { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey); margin-left: 0.5rem; }
   .sent { margin-top: 1.2rem; } .sent b { display: block; font-weight: 500; } .sent span { color: var(--grey); font-size: var(--s-1); }
+  .mup { list-style: none; padding: 0; margin: 0.6rem 0 0; display: grid; gap: 1rem; }
+  .mup li { padding-left: 1.4rem; position: relative; }
+  .mup li::before { content: "○"; position: absolute; left: 0; color: var(--grey); }
+  .mup li.ok::before { content: "●"; color: var(--accent); }
+  .mup b { display: block; font-weight: 500; font-size: var(--s-1); }
+  .mup q { display: block; font-size: var(--s-1); margin-top: 0.2rem; quotes: "“" "”"; }
+  .mup q.own { font-style: normal; } .mup q.read { color: var(--grey); }
+  .mup textarea { min-height: 3rem; margin-top: 0.4rem; font-size: var(--s-1); }
   .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.2rem; }
   .status { color: var(--grey); font-size: var(--s-1); }
   label b { display: block; font-weight: 500; }
@@ -74,7 +82,7 @@ __CSS__
   <div>
     <div class="door on" id="tell">
       <label for="story" class="q">__PROMPT1__</label>
-      <div class="hint" id="story-hint"><ul>__HINT_ITEMS__</ul>__HINT_TAIL__</div>
+      <div class="hint" id="story-hint">__HINT_TAIL__</div>
       <textarea id="story" aria-describedby="story-hint"></textarea>
       <p class="alt"><button type="button" class="link" id="door-chat">__DOOR_CHAT__</button></p>
     </div>
@@ -85,21 +93,9 @@ __CSS__
     </div>
     <p class="floor off" id="floor" hidden></p>
   </div>
-  <aside class="side" id="side" hidden>
-    <div id="sk-pair">
-      <span class="label">↳ __SK_INTRO__<span class="opt">__OPTIONAL__</span></span>
-      <p class="pair"><b>__SK_PRESENTED__</b><q id="sk-p"></q></p>
-      <p class="pair"><b>__SK_UNDERNEATH__</b><q id="sk-u"></q></p>
-      <div class="ctl" id="sk-ctl" role="group" aria-labelledby="sk-question"><span class="status" id="sk-question" style="align-self:center">__SK_QUESTION__</span><button type="button" id="sk-yes">__SK_YES__</button><button type="button" id="sk-no">__SK_NO__</button></div>
-      <div id="sk-fix" hidden><label for="sk-own">__SK_CORRECT__</label><textarea id="sk-own" style="min-height:4rem"></textarea></div>
-      <p class="status" id="sk-thanks" tabindex="-1" hidden></p>
-    </div>
-    <div id="sk-ask" hidden>
-      <span class="label">↳ __SK_ASK_INTRO__<span class="opt">__OPTIONAL__</span></span>
-      <label for="sk-answer" id="sk-q"></label>
-      <textarea id="sk-answer" style="min-height:4rem"></textarea>
-      <p class="status" id="sk-ask-thanks" hidden>__SK_ASK_THANKS__</p>
-    </div>
+  <aside class="side" id="side">
+    <span class="label">↳ __MUP_LABEL__</span>
+    <ol class="mup" id="mup"></ol>
   </aside>
   <p class="vh" role="status" id="announce"></p>
 </div>
@@ -135,36 +131,36 @@ const GRX = {
   differently: /\b(decide|decision|whether|should (we|i)|do we|go ahead|or not|which (one|option|vendor|model|way)|before (we|i) (build|buy|sign|launch|commit|invest|hire|spend)|need to know|choose|commit|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?|what (should|do) (we|i) do|stop|instead|rather)\b/i
 };
 function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?;])\s+|,?\s+(?=but\b|however\b|while\b|although\b)/i).map(x=>x.trim().replace(/^(but|however|while|although)\s+/i,'')).filter(x => x.length > 2); }
-const SK = { fired: null, answer: null, own: '', ask: null, askAnswer: '' };
-const RXQ = { dontknow: /\b(i don'?t know|we don'?t know|not sure how|no idea|how do (i|we)|how to)\b/i, worldq: /\?\s*$/ };
-const DORMANT = /\b(nobody (has )?asked|no one (has )?asked|haven'?t asked|not asked|never asked|without asking)\b/i;
-function answered(){ return !!(SK.answer || SK.own || SK.askAnswer); }
-function announce(msg){ const r = $('announce'); r.textContent = ''; setTimeout(() => { r.textContent = msg; }, 50); }
-function sidekick(text){
-  if (answered()) return SK;
-  const wasShown = !$('side').hidden; const before = SK.fired ? 'pair:' + SK.fired.key : SK.ask ? 'ask:' + SK.ask : '';
-  const ss = sentences(text);
-  const presented = ss.find(x => GRX.asked.test(x));
-  const underneath = presented ? (ss.find(x => x !== presented && (GRX.assumed.test(x) || DORMANT.test(x))) || ss.find(x => x !== presented && !GRX.asked.test(x) && GRX.happens.test(x))) : null;
-  const key = presented && underneath ? presented + '|' + underneath : null;
-  if (key !== (SK.fired && SK.fired.key)) { SK.fired = key ? {key, presented, underneath} : null; SK.answer = null; SK.own = ''; $('sk-thanks').hidden = true; $('sk-ctl').hidden = false; $('sk-fix').hidden = true; }
-  if (SK.fired) { $('sk-p').textContent = presented; $('sk-u').textContent = underneath; }
-  // question mode: no pair, but enough text; one question, the first that applies
-  let ask = null; const n = text.trim().split(/\s+/).filter(Boolean).length;
-  if (!key && n >= 25) { const hurt = ss.some(x => GRX.happens.test(x)); const asked = ss.some(x => GRX.asked.test(x));
-    if (hurt && RXQ.dontknow.test(text)) ask = 'people'; else if (hurt && !asked) ask = 'plan'; else if (!hurt && !asked) ask = 'effect'; }
-  if (ask !== SK.ask) { SK.ask = ask; SK.askAnswer = ''; if ($('sk-answer')) { $('sk-answer').value = ''; $('sk-ask-thanks').hidden = true; } }
-  $('sk-pair').hidden = !SK.fired; $('sk-ask').hidden = !ask || !!SK.fired;
-  if (ask && !SK.fired) $('sk-q').textContent = ASKQ[ask];
-  $('side').hidden = !SK.fired && !ask;
-  const after = SK.fired ? 'pair:' + SK.fired.key : SK.ask ? 'ask:' + SK.ask : '';
-  if (after && after !== before) announce(SK.fired ? '__SK_INTRO__ __SK_PRESENTED__: ' + SK.fired.presented + ' __SK_UNDERNEATH__: ' + SK.fired.underneath : '__SK_ASK_INTRO__ ' + ASKQ[SK.ask]);
-  return SK;
+const MUP = __MUP_JSON__;
+const M = { read: {}, own: {}, open: {} };
+const MRX = {
+  mandate: /\b(i decide|we decide|(she|he|they) decides?|decides?|decided|mandate|signs? off|approv(e|es|ed)|budget|i'?m the (owner|ceo|founder|director|manager|boss)|i am the (owner|ceo|founder|director|manager|boss)|owner of|ceo|cto|founder|director|the board|management|my (boss|manager|director|partner|business partner)|business partner|partner wants|wants to (replace|build|buy|add|introduce)|asked me to|my client|the client)\b/i,
+  pain: /\b(patients?|clients?|customers?|users?|staff|employees?|receptionist|assistant|team|colleagues|elderly|residents?|applicants?|students?|members?|visitors?|buyers?|candidates?|people)\b/i,
+  hurt2: /\b(spends?|waits?|waiting|on hold|on the phone|only one in|one in (two|three|four|five|ten)|most of the (morning|day|week)|loses?|losing|lost)\b/i
+};
+function readMup(text){
+  const ss = sentences(text); const used = new Set(); const out = {};
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  const hurt = ss.filter(x => GRX.happens.test(x));
+  if (words >= 15) { out.problem = hurt[0] || ss[0]; if (out.problem) used.add(out.problem); }
+  const m = ss.filter(x => MRX.mandate.test(x)); out.mandate = m.find(x => !used.has(x)) || m[0]; if (out.mandate) used.add(out.mandate);
+  const pg = ss.filter(x => MRX.pain.test(x) && !GRX.asked.test(x)); const ph = pg.filter(x => GRX.happens.test(x) || MRX.hurt2.test(x)); out.pain = ph.find(x => !used.has(x)) || ph[0] || pg.find(x => !used.has(x)) || null;
+  return out;
 }
-function bindSK(){ $('sk-yes').onclick = () => { SK.answer = 'yes'; $('sk-thanks').textContent = '__SK_THANKS_YES__'; $('sk-thanks').hidden = false; $('sk-ctl').hidden = true; $('sk-thanks').focus(); refresh(); };
-  $('sk-no').onclick = () => { SK.answer = 'no'; $('sk-ctl').hidden = true; $('sk-fix').hidden = false; $('sk-own').focus(); refresh(); };
-  $('sk-answer').addEventListener('input', () => { SK.askAnswer = $('sk-answer').value.trim(); $('sk-ask-thanks').hidden = !SK.askAnswer; refresh(); });
-  $('sk-own').addEventListener('input', () => { SK.own = $('sk-own').value.trim(); $('sk-thanks').textContent = SK.own ? '__SK_THANKS_NO__' : ''; $('sk-thanks').hidden = !SK.own; refresh(); }); }
+function drawMup(){
+  $('mup').innerHTML = MUP.items.map(it => { const own = M.own[it.id], read = M.read[it.id]; const ok = !!(own || read);
+    const q = own ? '<q class="own">' + esc(own) + '</q>' : read ? '<q class="read">' + esc(read.length > 150 ? read.slice(0,150) + '…' : read) + '</q>' : '';
+    const edit = M.open[it.id] ? '<label class="vh" for="mup-' + it.id + '">' + esc(it.label) + '</label><textarea id="mup-' + it.id + '" data-id="' + it.id + '">' + esc(own || '') + '</textarea>'
+      : '<button type="button" class="linkbtn" data-open="' + it.id + '">' + (ok ? MUP.change : MUP.add) + '</button>';
+    return '<li class="' + (ok ? 'ok' : '') + '"><b>' + esc(it.label) + '</b>' + q + edit + '</li>'; }).join('');
+}
+function sidekick(text){ const r = readMup(text); const changed = JSON.stringify(r) !== JSON.stringify(M.read); M.read = r; if (changed && !(document.activeElement && document.activeElement.closest('#mup'))) drawMup(); return M; }
+function bindSK(){
+  $('mup').addEventListener('click', e => { const b = e.target.closest('[data-open]'); if (!b) return; const id = b.dataset.open; M.open[id] = true; drawMup(); const t = $('mup-' + id); if (t) t.focus(); });
+  $('mup').addEventListener('input', e => { const t = e.target.closest('textarea[data-id]'); if (!t) return; M.own[t.dataset.id] = t.value.trim(); refresh(); });
+  $('mup').addEventListener('focusout', e => { const t = e.target.closest('textarea[data-id]'); if (!t) return; if (!t.value.trim()) delete M.own[t.dataset.id]; M.open[t.dataset.id] = false; setTimeout(drawMup, 0); });
+  drawMup(); }
+function announce(msg){ const r = $('announce'); r.textContent = ''; setTimeout(() => { r.textContent = msg; }, 50); }
 function esc(x){ return String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 const RX = {
   wish: /\b(i want|we want|would like|wish|hope|goal|instead|rather|ideally|decide|whether|need to (know|decide|choose)|the question is|should (we|i)|what (should|do) (we|i) do)\b/i,
@@ -199,8 +195,8 @@ function body(){
   const lines = ['request_id: ' + RID, 'script: __SCRIPT_VERSION__', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); }
   else lines.push('The chat with the AI:', v('paste'));
-  if (SK.fired) { lines.push('', 'Side kick (pattern: presented / underneath): ' + (SK.answer || 'unanswered')); lines.push('Presented: ' + SK.fired.presented); lines.push('Underneath: ' + SK.fired.underneath); if (SK.own) lines.push('Underneath, in the asker\'s words: ' + SK.own); }
-  if (SK.ask) { lines.push('', 'Side kick (question: ' + SK.ask + '): ' + ASKQ[SK.ask]); lines.push('Answer: ' + (SK.askAnswer || '(none)')); }
+  lines.push('', 'What the lens needs (MUP), as read on the page and as written by the asker:');
+  for (const it of MUP.items) lines.push(it.label + ': ' + (M.own[it.id] ? 'own: ' + M.own[it.id] + (M.read[it.id] ? ' | read was: ' + M.read[it.id] : '') : M.read[it.id] ? 'read: ' + M.read[it.id] : '(empty)'));
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
@@ -212,11 +208,13 @@ function refresh(){ const b = body();
   else { a.href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID); a.textContent = '__SEND_LONG__';
     a.onclick = () => { copy(); const n = $('step2').querySelector('.actions .status'); if (n) n.innerHTML = '__COPIED_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a>'; }; } }
 const ENDPOINT = '__SEND_ENDPOINT__';
-async function sendForm(e){ e.preventDefault(); const a = $('send'); if (a.dataset.busy) return; a.dataset.busy = '1'; a.textContent = '…';
+async function sendForm(e){ e.preventDefault(); const a = $('send'); if (a.dataset.busy) return;
+  if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(($('email').value || '').trim())) { $('email-check').textContent = '__EMAIL_REQUIRED__'; $('email-check').hidden = false; $('email').focus(); announce('__EMAIL_REQUIRED__'); return; } a.dataset.busy = '1'; a.textContent = '…';
   try { const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ request_id: RID, email: ($('email').value || '').trim(), website: $('website').value, body: body() }) });
     const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || r.status);
     $('step2').querySelector('.actions').innerHTML = '<p class="sent" tabindex="-1" id="sent"><b>__SENT_LABEL__ ' + RID + '</b><span>__SENT_AFTER__</span></p>'; $('sent').focus(); announce('__SENT_LABEL__ ' + RID); try { sessionStorage.removeItem('pb-ask-draft'); } catch (e) {}
   } catch (err) { a.textContent = '__SEND__'; delete a.dataset.busy; const n = $('step2').querySelector('.actions .status'); if (n) n.innerHTML = '__SEND_FAIL__ <a href="mailto:__MAIL__">__MAIL__</a>'; } }
+$('email').addEventListener('input', () => { const v = $('email').value.trim(); if (/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)) $('email-check').hidden = true; });
 $('email').addEventListener('blur', () => { const v = $('email').value.trim(); $('email-check').hidden = !v || /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v); });
 // design for interruption: the draft survives a reload in this tab, nowhere else
 try { const d = JSON.parse(sessionStorage.getItem('pb-ask-draft') || 'null'); if (d && d.story) { $('story').value = d.story; $('email').value = d.email || ''; announce('__DRAFT_RESTORED__'); } } catch (e) {}

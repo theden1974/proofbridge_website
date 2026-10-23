@@ -1,6 +1,6 @@
 {
   "status": "prototype",
-  "script_version": "ask-v17-2026-10-24",
+  "script_version": "ask-v18-2026-10-24",
   "title": "Prepare",
   "lead": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.",
   "doors": {
@@ -45,15 +45,31 @@
   "send_long": "Copy and open mail",
   "copied_note": "Copied. Paste it into the mail to",
   "announce_send": "Send is available below.",
-  "box_hint_items": [
-    "who is involved, and who decided",
-    "what you see going wrong",
-    "what was already chosen",
-    "what you would do once it is clear"
-  ],
-  "box_hint_tail": "In any order, as you would tell a colleague. Length is fine.",
+  "box_hint_items": [],
+  "box_hint_tail": "In your own words, any form or length.",
   "optional": "optional",
   "sent_after": "Replies come from ask@proofbridge.nl.",
   "email_check": "That address looks incomplete; without it I cannot reply.",
-  "draft_restored": "Your earlier text is back."
+  "draft_restored": "Your earlier text is back.",
+  "mup": {
+    "label": "What my lens needs",
+    "items": [
+      {
+        "id": "problem",
+        "label": "The problem, as you see it"
+      },
+      {
+        "id": "mandate",
+        "label": "Who has the mandate to change it"
+      },
+      {
+        "id": "pain",
+        "label": "Who has the most pain now, and the most relief once it is fixed"
+      }
+    ],
+    "add": "add in your words",
+    "change": "not this? write it",
+    "own_label": "In your words"
+  },
+  "email_required": "Add your email, so I can send my reading back."
 }
