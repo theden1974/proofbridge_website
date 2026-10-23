@@ -1,6 +1,6 @@
 {
   "status": "prototype",
-  "script_version": "ask-v11-2026-10-23",
+  "script_version": "ask-v12-2026-10-23",
   "title": "Prepare",
   "lead": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.",
   "doors": {
@@ -38,5 +38,8 @@
     "ask_people": "Who does this day to day, and what do they say?",
     "ask_effect": "What happens at your end because of this?",
     "ask_thanks": "Goes in with your text."
-  }
+  },
+  "send_endpoint": "",
+  "sent_label": "Sent. Your reference:",
+  "send_fail": "Could not send from here. Copy it and mail it to"
 }

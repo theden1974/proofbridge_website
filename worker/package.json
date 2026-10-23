@@ -1,0 +1,8 @@
+{
+  "name": "proofbridge-send",
+  "private": true,
+  "description": "Relay for proofbridge.nl/ask/: receives the form POST and sends one mail to ask@proofbridge.nl over SMTP. Stores nothing.",
+  "scripts": { "deploy": "wrangler deploy" },
+  "dependencies": { "worker-mailer": "1.3.0" },
+  "devDependencies": { "wrangler": "4.152.0" }
+}

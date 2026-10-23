@@ -1,0 +1,16 @@
+# proofbridge-send: Cloudflare Worker on Dennis's own account.
+# Secrets (set in the Cloudflare dashboard, never in this file): SMTP_USER, SMTP_PASS (the ask@proofbridge.nl mailbox).
+name = "proofbridge-send"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGINS = "https://proofbridge.nl,https://www.proofbridge.nl"
+MAIL_TO = "ask@proofbridge.nl"
+SMTP_HOST = "mail.privateemail.com"
+SMTP_PORT = "465"
+
+[observability]
+enabled = false

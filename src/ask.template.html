@@ -97,6 +97,7 @@ __CSS__
         <label><b>__EMAIL_LABEL__</b><input type="email" id="email"></label>
       </div>
       <div class="actions">
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
         <a class="btn" id="send" href="#">__SEND__</a>
         <button class="btn" type="button" id="copy">__COPY__</button>
         <span class="status">__SEND_NOTE__ <a href="mailto:__MAIL__">__MAIL__</a></span>
@@ -184,7 +185,15 @@ function body(){
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }
 function refresh(){ const b = body();
   const href = 'mailto:__MAIL__?subject=' + encodeURIComponent('PROOFBRIDGE TEST ' + RID) + '&body=' + encodeURIComponent(b);
-  const a = $('send'); if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; } }
+  const a = $('send');
+  if (ENDPOINT) { a.href = '#'; a.onclick = sendForm; return; }
+  if (href.length < 1900) { a.href = href; a.onclick = null; } else { a.href = '#'; a.onclick = e => { e.preventDefault(); copy(); }; } }
+const ENDPOINT = '__SEND_ENDPOINT__';
+async function sendForm(e){ e.preventDefault(); const a = $('send'); if (a.dataset.busy) return; a.dataset.busy = '1'; a.textContent = '…';
+  try { const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ request_id: RID, email: ($('email').value || '').trim(), website: $('website').value, body: body() }) });
+    const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw new Error(j.error || r.status);
+    $('step2').querySelector('.actions').innerHTML = '<p class="floor">__SENT_LABEL__ ' + RID + '</p>';
+  } catch (err) { a.textContent = '__SEND__'; delete a.dataset.busy; const n = $('step2').querySelector('.actions .status'); if (n) n.innerHTML = '__SEND_FAIL__ <a href="mailto:__MAIL__">__MAIL__</a>'; } }
 $('copy').onclick = copy; bindSK(); document.addEventListener('input', floor); floor();
 </script>
 </body>
