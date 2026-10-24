@@ -7,7 +7,7 @@ import { checkRequest, mailText } from './agent.js';
 
 const MAX_BYTES = 60_000;
 const ID = /^REQ-[A-Z0-9-]{4,24}$/;
-const EMAIL = /^[^\s@<>]{1,64}@[^\s@<>]{1,190}\.[a-z]{2,24}$/i;
+const EMAIL = /^[^\s@<>:;,"()\[\]\\]{1,64}@[a-z0-9.-]{1,190}\.[a-z]{2,24}$/i; // a bare address: no "mailto:", no display name
 const CONTRACT = 'https://proofbridge.nl/agents/index.md';
 const SCHEMA = 'https://proofbridge.nl/schema/request.schema.json';
 

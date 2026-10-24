@@ -5,7 +5,7 @@
 export const TASK_TYPES = ['underlying_problem', 'ground_truth_check', 'ai_output_review'];
 export const OPEN_TIERS = [0]; // test phase: only tier 0 is taken
 const ID = /^REQ-[A-Z0-9-]{4,24}$/;
-const EMAIL = /^[^\s@<>]{1,64}@[^\s@<>]{1,190}\.[a-z]{2,24}$/i;
+const EMAIL = /^[^\s@<>:;,"()\[\]\\]{1,64}@[a-z0-9.-]{1,190}\.[a-z]{2,24}$/i; // a bare address: no "mailto:", no display name
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const TXID = /^[0-9a-f]{64}$/;
 const REPLY_WINDOW_DAYS = 7;
@@ -39,7 +39,7 @@ export function checkRequest(d, today = new Date()) {
       for (const k of Object.keys(p)) if (!['name', 'kind', 'email', 'agent'].includes(k)) add('principal.' + k, 'not a field of principal');
       if (!str(p.name)) add('principal.name', 'required: the person or organisation the request is for');
       if (!['person', 'organisation'].includes(p.kind)) add('principal.kind', 'person or organisation');
-      if (!EMAIL.test(String(p.email || ''))) add('principal.email', 'required: a working address; the answer goes there');
+      if (!EMAIL.test(String(p.email || ''))) add('principal.email', 'required: a bare address like name@example.org (no mailto:, no display name); the answer goes there');
       if (p.agent !== undefined && typeof p.agent !== 'string') add('principal.agent', 'text');
     }
   }
