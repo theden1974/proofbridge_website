@@ -104,7 +104,7 @@ Field experience: elderly care, healthcare, government and public services, digi
 - Carriers: Email is held by Namecheap Private Email (servers in the United States). The agent intake and the ask page post through a Cloudflare Worker on Dennis's account that checks the request, forwards it to that mailbox and stores nothing. Its source is public: https://github.com/theden1974/proofbridge_website/tree/main/worker
 - Models: No third-party AI model or API reads request text. The mechanical lens runs on Dennis's own machines when it is in use; it is not in use as of 2026-10-24.
 - Prepared by: Every answer says which: dennis (he answered), mechanical_lens (released on passed checks), or mechanical_lens_validated_by_dennis (checks plus his judgement).
-- Validated by him when: His judgement is added when it is needed: always for tier 2; when a check flags the draft; when the verdict is does_not_hold or cannot_determine; for the first 10 answers per task type, then 1 in 5.
+- Validated by him when: His judgement is added when it is needed: always for tier 2; when a check flags the draft; when the draft fits his material poorly; when the verdict is does_not_hold or cannot_determine; when a series of requests probes the lens rather than a case; for the first 10 answers per task type, then 1 in 5.
 - Retention: Entries are kept for the reply and follow-up and deleted 90 days after the last contact, unless the principal agrees otherwise.
 - Terms on answers: An answer is for the principal's decision. No resale, no training on it.
 

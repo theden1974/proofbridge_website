@@ -255,7 +255,7 @@
     "prepared_by": "Every answer says which: dennis (he answered), mechanical_lens (released on passed checks), or mechanical_lens_validated_by_dennis (checks plus his judgement).",
     "outputs_terms": "An answer is for the principal's decision. No resale, no training on it.",
     "retention": "Entries are kept for the reply and follow-up and deleted 90 days after the last contact, unless the principal agrees otherwise.",
-    "validated_when": "His judgement is added when it is needed: always for tier 2; when a check flags the draft; when the verdict is does_not_hold or cannot_determine; for the first 10 answers per task type, then 1 in 5."
+    "validated_when": "His judgement is added when it is needed: always for tier 2; when a check flags the draft; when the draft fits his material poorly; when the verdict is does_not_hold or cannot_determine; when a series of requests probes the lens rather than a case; for the first 10 answers per task type, then 1 in 5."
   },
   "phase": {
     "id": "test",
