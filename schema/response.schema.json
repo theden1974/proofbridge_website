@@ -178,11 +178,9 @@
     },
     "prepared_by": {
       "enum": [
-        "dennis",
-        "mechanical_lens",
-        "mechanical_lens_validated_by_dennis"
+        "dennis"
       ],
-      "description": "Every answer says which: dennis (he answered), mechanical_lens (released on passed checks), or mechanical_lens_validated_by_dennis (checks plus his judgement)."
+      "description": "Every answer is Dennis's: prepared_by dennis."
     },
     "delivered_at": {
       "type": "string",

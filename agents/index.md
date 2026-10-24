@@ -90,7 +90,7 @@ Field experience: elderly care, healthcare, government and public services, digi
 | tier | status | minimum | gets | performed by |
 |---|---|---|---|---|
 | 0 | open | 0 sats (0 BTC) | Dennis reads the request and replies by email with what his lens sees, or one question if he cannot start. | Dennis Jansen; automation: off |
-| 1 | not taken during the test phase | 5 000 sats (0.00005 BTC) | A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days. | Dennis Jansen; automation: off as of 2026-10-24. Planned (his line, 2026-10-21): the mechanical lens, on his own machines, reads the case and prepares the answer; it is released when its checks pass, and validated by his judgement when needed. Until it runs, Dennis answers himself. |
+| 1 | not taken during the test phase | 5 000 sats (0.00005 BTC) | A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days. | Dennis Jansen; automation: off. Every answer is Dennis's. Planned (his line, 2026-10-24): the mechanical lens does the due diligence: it checks that what he says lies within his expertise, against a dated release of his containers. It does not answer. |
 | 2 | not taken during the test phase | 50 000 sats (0.0005 BTC) | Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema. | Dennis Jansen, in person; automation: none |
 
 - Fee refunded on decline: no. Tier 1 fee counts toward tier 2: yes. Network fee: paid by the sender. Priced in sats only; no fiat reference.
@@ -102,9 +102,8 @@ Field experience: elderly care, healthcare, government and public services, digi
 
 ## Processing
 - Carriers: Email is held by Namecheap Private Email (servers in the United States). The agent intake and the ask page post through a Cloudflare Worker on Dennis's account that checks the request, forwards it to that mailbox and stores nothing. Its source is public: https://github.com/theden1974/proofbridge_website/tree/main/worker
-- Models: No third-party AI model or API reads request text. The mechanical lens runs on Dennis's own machines when it is in use; it is not in use as of 2026-10-24.
-- Prepared by: Every answer says which: dennis (he answered), mechanical_lens (released on passed checks), or mechanical_lens_validated_by_dennis (checks plus his judgement).
-- Validated by him when: His judgement is added when it is needed: always for tier 2; when a check flags the draft; when the draft fits his material poorly; when the verdict is does_not_hold or cannot_determine; when a series of requests probes the lens rather than a case; for the first 10 answers per task type, then 1 in 5.
+- Models: No third-party AI model or API reads request text. The mechanical lens (planned, not in use as of 2026-10-24) runs on Dennis's own machines and checks his answers; it does not write them.
+- Prepared by: Every answer is Dennis's: prepared_by dennis.
 - Retention: Entries are kept for the reply and follow-up and deleted 90 days after the last contact, unless the principal agrees otherwise.
 - Terms on answers: An answer is for the principal's decision. No resale, no training on it.
 
@@ -143,6 +142,7 @@ Trust here is not an identity to accept but claims to verify. Each claim below n
 - This contract is what the owner publishes, and every change to it is on record. Check: The source is public with its full history: https://github.com/theden1974/proofbridge_website (src/contract.json). Compare the live offer.json with the source at any commit.
 - proofbridge.nl and interactiondesign.nl are one person's work. Check: Both are built from public repositories of the same GitHub account (https://github.com/theden1974) and link to each other.
 - The intake stores nothing and no third-party model reads request text. Check: Read the Worker source (worker/src/index.js, worker/src/agent.js) and its config (worker/wrangler.toml: observability off). The mailbox carrier is named under processing.
+- What he says is within his expertise. Check: Planned: each answer names the dated release of his containers it was checked against, with that release's fingerprint (SHA-256) published in advance. Not checkable yet: no release exists.
 - Each answer stands on evidence. Check: Every finding in an answer carries typed evidence and the limits of what was checked (response schema). Check each finding against its evidence.
 - The track record. Check: backlog.json, computed at build time. It shows what exists, including zero.
 - The payment address is his. Check: Not checkable yet: no BIP-322 signature is published. The paid tiers stay closed until it is; the test phase takes no payment, so nothing depends on it now.
@@ -158,6 +158,6 @@ Trust here is not an identity to accept but claims to verify. Each claim below n
 - `tier`: 0 is the free test phase; 1 and 2 are paid and not open yet.
 - `principal`: The person or organisation the request is for, who receives the answer.
 - `due_diligence`: Checks an agent or principal can run itself to verify the claims made here, listed under trust.
-- `mechanical_lens`: A model on Dennis's own machines that reads a case through his containers and patterns. It answers only with what it can point to there; where it cannot, the case goes to him.
+- `mechanical_lens`: A model on Dennis's own machines that checks whether what he says lies within his expertise, against a dated release of his containers. It does not answer.
 
 Test phase since 2026-10-20: requests answered without payment. Agents can send by POST. Updated 2026-10-24. Files: [offer.json](https://proofbridge.nl/offer.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [backlog](https://proofbridge.nl/backlog.json) · [human page](https://proofbridge.nl/)
