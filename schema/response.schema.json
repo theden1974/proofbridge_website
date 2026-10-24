@@ -179,9 +179,10 @@
     "prepared_by": {
       "enum": [
         "dennis",
-        "local_model_validated_by_dennis"
+        "mechanical_lens",
+        "mechanical_lens_validated_by_dennis"
       ],
-      "description": "Every answer carries prepared_by: dennis, or local_model_validated_by_dennis once the local model is in use."
+      "description": "Every answer says which: dennis (he answered), mechanical_lens (released on passed checks), or mechanical_lens_validated_by_dennis (checks plus his judgement)."
     },
     "delivered_at": {
       "type": "string",

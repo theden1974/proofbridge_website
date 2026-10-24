@@ -234,7 +234,7 @@ resp_schema = {
     "limits": {"type": "array", "items": {"type": "string"}, "description": "What was not checked."},
     "next_step": {"type": "string"},
     "accountable_human": {"type": "object", "required": ["name"], "properties": {"name": {"const": K['trust']['accountable_human']}, "role": {"type": "string"}}},
-    "prepared_by": {"enum": ["dennis", "local_model_validated_by_dennis"], "description": K['processing']['prepared_by']},
+    "prepared_by": {"enum": ["dennis", "mechanical_lens", "mechanical_lens_validated_by_dennis"], "description": K['processing']['prepared_by']},
     "delivered_at": {"type": "string", "format": "date"},
     "deliverable_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "completion_reward_sats": {"type": "integer"}, "reward_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
@@ -356,6 +356,7 @@ Field experience: {', '.join(K['domains_with_field_experience'])}.
 - Carriers: {' '.join(K['processing']['carriers'])}
 - Models: {K['processing']['models']}
 - Prepared by: {K['processing']['prepared_by']}
+- Validated by him when: {K['processing']['validated_when']}
 - Retention: {K['processing']['retention']}
 - Terms on answers: {K['processing']['outputs_terms']}
 
