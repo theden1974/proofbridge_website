@@ -14,7 +14,7 @@ __CSS__
   .alt { margin: 0.6rem 0 0; font-size: var(--s-1); }
   .link { font: inherit; font-size: var(--s-1); background: none; border: 0; padding: 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
   .guide li.hint::before { content: "○"; color: var(--accent); }
-  .two { display: grid; grid-template-columns: 3fr 2fr; gap: 2.5rem; margin-top: 1.6rem; align-items: start; }
+  .two { display: grid; grid-template-columns: minmax(0, 46rem); gap: 2.5rem; margin-top: 1.6rem; align-items: start; }
   .door { display: none; } .door.on { display: block; }
   .q { font-size: var(--s1, 1.25rem); font-weight: 500; margin: 0 0 0.5rem; }
   .q small { display: block; font-weight: 400; color: var(--grey); font-size: var(--s-1); margin-top: 0.2rem; }
@@ -94,10 +94,6 @@ __CSS__
     </div>
     <p class="floor off" id="floor" hidden></p>
   </div>
-  <aside class="side" id="side">
-    <span class="label">↳ __MUP_LABEL__</span>
-    <ol class="mup" id="mup"></ol>
-  </aside>
   <p class="vh" role="status" id="announce"></p>
 </div>
     <section class="step2" id="step2" aria-label="Send">
@@ -121,6 +117,7 @@ __CSS__
 </footer>
 </div>
 <script>
+// v20 (2026-10-29, his line 11:01): one prompt, what you have; nothing is read back to the asker; no checklist. The reading is his, after sending.
 // v8: side kick. One pattern at most (presented / underneath), built from two of the asker's own sentences, asked as a guess; the answer travels in the mail. Otherwise the page only takes the story and sends.
 // v7: empty state first. Two prompts in the asker's words; the right side appears only when a sentence is read, and shows only what was read. No notes, no hints, no promises. A floor only: something happens, not a method question, not an agent alone.
 // Script version __SCRIPT_VERSION__. Texts from src/ask.json.
@@ -149,15 +146,15 @@ function readMup(text){
   const pg = ss.filter(x => MRX.pain.test(x) && !GRX.asked.test(x)); const ph = pg.filter(x => GRX.happens.test(x) || MRX.hurt2.test(x)); out.pain = ph.find(x => !used.has(x)) || ph[0] || pg.find(x => !used.has(x)) || null;
   return out;
 }
-function drawMup(){
+function drawMup(){ if (!$('mup')) return;
   $('mup').innerHTML = MUP.items.map(it => { const own = M.own[it.id], read = M.read[it.id]; const ok = !!(own || read);
     const q = own ? '<q class="own">' + esc(own) + '</q>' : read ? '<q class="read">' + esc(read.length > 150 ? read.slice(0,150) + '…' : read) + '</q>' : '';
     const edit = M.open[it.id] ? '<label class="vh" for="mup-' + it.id + '">' + esc(it.label) + '</label><textarea id="mup-' + it.id + '" data-id="' + it.id + '">' + esc(own || '') + '</textarea>'
       : '<button type="button" class="linkbtn" data-open="' + it.id + '">' + (ok ? MUP.change : MUP.add) + '</button>';
     return '<li class="' + (ok ? 'ok' : '') + '"><b>' + esc(it.label) + '</b>' + q + edit + '</li>'; }).join('');
 }
-function sidekick(text){ const r = readMup(text); const changed = JSON.stringify(r) !== JSON.stringify(M.read); M.read = r; if (changed && !(document.activeElement && document.activeElement.closest('#mup'))) drawMup(); return M; }
-function bindSK(){
+function sidekick(text){ if (!$('mup')) return M; const r = readMup(text); const changed = JSON.stringify(r) !== JSON.stringify(M.read); M.read = r; if (changed && !(document.activeElement && document.activeElement.closest('#mup'))) drawMup(); return M; }
+function bindSK(){ if (!$('mup')) return;
   $('mup').addEventListener('click', e => { const b = e.target.closest('[data-open]'); if (!b) return; const id = b.dataset.open; M.open[id] = true; drawMup(); const t = $('mup-' + id); if (t) t.focus(); });
   $('mup').addEventListener('input', e => { const t = e.target.closest('textarea[data-id]'); if (!t) return; M.own[t.dataset.id] = t.value.trim(); refresh(); });
   $('mup').addEventListener('focusout', e => { const t = e.target.closest('textarea[data-id]'); if (!t) return; if (!t.value.trim()) delete M.own[t.dataset.id]; M.open[t.dataset.id] = false; setTimeout(drawMup, 0); });
@@ -197,8 +194,6 @@ function body(){
   const lines = ['request_id: ' + RID, 'script: __SCRIPT_VERSION__', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); }
   else lines.push('The chat with the AI:', v('paste'));
-  lines.push('', 'What the lens needs (MUP), as read on the page and as written by the asker:');
-  for (const it of MUP.items) lines.push(it.label + ': ' + (M.own[it.id] ? 'own: ' + M.own[it.id] + (M.read[it.id] ? ' | read was: ' + M.read[it.id] : '') : M.read[it.id] ? 'read: ' + M.read[it.id] : '(empty)'));
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }

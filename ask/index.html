@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prepare · proofbridge</title>
-<meta name="description" content="Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.">
+<meta name="description" content="What you have is enough: what you did, made, decided, or a chat you had about it. I read the problem underneath it. You do not have to name the problem; that is my part.">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://proofbridge.nl/ask/">
 <link rel="alternate" type="text/markdown" href="/agents/index.md" title="Task contract for agents">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Prepare · proofbridge", "dateModified": "2026-10-29", "description": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://proofbridge.nl/ask/", "name": "Prepare · proofbridge", "dateModified": "2026-10-29", "description": "What you have is enough: what you did, made, decided, or a chat you had about it. I read the problem underneath it. You do not have to name the problem; that is my part.", "isPartOf": {"@type": "WebSite", "url": "https://proofbridge.nl/"}}</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -64,7 +64,7 @@
   .alt { margin: 0.6rem 0 0; font-size: var(--s-1); }
   .link { font: inherit; font-size: var(--s-1); background: none; border: 0; padding: 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
   .guide li.hint::before { content: "○"; color: var(--accent); }
-  .two { display: grid; grid-template-columns: 3fr 2fr; gap: 2.5rem; margin-top: 1.6rem; align-items: start; }
+  .two { display: grid; grid-template-columns: minmax(0, 46rem); gap: 2.5rem; margin-top: 1.6rem; align-items: start; }
   .door { display: none; } .door.on { display: block; }
   .q { font-size: var(--s1, 1.25rem); font-weight: 500; margin: 0 0 0.5rem; }
   .q small { display: block; font-weight: 400; color: var(--grey); font-size: var(--s-1); margin-top: 0.2rem; }
@@ -125,29 +125,25 @@
 <section class="intro" aria-labelledby="h1">
   <span class="label">↳ ask</span>
   <h1 id="h1">Prepare</h1>
-  <p>Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.</p>
+  <p>What you have is enough: what you did, made, decided, or a chat you had about it. I read the problem underneath it. You do not have to name the problem; that is my part.</p>
 </section>
 
 
 <div class="two">
   <div>
     <div class="door on" id="tell">
-      <label for="story" class="q">What happens?</label>
-      <div class="hint" id="story-hint">In your own words, any form or length.</div>
+      <label for="story" class="q">What do you have?</label>
+      <div class="hint" id="story-hint">What you did, made or decided, or what you are about to. As you would tell a colleague. Any form or length.</div>
       <textarea id="story" aria-describedby="story-hint"></textarea>
-      <p class="alt"><button type="button" class="link" id="door-chat">or hand over a chat you had with an AI about this</button></p>
+      <p class="alt"><button type="button" class="link" id="door-chat">or hand over a chat you had with an AI about it</button></p>
     </div>
     <div class="door" id="chat">
-      <label for="paste" class="q">Paste the whole chat. I read what you asked, what it proposed, and what you accepted without checking.</label>
+      <label for="paste" class="q">Paste the whole chat, as it was.</label>
       <textarea id="paste" style="min-height:14rem"></textarea>
       <p class="alt"><button type="button" class="link" id="door-tell">or tell it yourself</button></p>
     </div>
     <p class="floor off" id="floor" hidden></p>
   </div>
-  <aside class="side" id="side">
-    <span class="label">↳ What my lens needs</span>
-    <ol class="mup" id="mup"></ol>
-  </aside>
   <p class="vh" role="status" id="announce"></p>
 </div>
     <section class="step2" id="step2" aria-label="Send">
@@ -171,9 +167,10 @@
 </footer>
 </div>
 <script>
+// v20 (2026-10-29, his line 11:01): one prompt, what you have; nothing is read back to the asker; no checklist. The reading is his, after sending.
 // v8: side kick. One pattern at most (presented / underneath), built from two of the asker's own sentences, asked as a guess; the answer travels in the mail. Otherwise the page only takes the story and sends.
 // v7: empty state first. Two prompts in the asker's words; the right side appears only when a sentence is read, and shows only what was read. No notes, no hints, no promises. A floor only: something happens, not a method question, not an agent alone.
-// Script version ask-v19-2026-10-24. Texts from src/ask.json.
+// Script version ask-v20-2026-10-29. Texts from src/ask.json.
 const F = {"short": "", "method": "How I work is in the task contract; this page is for your situation.", "agent_alone": "Name the person or organisation this is for.", "ok": ""}; const ASKQ = { plan: 'What are you about to do about it?', people: 'Who does this day to day, and what do they say?', effect: 'What happens at your end because of this?' };
 const GRX = {
   who: /\b(i am|i'm|we are|we're|my (team|client|boss|manager|director|board|company|organisation|organization|shop|practice|firm)|our (team|client|board|company|users?|customers?|staff|employees?|clients?)|the (board|director|ceo|cto|manager|management|founder|owner|municipality|authority|hospital|school|agency|minister|council|client|customer)|owner of|lead at|work(s|ing)? (at|for)|advis[eo]r|project lead|product owner|nurse|doctor|lawyer|architect|developer|designer|researcher|recruiter|consultant|patients?|elderly|residents?|applicants?|employees?|staff|users?|(she|he|they) decides?|decided|mandate|funding)\b/i,
@@ -183,7 +180,7 @@ const GRX = {
   differently: /\b(decide|decision|whether|should (we|i)|do we|go ahead|or not|which (one|option|vendor|model|way)|before (we|i) (build|buy|sign|launch|commit|invest|hire|spend)|need to know|choose|commit|invest|budget|roadmap|next step|deadline|by (next|end of|q[1-4]|the end)|window closes?|what (should|do) (we|i) do|stop|instead|rather)\b/i
 };
 function sentences(t){ return t.replace(/\s+/g,' ').split(/(?<=[.!?;])\s+|,?\s+(?=but\b|however\b|while\b|although\b)/i).map(x=>x.trim().replace(/^(but|however|while|although)\s+/i,'')).filter(x => x.length > 2); }
-const MUP = {"label": "What my lens needs", "items": [{"id": "problem", "label": "The problem, as you see it"}, {"id": "mandate", "label": "Who has the mandate to change it"}, {"id": "pain", "label": "Who has the most pain now, and the most relief once it is fixed"}], "add": "add in your words", "change": "not this? write it", "own_label": "In your words"};
+const MUP = {"label": "What my lens needs", "items": [], "add": "add in your words", "change": "not this? write it", "own_label": "In your words"};
 const M = { read: {}, own: {}, open: {} };
 const MRX = {
   mandate: /\b(i decide|we decide|(she|he|they) decides?|decides?|decided|mandate|signs? off|approv(e|es|ed)|budget|i'?m the (owner|ceo|founder|director|manager|boss)|i am the (owner|ceo|founder|director|manager|boss)|owner of|ceo|cto|founder|director|the board|management|my (boss|manager|director|partner|business partner)|business partner|partner wants|wants to (replace|build|buy|add|introduce)|asked me to|my client|the client)\b/i,
@@ -199,15 +196,15 @@ function readMup(text){
   const pg = ss.filter(x => MRX.pain.test(x) && !GRX.asked.test(x)); const ph = pg.filter(x => GRX.happens.test(x) || MRX.hurt2.test(x)); out.pain = ph.find(x => !used.has(x)) || ph[0] || pg.find(x => !used.has(x)) || null;
   return out;
 }
-function drawMup(){
+function drawMup(){ if (!$('mup')) return;
   $('mup').innerHTML = MUP.items.map(it => { const own = M.own[it.id], read = M.read[it.id]; const ok = !!(own || read);
     const q = own ? '<q class="own">' + esc(own) + '</q>' : read ? '<q class="read">' + esc(read.length > 150 ? read.slice(0,150) + '…' : read) + '</q>' : '';
     const edit = M.open[it.id] ? '<label class="vh" for="mup-' + it.id + '">' + esc(it.label) + '</label><textarea id="mup-' + it.id + '" data-id="' + it.id + '">' + esc(own || '') + '</textarea>'
       : '<button type="button" class="linkbtn" data-open="' + it.id + '">' + (ok ? MUP.change : MUP.add) + '</button>';
     return '<li class="' + (ok ? 'ok' : '') + '"><b>' + esc(it.label) + '</b>' + q + edit + '</li>'; }).join('');
 }
-function sidekick(text){ const r = readMup(text); const changed = JSON.stringify(r) !== JSON.stringify(M.read); M.read = r; if (changed && !(document.activeElement && document.activeElement.closest('#mup'))) drawMup(); return M; }
-function bindSK(){
+function sidekick(text){ if (!$('mup')) return M; const r = readMup(text); const changed = JSON.stringify(r) !== JSON.stringify(M.read); M.read = r; if (changed && !(document.activeElement && document.activeElement.closest('#mup'))) drawMup(); return M; }
+function bindSK(){ if (!$('mup')) return;
   $('mup').addEventListener('click', e => { const b = e.target.closest('[data-open]'); if (!b) return; const id = b.dataset.open; M.open[id] = true; drawMup(); const t = $('mup-' + id); if (t) t.focus(); });
   $('mup').addEventListener('input', e => { const t = e.target.closest('textarea[data-id]'); if (!t) return; M.own[t.dataset.id] = t.value.trim(); refresh(); });
   $('mup').addEventListener('focusout', e => { const t = e.target.closest('textarea[data-id]'); if (!t) return; if (!t.value.trim()) delete M.own[t.dataset.id]; M.open[t.dataset.id] = false; setTimeout(drawMup, 0); });
@@ -244,11 +241,9 @@ function reqId(){ const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (
 const RID = reqId();
 function body(){
   const v = id => ($(id).value || '').trim();
-  const lines = ['request_id: ' + RID, 'script: ask-v19-2026-10-24', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
+  const lines = ['request_id: ' + RID, 'script: ask-v20-2026-10-29', 'door: ' + arm, 'principal_email: ' + v('email'), 'payment: none (test phase)', ''];
   if (arm === 'tell') { lines.push('What happens:', v('story')); }
   else lines.push('The chat with the AI:', v('paste'));
-  lines.push('', 'What the lens needs (MUP), as read on the page and as written by the asker:');
-  for (const it of MUP.items) lines.push(it.label + ': ' + (M.own[it.id] ? 'own: ' + M.own[it.id] + (M.read[it.id] ? ' | read was: ' + M.read[it.id] : '') : M.read[it.id] ? 'read: ' + M.read[it.id] : '(empty)'));
   return lines.join('\n');
 }
 function copy(){ if (navigator.clipboard) navigator.clipboard.writeText(body()).then(() => { $('copy').textContent = 'copied'; }); }

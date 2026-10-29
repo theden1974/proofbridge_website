@@ -1,11 +1,11 @@
 {
   "status": "prototype",
-  "script_version": "ask-v19-2026-10-24",
+  "script_version": "ask-v20-2026-10-29",
   "title": "Prepare",
-  "lead": "Enough of your situation for me to look at it through my lens: the problem underneath what is asked for. It takes your words, not UX knowledge.",
+  "lead": "What you have is enough: what you did, made, decided, or a chat you had about it. I read the problem underneath it. You do not have to name the problem; that is my part.",
   "doors": {
     "tell": "Tell it",
-    "chat": "or hand over a chat you had with an AI about this",
+    "chat": "or hand over a chat you had with an AI about it",
     "back": "or tell it yourself"
   },
   "email_label": "Your email",
@@ -13,7 +13,7 @@
   "copy_label": "copy the text instead",
   "send_note": "Goes through my relay on Cloudflare to",
   "contract_line": "What a request and an answer look like: the task contract.",
-  "prompt1": "What happens?",
+  "prompt1": "What do you have?",
   "box_hint": "Who is involved and who decided, what you see going wrong, what was already chosen, and what you would do once it is clear. In any order, as you would tell a colleague. Length is fine.",
   "floor": {
     "short": "",
@@ -22,7 +22,7 @@
     "ok": ""
   },
   "chat_placeholder": "Your messages and the AI's answers, as they were.",
-  "chat_lead": "Paste the whole chat. I read what you asked, what it proposed, and what you accepted without checking.",
+  "chat_lead": "Paste the whole chat, as it was.",
   "sidekick": {
     "intro": "Where my lens would start.",
     "presented": "What is asked for",
@@ -46,27 +46,14 @@
   "copied_note": "Copied. Paste it into the mail to",
   "announce_send": "Send is available below.",
   "box_hint_items": [],
-  "box_hint_tail": "In your own words, any form or length.",
+  "box_hint_tail": "What you did, made or decided, or what you are about to. As you would tell a colleague. Any form or length.",
   "optional": "optional",
   "sent_after": "Replies come from ask@proofbridge.nl.",
   "email_check": "That address looks incomplete; without it I cannot reply.",
   "draft_restored": "Your earlier text is back.",
   "mup": {
     "label": "What my lens needs",
-    "items": [
-      {
-        "id": "problem",
-        "label": "The problem, as you see it"
-      },
-      {
-        "id": "mandate",
-        "label": "Who has the mandate to change it"
-      },
-      {
-        "id": "pain",
-        "label": "Who has the most pain now, and the most relief once it is fixed"
-      }
-    ],
+    "items": [],
     "add": "add in your words",
     "change": "not this? write it",
     "own_label": "In your words"
