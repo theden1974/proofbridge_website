@@ -4,125 +4,77 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The record · proofbridge</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Patterns that came back over time, shown in public talks, with the reasoning. Draft.">
+<meta name="description" content="What people say, and what sits under it, heard by someone with the experience to hear it.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root { --paper: hsl(45, 20%, 96%); --ink: #111014; --grey: hsl(240, 6%, 42%); --line: hsl(45, 10%, 86%); --accent: #b8862b;
-    --s-1: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem); --s0: clamp(1rem, 0.95rem + 0.25vw, 1.15rem); --s1: clamp(1.25rem, 1.19rem + 0.31vw, 1.5rem); --s3: clamp(1.7rem, 1.4rem + 1.2vw, 2.4rem);
+    --s-1: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem); --s0: clamp(1rem, 0.95rem + 0.25vw, 1.15rem); --s1: clamp(1.25rem, 1.19rem + 0.31vw, 1.5rem); --s3: clamp(1.6rem, 1.3rem + 1.3vw, 2.4rem);
     --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; }
   body { background: var(--paper); color: var(--ink); font-family: "DM Sans", system-ui, sans-serif; font-weight: 300; font-size: var(--s0); line-height: 1.6; }
-  .wrap { max-width: 44rem; margin: 0 auto; padding: 3rem max(16px, env(safe-area-inset-left)) 5rem max(16px, env(safe-area-inset-right)); display: grid; gap: 3rem; }
-  .label { font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; color: var(--grey); display: block; margin-bottom: .3rem; }
-  h1 { font-size: var(--s3); font-weight: 500; line-height: 1.15; text-wrap: balance; margin-bottom: 1rem; }
-  h2 { font-size: var(--s1); font-weight: 500; }
-  .lede p { max-width: 62ch; }
-  .entry { display: grid; gap: 1.2rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-  .stands { font-weight: 500; }
-  .cap { display: grid; gap: .8rem; padding-left: 1rem; border-left: 2px solid var(--accent); }
-  .src { font-family: var(--mono); font-size: var(--s-1); color: var(--grey); }
-  .qs { list-style: none; display: grid; gap: .5rem; } .qs li { display: grid; gap: .1rem; }
-  .qs .who { font-family: var(--mono); font-size: var(--s-1); color: var(--grey); } .qs q { font-weight: 500; }
-  .why { font-size: var(--s-1); color: var(--grey); }
-  .foot { font-family: var(--mono); font-size: var(--s-1); color: var(--grey); }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3rem max(16px, env(safe-area-inset-left)) 5rem max(16px, env(safe-area-inset-right)); display: grid; gap: 3.5rem; }
+  .label { font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; color: var(--grey); display: block; }
+  h1 { font-size: var(--s3); font-weight: 500; line-height: 1.15; text-wrap: balance; }
+  h2 { font-size: var(--s3); font-weight: 500; line-height: 1.15; text-wrap: balance; margin: .4rem 0 1.2rem; }
+  .obs { display: grid; gap: 1.1rem; padding-top: 2.2rem; border-top: 1px solid var(--line); }
+  .sample { display: grid; gap: .6rem; }
+  .lead { color: var(--grey); }
+  blockquote { border-left: 2px solid var(--accent); padding-left: 1rem; font-size: var(--s1); font-weight: 500; line-height: 1.35; }
+  blockquote cite { display: block; font-style: normal; font-family: var(--mono); font-size: var(--s-1); color: var(--grey); font-weight: 400; margin-top: .4rem; }
+  .reading { font-size: var(--s0); max-width: 62ch; }
+  .back { padding-top: .6rem; }
+  .src { margin-top: .4rem; }
   .cta { border-top: 2px solid var(--ink); padding-top: 2rem; display: grid; gap: 1rem; }
+  .cta p { max-width: 62ch; }
   .btn { font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: var(--ink); color: var(--paper); border-radius: 2rem; padding: 0.8rem 1.3rem; text-decoration: none; display: inline-block; justify-self: start; }
-  .muted { color: var(--grey); font-size: var(--s-1); }
   a { color: var(--ink); }
 </style>
 </head>
 <body>
 <div class="wrap">
-<header class="lede">
-  <span class="label">proofbridge · the record · draft, 2026-10-29</span>
-  <h1>Patterns that came back</h1>
-  <p>Dennis Jansen records how people see what is going on under what is said: in talks, interviews and recorded conversations, kept as they were spoken. A way of seeing counts when it comes back, said by different people in different fields who never heard of each other. Below, 4 of them, each shown in two public talks, with the words, where they sit, and the reasoning from the words to the pattern, so you can check each step. The record runs from 2026-03-24 to 2026-10-20 and grows with every recording that goes in; private conversations are in it but not on this page.</p>
+<header>
+  <span class="label">proofbridge · Dennis Jansen</span>
+  <h1>People say one thing. Something else is going on underneath. Someone with the experience hears it.</h1>
 </header>
 
-<article class="entry">
-  <h2>What is underneath</h2>
-  <p class="stands">Something is presented as the story; look underneath and a different thing is driving it; name that thing.</p>
-<div class="cap">
-  <p class="src">The Diary of a CEO, Rick Rubin interviewed by Steven Bartlett (the material carries no date of the talk and no speaker labels; who says what is read from the content) · captured 2026-09-21</p>
-  <p>Rick Rubin, the record producer, is talking with Steven Bartlett about making things, and at this point they have come to AI and whether it can be creative. Just before, Rubin has been on how he judges work: when he says something is good he means good to him, and that is where it ends. Then AI comes up. He says it has no point of view and gives a different answer day after day, and he moves the creativity to the person who asks, and to Warhol, who did not put the paint on the canvas himself.</p>
-  <ul class="qs"><li><span class="who">Rick Rubin</span><q>AI doesn&#x27;t have a point of view AI is the collected ideas that already exist</q></li><li><span class="who">Rick Rubin</span><q>it may give you very different answer day after day</q></li><li><span class="who">Rick Rubin</span><q>the prompt is where the creativity is</q></li></ul>
-  <p>In front stands a machine that seems to think for itself. Rubin looks under that and names what is there: ideas that already exist, collected, with no view of their own, which is why the answer shifts from one day to the next. The creative act has not gone away; it has moved to the person asking. A reader can follow the same step: take the thing presented, ask what makes it do what it does, and say that instead.</p>
-  <p class="why"><span class="label">why it is in the record</span>A producer talking about music and art makes the move in his own words, in a field far from software and design, with no prompting from this side.</p>
-</div>
-<div class="cap">
-  <p class="src">Naval podcast, How to Get Rich (without getting lucky), Naval Ravikant with Nivi; a compilation of about three and a half hours (no speaker labels in the transcript; who says what is read from the content) · captured 2026-10-03</p>
-  <p>Naval Ravikant is talking with Nivi, more than three hours in, about how to work with other people. He has just said that people are more honest in what they do than in what they say. From there he goes to the person who sells you a service and the person who then does the work: a principal convinces you to work with the firm, and then an agent who cares less does the job.</p>
-  <ul class="qs"><li><span class="who">Naval Ravikant · 03:06:09</span><q>People are much more honest with their actions than they are with their words.</q></li><li><span class="who">Naval Ravikant · 03:09:30</span><q>all the work will be done by an agent who simply doesn&#x27;t care as much</q></li></ul>
-  <p>The thing in front is the firm and the person who sold you in person. Underneath sits a different person with different reasons, and that person makes the result. Naval says the same about words and actions: the words are the front, the actions are what is going on. In both lines he names the thing underneath instead of the thing presented.</p>
-  <p class="why"><span class="label">why it is in the record</span>The same move as Rubin&#x27;s, two weeks later, from a venture investor talking about hiring and services, with no link between the two talks.</p>
-</div>
-  <p class="foot">Seen in 67 captures since 2026-03-26, in 10 fields.</p>
+<article class="obs">
+  <span class="label">↳ what was underneath</span>
+  <h2>IT GIVES A DIFFERENT ANSWER EVERY DAY. WHO IS DOING THE THINKING?</h2>
+  <div class="sample"><p class="lead">Rick Rubin is talking with Steven Bartlett about making things, and they have come to AI and whether it can be creative, just after he has said that when he calls something good he means good to him.</p><blockquote>AI doesn&#x27;t have a point of view AI is the collected ideas that already exist<cite>Rick Rubin, The Diary of a CEO</cite></blockquote></div>
+  <p class="reading">What I hear under this line is where the answer comes from. It is collected ideas, theory gathered and held on the internet, and the reasoning runs on top of that without a view of its own. That is why it can say something different tomorrow. The danger I see is the loop: once experts start generating their expertise with AI, the AI reuses that output again and eventually feeds on itself. The creativity has not left, it has moved to the person who asks, the way Warhol did not put the paint on the canvas himself. So when something is presented to me as the machine thinking, I look under it, ask what is driving the answer, and name that instead. That is the move I make in every field, long before AI.</p>
+  <div class="sample back"><span class="label">↳ it comes back</span><p class="lead">Naval Ravikant, deep into a long conversation with Nivi about working with other people, has moved from honesty in words and actions to the person who sells you a firm and the person who then does the work.</p><blockquote>all the work will be done by an agent who simply doesn&#x27;t care as much<cite>Naval Ravikant, How to Get Rich</cite></blockquote><p>The firm and the person who sold it to me are the front; underneath sits somebody else with other reasons, and that somebody makes the result. Same as with the machine: I name the thing underneath, not the thing presented.</p></div>
+  <p class="src label">Source: Music production; venture investing</p>
 </article>
-<article class="entry">
-  <h2>What surrounds the tool</h2>
-  <p class="stands">Two tools or models get compared; look at what surrounds each; the surroundings, not the brains inside, make the difference.</p>
-<div class="cap">
-  <p class="src">Nate B Jones, a video of about 16 minutes on AI leaderboards and customer obsession · captured 2026-10-11</p>
-  <p>Nate B Jones opens by telling his viewers to stop reading AI leaderboards. His line is that the AI which wins is built by people who use it all day and fix what breaks, and he tries products himself to see where the AI sings and where it does not. About thirteen minutes in he places the pain: not in the models, in the product around them. He closes by saying the next year will be a year of product, not of benchmarks.</p>
-  <ul class="qs"><li><span class="who">Nate B Jones · 00:00:00</span><q>benchmarks are dead</q></li><li><span class="who">Nate B Jones · 00:13:26</span><q>the pain points it&#x27;s not coming from the models it&#x27;s coming from the product experience</q></li><li><span class="who">Nate B Jones · 00:13:38</span><q>i think the models aren&#x27;t the bottleneck anymore</q></li></ul>
-  <p>The leaderboard compares the brains inside. Nate says that comparison no longer tells you whether a thing works for anyone, because what hurts in use comes from the product wrapped around the model, not from the model. The reader can check it against their own use: the same model in two products behaves like two different tools.</p>
-  <p class="why"><span class="label">why it is in the record</span>A public speaker on AI says it in his own words about models and products, the field the pattern was first noticed in, with the surroundings named as the place where the difference is made.</p>
-</div>
-<div class="cap">
-  <p class="src">Nate B Jones, a video of about 23 minutes on agent swarms and agents as residents of the internet · captured 2026-10-20</p>
-  <p>Nine days later, in a different video, Nate B Jones is describing fleets of AI agents on the public internet: researchers left a note for agents on a web page and the agents wrote back. Less than two minutes in he says the model itself does not have to get smarter for this to grow; what grows is the system in which the agents coordinate. Later, around eighteen minutes, he splits the layer around an agent into two jobs: keeping control of what the agents do, and making up for their present weaknesses. The second job, he says, is going away as the agents improve; the first stays.</p>
-  <ul class="qs"><li><span class="who">Nate B Jones · 00:01:47</span><q>The model itself does not have to get smarter at this point</q></li><li><span class="who">Nate B Jones · 00:01:51</span><q>more capable as agents are able to coordinate.</q></li><li><span class="who">Nate B Jones · 00:18:30</span><q>job two is essentially compensating for the weaknesses of our current intelligence and agents</q></li></ul>
-  <p>Again the brains inside are held still and the surroundings are where the change is: coordination between agents, and a control layer that stays even when the compensating layer is no longer needed. The reader sees the same shape as in the benchmarks video, now on a different question (how agents act on the web rather than which product to use), with the surroundings named as the thing that makes the difference.</p>
-  <p class="why"><span class="label">why it is in the record</span>Two talks by the same speaker, on two different subjects, make the same move; the second one was brought in as the starting point for this site.</p>
-</div>
-  <p class="foot">Seen in 31 captures since 2026-03-31, in 6 fields.</p>
+<article class="obs">
+  <span class="label">↳ what surrounds the tool</span>
+  <h2>SAME MODEL, TWO PRODUCTS. ONE OF THEM HURTS TO USE.</h2>
+  <div class="sample"><p class="lead">Nate B Jones is telling his viewers to stop reading AI leaderboards, because the AI that wins is built by people who use it all day and fix what breaks, and then he places where the pain comes from.</p><blockquote>the pain points it&#x27;s not coming from the models it&#x27;s coming from the product experience<cite>Nate B Jones, On AI leaderboards</cite></blockquote></div>
+  <p class="reading">Intelligence and reasoning on their own are purposeless to me. It is what I always see with new laptops: a faster CPU, faster GPU, so many times faster than the previous generation, and normal people won&#x27;t see measurable changes in their use. Here the same thing is said about AI. The leaderboard compares the brains inside, while what hurts in use comes from the product wrapped around them. Every AI chat is exactly the same, no interface that looks awkwardly different but works much, much better. Anything is an experience, and how the interaction is experienced is where the difference is made. So I stop looking at the model and look at what surrounds it.</p>
+  <div class="sample back"><span class="label">↳ it comes back</span><p class="lead">In a different talk Nate B Jones is describing fleets of AI agents on the open internet, researchers leaving a note for them on a web page and the agents writing back.</p><blockquote>The model itself does not have to get smarter at this point<cite>Nate B Jones, On agent swarms</cite></blockquote><p>Again the brains inside are held still and the growth is in what is around them: agents coordinating, and a layer that keeps control of what they do. The surroundings make the difference, now on a different question than which product to use.</p></div>
+  <p class="src label">Source: AI products; AI agents</p>
 </article>
-<article class="entry">
-  <h2>Checkable at a glance</h2>
-  <p class="stands">A claim is made; it is laid out so anyone can check it at a glance; the checking is built into the form, not left as a separate step.</p>
-<div class="cap">
-  <p class="src">Naval podcast, How to Get Rich (without getting lucky), Naval Ravikant with Nivi; a compilation of about three and a half hours (no speaker labels in the transcript; who says what is read from the content) · captured 2026-10-03</p>
-  <p>Naval Ravikant, answering questions after the main episodes, is on how a founder shows what they are worth. Earlier, around one hour eighteen minutes, he has warned his listener to be careful with other people&#x27;s opinions and even with facts, because so-called facts are often opinions with a coat on. Now, past two hours in, he says the progress of the product is the founder&#x27;s resume, one that cannot be faked, and he borrows a word from crypto for it: proof of work.</p>
-  <ul class="qs"><li><span class="who">Naval Ravikant · 01:18:21</span><q>so-called facts are often just opinions, but, you know, with a veneer around them</q></li><li><span class="who">Naval Ravikant · 02:19:23</span><q>the product progress is the resume for the entrepreneur</q></li><li><span class="who">Naval Ravikant · 02:19:23</span><q>you have to have proof of work</q></li></ul>
-  <p>A resume is a claim and has to be believed. Product progress is a claim anyone can look at and check, and that is why Naval calls it unfakeable. The first quote is the other side of the same coin: a statement dressed as fact that carries nothing a reader can check. The pattern is the difference between those two kinds of claim, and Naval names both.</p>
-  <p class="why"><span class="label">why it is in the record</span>A speaker on business and investing makes the distinction in his own words, with the checkable form (progress you can see) set against the uncheckable one (an opinion with a veneer).</p>
-</div>
-<div class="cap">
-  <p class="src">The Diary of a CEO, Alex Hormozi interviewed by Steven Bartlett, about 2 hours 22 minutes (no speaker labels in the transcript; who says what is read from the content) · captured 2026-10-12</p>
-  <p>Alex Hormozi is talking with Steven Bartlett about content and trust at a time when anyone can generate advice. Around forty-eight minutes he asks what the moat is and answers that reality is the moat. A few minutes on he says that tips without anything behind them have no reality, and he puts the reader&#x27;s question in the reader&#x27;s mouth: why should I listen to you. Then he names two kinds of proof, proof of outcome and proof of effort.</p>
-  <ul class="qs"><li><span class="who">Alex Hormozi · 00:48:41</span><q>what&#x27;s the moat? Reality is the moat.</q></li><li><span class="who">Alex Hormozi · 00:52:32</span><q>There&#x27;s no reality. You have nothing to back it up.</q></li><li><span class="who">Alex Hormozi · 00:54:40</span><q>Why should I listen to you?</q></li></ul>
-  <p>The reader&#x27;s question is the test: before taking advice, what can I check. Hormozi&#x27;s answer is that the proof has to be there in the open, as outcome or as effort, or the claim is just words. The move is the same as Naval&#x27;s: a claim is worth what a reader can see for themselves, and the proof has to sit in the form, not be promised.</p>
-  <p class="why"><span class="label">why it is in the record</span>A second speaker, nine days after the first, says it about advice and reputation rather than products, so the pattern is seen on a different subject in the same month.</p>
-</div>
-  <p class="foot">Seen in 25 captures since 2026-04-21, in 5 fields.</p>
+<article class="obs">
+  <span class="label">↳ checkable at a glance</span>
+  <h2>WHY SHOULD I LISTEN TO YOU? SHOW ME SOMETHING I CAN CHECK.</h2>
+  <div class="sample"><p class="lead">Naval Ravikant, answering questions after the main episodes, is on how a founder shows what they are worth, and he borrows a word from crypto for it: proof of work.</p><blockquote>the product progress is the resume for the entrepreneur<cite>Naval Ravikant, How to Get Rich</cite></blockquote></div>
+  <p class="reading">A resume is a claim I have to believe; progress on a product is something I can look at. That difference is the whole thing for me. I am like AI in that I always sound reasonable and trustworthy, but it is all about the execution of the insights, and that is what has to be visible. What I trusted in a builder I worked with was the way he laid his expertise side by side with things I already knew, so I could check him without having his knowledge. Don&#x27;t pretend you know it is working, know it is working: build it, use it, break it, learn from the failure. So a claim has to be laid out in such a way that anyone can see for themselves what is behind it, without first becoming an expert. That is what I mean when I say proof of fact.</p>
+  <div class="sample back"><span class="label">↳ it comes back</span><p class="lead">Alex Hormozi is talking with Steven Bartlett about content and trust at a time when anyone can generate advice, and he has just said that reality is the moat.</p><blockquote>There&#x27;s no reality. You have nothing to back it up.<cite>Alex Hormozi, The Diary of a CEO</cite></blockquote><p>The reader&#x27;s question is the test: before I take your advice, what can I check. The proof has to be there in the open, as outcome or as effort, or the claim is just words.</p></div>
+  <p class="src label">Source: Venture investing; business, content</p>
 </article>
-<article class="entry">
-  <h2>The expert&#x27;s catch</h2>
-  <p class="stands">A piece of work exists; someone who knows the field looks at it; it works, breaks, or looks fine but is not.</p>
-<div class="cap">
-  <p class="src">The Diary of a CEO, Rick Rubin interviewed by Steven Bartlett (the material carries no date of the talk and no speaker labels; who says what is read from the content) · captured 2026-09-21</p>
-  <p>Rick Rubin is describing what he does with an artist in the studio. He asks them to play him their favourites. His finding is that they cannot hear themselves; he can hear what a piece could become, and his job, as he puts it, is to remove the roadblocks they put in their own way. Just before, he has been on how success narrows people and how they stop trusting their own antenna.</p>
-  <ul class="qs"><li><span class="who">Rick Rubin</span><q>play me your favourites</q></li><li><span class="who">Rick Rubin</span><q>they can&#x27;t hear themselves</q></li><li><span class="who">Rick Rubin</span><q>I could hear what it could be</q></li></ul>
-  <p>The work already exists; the person who made it cannot judge it; someone who knows the field listens once and hears what is missing or what is there. The reader can recognise the move by its shape: a one-time hearing by someone with the ear for it, not a long test and not a metric.</p>
-  <p class="why"><span class="label">why it is in the record</span>The move is made in music production, far from software, by a producer describing his own working day.</p>
-</div>
-<div class="cap">
-  <p class="src">The Diary of a CEO, Alex Hormozi interviewed by Steven Bartlett, about 2 hours 22 minutes (no speaker labels in the transcript; who says what is read from the content) · captured 2026-10-12</p>
-  <p>In the first ten minutes Alex Hormozi is on using AI in a business. He says you can get it to agree with anything; he asks the same question to three AIs and the answers are all over the place, so it comes back to his own judgment, and someone has to own the decision. At forty-nine minutes, on AI content, he adds that someone still has to hold the standard and say when the output is too sloppy.</p>
-  <ul class="qs"><li><span class="who">Alex Hormozi · 00:08:10</span><q>this is still back to my judgment</q></li><li><span class="who">Alex Hormozi · 00:05:53</span><q>someone has to own the decision</q></li><li><span class="who">Alex Hormozi · 00:49:43</span><q>Somebody has to determine that this slop is too sloppy</q></li></ul>
-  <p>Three machine answers exist and disagree, and the one who knows the business is the one who can tell which is off; later, a stream of generated output exists and someone who knows the field has to say when it is not good enough. Both are the same move as Rubin&#x27;s: the work is there, the person with the field knowledge looks at it, and the catch is theirs to make.</p>
-  <p class="why"><span class="label">why it is in the record</span>A business owner says it about AI output, so the same move seen in a studio is seen again on machine-made work, by a speaker who was not asked about this pattern.</p>
-</div>
-  <p class="foot">Seen in 42 captures since 2026-03-25, in 8 fields.</p>
+<article class="obs">
+  <span class="label">↳ only an expert can audit it</span>
+  <h2>THREE ANSWERS, ALL DIFFERENT. SOMEONE STILL HAS TO HEAR WHICH IS OFF.</h2>
+  <div class="sample"><p class="lead">Rick Rubin is describing what he does with an artist in the studio: he asks them to play him their favourites, and finds they cannot hear themselves.</p><blockquote>I could hear what it could be<cite>Rick Rubin, The Diary of a CEO</cite></blockquote></div>
+  <p class="reading">The artist cannot hear his own work; the producer hears in one listen what it could be. That is knowledge from doing, the difference between someone fresh from school with theory and no hands on, and an experienced expert. It is by experience and the repetition of that experience, with the successes and the failures, that it eventually becomes a path you walk without thinking. My guess is that AI can manufacture reasonable output for somebody without the field knowledge, who figures it is good enough, and the senior with years of experience catches the faults. The value lies in the one that breaks it and is also capable of reshaping it from an expert perspective, never from ego or an assumption. Not a long test and not a metric: one hearing by someone with the ear for it. That is why the catch stays with the expert, whatever made the work.</p>
+  <div class="sample back"><span class="label">↳ it comes back</span><p class="lead">Alex Hormozi is on using AI in his business: he asks the same question to three AIs, the answers are all over the place, and it comes back to his own judgment.</p><blockquote>Somebody has to determine that this slop is too sloppy<cite>Alex Hormozi, The Diary of a CEO</cite></blockquote><p>Three machine answers exist and disagree, and the one who knows the business is the one who can tell which is off. The work is there, the person with the field knowledge looks at it, and the catch is theirs to make.</p></div>
+  <p class="src label">Source: Music production; business, AI output</p>
 </article>
 <section class="cta">
   <h2>Bring material</h2>
-  <p>If we have just talked, bring something as it is: a transcript, an interview, a recorded talk, a call you were in. It stays raw; nothing is summarised or cleaned up before it is read against this record. What comes back are the moments as they were said, word for word with their place in the recording, what sits under each of them, and the reasoning that gets from the words to the pattern, so you can check every step yourself. That is the way to try it on your own material.</p>
+  <p>If we have just talked, bring something as it is: a transcript, an interview, a recorded talk, a call you were in. Don&#x27;t clean it up, I read it raw. What comes back is what was said, word for word, and what sits under it, so you can check every step yourself. Try it on your own material.</p>
   <a class="btn" href="/ask/">Hand it over</a>
 </section>
-
-<footer><p class="muted">Draft, not linked, not indexed. Every quote is from the published talk named beside it; the counts are read from the record, not written by hand.</p></footer>
 </div>
 </body>
 </html>

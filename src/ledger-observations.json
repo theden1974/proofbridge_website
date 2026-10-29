@@ -1,0 +1,85 @@
+{
+ "observations": [
+  {
+   "headline": "IT GIVES A DIFFERENT ANSWER EVERY DAY. WHO IS DOING THE THINKING?",
+   "sample": {
+    "who": "Rick Rubin",
+    "talk": "The Diary of a CEO",
+    "line": "AI doesn't have a point of view AI is the collected ideas that already exist",
+    "lead_in": "Rick Rubin is talking with Steven Bartlett about making things, and they have come to AI and whether it can be creative, just after he has said that when he calls something good he means good to him."
+   },
+   "reading": "What I hear under this line is where the answer comes from. It is collected ideas, theory gathered and held on the internet, and the reasoning runs on top of that without a view of its own. That is why it can say something different tomorrow. The danger I see is the loop: once experts start generating their expertise with AI, the AI reuses that output again and eventually feeds on itself. The creativity has not left, it has moved to the person who asks, the way Warhol did not put the paint on the canvas himself. So when something is presented to me as the machine thinking, I look under it, ask what is driving the answer, and name that instead. That is the move I make in every field, long before AI.",
+   "comes_back": {
+    "who": "Naval Ravikant",
+    "talk": "How to Get Rich",
+    "line": "all the work will be done by an agent who simply doesn't care as much",
+    "lead_in": "Naval Ravikant, deep into a long conversation with Nivi about working with other people, has moved from honesty in words and actions to the person who sells you a firm and the person who then does the work.",
+    "same_move": "The firm and the person who sold it to me are the front; underneath sits somebody else with other reasons, and that somebody makes the result. Same as with the machine: I name the thing underneath, not the thing presented."
+   },
+   "source": "Music production; venture investing",
+   "move": "what was underneath"
+  },
+  {
+   "headline": "SAME MODEL, TWO PRODUCTS. ONE OF THEM HURTS TO USE.",
+   "sample": {
+    "who": "Nate B Jones",
+    "talk": "On AI leaderboards",
+    "line": "the pain points it's not coming from the models it's coming from the product experience",
+    "lead_in": "Nate B Jones is telling his viewers to stop reading AI leaderboards, because the AI that wins is built by people who use it all day and fix what breaks, and then he places where the pain comes from."
+   },
+   "reading": "Intelligence and reasoning on their own are purposeless to me. It is what I always see with new laptops: a faster CPU, faster GPU, so many times faster than the previous generation, and normal people won't see measurable changes in their use. Here the same thing is said about AI. The leaderboard compares the brains inside, while what hurts in use comes from the product wrapped around them. Every AI chat is exactly the same, no interface that looks awkwardly different but works much, much better. Anything is an experience, and how the interaction is experienced is where the difference is made. So I stop looking at the model and look at what surrounds it.",
+   "comes_back": {
+    "who": "Nate B Jones",
+    "talk": "On agent swarms",
+    "line": "The model itself does not have to get smarter at this point",
+    "lead_in": "In a different talk Nate B Jones is describing fleets of AI agents on the open internet, researchers leaving a note for them on a web page and the agents writing back.",
+    "same_move": "Again the brains inside are held still and the growth is in what is around them: agents coordinating, and a layer that keeps control of what they do. The surroundings make the difference, now on a different question than which product to use."
+   },
+   "source": "AI products; AI agents",
+   "move": "what surrounds the tool"
+  },
+  {
+   "headline": "WHY SHOULD I LISTEN TO YOU? SHOW ME SOMETHING I CAN CHECK.",
+   "sample": {
+    "who": "Naval Ravikant",
+    "talk": "How to Get Rich",
+    "line": "the product progress is the resume for the entrepreneur",
+    "lead_in": "Naval Ravikant, answering questions after the main episodes, is on how a founder shows what they are worth, and he borrows a word from crypto for it: proof of work."
+   },
+   "reading": "A resume is a claim I have to believe; progress on a product is something I can look at. That difference is the whole thing for me. I am like AI in that I always sound reasonable and trustworthy, but it is all about the execution of the insights, and that is what has to be visible. What I trusted in a builder I worked with was the way he laid his expertise side by side with things I already knew, so I could check him without having his knowledge. Don't pretend you know it is working, know it is working: build it, use it, break it, learn from the failure. So a claim has to be laid out in such a way that anyone can see for themselves what is behind it, without first becoming an expert. That is what I mean when I say proof of fact.",
+   "comes_back": {
+    "who": "Alex Hormozi",
+    "talk": "The Diary of a CEO",
+    "line": "There's no reality. You have nothing to back it up.",
+    "lead_in": "Alex Hormozi is talking with Steven Bartlett about content and trust at a time when anyone can generate advice, and he has just said that reality is the moat.",
+    "same_move": "The reader's question is the test: before I take your advice, what can I check. The proof has to be there in the open, as outcome or as effort, or the claim is just words."
+   },
+   "source": "Venture investing; business, content",
+   "move": "checkable at a glance"
+  },
+  {
+   "headline": "THREE ANSWERS, ALL DIFFERENT. SOMEONE STILL HAS TO HEAR WHICH IS OFF.",
+   "sample": {
+    "who": "Rick Rubin",
+    "talk": "The Diary of a CEO",
+    "line": "I could hear what it could be",
+    "lead_in": "Rick Rubin is describing what he does with an artist in the studio: he asks them to play him their favourites, and finds they cannot hear themselves."
+   },
+   "reading": "The artist cannot hear his own work; the producer hears in one listen what it could be. That is knowledge from doing, the difference between someone fresh from school with theory and no hands on, and an experienced expert. It is by experience and the repetition of that experience, with the successes and the failures, that it eventually becomes a path you walk without thinking. My guess is that AI can manufacture reasonable output for somebody without the field knowledge, who figures it is good enough, and the senior with years of experience catches the faults. The value lies in the one that breaks it and is also capable of reshaping it from an expert perspective, never from ego or an assumption. Not a long test and not a metric: one hearing by someone with the ear for it. That is why the catch stays with the expert, whatever made the work.",
+   "comes_back": {
+    "who": "Alex Hormozi",
+    "talk": "The Diary of a CEO",
+    "line": "Somebody has to determine that this slop is too sloppy",
+    "lead_in": "Alex Hormozi is on using AI in his business: he asks the same question to three AIs, the answers are all over the place, and it comes back to his own judgment.",
+    "same_move": "Three machine answers exist and disagree, and the one who knows the business is the one who can tell which is off. The work is there, the person with the field knowledge looks at it, and the catch is theirs to make."
+   },
+   "source": "Music production; business, AI output",
+   "move": "only an expert can audit it"
+  }
+ ],
+ "cta": {
+  "heading": "Bring material",
+  "text": "If we have just talked, bring something as it is: a transcript, an interview, a recorded talk, a call you were in. Don't clean it up, I read it raw. What comes back is what was said, word for word, and what sits under it, so you can check every step yourself. Try it on your own material.",
+  "link": "/ask/"
+ }
+}
