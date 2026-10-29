@@ -1,0 +1,218 @@
+{
+  "entries": [
+    {
+      "name": "What is underneath",
+      "stands_for": "Something is presented as the story; look underneath and a different thing is driving it; name that thing.",
+      "shown_in": [
+        {
+          "source": "The Diary of a CEO, Rick Rubin interviewed by Steven Bartlett (the material carries no date of the talk and no speaker labels; who says what is read from the content)",
+          "captured": "2026-09-21",
+          "context": "Rick Rubin, the record producer, is talking with Steven Bartlett about making things, and at this point they have come to AI and whether it can be creative. Just before, Rubin has been on how he judges work: when he says something is good he means good to him, and that is where it ends. Then AI comes up. He says it has no point of view and gives a different answer day after day, and he moves the creativity to the person who asks, and to Warhol, who did not put the paint on the canvas himself.",
+          "quotes": [
+            {
+              "who": "Rick Rubin",
+              "text": "AI doesn't have a point of view AI is the collected ideas that already exist"
+            },
+            {
+              "who": "Rick Rubin",
+              "text": "it may give you very different answer day after day"
+            },
+            {
+              "who": "Rick Rubin",
+              "text": "the prompt is where the creativity is"
+            }
+          ],
+          "what_it_shows": "In front stands a machine that seems to think for itself. Rubin looks under that and names what is there: ideas that already exist, collected, with no view of their own, which is why the answer shifts from one day to the next. The creative act has not gone away; it has moved to the person asking. A reader can follow the same step: take the thing presented, ask what makes it do what it does, and say that instead.",
+          "why_in_the_record": "A producer talking about music and art makes the move in his own words, in a field far from software and design, with no prompting from this side."
+        },
+        {
+          "source": "Naval podcast, How to Get Rich (without getting lucky), Naval Ravikant with Nivi; a compilation of about three and a half hours (no speaker labels in the transcript; who says what is read from the content)",
+          "captured": "2026-10-03",
+          "context": "Naval Ravikant is talking with Nivi, more than three hours in, about how to work with other people. He has just said that people are more honest in what they do than in what they say. From there he goes to the person who sells you a service and the person who then does the work: a principal convinces you to work with the firm, and then an agent who cares less does the job.",
+          "quotes": [
+            {
+              "who": "Naval Ravikant",
+              "text": "People are much more honest with their actions than they are with their words.",
+              "at": "03:06:09"
+            },
+            {
+              "who": "Naval Ravikant",
+              "text": "all the work will be done by an agent who simply doesn't care as much",
+              "at": "03:09:30"
+            }
+          ],
+          "what_it_shows": "The thing in front is the firm and the person who sold you in person. Underneath sits a different person with different reasons, and that person makes the result. Naval says the same about words and actions: the words are the front, the actions are what is going on. In both lines he names the thing underneath instead of the thing presented.",
+          "why_in_the_record": "The same move as Rubin's, two weeks later, from a venture investor talking about hiring and services, with no link between the two talks."
+        }
+      ],
+      "comes_back": "Seen in 67 captures since 2026-03-26, in 10 fields."
+    },
+    {
+      "name": "What surrounds the tool",
+      "stands_for": "Two tools or models get compared; look at what surrounds each; the surroundings, not the brains inside, make the difference.",
+      "shown_in": [
+        {
+          "source": "Nate B Jones, a video of about 16 minutes on AI leaderboards and customer obsession",
+          "captured": "2026-10-11",
+          "context": "Nate B Jones opens by telling his viewers to stop reading AI leaderboards. His line is that the AI which wins is built by people who use it all day and fix what breaks, and he tries products himself to see where the AI sings and where it does not. About thirteen minutes in he places the pain: not in the models, in the product around them. He closes by saying the next year will be a year of product, not of benchmarks.",
+          "quotes": [
+            {
+              "who": "Nate B Jones",
+              "text": "benchmarks are dead",
+              "at": "00:00:00"
+            },
+            {
+              "who": "Nate B Jones",
+              "text": "the pain points it's not coming from the models it's coming from the product experience",
+              "at": "00:13:26"
+            },
+            {
+              "who": "Nate B Jones",
+              "text": "i think the models aren't the bottleneck anymore",
+              "at": "00:13:38"
+            }
+          ],
+          "what_it_shows": "The leaderboard compares the brains inside. Nate says that comparison no longer tells you whether a thing works for anyone, because what hurts in use comes from the product wrapped around the model, not from the model. The reader can check it against their own use: the same model in two products behaves like two different tools.",
+          "why_in_the_record": "A public speaker on AI says it in his own words about models and products, the field the pattern was first noticed in, with the surroundings named as the place where the difference is made."
+        },
+        {
+          "source": "Nate B Jones, a video of about 23 minutes on agent swarms and agents as residents of the internet",
+          "captured": "2026-10-20",
+          "context": "Nine days later, in a different video, Nate B Jones is describing fleets of AI agents on the public internet: researchers left a note for agents on a web page and the agents wrote back. Less than two minutes in he says the model itself does not have to get smarter for this to grow; what grows is the system in which the agents coordinate. Later, around eighteen minutes, he splits the layer around an agent into two jobs: keeping control of what the agents do, and making up for their present weaknesses. The second job, he says, is going away as the agents improve; the first stays.",
+          "quotes": [
+            {
+              "who": "Nate B Jones",
+              "text": "The model itself does not have to get smarter at this point",
+              "at": "00:01:47"
+            },
+            {
+              "who": "Nate B Jones",
+              "text": "more capable as agents are able to coordinate.",
+              "at": "00:01:51"
+            },
+            {
+              "who": "Nate B Jones",
+              "text": "job two is essentially compensating for the weaknesses of our current intelligence and agents",
+              "at": "00:18:30"
+            }
+          ],
+          "what_it_shows": "Again the brains inside are held still and the surroundings are where the change is: coordination between agents, and a control layer that stays even when the compensating layer is no longer needed. The reader sees the same shape as in the benchmarks video, now on a different question (how agents act on the web rather than which product to use), with the surroundings named as the thing that makes the difference.",
+          "why_in_the_record": "Two talks by the same speaker, on two different subjects, make the same move; the second one was brought in as the starting point for this site."
+        }
+      ],
+      "comes_back": "Seen in 31 captures since 2026-03-31, in 6 fields."
+    },
+    {
+      "name": "Checkable at a glance",
+      "stands_for": "A claim is made; it is laid out so anyone can check it at a glance; the checking is built into the form, not left as a separate step.",
+      "shown_in": [
+        {
+          "source": "Naval podcast, How to Get Rich (without getting lucky), Naval Ravikant with Nivi; a compilation of about three and a half hours (no speaker labels in the transcript; who says what is read from the content)",
+          "captured": "2026-10-03",
+          "context": "Naval Ravikant, answering questions after the main episodes, is on how a founder shows what they are worth. Earlier, around one hour eighteen minutes, he has warned his listener to be careful with other people's opinions and even with facts, because so-called facts are often opinions with a coat on. Now, past two hours in, he says the progress of the product is the founder's resume, one that cannot be faked, and he borrows a word from crypto for it: proof of work.",
+          "quotes": [
+            {
+              "who": "Naval Ravikant",
+              "text": "so-called facts are often just opinions, but, you know, with a veneer around them",
+              "at": "01:18:21"
+            },
+            {
+              "who": "Naval Ravikant",
+              "text": "the product progress is the resume for the entrepreneur",
+              "at": "02:19:23"
+            },
+            {
+              "who": "Naval Ravikant",
+              "text": "you have to have proof of work",
+              "at": "02:19:23"
+            }
+          ],
+          "what_it_shows": "A resume is a claim and has to be believed. Product progress is a claim anyone can look at and check, and that is why Naval calls it unfakeable. The first quote is the other side of the same coin: a statement dressed as fact that carries nothing a reader can check. The pattern is the difference between those two kinds of claim, and Naval names both.",
+          "why_in_the_record": "A speaker on business and investing makes the distinction in his own words, with the checkable form (progress you can see) set against the uncheckable one (an opinion with a veneer)."
+        },
+        {
+          "source": "The Diary of a CEO, Alex Hormozi interviewed by Steven Bartlett, about 2 hours 22 minutes (no speaker labels in the transcript; who says what is read from the content)",
+          "captured": "2026-10-12",
+          "context": "Alex Hormozi is talking with Steven Bartlett about content and trust at a time when anyone can generate advice. Around forty-eight minutes he asks what the moat is and answers that reality is the moat. A few minutes on he says that tips without anything behind them have no reality, and he puts the reader's question in the reader's mouth: why should I listen to you. Then he names two kinds of proof, proof of outcome and proof of effort.",
+          "quotes": [
+            {
+              "who": "Alex Hormozi",
+              "text": "what's the moat? Reality is the moat.",
+              "at": "00:48:41"
+            },
+            {
+              "who": "Alex Hormozi",
+              "text": "There's no reality. You have nothing to back it up.",
+              "at": "00:52:32"
+            },
+            {
+              "who": "Alex Hormozi",
+              "text": "Why should I listen to you?",
+              "at": "00:54:40"
+            }
+          ],
+          "what_it_shows": "The reader's question is the test: before taking advice, what can I check. Hormozi's answer is that the proof has to be there in the open, as outcome or as effort, or the claim is just words. The move is the same as Naval's: a claim is worth what a reader can see for themselves, and the proof has to sit in the form, not be promised.",
+          "why_in_the_record": "A second speaker, nine days after the first, says it about advice and reputation rather than products, so the pattern is seen on a different subject in the same month."
+        }
+      ],
+      "comes_back": "Seen in 25 captures since 2026-04-21, in 5 fields."
+    },
+    {
+      "name": "The expert's catch",
+      "stands_for": "A piece of work exists; someone who knows the field looks at it; it works, breaks, or looks fine but is not.",
+      "shown_in": [
+        {
+          "source": "The Diary of a CEO, Rick Rubin interviewed by Steven Bartlett (the material carries no date of the talk and no speaker labels; who says what is read from the content)",
+          "captured": "2026-09-21",
+          "context": "Rick Rubin is describing what he does with an artist in the studio. He asks them to play him their favourites. His finding is that they cannot hear themselves; he can hear what a piece could become, and his job, as he puts it, is to remove the roadblocks they put in their own way. Just before, he has been on how success narrows people and how they stop trusting their own antenna.",
+          "quotes": [
+            {
+              "who": "Rick Rubin",
+              "text": "play me your favourites"
+            },
+            {
+              "who": "Rick Rubin",
+              "text": "they can't hear themselves"
+            },
+            {
+              "who": "Rick Rubin",
+              "text": "I could hear what it could be"
+            }
+          ],
+          "what_it_shows": "The work already exists; the person who made it cannot judge it; someone who knows the field listens once and hears what is missing or what is there. The reader can recognise the move by its shape: a one-time hearing by someone with the ear for it, not a long test and not a metric.",
+          "why_in_the_record": "The move is made in music production, far from software, by a producer describing his own working day."
+        },
+        {
+          "source": "The Diary of a CEO, Alex Hormozi interviewed by Steven Bartlett, about 2 hours 22 minutes (no speaker labels in the transcript; who says what is read from the content)",
+          "captured": "2026-10-12",
+          "context": "In the first ten minutes Alex Hormozi is on using AI in a business. He says you can get it to agree with anything; he asks the same question to three AIs and the answers are all over the place, so it comes back to his own judgment, and someone has to own the decision. At forty-nine minutes, on AI content, he adds that someone still has to hold the standard and say when the output is too sloppy.",
+          "quotes": [
+            {
+              "who": "Alex Hormozi",
+              "text": "this is still back to my judgment",
+              "at": "00:08:10"
+            },
+            {
+              "who": "Alex Hormozi",
+              "text": "someone has to own the decision",
+              "at": "00:05:53"
+            },
+            {
+              "who": "Alex Hormozi",
+              "text": "Somebody has to determine that this slop is too sloppy",
+              "at": "00:49:43"
+            }
+          ],
+          "what_it_shows": "Three machine answers exist and disagree, and the one who knows the business is the one who can tell which is off; later, a stream of generated output exists and someone who knows the field has to say when it is not good enough. Both are the same move as Rubin's: the work is there, the person with the field knowledge looks at it, and the catch is theirs to make.",
+          "why_in_the_record": "A business owner says it about AI output, so the same move seen in a studio is seen again on machine-made work, by a speaker who was not asked about this pattern."
+        }
+      ],
+      "comes_back": "Seen in 42 captures since 2026-03-25, in 8 fields."
+    }
+  ],
+  "cta": {
+    "heading": "Bring material",
+    "text": "If we have just talked, bring something as it is: a transcript, an interview, a recorded talk, a call you were in. It stays raw; nothing is summarised or cleaned up before it is read against this record. What comes back are the moments as they were said, word for word with their place in the recording, what sits under each of them, and the reasoning that gets from the words to the pattern, so you can check every step yourself. That is the way to try it on your own material.",
+    "link": "/ask/"
+  }
+}
