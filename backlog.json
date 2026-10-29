@@ -1,6 +1,6 @@
 {
   "site": "https://proofbridge.nl/",
-  "statement": "Public ledger of requests with public_backlog_ok true. Content of requests is never listed. Test phase since 2026-10-20: requests answered without payment. Agents can send by POST. Updated 2026-10-24.",
+  "statement": "Public ledger of requests with public_backlog_ok true. Content of requests is never listed. Agent intake paid: 100 sats per request over Lightning, since 2026-10-29. Email and the ask page: no payment. Updated 2026-10-29.",
   "address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
   "fields": [
     "id",

@@ -260,14 +260,15 @@ openapi = {
   "paths": {"/agent": {
     "get": {"operationId": "describeIntake", "summary": "What this endpoint takes", "responses": {"200": {"description": "Pointers to the schema and contract."}}},
     "post": {"operationId": "sendRequest", "summary": "Send one request for a human expert review (answer by email)",
-      "description": "Before calling: check when_to_call and when_not_to_call in the contract, and have the principal approve the request; their name and email go with it.",
+      "description": "Before calling: check when_to_call and when_not_to_call in the contract, and have the principal approve the request; their name and email go with it. " + EPT.get("payment", ""),
+      "parameters": [{"name": "X-Payment-Hash", "in": "header", "required": False, "schema": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "description": "On the retry after paying: the payment_hash from the 402 answer."}],
       "requestBody": {"required": True, "content": {"application/json": {"schema": {"$ref": "https://proofbridge.nl/schema/request.schema.json"}}}},
       "responses": {
         "202": {"description": EPT['answers']['202'], "content": {"application/json": {"schema": {"type": "object", "required": ["ok", "request_id", "received_at", "status", "next"],
                "properties": {"ok": {"const": True}, "request_id": {"type": "string"}, "received_at": {"type": "string", "format": "date-time"}, "status": {"const": "received"}, "next": {"type": "string"}}}}}},
         "422": {"description": EPT['answers']['422'], "content": {"application/json": {"schema": {"type": "object", "properties": {"ok": {"const": False}, "error": {"const": "invalid"},
                "errors": {"type": "array", "items": {"type": "object", "required": ["path", "problem"], "properties": {"path": {"type": "string"}, "problem": {"type": "string"}}}}}}}}},
-        **{c: {"description": EPT['answers'][c], "content": {"application/json": {"schema": _err}}} for c in ["400", "413", "415", "429", "502"]}}}}}}
+        **{c: {"description": EPT['answers'][c], "content": {"application/json": {"schema": _err}}} for c in ["400", "402", "409", "413", "415", "429", "502", "503"] if c in EPT["answers"]}}}}}}
 json.dump(openapi, open(f"{OUT}/agents/openapi.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
 # ---------- offer.json: contract first, background after ----------
@@ -453,7 +454,7 @@ llms = f"""# proofbridge.nl
 Task types (closed list):
 """ + "\n".join(f"- `{x['id']}`: {x['does']} Output: {x['output']}" for x in TT) + f"""
 
-Phase: test since {K['phase']['since']}; requests are answered without payment (tier 0). Paid tiers later: tier 1 from {fmt(T1['minimum_sats'])} sats, tier 2 from {fmt(T2['minimum_sats'])} sats. An agent drafts the request, its principal approves it, and the agent POSTs it as JSON to {EPT['url']} (or it is emailed to {K['request']['to']}). The answer comes by email from Dennis. Reply within {K['lifecycle']['reply_window_days']} days. Declines: {', '.join('`'+d+'`' for d in DECL_IDS)}.
+Price: {EPT['price_sats']} sats per request through the agent intake, paid over Lightning (POST, then 402 with an invoice, pay, POST again with X-Payment-Hash). Email and the ask page: no payment. An agent drafts the request, its principal approves it, and the agent POSTs it as JSON to {EPT['url']} (or it is emailed to {K['request']['to']}). The answer comes by email from Dennis. Reply within {K['lifecycle']['reply_window_days']} days. Declines: {', '.join('`'+d+'`' for d in DECL_IDS)}.
 
 ## Contract
 - [Task contract (markdown)](https://proofbridge.nl/agents/index.md)

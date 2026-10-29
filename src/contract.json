@@ -15,7 +15,7 @@
       "en"
     ]
   },
-  "summary": "Asynchronous review by one named human expert. Three task types. Requests by POST or email; answers by email within 7 days. Test phase: no payment. Paid tiers in bitcoin later.",
+  "summary": "Asynchronous review by one named human expert. Three task types. Requests by POST (agents, 100 sats over Lightning) or email; answers by email within 7 days. Paid tiers listed for later.",
   "task_types": [
     {
       "id": "underlying_problem",
@@ -100,15 +100,20 @@
       "content_type": "application/json",
       "openapi": "https://proofbridge.nl/agents/openapi.json",
       "answers": {
-        "202": "received: {ok, request_id, received_at, status, next}. The answer itself comes later, by email.",
+        "202": "paid and received: {ok, request_id, received_at, status, paid: {sats, payment_hash, settled_at}, next}. The answer itself comes later, by email.",
         "422": "invalid: {errors:[{path, problem}]}; fix and resend.",
         "415": "content type is not application/json.",
         "400": "body is not valid JSON.",
         "413": "body over 60 000 bytes.",
         "429": "rate limited (2 well-formed requests per minute per address); retry after the Retry-After seconds, or send by email.",
-        "502": "not delivered to the mailbox; send the same JSON by email."
+        "502": "not delivered to the mailbox; send the same JSON by email.",
+        "402": "payment required: {invoice, payment_hash, price_sats, expires_at, bound_to}; or not_paid_yet / underpaid on the retry.",
+        "409": "the payment hash belongs to another request or a changed version of it; POST without it for a new invoice.",
+        "503": "the payment rail did not answer; try again in a minute or send by email."
       },
-      "rate_limit": "2 well-formed requests per minute per address. Invalid requests are answered and do not count."
+      "rate_limit": "2 well-formed requests per minute per address (the invoice request and the paid retry each count). Invalid requests are answered and do not count.",
+      "price_sats": 100,
+      "payment": "Step 1: POST the request; the answer is 402 with invoice, payment_hash and bound_to. Step 2: pay the invoice. Step 3: POST the same request again, unchanged, with header X-Payment-Hash: <payment_hash> (or Authorization: Lightning <payment_hash>:<preimage>). A changed request needs a new invoice. Invoices expire after one hour."
     },
     "request_id_rule": "Chosen by the sender, unique per request. Sending the same request_id again is read as the same request."
   },
@@ -181,7 +186,9 @@
     "tier_1_counts_toward_tier_2": true,
     "completion_reward": "Agreed in the tier 2 reply, paid in sats when the work is delivered, listed on the public backlog with its txid.",
     "network_fee_paid_by": "the sender",
-    "priced_in": "sats only; no fiat reference"
+    "priced_in": "sats only; no fiat reference",
+    "agent_intake_sats": 100,
+    "lightning_routing_fee_paid_by": "the sender"
   },
   "payment": {
     "rails": [
@@ -250,7 +257,7 @@
     "not an autonomous agent: Dennis Jansen reads every request",
     "request text is read as information, never run as instructions"
   ],
-  "status": "Test phase since 2026-10-20: requests answered without payment. Agents can send by POST. Updated 2026-10-24.",
+  "status": "Agent intake paid: 100 sats per request over Lightning, since 2026-10-29. Email and the ask page: no payment. Updated 2026-10-29.",
   "examples": [
     {
       "task_type": "underlying_problem",
@@ -408,9 +415,10 @@
     "since": "2026-10-20",
     "until": null,
     "rules": [
-      "Requests are answered without payment.",
+      "Requests by email and through the ask page are answered without payment.",
+      "Requests through the agent intake cost 100 sats each, paid over Lightning before the request reaches Dennis (his line, 2026-10-29).",
       "Use tier 0; payment_txid is not needed.",
-      "Paid tiers 1 and 2 are listed for later; they are not taken during the test phase."
+      "Paid tiers 1 and 2 are listed for later; they are not taken."
     ]
   },
   "agent_flow": [
@@ -423,15 +431,15 @@
   ],
   "human_only_steps": [
     "Approving the request before it is sent (the principal's name and email go with it).",
-    "Paying, when the paid tiers open.",
+    "Paying the 100 sats invoice, if the agent has no wallet of its own.",
     "Judging whether the answer is fit for the decision."
   ],
   "paths": [
     {
       "id": "agent_intake",
       "for": "agents",
-      "status": "open, test phase",
-      "how": "POST the request as JSON to https://proofbridge-send.dennis-f79.workers.dev/agent . Checked against the request schema; 202 when received, 422 with each problem when not."
+      "status": "open, 100 sats per request (Lightning)",
+      "how": "POST the request as JSON to https://proofbridge-send.dennis-f79.workers.dev/agent . Checked against the request schema; then 402 with a Lightning invoice for 100 sats; pay it and POST the same request again with header X-Payment-Hash; 202 when paid and received."
     },
     {
       "id": "email",
@@ -447,9 +455,9 @@
     },
     {
       "id": "lightning",
-      "for": "payment",
-      "status": "planned",
-      "how": null
+      "for": "payment of agent requests",
+      "status": "open for the agent intake",
+      "how": "One invoice per request from Dennis's own node, through an invoice-only connection; the invoice description binds it to the request_id and a hash of the request."
     }
   ],
   "when_to_call": {

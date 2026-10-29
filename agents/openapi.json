@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "proofbridge agent intake",
-    "version": "2026-10-24",
-    "description": "One operation: send a request. It is checked against the request schema and mailed to Dennis Jansen, who answers by email to principal.email within 7 days. Nothing is answered automatically. Requests are answered without payment. Use tier 0; payment_txid is not needed. Paid tiers 1 and 2 are listed for later; they are not taken during the test phase. Contract: https://proofbridge.nl/agents/index.md"
+    "version": "2026-10-29",
+    "description": "One operation: send a request. It is checked against the request schema and mailed to Dennis Jansen, who answers by email to principal.email within 7 days. Nothing is answered automatically. Requests by email and through the ask page are answered without payment. Requests through the agent intake cost 100 sats each, paid over Lightning before the request reaches Dennis (his line, 2026-10-29). Use tier 0; payment_txid is not needed. Paid tiers 1 and 2 are listed for later; they are not taken. Contract: https://proofbridge.nl/agents/index.md"
   },
   "servers": [
     {
@@ -24,7 +24,19 @@
       "post": {
         "operationId": "sendRequest",
         "summary": "Send one request for a human expert review (answer by email)",
-        "description": "Before calling: check when_to_call and when_not_to_call in the contract, and have the principal approve the request; their name and email go with it.",
+        "description": "Before calling: check when_to_call and when_not_to_call in the contract, and have the principal approve the request; their name and email go with it. Step 1: POST the request; the answer is 402 with invoice, payment_hash and bound_to. Step 2: pay the invoice. Step 3: POST the same request again, unchanged, with header X-Payment-Hash: <payment_hash> (or Authorization: Lightning <payment_hash>:<preimage>). A changed request needs a new invoice. Invoices expire after one hour.",
+        "parameters": [
+          {
+            "name": "X-Payment-Hash",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "description": "On the retry after paying: the payment_hash from the 402 answer."
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -37,7 +49,7 @@
         },
         "responses": {
           "202": {
-            "description": "received: {ok, request_id, received_at, status, next}. The answer itself comes later, by email.",
+            "description": "paid and received: {ok, request_id, received_at, status, paid: {sats, payment_hash, settled_at}, next}. The answer itself comes later, by email.",
             "content": {
               "application/json": {
                 "schema": {
@@ -128,6 +140,48 @@
               }
             }
           },
+          "402": {
+            "description": "payment required: {invoice, payment_hash, price_sats, expires_at, bound_to}; or not_paid_yet / underpaid on the retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "const": false
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "the payment hash belongs to another request or a changed version of it; POST without it for a new invoice.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "const": false
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "413": {
             "description": "body over 60 000 bytes.",
             "content": {
@@ -193,6 +247,27 @@
           },
           "502": {
             "description": "not delivered to the mailbox; send the same JSON by email.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "const": false
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "the payment rail did not answer; try again in a minute or send by email.",
             "content": {
               "application/json": {
                 "schema": {

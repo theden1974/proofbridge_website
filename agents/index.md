@@ -1,11 +1,11 @@
 # proofbridge task contract
 
-Asynchronous review by one named human expert. Three task types. Requests by POST or email; answers by email within 7 days. Test phase: no payment. Paid tiers in bitcoin later. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.
+Asynchronous review by one named human expert. Three task types. Requests by POST (agents, 100 sats over Lightning) or email; answers by email within 7 days. Paid tiers listed for later. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.
 
-Machine-readable: [offer.json](https://proofbridge.nl/offer.json) · [OpenAPI (send a request)](https://proofbridge.nl/agents/openapi.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [llms.txt](https://proofbridge.nl/llms.txt) · this page as [markdown](https://proofbridge.nl/agents/index.md). Updated 2026-10-24.
+Machine-readable: [offer.json](https://proofbridge.nl/offer.json) · [OpenAPI (send a request)](https://proofbridge.nl/agents/openapi.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [llms.txt](https://proofbridge.nl/llms.txt) · this page as [markdown](https://proofbridge.nl/agents/index.md). Updated 2026-10-29.
 
 ## Phase
-- `test` since 2026-10-20. Requests are answered without payment. Use tier 0; payment_txid is not needed. Paid tiers 1 and 2 are listed for later; they are not taken during the test phase.
+- `test` since 2026-10-20. Requests by email and through the ask page are answered without payment. Requests through the agent intake cost 100 sats each, paid over Lightning before the request reaches Dennis (his line, 2026-10-29). Use tier 0; payment_txid is not needed. Paid tiers 1 and 2 are listed for later; they are not taken.
 
 ## When to call
 All of:
@@ -37,14 +37,14 @@ And at least one of:
 
 ## Human-only steps
 - Approving the request before it is sent (the principal's name and email go with it).
-- Paying, when the paid tiers open.
+- Paying the 100 sats invoice, if the agent has no wallet of its own.
 - Judging whether the answer is fit for the decision.
 
 ## Paths
-- `agent_intake` (agents; open, test phase): POST the request as JSON to https://proofbridge-send.dennis-f79.workers.dev/agent . Checked against the request schema; 202 when received, 422 with each problem when not.
+- `agent_intake` (agents; open, 100 sats per request (Lightning)): POST the request as JSON to https://proofbridge-send.dennis-f79.workers.dev/agent . Checked against the request schema; then 402 with a Lightning invoice for 100 sats; pay it and POST the same request again with header X-Payment-Hash; 202 when paid and received.
 - `email` (agents and people; open): The request JSON as the body of an email to ask@proofbridge.nl, subject PROOFBRIDGE {request_id}.
 - `ask_page` (people; open, test phase): https://proofbridge.nl/ask/ : a page for writing the situation in one's own words. Not for agents; agents use agent_intake.
-- `lightning` (payment; planned): -
+- `lightning` (payment of agent requests; open for the agent intake): One invoice per request from Dennis's own node, through an invoice-only connection; the invoice description binds it to the request_id and a hash of the request.
 
 ## Task types
 | task_type | does | input | output |
@@ -69,14 +69,17 @@ Field experience: elderly care, healthcare, government and public services, digi
 - POST `https://proofbridge-send.dennis-f79.workers.dev/agent` with `content-type: application/json`; the body is the request. [OpenAPI](https://proofbridge.nl/agents/openapi.json).
 - Or email it to ask@proofbridge.nl, subject `PROOFBRIDGE {request_id}`.
 - Endpoint answers:
-  - `202` received: {ok, request_id, received_at, status, next}. The answer itself comes later, by email.
+  - `202` paid and received: {ok, request_id, received_at, status, paid: {sats, payment_hash, settled_at}, next}. The answer itself comes later, by email.
   - `422` invalid: {errors:[{path, problem}]}; fix and resend.
   - `415` content type is not application/json.
   - `400` body is not valid JSON.
   - `413` body over 60 000 bytes.
   - `429` rate limited (2 well-formed requests per minute per address); retry after the Retry-After seconds, or send by email.
   - `502` not delivered to the mailbox; send the same JSON by email.
-- Rate limit: 2 well-formed requests per minute per address. Invalid requests are answered and do not count.
+  - `402` payment required: {invoice, payment_hash, price_sats, expires_at, bound_to}; or not_paid_yet / underpaid on the retry.
+  - `409` the payment hash belongs to another request or a changed version of it; POST without it for a new invoice.
+  - `503` the payment rail did not answer; try again in a minute or send by email.
+- Rate limit: 2 well-formed requests per minute per address (the invoice request and the paid retry each count). Invalid requests are answered and do not count.
 - request_id: Chosen by the sender, unique per request. Sending the same request_id again is read as the same request.
 - Body: One JSON object that validates against the request schema: as the POST body, or as the email body. Material as text in artefact_text; links are not opened. Attachments are not read.
 - Schema: https://proofbridge.nl/schema/request.schema.json
@@ -146,7 +149,7 @@ Trust here is not an identity to accept but claims to verify. Each claim below n
 - Each answer stands on evidence. Check: Every finding in an answer carries typed evidence and the limits of what was checked (response schema). Check each finding against its evidence.
 - The track record. Check: backlog.json, computed at build time. It shows what exists, including zero.
 - The payment address is his. Check: Not checkable yet: no BIP-322 signature is published. The paid tiers stay closed until it is; the test phase takes no payment, so nothing depends on it now.
-- Track record now (from the backlog, 2026-10-24): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.
+- Track record now (from the backlog, 2026-10-29): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.
 
 ## Not
 - no automated answers: a request goes in by POST or email; a named human answers by email
@@ -160,4 +163,4 @@ Trust here is not an identity to accept but claims to verify. Each claim below n
 - `due_diligence`: Checks an agent or principal can run itself to verify the claims made here, listed under trust.
 - `mechanical_lens`: A model on Dennis's own machines that checks whether what he says lies within his expertise, against a dated release of his containers. It does not answer.
 
-Test phase since 2026-10-20: requests answered without payment. Agents can send by POST. Updated 2026-10-24. Files: [offer.json](https://proofbridge.nl/offer.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [backlog](https://proofbridge.nl/backlog.json) · [human page](https://proofbridge.nl/)
+Agent intake paid: 100 sats per request over Lightning, since 2026-10-29. Email and the ask page: no payment. Updated 2026-10-29. Files: [offer.json](https://proofbridge.nl/offer.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [backlog](https://proofbridge.nl/backlog.json) · [human page](https://proofbridge.nl/)

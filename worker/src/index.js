@@ -4,6 +4,7 @@
 // The answer to either is never automatic: Dennis replies by email.
 import { WorkerMailer } from 'worker-mailer';
 import { checkRequest, mailText } from './agent.js';
+import { requestHash, description, makeInvoice, lookup, readProof } from './pay.js';
 
 const MAX_BYTES = 60_000;
 const ID = /^REQ-[A-Z0-9-]{4,24}$/;
@@ -48,10 +49,12 @@ async function mail(env, { fromName, replyTo, subject, text }) {
 async function agentDoor(request, env) {
   const O = '*';
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: {
-    'access-control-allow-origin': O, 'access-control-allow-methods': 'GET, POST', 'access-control-allow-headers': 'content-type', 'access-control-max-age': '86400' } });
+    'access-control-allow-origin': O, 'access-control-allow-methods': 'GET, POST', 'access-control-allow-headers': 'content-type, x-payment-hash, authorization', 'access-control-expose-headers': 'x-payment-hash', 'access-control-max-age': '86400' } });
+  const PRICE = Number(env.AGENT_PRICE_SATS || 0);
   if (request.method === 'GET') return reply(200, {
     what: 'proofbridge agent intake: POST one request (JSON) here. A named human answers by email to principal.email within 7 days; nothing is answered automatically.',
-    method: 'POST', content_type: 'application/json', schema: SCHEMA, contract: CONTRACT, phase: 'test: tier 0 only, no payment',
+    method: 'POST', content_type: 'application/json', schema: SCHEMA, contract: CONTRACT,
+    price_sats: PRICE, payment: PRICE ? 'Lightning. POST the request: the answer is 402 with an invoice. Pay it, then POST the same request again with header X-Payment-Hash: <payment_hash> (or Authorization: Lightning <payment_hash>:<preimage>). Paid and identical: 202.' : 'none',
   }, O);
   if (request.method !== 'POST') return reply(405, { ok: false, error: 'method', allowed: ['GET', 'POST'] }, O, { allow: 'GET, POST, OPTIONS' });
   if (!(request.headers.get('content-type') || '').toLowerCase().startsWith('application/json'))
@@ -66,14 +69,36 @@ async function agentDoor(request, env) {
     const { success } = await env.AGENT_LIMIT.limit({ key });
     if (!success) return reply(429, { ok: false, error: 'rate', detail: 'Too many requests from this address. Wait a minute, or send by email to ask@proofbridge.nl.' }, O, { 'retry-after': '60' });
   }
+  let paid = null;
+  if (PRICE > 0) {
+    const h = await requestHash(d), desc = description(d, h);
+    const proof = await readProof(request);
+    if (proof.bad) return reply(400, { ok: false, error: 'payment_proof', detail: proof.bad }, O);
+    try {
+      if (!proof.payment_hash) {
+        const inv = await makeInvoice(env, PRICE, desc);
+        return reply(402, { ok: false, error: 'payment_required', price_sats: PRICE, invoice: inv.invoice, payment_hash: inv.payment_hash,
+          expires_at: inv.expires_at ? new Date(inv.expires_at * 1000).toISOString() : null, bound_to: desc,
+          next: 'Pay the invoice, then POST this same request again (unchanged) with header X-Payment-Hash: ' + inv.payment_hash + '. A changed request needs a new invoice.' }, O, { 'x-payment-hash': inv.payment_hash });
+      }
+      const t = await lookup(env, proof.payment_hash);
+      if ((t.description || '') !== desc) return reply(409, { ok: false, error: 'payment_for_other_request', detail: 'This payment is bound to another request or to a changed version of it. POST without a payment hash to get a new invoice.' }, O);
+      const settled = t.state === 'settled' || (t.state == null && Number(t.settled_at) > 0);  // never the preimage: the receiver knows it before payment
+      if (!settled) return reply(402, { ok: false, error: 'not_paid_yet', payment_hash: proof.payment_hash, state: t.state || 'pending', invoice: t.invoice }, O);
+      if (Number(t.amount || 0) < PRICE * 1000) return reply(402, { ok: false, error: 'underpaid', price_sats: PRICE }, O);
+      paid = { sats: Math.round(Number(t.amount) / 1000), payment_hash: proof.payment_hash, settled_at: t.settled_at ? new Date(t.settled_at * 1000).toISOString() : null };
+    } catch (e) {
+      return reply(503, { ok: false, error: 'payment_rail', detail: String(e.message || e).slice(0, 120), detail_for_agent: 'The payment rail did not answer. Try again in a minute, or send the JSON by email to ask@proofbridge.nl.' }, O);
+    }
+  }
   const received_at = new Date().toISOString();
   const fail = await mail(env, {
     fromName: 'proofbridge agent intake', replyTo: { email: d.principal.email, name: d.principal.name },
-    subject: 'PROOFBRIDGE ' + d.request_id, text: mailText(d, { received_at }),
+    subject: 'PROOFBRIDGE ' + d.request_id + (paid ? ' (paid ' + paid.sats + ' sats)' : ''), text: mailText(d, { received_at, paid }),
   });
   if (fail) return reply(502, { ok: false, error: 'smtp', ...fail, detail_for_agent: 'Not delivered. Send the same JSON by email to ask@proofbridge.nl, subject PROOFBRIDGE ' + d.request_id + '.' }, O);
   return reply(202, {
-    ok: true, request_id: d.request_id, received_at, status: 'received',
+    ok: true, request_id: d.request_id, received_at, status: 'received', paid,
     next: 'Dennis reads it and replies by email to ' + d.principal.email + ' within 7 days: an answer per the response schema, or one question if he cannot start. Nothing further comes from this endpoint.',
   }, O);
 }
