@@ -4,7 +4,6 @@
 // The answer to either is never automatic: Dennis replies by email.
 import { WorkerMailer } from 'worker-mailer';
 import { checkRequest, mailText } from './agent.js';
-import { nwcSelftest } from './selftest.js';
 
 const MAX_BYTES = 60_000;
 const ID = /^REQ-[A-Z0-9-]{4,24}$/;
@@ -106,7 +105,6 @@ async function askDoor(request, env) {
 export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname.replace(/\/+$/, '');
-    if (path === '/selftest/nwc') return nwcSelftest(request, env);
     return path === '/agent' ? agentDoor(request, env) : askDoor(request, env);
   },
 };
