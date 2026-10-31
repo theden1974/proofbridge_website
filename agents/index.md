@@ -2,7 +2,7 @@
 
 Asynchronous review by one named human expert. Three task types. Requests by POST (agents, 100 sats over Lightning) or email; answers by email within 7 days. Paid tiers listed for later. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.
 
-Machine-readable: [offer.json](https://proofbridge.nl/offer.json) · [OpenAPI (send a request)](https://proofbridge.nl/agents/openapi.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [llms.txt](https://proofbridge.nl/llms.txt) · this page as [markdown](https://proofbridge.nl/agents/index.md). Updated 2026-10-29.
+Machine-readable: [offer.json](https://proofbridge.nl/offer.json) · [OpenAPI (send a request)](https://proofbridge.nl/agents/openapi.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [llms.txt](https://proofbridge.nl/llms.txt) · this page as [markdown](https://proofbridge.nl/agents/index.md). Updated 2026-10-31.
 
 ## Phase
 - `test` since 2026-10-20. Requests by email and through the ask page are answered without payment. Requests through the agent intake cost 100 sats each, paid over Lightning before the request reaches Dennis (his line, 2026-10-29). Use tier 0; payment_txid is not needed. Paid tiers 1 and 2 are listed for later; they are not taken.
@@ -149,7 +149,7 @@ Trust here is not an identity to accept but claims to verify. Each claim below n
 - Each answer stands on evidence. Check: Every finding in an answer carries typed evidence and the limits of what was checked (response schema). Check each finding against its evidence.
 - The track record. Check: backlog.json, computed at build time. It shows what exists, including zero.
 - The payment address is his. Check: Not checkable yet: no BIP-322 signature is published. The paid tiers stay closed until it is; the test phase takes no payment, so nothing depends on it now.
-- Track record now (from the backlog, 2026-10-29): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.
+- Track record now (from the backlog, 2026-10-31): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.
 
 ## Not
 - no automated answers: a request goes in by POST or email; a named human answers by email

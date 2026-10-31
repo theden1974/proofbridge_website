@@ -93,12 +93,6 @@
   "tier2_human": "Ask me",
   "att_how": "Pay to this address and mail the transaction ID with your request to ask@proofbridge.nl. What a request and an answer look like: the task contract.",
   "h1_note": "",
-  "why_label": "why a human",
-  "why": [
-    "AI is the calculator. It needs my numbers.",
-    "8 hours of work can, at best, represent 100 hours of work, because it is aimed at value."
-  ],
-  "why_note": "second line translated from Dutch",
   "tier1_gets": "Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.",
   "tier2_gets": "I read it myself and answer in days.",
   "att_status": "Today I answer both paths myself."

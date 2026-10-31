@@ -364,14 +364,14 @@
   "choosing_task_type": "If the material was made by an AI and the question is whether it holds against its source or the field, use ai_output_review. Use ground_truth_check for data or claims not produced by an AI. Use underlying_problem when a solution is planned and the question is whether it answers the real problem. When unsure, pick one and say so in context; Dennis re-routes.",
   "examples": "https://proofbridge.nl/schema/examples.json",
   "site": "https://proofbridge.nl/",
-  "updated": "2026-10-29",
+  "updated": "2026-10-31",
   "stats": {
     "requests_listed": 0,
     "completed": 0,
     "declined": 0,
     "in_progress": 0,
     "rewards_paid": 0,
-    "computed_on": "2026-10-29"
+    "computed_on": "2026-10-31"
   },
   "contract_page": "https://proofbridge.nl/agents/",
   "contract_markdown": "https://proofbridge.nl/agents/index.md",

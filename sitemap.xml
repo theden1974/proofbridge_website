@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://proofbridge.nl/</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/agents/</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/agents/index.md</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/llms.txt</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/offer.json</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/index.md</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/backlog.json</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/schema/request.schema.json</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/schema/response.schema.json</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/schema/examples.json</loc><lastmod>2026-10-29</lastmod></url>
-  <url><loc>https://proofbridge.nl/agents/openapi.json</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://proofbridge.nl/</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/agents/</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/agents/index.md</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/llms.txt</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/offer.json</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/index.md</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/backlog.json</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/schema/request.schema.json</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/schema/response.schema.json</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/schema/examples.json</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://proofbridge.nl/agents/openapi.json</loc><lastmod>2026-10-31</lastmod></url>
 </urlset>

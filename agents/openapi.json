@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "proofbridge agent intake",
-    "version": "2026-10-29",
+    "version": "2026-10-31",
     "description": "One operation: send a request. It is checked against the request schema and mailed to Dennis Jansen, who answers by email to principal.email within 7 days. Nothing is answered automatically. Requests by email and through the ask page are answered without payment. Requests through the agent intake cost 100 sats each, paid over Lightning before the request reaches Dennis (his line, 2026-10-29). Use tier 0; payment_txid is not needed. Paid tiers 1 and 2 are listed for later; they are not taken. Contract: https://proofbridge.nl/agents/index.md"
   },
   "servers": [

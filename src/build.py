@@ -93,9 +93,6 @@ page = f'''<!DOCTYPE html>
   .vp p {{ max-width: 34ch; }}
   .vp .proof {{ margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--grey); font-size: var(--s-1); line-height: 1.5; }}
   .vp .proof .label {{ margin-bottom: 0.4rem; }}
-  .why {{ padding: clamp(1.8rem, 5vh, 3rem) 0; border-bottom: 1px solid var(--line); }}
-  .why p {{ max-width: 44ch; font-size: var(--s1); line-height: 1.35; }}
-  .why p + p {{ margin-top: 0.6rem; }}
   .note {{ font-family: var(--mono); font-size: var(--s-1); color: var(--grey); letter-spacing: 0; text-transform: none; font-weight: 300; }}
   .att {{ padding: clamp(2.5rem, 7vh, 5rem) 0; display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(1.5rem, 4vw, 4rem); border-bottom: 1px solid var(--line); }}
   .att h2 {{ font-weight: 500; font-size: var(--s3); line-height: 1.1; }}
@@ -134,12 +131,6 @@ page = f'''<!DOCTYPE html>
 
 <section class="vps" aria-label="What I do">
 {chr(10).join(vp_html(i+1, v) for i, v in enumerate(VP))}
-</section>
-
-<section class="why" aria-label="Why a human">
-  <span class="label">↳ {E(C['why_label'])}</span>
-  <p>{E(C['why'][0])}</p>
-  <p>{E(C['why'][1])} <span class="note">({E(C['why_note'].replace('second line ', ''))})</span></p>
 </section>
 
 <section class="att" id="attention" aria-labelledby="h-att">
@@ -282,7 +273,6 @@ _unused_background = ({
     "you_are_hiring": H['you_are_hiring'], "what_he_does": H['what_he_does'],
     "where_the_expertise_comes_from": H['where_the_expertise_comes_from'], "method": H['method'],
     "evidence_from_the_field": [{k: v for k, v in c.items() if v} for c in C['cases']],
-    "why_a_human": C['why'],
     "more": ["https://interactiondesign.nl/setup/", "https://interactiondesign.nl/index.md"]})
 json.dump(offer, open(f"{OUT}/offer.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
@@ -479,10 +469,6 @@ def case_md(c):
     if c.get('start'): s += f"- Starting point: {c['start']}\n"
     return s + f"- What I saw: {c['saw']}\n- After: {c['after']}\n"
 bg = f"# proofbridge · Dennis Jansen\n\n## {C['h1']}\n\n{C['intro']}\n\n" + "\n".join(f"### {i+1}. {v['title']}\n{v['text']}\n- Seen in the field: {v['proof']}\n" for i, v in enumerate(VP)) + f"""
-## Why a human
-- {C['why'][0]}
-- {C['why'][1]} ({C['why_note'].replace('second line ', '')})
-
 ## My attention costs sats
 - {C['tier1_human']}: {fmt(T1['minimum_sats'])} sats
 - {C['tier2_human']}: {fmt(T2['minimum_sats'])} sats
