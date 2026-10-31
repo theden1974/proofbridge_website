@@ -70,7 +70,7 @@ page = f'''<!DOCTYPE html>
   *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
   :root {{
     --paper: hsl(45, 20%, 96%); --ink: #111014; --grey: hsl(240, 6%, 42%); --line: hsl(45, 10%, 86%);
-    --accent: #b8862b;
+    --accent: #b8862b; color-scheme: dark;
     --s-1: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem);
     --s0: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
     --s1: clamp(1.25rem, 1.19rem + 0.31vw, 1.5rem);
@@ -109,7 +109,7 @@ page = f'''<!DOCTYPE html>
   footer .agents {{ flex-basis: 100%; color: var(--grey); }} footer .agents a {{ color: var(--grey); }}
   a:focus-visible, button:focus-visible {{ outline: 2px solid var(--accent); outline-offset: 3px; }}
   @media (max-width: 860px) {{ .vps, .att {{ grid-template-columns: 1fr; }} }}
-  @media (prefers-color-scheme: dark) {{
+  @media all {{
     :root {{ --paper: #111014; --ink: hsl(45, 20%, 94%); --grey: hsl(240, 5%, 66%); --line: hsl(240, 5%, 22%); }}
     .addr {{ background: #1a191e; }} .copy {{ background: var(--ink); color: #111014; }}
   }}
@@ -425,7 +425,7 @@ agents_html = f"""<!DOCTYPE html>
   table {{ border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }} th, td {{ text-align: left; vertical-align: top; padding: 0.4rem 0.6rem 0.4rem 0; border-bottom: 1px solid hsl(45, 10%, 86%); }}
   code {{ background: hsl(45, 15%, 90%); padding: 0 0.2rem; word-break: break-all; }} td:first-child code {{ white-space: nowrap; word-break: normal; }}
   @media (max-width: 700px) {{ table, tbody, tr, td {{ display: block; width: 100%; }} thead {{ display: none; }} tr {{ padding: 0.6rem 0; border-bottom: 1px solid hsl(45, 10%, 82%); }} td {{ border: 0; padding: 0.15rem 0; }} td:first-child code {{ white-space: normal; }} }} a {{ color: inherit; }}
-  @media (prefers-color-scheme: dark) {{ html {{ background: #111014; color: hsl(45, 20%, 94%); }} code {{ background: #1f1e24; }} h2, th, td {{ border-color: hsl(240, 5%, 24%); }} }}
+  @media all {{ html {{ background: #111014; color: hsl(45, 20%, 94%); }} code {{ background: #1f1e24; }} h2, th, td {{ border-color: hsl(240, 5%, 24%); }} }}
 </style>
 </head>
 <body>
