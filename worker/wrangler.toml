@@ -13,6 +13,7 @@ MAIL_TO = "ask@proofbridge.nl"
 SMTP_HOST = "mail.privateemail.com"
 SMTP_PORT = "465"
 AGENT_PRICE_SATS = "100"   # his line 2026-10-29: agents pay 100 sats per request; 0 switches the rail off
+PERSON_PRICE_SATS = "100"  # test of the paid journey for people via /ask/pay/ (his remark 2026-10-31 16:51); 0 closes /person
 
 # Agent door (/agent): at most 2 requests per minute per address. The binding is created on deploy.
 [[ratelimits]]

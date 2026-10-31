@@ -1,6 +1,8 @@
 // proofbridge-send: two doors to one mailbox (ask@proofbridge.nl). Stores nothing, logs no content.
 //   /       the /ask/ page for people: only the proofbridge.nl origin, plain text, honeypot.
 //   /agent  agents: any origin, one JSON request per the request schema, checked before it is mailed.
+//   /person test of the paid journey for people (his remark 2026-10-31 16:51): the /ask/pay/ page only,
+//           a Lightning invoice per request (PERSON_PRICE_SATS; 0 closes the door), mailed once paid.
 // The answer to either is never automatic: Dennis replies by email.
 import { WorkerMailer } from 'worker-mailer';
 import { checkRequest, mailText } from './agent.js';
@@ -127,9 +129,59 @@ async function askDoor(request, env) {
   return reply(200, { ok: true, request_id: d.request_id }, origin);
 }
 
+async function personDoor(request, env) {
+  const origin = cors(request.headers.get('origin') || '', env);
+  if (request.method === 'OPTIONS') {
+    if (!origin) return new Response(null, { status: 403 });
+    return new Response(null, { status: 204, headers: {
+      'access-control-allow-origin': origin, 'access-control-allow-methods': 'POST',
+      'access-control-allow-headers': 'content-type, x-payment-hash', 'access-control-expose-headers': 'x-payment-hash',
+      'access-control-max-age': '86400', 'vary': 'Origin' } });
+  }
+  const PRICE = Number(env.PERSON_PRICE_SATS || 0);
+  if (!PRICE) return reply(404, { ok: false, error: 'closed' }, origin);
+  if (request.method !== 'POST') return reply(405, { ok: false, error: 'method' }, origin);
+  if (!origin) return reply(403, { ok: false, error: 'origin' }, null);
+  const { d: raw, err } = await readJson(request);
+  if (err) return reply(err[0], { ok: false, error: err[1] }, origin);
+  if (raw.website) return reply(200, { ok: true, request_id: raw.request_id || '' }, origin); // honeypot
+  const d = { request_id: String(raw.request_id || ''), body: String(raw.body || '').trim(), email: String(raw.email || '').trim() };
+  if (!ID.test(d.request_id)) return reply(400, { ok: false, error: 'request_id' }, origin);
+  if (d.body.split(/\s+/).length < 10) return reply(400, { ok: false, error: 'body' }, origin);
+  if (!EMAIL.test(d.email)) return reply(400, { ok: false, error: 'email' }, origin);
+  const h = await requestHash(d), desc = description(d, h);
+  const proof = await readProof(request);
+  if (proof.bad) return reply(400, { ok: false, error: 'payment_proof', detail: proof.bad }, origin);
+  let paid;
+  try {
+    if (!proof.payment_hash) {
+      if (env.AGENT_LIMIT) {
+        const { success } = await env.AGENT_LIMIT.limit({ key: 'person:' + (request.headers.get('cf-connecting-ip') || 'unknown') });
+        if (!success) return reply(429, { ok: false, error: 'rate' }, origin, { 'retry-after': '60' });
+      }
+      const inv = await makeInvoice(env, PRICE, desc);
+      return reply(402, { ok: false, error: 'payment_required', price_sats: PRICE, invoice: inv.invoice, payment_hash: inv.payment_hash,
+        expires_at: inv.expires_at ? new Date(inv.expires_at * 1000).toISOString() : null }, origin);
+    }
+    const t = await lookup(env, proof.payment_hash);
+    if ((t.description || '') !== desc) return reply(409, { ok: false, error: 'payment_for_other_request' }, origin);
+    const settled = t.state === 'settled' || (t.state == null && Number(t.settled_at) > 0);
+    if (!settled) return reply(402, { ok: false, error: 'not_paid_yet', state: t.state || 'pending' }, origin);
+    if (Number(t.amount || 0) < PRICE * 1000) return reply(402, { ok: false, error: 'underpaid', price_sats: PRICE }, origin);
+    paid = { sats: Math.round(Number(t.amount) / 1000), payment_hash: proof.payment_hash, settled_at: t.settled_at ? new Date(t.settled_at * 1000).toISOString() : null };
+  } catch (e) {
+    return reply(503, { ok: false, error: 'payment_rail', detail: String(e.message || e).slice(0, 120) }, origin);
+  }
+  const fail = await mail(env, { fromName: 'proofbridge ask (paid test)', replyTo: { email: d.email },
+    subject: 'PROOFBRIDGE ' + d.request_id + ' (paid ' + paid.sats + ' sats, person)',
+    text: d.body + '\n\n--\npaid ' + paid.sats + ' sats over Lightning, payment hash ' + paid.payment_hash + (paid.settled_at ? ', settled ' + paid.settled_at : '') });
+  if (fail) return reply(502, { ok: false, error: 'smtp', ...fail }, origin);
+  return reply(200, { ok: true, request_id: d.request_id, paid }, origin);
+}
+
 export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname.replace(/\/+$/, '');
-    return path === '/agent' ? agentDoor(request, env) : askDoor(request, env);
+    return path === '/agent' ? agentDoor(request, env) : path === '/person' ? personDoor(request, env) : askDoor(request, env);
   },
 };

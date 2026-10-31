@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment test · proofbridge</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --paper: hsl(45, 20%, 96%); --ink: #111014; --grey: hsl(240, 6%, 42%); --line: hsl(45, 10%, 86%); --accent: #b8862b;
+    --s-1: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem); --s0: clamp(1rem, 0.95rem + 0.25vw, 1.15rem); --s2: clamp(1.6rem, 1.4rem + 0.8vw, 2.1rem);
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; }
+  @media (prefers-color-scheme: dark) { :root { --paper: #111014; --ink: hsl(45, 20%, 92%); --grey: hsl(240, 6%, 62%); --line: hsl(45, 6%, 24%); } }
+  html { background: var(--paper); color: var(--ink); }
+  body { font-family: "DM Sans", system-ui, -apple-system, Helvetica, sans-serif; font-weight: 300; font-size: var(--s0); line-height: 1.55; }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 2rem max(16px, 4vw) 5rem; display: grid; gap: 3rem; }
+  .label { font-family: var(--mono); font-size: var(--s-1); letter-spacing: .06em; text-transform: uppercase; color: var(--grey); display: block; margin-bottom: .8rem; }
+  h1, h2 { font-weight: 500; line-height: 1.15; } h1 { font-size: var(--s2); } h2 { font-size: var(--s0); font-family: var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+  section { border-top: 1px solid var(--line); padding-top: 1.6rem; display: grid; gap: 1rem; }
+  p.note { color: var(--grey); font-size: var(--s-1); }
+  textarea, input { width: 100%; font: inherit; color: var(--ink); background: transparent; border: 1px solid var(--grey); border-radius: .5rem; padding: .6rem .7rem; }
+  textarea { min-height: 8rem; } textarea.json { font-family: var(--mono); font-size: var(--s-1); min-height: 16rem; }
+  button { font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: .06em; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: .7rem 1.2rem; cursor: pointer; justify-self: start; }
+  button[disabled] { opacity: .4; cursor: default; }
+  .qr { display: none; gap: .8rem; justify-items: start; }
+  .qr.on { display: grid; }
+  .qr .code { background: #fff; padding: 10px; border-radius: .4rem; line-height: 0; }
+  .qr .code svg { width: min(260px, 70vw); height: auto; }
+  .qr a { color: var(--ink); font-family: var(--mono); font-size: var(--s-1); }
+  .inv { font-family: var(--mono); font-size: .7rem; color: var(--grey); word-break: break-all; }
+  .st { font-family: var(--mono); font-size: var(--s-1); }
+  pre { font-family: var(--mono); font-size: .72rem; color: var(--grey); white-space: pre-wrap; word-break: break-all; border-left: 2px solid var(--line); padding-left: .7rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="label">proofbridge · test, not linked, not indexed</span>
+  <h1>Payment journey, people and agents</h1>
+  <p class="note">A test of both paid paths from 31 Oct. Each payment goes to Dennis's own node through a connection that can only make invoices. Every step's raw answer is shown under it.</p>
+</header>
+
+<section id="person">
+  <h2>1 · A person</h2>
+  <label class="label" for="p-body">What you have (at least ten words)</label>
+  <textarea id="p-body"></textarea>
+  <label class="label" for="p-email">Your email</label>
+  <input id="p-email" type="email" autocomplete="email">
+  <input id="p-web" type="text" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+  <button id="p-send" type="button">Send</button>
+  <div class="qr" id="p-qr"><div class="code"></div><a class="open" href="#">Open in a wallet</a><p class="inv"></p></div>
+  <p class="st" id="p-st" role="status"></p>
+  <pre id="p-log"></pre>
+</section>
+
+<section id="agent">
+  <h2>2 · An agent</h2>
+  <p class="note">The request an agent would send to the agent intake, filled from the contract's first example. Put your own address in principal.email to receive the copy of the reply.</p>
+  <textarea id="a-json" class="json" spellcheck="false"></textarea>
+  <button id="a-send" type="button">Send as the agent</button>
+  <div class="qr" id="a-qr"><div class="code"></div><a class="open" href="#">Open in a wallet</a><p class="inv"></p></div>
+  <button id="a-again" type="button" disabled>Paid: send the same request again</button>
+  <p class="st" id="a-st" role="status"></p>
+  <pre id="a-log"></pre>
+</section>
+</div>
+<script src="qrcode.js"></script><!-- qrcode-generator 1.4.4 (MIT, Kazuhiko Arase), from npm -->
+<script>
+const BASE = 'https://proofbridge-send.dennis-f79.workers.dev';
+const $ = id => document.getElementById(id);
+const rid = () => { const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 8; i++) s += a[Math.floor(Math.random() * a.length)]; return 'REQ-' + s; };
+const log = (el, label, status, body) => { el.textContent += label + ' → ' + status + '\n' + JSON.stringify(body, null, 1) + '\n\n'; };
+function showQr(box, invoice) {
+  const q = qrcode(0, 'L'); q.addData('LIGHTNING:' + invoice.toUpperCase(), 'Alphanumeric'); q.make();
+  box.querySelector('.code').innerHTML = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+  box.querySelector('.open').href = 'lightning:' + invoice; box.querySelector('.inv').textContent = invoice; box.classList.add('on');
+}
+async function post(path, body, hash) {
+  const h = { 'content-type': 'application/json' }; if (hash) h['x-payment-hash'] = hash;
+  const r = await fetch(BASE + path, { method: 'POST', headers: h, body: JSON.stringify(body) });
+  let j = {}; try { j = await r.json(); } catch {} return [r.status, j];
+}
+
+// 1 · person
+let P = null, timer = null;
+$('p-send').onclick = async () => {
+  const body = $('p-body').value.trim(), email = $('p-email').value.trim();
+  if (body.split(/\s+/).length < 10) { $('p-st').textContent = 'At least ten words.'; return; }
+  P = { request_id: rid(), body, email, website: $('p-web').value };
+  $('p-send').disabled = true; $('p-st').textContent = 'Asking for an invoice…';
+  try {
+    const [s, j] = await post('/person', P); log($('p-log'), 'POST /person', s, j);
+    if (s !== 402 || !j.invoice) { $('p-st').textContent = 'No invoice: ' + (j.error || s); $('p-send').disabled = false; return; }
+    showQr($('p-qr'), j.invoice); $('p-st').textContent = 'Pay ' + j.price_sats + ' sats. Waiting for the payment…';
+    const until = Date.now() + 60 * 60 * 1000;
+    timer = setInterval(async () => {
+      if (Date.now() > until) { clearInterval(timer); $('p-st').textContent = 'Invoice expired. Send again for a new one.'; $('p-send').disabled = false; return; }
+      const [s2, j2] = await post('/person', P, j.payment_hash);
+      if (s2 === 402 && j2.error === 'not_paid_yet') return;
+      clearInterval(timer); log($('p-log'), 'POST /person + X-Payment-Hash', s2, j2);
+      $('p-st').textContent = s2 === 200 ? 'Received. Paid ' + j2.paid.sats + ' sats. The reply comes by email.' : 'Stopped: ' + (j2.error || s2);
+    }, 3000);
+  } catch (e) { $('p-st').textContent = 'No answer from the relay.'; $('p-send').disabled = false; }
+};
+
+// 2 · agent
+const d = new Date(Date.now() + 8 * 864e5).toISOString().slice(0, 10);
+$('a-json').value = JSON.stringify({ request_id: rid(), task_type: 'underlying_problem',
+  question: 'We have funding to help long-term unemployed people work in the care of the elderly. We decided on an app for the elderly. Is the app the right build?',
+  decision_at_stake: 'Spend the funding on the app.',
+  context: 'Payment test of 31 Oct. Some of the people are already placed in care homes. The funding also requires work with elderly still living at home.',
+  principal: { name: 'Payment test', kind: 'person', email: '', agent: 'test-page' }, deadline: d, tier: 0, public_backlog_ok: false }, null, 1);
+let A = null, AH = null;
+$('a-send').onclick = async () => {
+  try { A = JSON.parse($('a-json').value); } catch { $('a-st').textContent = 'Not valid JSON.'; return; }
+  $('a-send').disabled = true; $('a-st').textContent = 'Sending…';
+  try {
+    const [s, j] = await post('/agent', A); log($('a-log'), 'POST /agent', s, j);
+    if (s === 402 && j.invoice) { AH = j.payment_hash; showQr($('a-qr'), j.invoice); $('a-again').disabled = false; $('a-st').textContent = 'Pay ' + j.price_sats + ' sats, then send again.'; }
+    else { $('a-st').textContent = 'Answer ' + s + ': ' + (j.error || ''); $('a-send').disabled = false; }
+  } catch (e) { $('a-st').textContent = 'No answer from the relay.'; $('a-send').disabled = false; }
+};
+$('a-again').onclick = async () => {
+  $('a-again').disabled = true; $('a-st').textContent = 'Sending again with the payment hash…';
+  try {
+    const [s, j] = await post('/agent', A, AH); log($('a-log'), 'POST /agent + X-Payment-Hash', s, j);
+    $('a-st').textContent = s === 202 ? 'Received, paid ' + j.paid.sats + ' sats.' : 'Answer ' + s + ': ' + (j.error || '');
+    if (s === 402) $('a-again').disabled = false;
+  } catch (e) { $('a-st').textContent = 'No answer from the relay.'; $('a-again').disabled = false; }
+};
+</script>
+</body>
+</html>
