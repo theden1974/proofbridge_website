@@ -174,7 +174,7 @@ Title line: the material's name and one line on what the reading is: "Read throu
    - One or two sentences on what these words show together, surface against underneath. No because unless a quote says it; sums from quoted numbers are allowed and shown as the sum.
    - Where it comes back: "the same shape on pages 3, 4 and 7" when it does; nothing when it does not.
    - CONTEXT, guided by the package and written by the seat. Two parts, each one or two sentences:
-     (a) Seen before. The package carries, per container, published field observations (headline and story). Put the one that matches closest beside this block in the reader's terms: what the earlier case was and what it ended in. Only from the package; if the container has no published observation in the package, this part is left out, nothing invented.
+     (a) Seen before. The package carries, per container, published field observations (headline and story). Name the one that matches closest: the field it happened in and what happened there, as the observation tells it, in one or two sentences. Never a paraphrase of the move ("an output that passes its own checks"); always the case. Only from the package; if the container has no published observation in the package, this part is left out, nothing invented.
      (b) What it means here. The consequence for the one who has to live with the material: who decides, who lives with it, what happens in the field if the surface is taken for the underneath. Built from the quotes and the earlier case, in the reader's terms, no advice.
    Keep every block under 170 words with the context, under 120 without.
 
@@ -182,9 +182,15 @@ Title line: the material's name and one line on what the reading is: "Read throu
 
 4. WHAT IS NOT IN THE MATERIAL. One short list of what the reading looked for and did not find (no field contact described, no one named as checking, no date for the correction). Only when the absence carries weight.
 
-5. WHAT THIS DELIVERED. Two or three sentences for the person who asked: the one thing the reading found that is not visible from the summary of the material, said plainly. If nothing, say nothing was found beyond what the material already says.
+5. WHAT THIS DELIVERED. Two or three sentences for the person who asked: the one thing the reading found that is not visible from the summary of the material, said plainly. If nothing, say nothing was found beyond what the material already says. A finding, not an activity: never "three points were set next to quotes".
 
-6. The closing line, verbatim: "What do you take from this, and what do you do with it?"
+6. WHAT THIS READING USED, AND WHAT IT DID NOT KNOW. Always present, in this form:
+   - Used: the package version and hash; the moves that fired, by their everyday heading; the published field observations drawn on, by their headline. Nothing else was used: no knowledge of the subject from outside the material and the package.
+   - Did not know: every place where the lens needed something the material does not give and the seat wrote "not stated" instead of filling it. List them. Where the seat could not tell two moves apart, say so.
+   - Asked: the questions in the blocks are the places where the seat does not know and asks instead of answering. Say so in one line.
+   - The limit, verbatim: "This reading carries the method of the UX lens, not the field knowledge behind it. Where it does not know, it has asked."
+
+7. The closing line, verbatim: "What do you take from this, and what do you do with it?"
 
 ## Words
 - Never: container, firing, slot, formula, pattern engine, bundle, hash, sandbox, record, studio, raw, sovereign, false note, crème, twin.
@@ -193,12 +199,15 @@ Title line: the material's name and one line on what the reading is: "Read throu
 - English unless the material is in another language; quotes stay in the language of the material.
 
 ## Length
-- Essence under 100 words. Each block under 170 with context. Whole readable layer under 1 300 words for a 10 000-word document; shorter for shorter material. Less is more: a block that needs more than that is two blocks or none.
+- Essence under 100 words. Each block under 170 with context. Section 6 under 150 words. Whole readable layer under 1 450 words for a 10 000-word document; shorter for shorter material. Less is more: a block that needs more than that is two blocks or none.
 
 ## What the seat must not do
 - No advice, no recommendations, no rewrite of the material, no rating, no summary of what the material says about itself.
 - No pre-reading of the person's other material. One pass over the whole material with the package.
 - No invention: a reading with a fact not in the material is a broken reading and is not shown.
+
+## The rule under all of it
+When the seat does not know, it asks; it does not fill. A slot the material does not give is "not stated". A twin test that cannot be settled is said to be unsettled. A "because" without a quote is cut. Knowledge from outside the material and the package is not used, and if the seat notices it used some, it says where.
 
 ## Where the context comes from (so the reader can trust it)
 The seat writes the context, but every "seen before" sentence rests on a published field observation the package carries; the seat names the field it came from (healthcare, a water authority, education) and never a client or a person. The "what it means here" sentences rest on the quotes of this material. The seat adds no case of its own and no general knowledge about the subject.
