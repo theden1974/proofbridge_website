@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The lens as a seat · proofbridge</title>
+<title>UX lens for VTC · proofbridge</title>
 <meta name="robots" content="noindex, nofollow">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,15 +24,15 @@
 <body>
 <div class="wrap">
 <header>
-  <span class="label">proofbridge · the lens as a seat · test, not linked, not indexed</span>
-  <h1>Position the lens for producing an app. If not guided, you are creating AI app slob.</h1>
-  <p class="lead">Before the build, the app as planned or as it stands is read through the lens of a UX researcher, and the reading goes into the building.</p>
+  <span class="label">proofbridge · UX lens for VTC · proof of concept, first client · not linked, not indexed</span>
+  <h1>Position the UX lens for producing an app. If not guided, you are creating AI app slob.</h1>
+  <p class="lead">Before the wishlist builds the app, the idea is read through the UX lens in the builder's own chat, and the reading goes into the building.</p>
 </header>
 
 <section>
   <h2>What this is</h2>
-  <p>A seat your own AI takes in its own chat. It loads a package: the structural moves Dennis Jansen reads with, each with its formula, its twin tests and anchor sentences in his own words. Your AI reads your material with it, in one pass, and shows you a readable reading. The judgment stays with Dennis: the reading goes back to him, and his answer comes by email.</p>
-  <p class="grey">The package holds no raw material, no transcripts and no names of other persons. No model runs on this side; no material is read on this side.</p>
+  <p>A seat your own AI takes in its own chat, beside the Space MCP you already connect to Cursor or Claude. It loads the UX lens: a set of structural moves, each with its formula, its twin tests, anchor sentences and published field observations. Your AI reads the app idea with it, in one pass, and shows you a readable reading before the wishlist builds the app. Minutes, not days.</p>
+  <p class="grey">The package holds no raw material, no transcripts and no names of persons. No model runs on this side; no material is read on this side.</p>
 </section>
 
 <section>
@@ -43,20 +43,20 @@
 
 <section>
   <h2>What comes back</h2>
-  <p>A readable reading in this order: the essence of the material when its confirming language is taken away, and for whom the problem underneath is a daily fact. Then what is seen, point by point: the exact words from the material, what they show together, an earlier case of Dennis's beside it from his published observations where one fits, what it means for the one who lives with it, and one question asked the way a UX researcher asks in the field. Then what is not in the material. Then what this delivered beyond the summary. Then: what do you take from this, and what do you do with it?</p>
-  <p>From Dennis, after the reading is returned: which of it is his, which is not, what is missing. By email, within 7 days in the test phase.</p>
+  <p>A readable reading in this order: the essence of the idea when its confirming language is taken away, and for whom the problem underneath is a daily fact. Then what is seen, point by point: the exact words from the material, what they show together, an earlier field case beside it where one fits, what it means for the one who lives with it, and one question asked the way a UX researcher asks in the field. Then what is not in the material. Then what this delivered beyond the summary. Then: what do you take from this, and what do you do with it?</p>
+  <p>The reference reading goes back through the door. Returns grow the next package version; every reading states the version it was made with.</p>
 </section>
 
 <section>
   <h2>What does not come back</h2>
-  <p>No instant answer from Dennis. No design, no code, no rewrite of your material. No rating. No advice. No legal, medical or financial sign-off. Links are not opened; attachments are not read. The reading is not resold and not used to train. Level 0: the frame goes to your seat, the judgment stays with Dennis.</p>
+  <p>No design, no code, no rewrite of your material. No rating. No advice. No legal, medical or financial sign-off. Links are not opened; attachments are not read. Returned readings are not resold and not used to train. The package is version 0, proof of concept.</p>
 </section>
 
 <section>
   <h2>How to connect</h2>
   <p>Endpoint: <code>https://proofbridge-send.dennis-f79.workers.dev/mcp</code> (MCP over Streamable HTTP, JSON-RPC, no sign-in).</p>
   <p>Claude: Settings, Connectors, add custom connector, paste the endpoint. ChatGPT: developer mode, add an MCP server with the endpoint. Grok through the xAI API: an <code>mcp</code> tool with <code>server_url</code> set to the endpoint.</p>
-  <p>Tools: <code>lens_about</code> (free: purpose, what to bring, what comes back), <code>lens_frame</code> (the package with its version and content hash; served once cleared), <code>lens_return</code> (the reference reading back to Dennis, with the package hash, the material's title, the seat's name and your email).</p>
+  <p>Tools: <code>lens_about</code> (free: purpose, what to bring, what comes back), <code>lens_frame</code> (the package with its version and content hash; served once cleared), <code>lens_return</code> (the reference reading back, with the package hash, the material's title, the seat's name and your email).</p>
   <pre>{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"lens_about","arguments":{}}}</pre>
 </section>
 

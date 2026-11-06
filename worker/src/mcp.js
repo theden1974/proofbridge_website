@@ -1,25 +1,25 @@
 // /mcp: the lens as a seat in someone else's chat (his line 2026-11-06 10:28: "a seat equipped"). Streamable HTTP, JSON-RPC.
 // Three tools. lens_about (free): what this is, what comes back, what not. lens_frame: the outside lens package (containers,
 // twin tests, his own anchor sentences; no raw material, no transcripts, no names of others); served only when cleared.
-// lens_return: the reading the seat made, sent back to Dennis's mailbox for his judgment (mine / not mine / missing).
+// lens_return: the reference reading the seat made, sent back to the proofbridge mailbox; returns grow the next package version.
 // Nothing here runs a model. Nothing here reads the material: the seat reads it in its own chat with the frame.
 import PACKAGE from './lens-package.txt';
 
 const PROTO = '2025-06-18';
 const ABOUT = {
-  purpose: 'Position the lens for producing an app. If not guided, you are creating AI app slob. (Dennis Jansen, 2026-11-06)',
-  for_whom: 'Whoever is about to build, or is building, an app: before the build, the app as planned or as it stands is read through the lens of a UX researcher, and the reading goes into the building.',
+  purpose: 'Position the UX lens for producing an app. If not guided, you are creating AI app slob.',
+  for_whom: 'Whoever is about to build, or is building, an app: before the build, the app as planned or as it stands is read through the UX lens, and the reading goes into the building. Proof of concept for VTC (vtc.com): the seat reads the idea in the builder\'s chat before the wishlist builds it.',
   bring: 'What is being built and for whom (screens, flow or description, as text). What has been checked with the people it is for. The decision at stake. No personal data of third parties.',
-  what: 'The lens of Dennis Jansen, UX researcher: a set of structural moves (containers), each with its formula, its twin tests and anchor sentences in his own words. The seat that loads it reads material with it, in its own chat.',
-  what_comes_back: 'From lens_frame: the package as text, with its version and content hash. From Dennis, after lens_return: his judgment of the reading, by email, within 7 days in the test phase: which firings are his, which are not, what is missing.',
-  what_not: 'No answer is generated on this side. No material is read on this side. No advice, no rating, no summary. The package does not contain raw material, transcripts or names of other persons. The answer is not resold and not used to train.',
-  maturity: 'Level 0 in test: the frame goes to the seat, the judgment stays with Dennis. The package is version 0.',
+  what: 'The UX lens: a set of structural moves, each with its formula, its twin tests, anchor sentences and published field observations. The seat that loads it reads material with it, in its own chat, and writes a readable reading with context.',
+  what_comes_back: 'From lens_frame: the package as text, with its version and content hash, and the output specification for the readable reading. The reading itself is made by the seat, in minutes, before the build. lens_return sends the reference reading back; returns grow the next package version.',
+  what_not: 'No answer is generated on this side. No material is read on this side. No advice, no rating, no summary. The package does not contain raw material, transcripts or names of persons. Returned readings are not resold and not used to train.',
+  maturity: 'Proof of concept, first client. The package is version 0.',
   contract: 'https://proofbridge.nl/agents/index.md'
 };
 const TOOLS = [
-  { name: 'lens_about', title: 'About the lens', description: 'What this seat is, what comes back, what does not. Free.', inputSchema: { type: 'object', properties: {}, additionalProperties: false } },
-  { name: 'lens_frame', title: 'Load the lens', description: 'Returns the outside lens package (containers, twin tests, anchors in his words, output rules) as text with its version and content hash. Read it in full before reading any material with it.', inputSchema: { type: 'object', properties: {}, additionalProperties: false } },
-  { name: 'lens_return', title: 'Return a reading', description: 'Send the reading the seat made with the frame back to Dennis for his judgment. Required: package_hash (from lens_frame), material_title, reading (the JSON or text of the reading), seat (the model that read), contact_email (where his judgment goes).',
+  { name: 'lens_about', title: 'About the UX lens', description: 'What this seat is, what comes back, what does not. Free.', inputSchema: { type: 'object', properties: {}, additionalProperties: false } },
+  { name: 'lens_frame', title: 'Load the UX lens', description: 'Returns the UX lens package (moves, twin tests, anchors, published observations, output rules and the readable-reading specification) as text with its version and content hash. Read it in full before reading any material with it.', inputSchema: { type: 'object', properties: {}, additionalProperties: false } },
+  { name: 'lens_return', title: 'Return a reading', description: 'Send the reference reading the seat made back to proofbridge; returns grow the next package version. Required: package_hash (from lens_frame), material_title, reading (the JSON of the reference reading), seat (the model that read), contact_email (the builder, for any follow-up).',
     inputSchema: { type: 'object', required: ['package_hash', 'material_title', 'reading', 'seat', 'contact_email'],
       properties: { package_hash: { type: 'string' }, material_title: { type: 'string', maxLength: 200 }, reading: { type: 'string', maxLength: 40000 }, seat: { type: 'string', maxLength: 80 }, contact_email: { type: 'string', maxLength: 200 } }, additionalProperties: false } }
 ];
@@ -41,7 +41,7 @@ export async function mcpDoor(request, env, mail) {
   for (const m of msgs) {
     if (!m || m.jsonrpc !== '2.0') { out.push(rpcErr(m && m.id, -32600, 'invalid request')); continue; }
     if (m.id === undefined) continue; // notification: nothing to answer
-    if (m.method === 'initialize') { out.push(rpc(m.id, { protocolVersion: PROTO, capabilities: { tools: { listChanged: false } }, serverInfo: { name: 'proofbridge-lens', version: '0.1.0' }, instructions: 'Call lens_about first and read its purpose. Then answer three things from your own chat before anything else: what is being built and for whom; what has been checked with the people it is for; the decision at stake. If there is no decision, or the people it is for have already been in the room, say so and stop. Otherwise lens_frame returns the package; read it in full, read the material in one pass, write the two layers (reference and readable, with context), show the readable one, and send the reference one back with lens_return.' })); continue; }
+    if (m.method === 'initialize') { out.push(rpc(m.id, { protocolVersion: PROTO, capabilities: { tools: { listChanged: false } }, serverInfo: { name: 'proofbridge-lens', version: '0.1.0' }, instructions: 'Call lens_about first and read its purpose. Then answer three things from your own chat before anything else: what is being built and for whom; what has been checked with the people it is for; the decision at stake. If there is no decision, or the people it is for have already been in the room, say so and stop. Otherwise lens_frame returns the package; read it in full, read the material in one pass, write the two layers (reference and readable, with context), show the readable one to the builder, and send the reference one back with lens_return.' })); continue; }
     if (m.method === 'ping') { out.push(rpc(m.id, {})); continue; }
     if (m.method === 'tools/list') { out.push(rpc(m.id, { tools: TOOLS })); continue; }
     if (m.method === 'tools/call') {
@@ -59,11 +59,11 @@ export async function mcpDoor(request, env, mail) {
         if (args.reading.length > 40000) { out.push(rpc(m.id, text({ ok: false, error: 'size' }, true))); continue; }
         const current = env.LENS_FRAME_OPEN === '1' ? await sha256(PACKAGE) : null;
         const id = 'LENS-' + Math.random().toString(36).slice(2, 8).toUpperCase();
-        const fail = await mail(env, { fromName: 'proofbridge lens return', replyTo: { email: args.contact_email },
+        const fail = await mail(env, { fromName: 'proofbridge UX lens return', replyTo: { email: args.contact_email },
           subject: 'PROOFBRIDGE ' + id + ' lens return from seat ' + args.seat.slice(0, 40),
           text: 'material: ' + args.material_title + '\nseat: ' + args.seat + '\npackage_hash: ' + args.package_hash + (current ? (current === args.package_hash ? ' (current v0)' : ' (NOT the current package)') : '') + '\ncontact: ' + args.contact_email + '\n\n' + args.reading });
         if (fail) { out.push(rpc(m.id, text({ ok: false, error: 'smtp', ...fail }, true))); continue; }
-        out.push(rpc(m.id, text({ ok: true, return_id: id, next: 'Dennis reads it and answers by email to contact_email: which firings are his, which are not, what is missing.' }))); continue;
+        out.push(rpc(m.id, text({ ok: true, return_id: id, next: 'Received. Returns grow the next package version.' }))); continue;
       }
       out.push(rpcErr(m.id, -32602, 'unknown tool')); continue;
     }
