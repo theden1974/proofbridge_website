@@ -13,7 +13,8 @@ MAIL_TO = "ask@proofbridge.nl"
 SMTP_HOST = "mail.privateemail.com"
 SMTP_PORT = "465"
 AGENT_PRICE_SATS = "100"   # his line 2026-10-29: agents pay 100 sats per request; 0 switches the rail off
-PERSON_PRICE_SATS = "100"  # test of the paid journey for people via /ask/pay/ (his remark 2026-10-31 16:51); 0 closes /person
+PERSON_PRICE_SATS = "100"
+LENS_FRAME_OPEN = "0"     # 1 serves the outside lens package from /mcp lens_frame; 0 until Dennis clears the package (2026-11-06)
 
 # Agent door (/agent): at most 2 requests per minute per address. The binding is created on deploy.
 [[ratelimits]]
@@ -23,3 +24,8 @@ simple = { limit = 2, period = 60 }
 
 [observability]
 enabled = false
+
+[[rules]]
+type = "Text"
+globs = ["**/*.txt"]
+fallthrough = true
