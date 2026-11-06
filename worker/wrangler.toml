@@ -14,7 +14,7 @@ SMTP_HOST = "mail.privateemail.com"
 SMTP_PORT = "465"
 AGENT_PRICE_SATS = "100"   # his line 2026-10-29: agents pay 100 sats per request; 0 switches the rail off
 PERSON_PRICE_SATS = "100"
-LENS_FRAME_OPEN = "0"     # 1 serves the outside lens package from /mcp lens_frame; 0 until Dennis clears the package (2026-11-06)
+LENS_FRAME_OPEN = "1"     # UX lens package v0 served: his word "release", 2026-11-06 15:52
 
 # Agent door (/agent): at most 2 requests per minute per address. The binding is created on deploy.
 [[ratelimits]]

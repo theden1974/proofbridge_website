@@ -1,1 +1,207 @@
-NOT CLEARED. The outside lens package is placed here by the build step after Dennis clears it. Until then lens_frame answers not_cleared.
+# proofbridge UX lens, outside package v0 (content sha256 949e1bebe8209bf9)
+
+The UX lens: each move a structural pattern, its twin tests, anchor sentences and published field observations. No raw material, no transcripts, no names of persons.
+
+Interpret at your own risk: interpretation is the responsibility of the one creating the network or app. A name appears only where it has purpose in the lens, never as trust or proof.
+
+## Output rules
+- Read the whole material first. Then, per firing: the container name, the exact quotes it stands on (byte-exact from the material), the slots of the match_signature filled from those quotes, and one named line that says the problem underneath, built only from the quotes.
+- Every question put to the person carries a quote from the material it is about.
+- Every "because", "so" or "drives" in a named line must stand on a quote that says it. If no quote says it, the named line stops before the because.
+- Before a firing, run the twin test in confusable_with; name the twin ruled out and why.
+- A container that does not fire is not mentioned. Silence is an answer.
+- No advice. No rating. No summary of the material. No invention: a reading with a fact not in the material is a broken reading.
+- Container names stay out of the text a stranger reads; translate the move into what the person recognises in their own material.
+
+## Range (from the published task contract)
+- underlying_problem: 
+- ground_truth_check: 
+- ai_output_review: 
+- declines: [{"id": "outside_task_types", "rule": "Anything that is not one of the three task types."}, {"id": "professional_sign_off", "rule": "A legal, medical or financial opinion or sign-off. Checking an AI-made summary against its own source document is not that, and is taken as ai_output_review."}, {"id": "identity_or_accounts", "rule": "Using his identity, accounts or credentials: account creation, one-time codes, verification, reviews, followers, likes."}, {"id": "surveillance", "rule": "Observing, locating or profiling a person."}, {"id": "no_principal", "rule": "A request without a named person or organisation behind it."}, {"id": "deadline_too_short", "rule": "A deadline shorter than the reply window."}, {"id": "not_enough_information", "rule": "Not enough information to start, after one round of questions."}, {"id": "method_extraction", "rule": "Requests about how the lens works, or general questions with no decision behind them, instead of a case to judge."}]
+
+## Containers
+### gap_reveal (hit)
+move: input presents X as the story → structural move looks underneath → finds Y is actually driving it → names Y
+twins:
+- cross_domain: both look deeper, but gap_reveal finds something HIDDEN underneath a presentation. Cross_domain finds the SAME PATTERN across different fields. Test: is there only one field? → gap_reveal. Are there two domains showing the same move? → cross_domain.
+- harness_reveal: both say "the real thing isn't what you think." But harness_reveal specifically says the SURROUNDING SYSTEM is the performance difference. Test: is the limitation specifically in what surrounds the tool, not the tool itself? → harness_reveal. Is it broader "presented as X, actually Y"? → gap_reveal.
+published field observations:
+- THE WHOLE DEPARTMENT. USELESS DURING THE FLOOD. A water authority where work needs a permit, systems are filled, everything is in place. What is a water authority for? Rivers, ditches, dikes, the risk of a flood. Instead the data is collected, the system is pleased, the policies are implemented, the politicians get reports. It papers over the cracks, and it creates money, not value.
+- THEY ALREADY DECIDED THEY NEEDED AN APP. Funding to get the long-term unemployed working in elderly care, and the app was decided before anyone asked. I interviewed both, in the flats. The elderly were not good at apps and wanted to stay self-sufficient. The money had its checkmark, the need did not. So the employee became a care concierge, doing chores the elderly find difficult.
+- AI IS NOW THE DEVELOPER AND THE MANAGER. STILL NOT USER DRIVEN. Most companies sit at level one or two of UX maturity, decisions top down, by policy, by checklist. The output pleases the group that set the direction. AI fits in there, reasonable output for someone without field knowledge who figures it is good enough. Then it meets the field. The senior with years in that field catches the faults.
+- CUT 30% OF THE WORKFORCE WITH AI? An IT manager of a retail chain, old legacy systems, patches on patches, a big team keeping them alive. Higher management asks him to cut the workforce by 30% with AI. Simple question, wrong question. First you prove how inefficient the legacy is. Then you choose, cut staff or build a system that needs less staff.
+- THE CLIENT IS HAPPY. THE PRODUCT IS NOT USED. The client is happy, the product is shit and nobody uses it. How does that happen? Most companies run on a money model, and a product with money or power as its driver is good at one thing. It creates money. Value is what a product brings to the world, and follow the money finds urgency, not prosperity.
+- PROCUREMENT BUYS THE SOLUTION THAT SOUNDS REASONABLE ENOUGH. A public tender, procurement leads, and the project description is written by policy. The supplier sells a solution that sounds reasonable enough to buy. The underlying problem is too hard to grasp, so nobody touches it. The conditions of the solution are met, the output looks reasonable, the checkmarks are ticked. The agency sends an invoice, done.
+
+### cross_domain (hit)
+move: pattern recognized in domain A → same structural shape found in domain B → the PATTERN is the insight, the domains are just instances
+twins:
+- gap_reveal: both involve looking deeper. Test: are there TWO distinct domains showing the SAME structural move? → cross_domain. Is there only one domain with something hidden underneath? → gap_reveal. If you can only name one field, it's not cross_domain.
+
+### expert_filter (hit)
+move: output exists → domain expert applies their lens → output holds, breaks, or looks right but isn't
+twins:
+- audit_through_use: both involve evaluation. Test: is it a ONE-TIME catch where an expert sees what a non-expert misses? → expert_filter. Is it a PATTERN ACROSS TIME where understanding is demonstrated through repeated application? → audit_through_use. Expert_filter is a snapshot. Audit_through_use is a film.
+published field observations:
+- DO YOU TRUST AI AS MUCH AS YOUR LAWYER? An architect lets AI summarise a 60-page legal document, then checks it against the paragraphs it points at. They are off. He is not a lawyer, he was curious, and a flaw this obvious gets caught. A smaller flaw looks good enough. Good enough never stands before court.
+- SOMETHING GOES WRONG. AI CONFIRMS IT WAS EXACTLY THE INTENTION. Something goes wrong and AI says how nice that this was recognised, this was exactly the intention. It answers every question and never questions the question. It never says a mistake was made, or that the information is not complete. The question is not whether AI can generate something. Can it create value for the question asked?
+- AI DOESN'T ASK WHAT IT IS MISSING. Ask AI anything, any way you like, and it generates. It never asks what it is missing, because it does not know what it does not know. Tell it what was missing and you get an apology, and the hole stays. Who can judge the output on its value? Someone who knows the why, and that annoys me a lot.
+- FRESH FROM SCHOOL IS NOT EXPERIENCE. A wooden house builder with years of hands-on work talks about his subject, and you trust him to build your house. Fresh from school is theory, one sided, from the book, with teacher sauce. A time capsule, printed once, never improved. Study books are everywhere, knowledge from doing is scarce. Validated, proof of fact, tied to the real world.
+
+### harness_reveal (hit)
+move: tool or model compared → look at what SURROUNDS it → the harness (not the intelligence) is the performance multiplier
+twins:
+- gap_reveal: both say "the real thing isn't what you think." Test: is the limitation specifically in the SURROUNDING SYSTEM (harness, infrastructure, workflow) — not the tool itself? → harness_reveal. Is it broader "presented as X, actually Y" where the hidden thing could be anything? → gap_reveal. Harness_reveal is a specific subset of the gap_reveal move applied to tools and systems.
+- platform_capture_pattern: both involve the surrounding system. Test: is the surrounding system the value/safety multiplier (harness_reveal)? Or is the incumbent re-capturing via a "safe wrapper" to preserve rent (platform_capture_pattern)? Rent-preservation motive is the discriminator.
+
+### audit_through_use (hit)
+move: agent demonstrates understanding by applying it → the expert feels right or wrong → correction sharpens the agent → cycle repeats
+twins:
+- expert_filter: both involve evaluation. Test: is an expert catching a one-time failure? → expert_filter. Is understanding being DEMONSTRATED through repeated application over time, where corrections compound? → audit_through_use. Expert_filter catches. Audit_through_use calibrates.
+published field observations:
+- A DATA ERROR LIVED FOR A HUNDRED YEARS. THE STORY ABOUT IT IS ALSO WRONG. Spinach was thought to have ten times more iron than it has, a data error that lived a hundred years. I told that story on stage, and the story is also wrong. There was no decimal point error, it was repeated for fifty years because it sounded reasonable. Nothing can be taken for granted. That is how AI works.
+
+### rejection_as_constraint (hit)
+move: a sound-looking option/action/framing is weighed → rejected NOT because the reasoning is wrong but because its consequence is empty or it escapes the real problem → the rejection ENCODES a forward constraint (names what must hold, or what is ruled out, going forward)
+twins:
+- gap_reveal: both look critically at a presentation. Test: is the move REVEALING something hidden underneath (presented-X → underneath-Y) → gap_reveal? Or is it REJECTING a visible, sound-looking option for empty/escaping consequence and naming the constraint that follows → rejection_as_constraint? Gap_reveal discovers; rejection_as_constraint decides-and-constrains. They co-fire (Session 10 refinement).
+- audit_through_use: both judge the value of an action. Test: is it understanding demonstrated through REPEATED application over time, corrections compounding → audit_through_use (a film)? Or a SINGLE keep/reject decision that rules something out going forward → rejection_as_constraint (a decision-point)?
+
+### sovereignty_claim (hit)
+move: black box or external dependency identified → rejected → sovereign alternative stated or built
+published field observations:
+- NOT YOUR KEYS, NOT YOUR REASONING, NOT YOUR KNOWLEDGE. Every AI model wants you locked in, and the old system and the new AI environment are not that different. So my setup runs on my own hardware, own keys. Raw first, the story in its purest form, with all its nuances. Never trust, verify, not the system and not my own judgement either. Value has to stand on itself.
+
+### instrument_naming (hit)
+move: input triggers recognition → the expert names WHICH experience or expertise activated → the naming itself is the metadata
+twins:
+- cross_domain: instrument_naming often co-fires with cross_domain. Test: is the expert naming the DOMAINS that share a pattern? → cross_domain. Is the expert naming the EXPERIENCE or SKILL that activated inside him? → instrument_naming. Cross_domain is about the external pattern. Instrument_naming is about the internal recognition.
+
+### dormant_expert (hit)
+move: expertise or capability exists in a system → never activated toward outcomes → system doesn't know what it has
+twins:
+- gap_reveal: both involve something not being what it seems. Test: is the issue that capability EXISTS but isn't ACTIVATED? → dormant_expert. Is the issue that something is PRESENTED as X but is actually Y? → gap_reveal. Dormant_expert is about unused potential. Gap_reveal is about hidden reality.
+published field observations:
+- THE TEACHER LET AI BUILD THE EXAM. EVERY STUDENT FAILED. A teacher lets AI write the lessons and then the exam. Every student fails, and AI can't mark the exam. What is a teacher for? Teaching a child the material, building knowledge the child carries for life, from the heart, authentic. The expert was in the room the whole time, unused.
+- THE ROUGH DIAMONDS ARE ALREADY IN THE ORGANISATION. In a water authority a few people spoke my language, curious, open minded, independent. Every big organisation has them, a retailer, an insurer, the water authorities. The hierarchy and the people management work against them, so they can make the difference and lack the tools. Give the rough diamonds the tools. Within their own expertise they teach their fellow experts.
+
+### correction_without_reach (hit)
+move: correction exists but never propagates. The error persists because the correction lacks cultural reach, threatens a business model, or costs more to spread than to ignore.
+twins:
+- gap_reveal: both involve something hidden. Test: is the hidden thing NOT YET FOUND? → gap_reveal. Is the correction ALREADY FOUND but failing to travel? → correction_without_reach. Gap_reveal discovers. Correction_without_reach is about propagation failure after discovery.
+published field observations:
+- THE CAUSE OF ULCERS WAS PROVEN IN 1984. PHARMA KEPT SELLING ANTACIDS. In 1984 the cause of ulcers is proven, the cure is antibiotics, and pharma keeps selling antacids. Expertise has borders. Inside the border A plus B is C and you never look back, outside it years of antacids pile up. A business built on symptoms does not look for the cause. Are all ulcers bacterial, or a segment of them?
+
+### proof_of_fact (hit)
+move: claim gets made → claim gets structured so it's verifiable at a glance → verification built into the output form, not required as a separate step → audience can check truth without specialist knowledge
+twins:
+- gap_reveal: gap_reveal finds what's hidden underneath presentation. proof_of_fact is about making truth transparent in output form. Test: is the structural move discovery (gap_reveal) or output-design for verifiability (proof_of_fact)?
+- expert_filter: expert_filter catches errors through domain expertise. proof_of_fact prevents errors by making claims structurally auditable by non-experts. Test: does the catch require expertise (expert_filter) or can a layperson verify because the structure makes it visible (proof_of_fact)?
+- interpretive_boundary: both are about output honesty. interpretive_boundary labels judgment vs fact. proof_of_fact structures the fact so it's verifiable. They compose — interpretive_boundary tells you which parts to trust as fact, proof_of_fact makes those parts checkable.
+- unflagged_editorial: the. proof_of_fact (inverted) is the closer match when the expert frames it as a *proof-of-fact* substitute. Co-fire allowed.
+published field observations:
+- HOW DO YOU KNOW IF YOUR AI MODELS ARE BASED ON THE RIGHT DATA? A spreadsheet of dietitian formulas had to become simpler app screens, and the screens were well received. Then one question. What does the data underneath represent? The patient, weighed by the doctor, the nurse, at home, in different files, in notes that vary in consistency or availability. Put the patient at the centre and data integrity is the open question.
+- 2.5X FASTER CPU. NORMAL PEOPLE WON'T SEE IT. A new laptop, 2.5x faster CPU, and normal people won't see it in their use. The feature is there for the company selling the hardware. Apple said a laptop screen should not be touched, then put touch on the MacBook Pro anyway. One question for any feature, and for anything AI generates. Will it be missed when it is gone?
+- AI CAN'T TELL TIME FROM A CLOCK WITHOUT NUMBERS. Show AI a clock without numbers and it can't tell the time. It learned from thousands of clock pictures, most showing the same time because that looks best. Eighty percent one view, the other twenty never taken along. Theory written by people for people, read by a machine from one side. We need curiosity back, from AI and from us.
+
+### platform_capture_pattern (hit)
+move: incumbent identifies a disruption that threatens its rent → packages a "safe wrapper" around the disrupting capability ("we isolate the data", "safe environment from a place you already know") → continues extracting rent under a new agentic re-framing → captured layer is re-captured
+twins:
+- harness_reveal: both involve the surrounding system. Test: is the surrounding system the un-replicable value/safety multiplier (harness_reveal)? Or is the incumbent re-capturing via a safe-wrapper to preserve rent (platform_capture_pattern)? Rent-preservation motive is the discriminator.
+- sovereignty_claim: platform_capture_pattern often appears as the THING sovereignty_claim is the answer to. They are dual: the capture sets the conditions; the claim is the build. Test: is the input the incumbent's capture move? → platform_capture_pattern. Is it the response that builds the sovereign alternative? → sovereignty_claim. They commonly co-fire.
+
+### field_propagation (songwriter_draft)
+move: 
+
+### venue_determines_value (hit)
+move: 
+twins:
+- harness_reveal: both involve surrounding context. Test: does the PERFORMANCE need to change (different harness)? → harness_reveal. Is the performance ALREADY RIGHT and only the context of reception changes? → venue_determines_value.
+published field observations:
+- BEST IN THE WORLD. $52 IN 43 MINUTES. Joshua Bell plays a metro station, same talent, same Stradivarius that sells out concert halls at 100 dollars a ticket. He earns 52 dollars in 43 minutes. That says something about the public, not the talent. Your expertise works the same way, the department, the company, the colleague decides its worth. With AI, value will stand on its own.
+
+### interpretive_boundary (hit)
+move: system output involves judgment → output labeled as judgment (interpret-first) vs factual operation (act-on) → boundary made visible in the output, not implicit in architect's head
+twins:
+- gap_reveal: both reveal something hidden. Test: is the hidden thing FACTS underneath presentation (gap_reveal) or JUDGMENT SILENTLY MADE by the system (interpretive_boundary)? Gap_reveal is about what's underneath. Interpretive_boundary is about labeling the judgment function itself.
+- expert_filter: both involve judgment quality. Test: is an expert catching poor quality output (expert_filter)? Or is the architectural requirement that the system flag its own outputs as judgment vs fact (interpretive_boundary)?
+
+### unflagged_editorial (hit)
+move: system performs editorial function (select, rank, suppress, reconstruct, describe) while presenting as routing/retrieval/surface operation. The editorial choice is invisible to the consumer.
+twins:
+- interpretive_boundary: unflagged_editorial is a FAILURE MODE where the boundary was collapsed. Test: is the input calling for the boundary to be drawn (interpretive_boundary) or is there an instance where boundary WAS collapsed (unflagged_editorial)? First is prescriptive, second is diagnostic.
+- harness_reveal: harness_reveal is about what surrounds the tool; unflagged_editorial is about the judgment function specifically.
+
+### recognition_without_construct (candidate)
+move: 
+twins:
+- gap_reveal: gap_reveal is about seeing. Recognition_without_construct is about seeing without building.
+- dormant_expert: recognition_without_construct is seeing without building. Dormant_expert is having without seeing.
+
+### calcification_by_correctness (jazz_riff)
+move: 
+
+### atrophy_by_outsourcing (songwriter_draft)
+move: 
+
+### intent_as_sovereignty (jazz_riff)
+move: 
+
+### anchor_thesis_as_hub (unknown)
+move: 
+twins:
+- cross_domain: cross_domain is intra-capture (the expert stacking domains in one moment). Anchor_thesis_as_hub is inter-capture (the brain referencing back to an existing capture over time).
+- field_propagation: field_propagation is shape spreading through fields without direct transmission. Anchor_thesis_as_hub is registration via explicit connection-citation.
+
+
+# Output specification for a seat
+
+# Output specification for a seat: from the UX lens to a readable reading (v0.1)
+# Part of the UX lens package. The seat follows it after reading the material with the package.
+
+## Two layers, always both
+1. REFERENCE LAYER (for the record, not for reading): the JSON reading as the package's output rules describe it: per firing the container name, the exact quotes with page, the slots, the named line, the twin ruled out, one question. This layer goes back through lens_return. It need not be readable.
+2. READABLE LAYER (for the person): plain text, written for a listener who has never heard the lens's terms. This is what the bot shows in its chat. Build it only from the reference layer; add no fact that is not in a quote.
+
+## The readable layer, in this order
+Title line: the material's name and one line on what the reading is: "Read through the UX lens. Package <version>."
+
+1. THE ESSENCE. Three to five sentences: what this material says when the confirming language is taken away, what underlying problem it defines, and for whom that problem is a daily fact (the one who has to live with it). Built from the quotes. No container names, no studio words.
+
+2. WHAT IS SEEN, one block per firing, strongest first (most quotes, most pages). Each block:
+   - A heading in everyday words that names the move in the material (not the container): e.g. "A date that comes before the step it depends on", "A status word that contradicts the sentence above it".
+   - The exact words from the material, two or three short quotes with their page, each on its own line.
+   - One or two sentences on what these words show together, surface against underneath. No because unless a quote says it; sums from quoted numbers are allowed and shown as the sum.
+   - Where it comes back: "the same shape on pages 3, 4 and 7" when it does; nothing when it does not.
+   - CONTEXT, guided by the package and written by the seat. Two parts, each one or two sentences:
+     (a) Seen before. The package carries, per container, published field observations (headline and story). Put the one that matches closest beside this block in the reader's terms: what the earlier case was and what it ended in. Only from the package; if the container has no published observation in the package, this part is left out, nothing invented.
+     (b) What it means here. The consequence for the one who has to live with the material: who decides, who lives with it, what happens in the field if the surface is taken for the underneath. Built from the quotes and the earlier case, in the reader's terms, no advice.
+   Keep every block under 170 words with the context, under 120 without.
+
+3. ONE QUESTION PER BLOCK, at the end of the block, carrying a quote, asked the way a UX researcher asks in the field: about who lives with it, who decided, what was checked, what the number counts. Never "what do you want".
+
+4. WHAT IS NOT IN THE MATERIAL. One short list of what the reading looked for and did not find (no field contact described, no one named as checking, no date for the correction). Only when the absence carries weight.
+
+5. WHAT THIS DELIVERED. Two or three sentences for the person who asked: the one thing the reading found that is not visible from the summary of the material, said plainly. If nothing, say nothing was found beyond what the material already says.
+
+6. The closing line, verbatim: "What do you take from this, and what do you do with it?"
+
+## Words
+- Never: container, firing, slot, formula, pattern engine, bundle, hash, sandbox, record, studio, raw, sovereign, false note, crème, twin.
+- Never judging words: useful, right, holds, settles, confirmed, valid, key, important, powerful, clearly, interesting.
+- No em dashes. No bullet lists inside a block; sentences. Quotes byte-exact from the material.
+- English unless the material is in another language; quotes stay in the language of the material.
+
+## Length
+- Essence under 100 words. Each block under 170 with context. Whole readable layer under 1 300 words for a 10 000-word document; shorter for shorter material. Less is more: a block that needs more than that is two blocks or none.
+
+## What the seat must not do
+- No advice, no recommendations, no rewrite of the material, no rating, no summary of what the material says about itself.
+- No pre-reading of the person's other material. One pass over the whole material with the package.
+- No invention: a reading with a fact not in the material is a broken reading and is not shown.
+
+## Where the context comes from (so the reader can trust it)
+The seat writes the context, but every "seen before" sentence rests on a published field observation the package carries; the seat names the field it came from (healthcare, a water authority, education) and never a client or a person. The "what it means here" sentences rest on the quotes of this material. The seat adds no case of its own and no general knowledge about the subject.
+
+## Labelling
+The readable layer ends with one line: "Reading by <seat name> with UX lens package <version>." No person is named in the readable layer.
