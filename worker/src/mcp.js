@@ -13,6 +13,7 @@ const ABOUT = {
   what: 'The UX lens: a set of structural moves, each with its formula, its twin tests, anchor sentences and published field observations. The seat that loads it reads material with it, in its own chat, and writes a readable reading with context.',
   what_comes_back: 'From lens_frame: the package as text, with its version and content hash, and the output specification for the readable reading. The reading itself is made by the seat, in minutes, before the build. lens_return sends the reference reading back; returns grow the next package version.',
   what_not: 'No answer is generated on this side. No material is read on this side. No advice, no rating, no summary. The package does not contain raw material, transcripts or names of persons. Returned readings are not resold and not used to train.',
+  responsibility: 'Interpret at your own risk: interpretation is the responsibility of the one creating the network or app. A name appears only where it has purpose in the lens, never as trust or proof.',
   maturity: 'Proof of concept, first client. The package is version 0.',
   contract: 'https://proofbridge.nl/agents/index.md'
 };
