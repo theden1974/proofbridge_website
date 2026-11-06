@@ -7,11 +7,13 @@ import PACKAGE from './lens-package.txt';
 
 const PROTO = '2025-06-18';
 const ABOUT = {
+  purpose: 'Position the lens for producing an app. If not guided, you are creating AI app slob. (Dennis Jansen, 2026-11-06)',
+  for_whom: 'Whoever is about to build, or is building, an app: before the build, the app as planned or as it stands is read through the lens of a UX researcher, and the reading goes into the building.',
+  bring: 'What is being built and for whom (screens, flow or description, as text). What has been checked with the people it is for. The decision at stake. No personal data of third parties.',
   what: 'The lens of Dennis Jansen, UX researcher: a set of structural moves (containers), each with its formula, its twin tests and anchor sentences in his own words. The seat that loads it reads material with it, in its own chat.',
   what_comes_back: 'From lens_frame: the package as text, with its version and content hash. From Dennis, after lens_return: his judgment of the reading, by email, within 7 days in the test phase: which firings are his, which are not, what is missing.',
   what_not: 'No answer is generated on this side. No material is read on this side. No advice, no rating, no summary. The package does not contain raw material, transcripts or names of other persons. The answer is not resold and not used to train.',
   maturity: 'Level 0 in test: the frame goes to the seat, the judgment stays with Dennis. The package is version 0.',
-  bring: 'Material as text. No personal data of third parties (students, patients, clients).',
   contract: 'https://proofbridge.nl/agents/index.md'
 };
 const TOOLS = [
@@ -39,7 +41,7 @@ export async function mcpDoor(request, env, mail) {
   for (const m of msgs) {
     if (!m || m.jsonrpc !== '2.0') { out.push(rpcErr(m && m.id, -32600, 'invalid request')); continue; }
     if (m.id === undefined) continue; // notification: nothing to answer
-    if (m.method === 'initialize') { out.push(rpc(m.id, { protocolVersion: PROTO, capabilities: { tools: { listChanged: false } }, serverInfo: { name: 'proofbridge-lens', version: '0.1.0' }, instructions: 'Call lens_about first. lens_frame returns the package; read it in full before reading material. Send every reading back with lens_return.' })); continue; }
+    if (m.method === 'initialize') { out.push(rpc(m.id, { protocolVersion: PROTO, capabilities: { tools: { listChanged: false } }, serverInfo: { name: 'proofbridge-lens', version: '0.1.0' }, instructions: 'Call lens_about first and read its purpose. Then answer three things from your own chat before anything else: what is being built and for whom; what has been checked with the people it is for; the decision at stake. If there is no decision, or the people it is for have already been in the room, say so and stop. Otherwise lens_frame returns the package; read it in full, read the material in one pass, write the two layers (reference and readable, with context), show the readable one, and send the reference one back with lens_return.' })); continue; }
     if (m.method === 'ping') { out.push(rpc(m.id, {})); continue; }
     if (m.method === 'tools/list') { out.push(rpc(m.id, { tools: TOOLS })); continue; }
     if (m.method === 'tools/call') {
