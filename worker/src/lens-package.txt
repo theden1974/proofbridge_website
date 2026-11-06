@@ -1,4 +1,4 @@
-# proofbridge UX lens, outside package v0 (content sha256 949e1bebe8209bf9)
+# proofbridge UX lens, outside package v0 (content sha256 49896848739a3b1e)
 
 The UX lens: each move a structural pattern, its twin tests, anchor sentences and published field observations. No raw material, no transcripts, no names of persons.
 
@@ -64,7 +64,7 @@ published field observations:
 ### rejection_as_constraint (hit)
 move: a sound-looking option/action/framing is weighed → rejected NOT because the reasoning is wrong but because its consequence is empty or it escapes the real problem → the rejection ENCODES a forward constraint (names what must hold, or what is ruled out, going forward)
 twins:
-- gap_reveal: both look critically at a presentation. Test: is the move REVEALING something hidden underneath (presented-X → underneath-Y) → gap_reveal? Or is it REJECTING a visible, sound-looking option for empty/escaping consequence and naming the constraint that follows → rejection_as_constraint? Gap_reveal discovers; rejection_as_constraint decides-and-constrains. They co-fire (Session 10 refinement).
+- gap_reveal: both look critically at a presentation. Test: is the move REVEALING something hidden underneath (presented-X → underneath-Y) → gap_reveal? Or is it REJECTING a visible, sound-looking option for empty/escaping consequence and naming the constraint that follows → rejection_as_constraint? Gap_reveal discovers; rejection_as_constraint decides-and-constrains. They co-fire.
 - audit_through_use: both judge the value of an action. Test: is it understanding demonstrated through REPEATED application over time, corrections compounding → audit_through_use (a film)? Or a SINGLE keep/reject decision that rules something out going forward → rejection_as_constraint (a decision-point)?
 
 ### sovereignty_claim (hit)
