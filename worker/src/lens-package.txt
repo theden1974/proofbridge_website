@@ -185,7 +185,7 @@ Title line: the material's name and one line on what the reading is: "Read throu
 5. WHAT THIS DELIVERED. Two or three sentences for the person who asked: the one thing the reading found that is not visible from the summary of the material, said plainly. If nothing, say nothing was found beyond what the material already says. A finding, not an activity: never "three points were set next to quotes".
 
 6. WHAT THIS READING USED, AND WHAT IT DID NOT KNOW. Always present, in this form:
-   - Used: the package version and hash; the moves that fired, by their everyday heading; the published field observations drawn on, by their headline. Nothing else was used: no knowledge of the subject from outside the material and the package.
+   - Used: the package version and its fingerprint (the content sha256); the moves that fired, by their everyday heading; the published field observations drawn on, by their headline. Nothing else was used: no knowledge of the subject from outside the material and the package.
    - Did not know: every place where the lens needed something the material does not give and the seat wrote "not stated" instead of filling it. List them. Where the seat could not tell two moves apart, say so.
    - Asked: the questions in the blocks are the places where the seat does not know and asks instead of answering. Say so in one line.
    - The limit, verbatim: "This reading carries the method of the UX lens, not the field knowledge behind it. Where it does not know, it has asked."
@@ -193,8 +193,8 @@ Title line: the material's name and one line on what the reading is: "Read throu
 7. The closing line, verbatim: "What do you take from this, and what do you do with it?"
 
 ## Words
-- Never: container, firing, slot, formula, pattern engine, bundle, hash, sandbox, record, studio, raw, sovereign, false note, crème, twin.
-- Never judging words: useful, right, holds, settles, confirmed, valid, key, important, powerful, clearly, interesting.
+- Never: container, firing, slot, formula, pattern engine, bundle, hash (say fingerprint), sandbox, record, studio, raw, sovereign, false note, crème, twin. A quoted headline from the package or a quote from the material is kept word for word even when it holds one of these words.
+- Never judging words in the seat's own sentences: useful, right, holds, settles, confirmed, valid, key, important, powerful, clearly, interesting. Quotes are exempt.
 - No em dashes. No bullet lists inside a block; sentences. Quotes byte-exact from the material.
 - English unless the material is in another language; quotes stay in the language of the material.
 
