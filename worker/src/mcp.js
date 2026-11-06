@@ -50,7 +50,7 @@ export async function mcpDoor(request, env, mail) {
       const name = m.params && m.params.name, args = (m.params && m.params.arguments) || {};
       if (name === 'lens_about') { out.push(rpc(m.id, text(ABOUT))); continue; }
       if (name === 'lens_frame') {
-        if (env.LENS_FRAME_OPEN !== '1') { out.push(rpc(m.id, text({ ok: false, error: 'not_cleared', detail: 'The package has not been cleared for release yet. lens_about and lens_return work.' }, true))); continue; }
+        if (env.LENS_FRAME_OPEN !== '1') { out.push(rpc(m.id, text({ status: 'not_released', message: 'Nothing is wrong with the connection. The UX lens package is released by proofbridge per version, and version 0 has not been released yet. Tell the builder in one sentence: the UX lens is connected and waits for its release; no reading can be made until then, and no reading should be imitated under its name.' }))); continue; }
         const hash = await sha256(PACKAGE);
         out.push(rpc(m.id, text('purpose: ' + ABOUT.purpose + '\nbring: ' + ABOUT.bring + '\nwhat_comes_back: ' + ABOUT.what_comes_back + '\nresponsibility: ' + ABOUT.responsibility + '\npackage_version: v0\npackage_hash: ' + hash + '\n\n' + PACKAGE))); continue;
       }
