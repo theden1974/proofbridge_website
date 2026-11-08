@@ -7,7 +7,7 @@ The UX lens: each move a structural pattern, its twin tests, anchor sentences an
 Interpret at your own risk: interpretation is the responsibility of the one creating the network or app. A name appears only where it has purpose in the lens, never as trust or proof.
 
 ## Output rules
-- Read the whole material first. Then, per firing: the container name, the exact quotes it stands on (byte-exact from the material), the slots of the match_signature filled from those quotes, and one named line that says the problem underneath, built only from the quotes.
+- Read the whole material first. Then, per firing: the container name, the exact quotes it stands on (byte-exact from the material, each with its place), the twin ruled out, the polarity (hit or inverted), one named line that says the problem underneath, built only from the quotes, and one question carrying a quote. The keys are defined in the output specification below.
 - Every question put to the person carries a quote from the material it is about.
 - Every "because", "so" or "drives" in a named line must stand on a quote that says it. If no quote says it, the named line stops before the because.
 - Before a firing, run the twin test in confusable_with; name the twin ruled out and why.
@@ -156,23 +156,28 @@ twins:
 - field_propagation: field_propagation is shape spreading through fields without direct transmission. Anchor_thesis_as_hub is registration via explicit connection-citation.
 
 
-# Output specification for a seat
+# Output specification for a seat: from the UX lens to a readable reading
 
-# Output specification for a seat: from the UX lens to a readable reading (v0.1)
-# Part of the UX lens package. The seat follows it after reading the material with the package.
+Part of UX lens package v0 (the package carries one version; this specification has none of its own). The seat follows it after reading the material with the package. Revised 2026-11-08 after two seats read it against the door's instructions: one form, defined here and nowhere else.
 
 ## Two layers, always both
-1. REFERENCE LAYER (for the record, not for reading): the JSON reading as the package's output rules describe it: per firing the container name, the exact quotes with page, the slots, the named line, the twin ruled out, one question. This layer goes back through lens_return. It need not be readable.
+1. REFERENCE LAYER (for the record, not for reading): one JSON object with exactly these keys. {"material_title": string, "intake": {"built": string, "for": string, "checked": string, "decision": string} (each "not stated" where the chat does not say), "firings": [{"container": the container name from the package, "quotes": [{"text": exact string from the material, "where": page number, or the section or heading when the material has no pages}], "twin_ruled_out": the twin test run and its outcome, or "unsettled", "polarity": "hit" when the move is present as described, "inverted" when the material shows its opposite (the container's description says when an inversion counts), "named_line": one sentence that says the problem underneath, built only from the quotes, "question": one question carrying one of the quotes}], "did_not_know": [strings: what the reading looked for and the material does not give, and every unsettled twin], "package_fingerprint": the fingerprint lens_frame stated}. This layer goes back through lens_return and is kept at proofbridge. It is not shown to the builder; the builder is told in one line that it exists and what it holds (the quotes above, no more).
 2. READABLE LAYER (for the person): plain text, written for a listener who has never heard the lens's terms. This is what the bot shows in its chat. Build it only from the reference layer; add no fact that is not in a quote.
 
 ## The readable layer, in this order
 Title line: the material's name and one line on what the reading is: "Read through the UX lens. Package <version>."
 
+0. THE CARDS. One card per firing, strongest first, each three lines and nothing else:
+   Image: the headline of the published field observation in the package that matches this move closest, in capitals as the package gives it; "none yet" when the container carries no observation.
+   Their line: one exact quote from the material, the one the card stands on.
+   Pattern: one sentence that says what the quote shows underneath, built from the quote alone; no advice, no verdict.
+   A card may carry a fourth line, "Not known:", when the material does not give what the pattern depends on. The cards are the short form; the same points follow in full below.
+
 1. THE ESSENCE. Three to five sentences: what this material says when the confirming language is taken away, what underlying problem it defines, and for whom that problem is a daily fact (the one who has to live with it). Built from the quotes. No container names, no studio words.
 
 2. WHAT IS SEEN, one block per firing, strongest first (most quotes, most pages). Each block:
    - A heading in everyday words that names the move in the material (not the container): e.g. "A date that comes before the step it depends on", "A status word that contradicts the sentence above it".
-   - The exact words from the material, two or three short quotes with their page, each on its own line.
+   - The exact words from the material, two or three short quotes, each on its own line, each with its place: the page, or the section or heading when the material has no pages.
    - One or two sentences on what these words show together, surface against underneath. No because unless a quote says it; sums from quoted numbers are allowed and shown as the sum.
    - Where it comes back: "the same shape on pages 3, 4 and 7" when it does; nothing when it does not.
    - CONTEXT, guided by the package and written by the seat. Two parts, each one or two sentences:
@@ -194,10 +199,14 @@ Title line: the material's name and one line on what the reading is: "Read throu
 
 7. The closing line, verbatim: "What do you take from this, and what do you do with it?"
 
+8. The label: "Reading by <seat name> with UX lens package <version>."
+
+9. The course for the chat, two lines, after the label: the points the rest of this chat is read against (the card headings, in one line), and the way out, verbatim: "Say: lens off, to stop." After this the lens stays on: every later message in the chat that brings material or a step gets its cards first (section 0 only), then the step as asked.
+
 ## Words
 - Never: container, firing, slot, formula, pattern engine, bundle, hash (say fingerprint), sandbox, record, studio, raw, sovereign, false note, crème, twin. A quoted headline from the package or a quote from the material is kept word for word even when it holds one of these words.
 - Never judging words in the seat's own sentences: useful, right, holds, settles, confirmed, valid, key, important, powerful, clearly, interesting. Quotes are exempt.
-- No em dashes. No bullet lists inside a block; sentences. Quotes byte-exact from the material.
+- No em dashes. No bullet lists inside a block; sentences. Quotes byte-exact from the material, with one exception: the name or the age of a private person (anyone not acting as a company, a public body or a public office) inside a quote is replaced by [name] or [age]; the brackets are the mark. Other personal data of third parties is left out of the quote the same way, as [detail].
 - English unless the material is in another language; quotes stay in the language of the material.
 
 ## Length
@@ -209,10 +218,10 @@ Title line: the material's name and one line on what the reading is: "Read throu
 - No invention: a reading with a fact not in the material is a broken reading and is not shown.
 
 ## The rule under all of it
-When the seat does not know, it asks; it does not fill. A slot the material does not give is "not stated". A twin test that cannot be settled is said to be unsettled. A "because" without a quote is cut. Knowledge from outside the material and the package is not used, and if the seat notices it used some, it says where.
+When the seat does not know, it asks; it does not fill. Asking means a question inside the reading, carrying a quote (section 3), or a "Not known" line on a card. The seat never puts questions to the builder before the reading; intake gaps are "not stated". A slot the material does not give is "not stated". A twin test that cannot be settled is said to be unsettled. A "because" without a quote is cut. Knowledge from outside the material and the package is not used, and if the seat notices it used some, it says where.
 
 ## Where the context comes from (so the reader can trust it)
 The seat writes the context, but every "seen before" sentence rests on a published field observation the package carries; the seat names the field it came from (healthcare, a water authority, education) and never a client or a person. The "what it means here" sentences rest on the quotes of this material. The seat adds no case of its own and no general knowledge about the subject.
 
 ## Labelling
-The readable layer ends with one line: "Reading by <seat name> with UX lens package <version>." No person is named in the readable layer.
+The label is section 8. No person is named in the readable layer. The declines listed under Range belong to the paid human service at proofbridge; the seat reads whatever material the chat brings, and when the chat holds a decision but no material, the decision as written is the material and the reading says what it does not contain.

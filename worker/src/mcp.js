@@ -34,14 +34,14 @@ const INSTRUCTIONS = [
   'Bring: ' + ABOUT.bring,
   'Comes back: ' + ABOUT.what_comes_back,
   ABOUT.responsibility,
-  'Trigger: the builder says "use the UX lens" (or asks for a reading with it). Then run the whole process without asking for anything the chat already holds. These instructions already say what lens_about says; do not call it.',
-  '1. Intake, from the chat only: what is being built and for whom; what has been checked with the people it is for; the decision at stake. Where the chat does not say, write "not stated" and go on. Do not ask intake questions. Stop only if there is plainly no decision: then say so in one sentence.',
-  '2. Call lens_frame once. It returns the package (version, fingerprint, moves, twin tests, published field observations, output specification). Read it in full. If it answers payment_required, show the builder the invoice text and the amount as given, say that the reading continues once it is paid, and call lens_frame again with the payment_hash when the builder says it is paid. If it answers address_required, tell the builder in one sentence how to get an address (the message says).',
-  '3. Read the material in one pass. Write two layers. First the reference reading as JSON: {"material_title", "intake": {"built","for","checked","decision"}, "firings": [{"container","quotes":[exact strings from the material],"twin_ruled_out","polarity","named_line"}], "did_not_know": [strings], "package_fingerprint"}. Then the readable layer per the output specification in the package: the cards first (image from the published observations, or "none yet"; the exact line from the material; the pattern in one sentence), then the full reading, ending with what this reading used and what it did not know. In the reading, questions belong inside the text, each with the quote it is about; they are not put to the builder as a form to fill.',
-  '4. Quotes are byte-exact from the material, with one exception: a name or age of a private person inside a quote is replaced by [name] or [age]; the replacement is marked as such. This rule wins over byte-exactness.',
-  '5. Show the readable layer. End it with the course for the chat in two lines: the points the rest of the chat is read against, and "say: lens off to stop".',
-  '6. Call lens_return with the reference reading (the JSON as a string), the fingerprint from lens_frame, the material title and your model name. Using this connector is the builder\'s consent; do not ask again, do not ask for an email. If lens_return answers that the mail failed, the reading is kept at proofbridge under the id it returns; say so in one sentence and go on.',
-  '7. The lens stays on. For every later message in this chat where the builder brings material or proposes a step: first a short read in card form only (image, their line, pattern, what is not known), then the step as asked. Do not call lens_frame again unless you can no longer quote the package (it has left the chat): then call it once and go on. A later "use the UX lens" on new material is a new reading: steps 1 to 6 again. "lens off" ends all of this.',
+  'Not done here: ' + ABOUT.what_not + ' Access: each client has its own address; the first readings on it are free, then one Lightning invoice per reading (the amounts are stated by lens_frame). lens_about repeats this and is not needed for the process.',
+  'Trigger: the builder says "use the UX lens" (or asks for a reading with it). Then run the whole process without putting any question to the builder. Questions belong inside the reading, as the output specification in the package says.',
+  '1. Intake, from the chat only: what is being built and for whom; what has been checked with the people it is for; the decision at stake. Where the chat does not say, write "not stated" and go on. If the chat holds a decision but no material, the decision as written is the material. If it holds neither, say so in one sentence and stop.',
+  '2. Call lens_frame. Every call that serves the package spends one reading of the address (free or paid); its answer says which, and how many free readings are left: pass that on to the builder in one line. If the answer is payment_required: show the builder the invoice text and the amount exactly as given, say the reading continues once it is paid, and call lens_frame again with the payment_hash when the builder says it is paid; that second call spends the paid reading. Any other status (address_required, not_released, off, quota, not_paid_yet, payment_rail and the rest): tell the builder the message in one sentence and make no reading.',
+  '3. Read the package in full, then the material in one pass. Write the two layers exactly as the output specification in the package defines them: the reference layer (JSON, its keys listed there) and the readable layer (its sections 0 to 9, in that order).',
+  '4. Show the builder the readable layer only, and one line saying that the reference reading, the quotes with the moves, goes back to proofbridge and is kept there. The JSON is not shown unless asked.',
+  '5. Call lens_return with: fingerprint (as lens_frame stated it), material_title, reading (the JSON as one string, at most 40000 characters), seat (your model name). Using this connector is the builder\'s consent for the return; do not ask again, do not ask for an email. If the answer says the mail did not go out, the reading is kept under the id it returns; say so in one line. If the answer is rate, size or missing, say so in one line; the reading stays in the chat.',
+  '6. The lens stays on for this chat. For every later message that brings material or a step: first the cards (section 0 of the specification) for that message, then the step as asked. Do not call lens_frame again for this, unless the text lens_frame returned is no longer in the conversation; then call it once (it spends a reading; say so). A later "use the UX lens" on new material is a new reading, steps 1 to 5. "lens off" ends all of this.',
 ].join('\n');
 
 const TOOLS = [
@@ -64,6 +64,7 @@ const JSONH = { 'content-type': 'application/json; charset=utf-8', 'cache-contro
 const json = (status, obj, extra = {}) => new Response(JSON.stringify(obj), { status, headers: { ...JSONH, ...extra } });
 const pageCors = (request, env) => { const o = request.headers.get('origin') || ''; const ok = (env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).includes(o); return ok ? { 'access-control-allow-origin': o, 'vary': 'Origin' } : {}; };
 
+const LEDGER_DOWN = { status: 'not_available', message: 'The ledger behind this door did not answer. Nothing is wrong with your chat. Tell the builder in one sentence: try again in a minute.' };
 const ADDRESS_REQUIRED = (bare) => ({ status: 'address_required', message: (bare ? 'This is the shared door; it serves no package. ' : 'This address is not known to the door. ') + 'Nothing is wrong with the connection. Tell the builder in one sentence: get an address at ' + PAGE + ' (one click, no sign-in) and add that address as the connector instead of this one.' });
 
 export async function mcpDoor(request, env, mail, parts) {
@@ -79,6 +80,7 @@ export async function mcpDoor(request, env, mail, parts) {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { 'access-control-allow-methods': 'POST, OPTIONS' } });
   if (request.method === 'GET') return json(405, { ok: false, error: 'method', hint: 'POST JSON-RPC (MCP Streamable HTTP). Status: GET /mcp/status.' });
   if (request.method !== 'POST') return json(405, { ok: false, error: 'method' });
+  if (!(request.headers.get('content-type') || '').toLowerCase().startsWith('application/json')) return json(415, rpcErr(null, -32600, 'content-type: application/json'));
   if (Number(request.headers.get('content-length') || 0) > MAX_BODY) return json(413, rpcErr(null, -32600, 'size: body over ' + MAX_BODY + ' characters'));
   let body; try { const raw = await request.text(); if (raw.length > MAX_BODY) return json(413, rpcErr(null, -32600, 'size: body over ' + MAX_BODY + ' characters')); body = JSON.parse(raw); } catch { return json(400, rpcErr(null, -32700, 'parse error')); }
   const msgs = Array.isArray(body) ? body : [body];
@@ -86,9 +88,10 @@ export async function mcpDoor(request, env, mail, parts) {
 
   const ledger = env.LEDGER ? env.LEDGER.getByName('ledger') : null;
   let addr = null;
-  if (key !== null && ledger) addr = await ledger.address(key);
-
+  try { if (key !== null && ledger) addr = await ledger.address(key); } catch { return json(200, Array.isArray(body) ? msgs.map(x => rpc(x && x.id, text(LEDGER_DOWN))) : rpc(msgs[0] && msgs[0].id, text(LEDGER_DOWN))); }
   const out = [];
+  try {
+
   for (const m of msgs) {
     if (!m || m.jsonrpc !== '2.0') { out.push(rpcErr(m && m.id, -32600, 'invalid request')); continue; }
     if (m.id === undefined) continue; // notification
@@ -98,9 +101,9 @@ export async function mcpDoor(request, env, mail, parts) {
     if (m.method !== 'tools/call') { out.push(rpcErr(m.id, -32601, 'method not found')); continue; }
     const name = m.params && m.params.name, args = (m.params && m.params.arguments) || {};
     if (name === 'lens_about') { out.push(rpc(m.id, text({ ...ABOUT, access: ABOUT.access.replace('FREE', String(env.FREE_READINGS || 3)), price_sats: Number(env.LENS_PRICE_SATS || 0) }))); continue; }
-    if (name !== 'lens_frame' && name !== 'lens_return') { out.push(rpcErr(m.id, -32602, 'unknown tool')); if (ledger) await ledger.event(key, 'error', 'unknown tool ' + clean(name, 40)); continue; }
+    if (name !== 'lens_frame' && name !== 'lens_return') { out.push(rpcErr(m.id, -32602, 'unknown tool')); if (ledger && addr) await ledger.event(key, 'error', 'unknown tool ' + clean(name, 40)); else if (ledger) await ledger.count('unknown_tool'); continue; }
     if (!ledger) { out.push(rpc(m.id, text({ status: 'not_available', message: 'The ledger behind this door is not bound. Nothing is wrong with your chat. Tell the builder in one sentence: the lens door is being set up; try later.' }))); continue; }
-    if (key === null || !addr) { out.push(rpc(m.id, text(ADDRESS_REQUIRED(key === null)))); await ledger.event(key || '', 'error', key === null ? 'bare door frame' : 'unknown address'); continue; }
+    if (key === null || !addr) { out.push(rpc(m.id, text(ADDRESS_REQUIRED(key === null)))); await ledger.count(key === null ? 'bare_door' : 'unknown_address'); continue; }
     if (addr.off) { out.push(rpc(m.id, text({ status: 'off', message: 'This address has been switched off by proofbridge. Tell the builder in one sentence; a new address can be minted at ' + PAGE + '.' }))); continue; }
 
     if (name === 'lens_frame') {
@@ -127,8 +130,10 @@ export async function mcpDoor(request, env, mail, parts) {
       if (!f.ok && f.error === 'payment_required') {
         if (!PRICE) { out.push(rpc(m.id, text({ status: 'quota', message: 'The free readings of this address are used and payment is not open on this door. Tell the builder in one sentence.' }))); continue; }
         try {
-          const inv = await makeInvoice(env, PRICE, 'proofbridge lens ' + key + ' ' + Date.now().toString(36));
-          await ledger.invoice(key, inv.payment_hash, PRICE);
+          const pending = await ledger.pendingInvoice(key, 50 * 60_000);
+          if (!pending && await ledger.invoicesSince(key, 3_600_000) >= 3) { out.push(rpc(m.id, text({ status: 'rate', message: 'Three invoices were issued to this address in the last hour; pay one of them, or call again later.' }, true))); continue; }
+          const inv = pending ? { invoice: pending.bolt11, payment_hash: pending.payment_hash, expires_at: pending.expires_at } : await makeInvoice(env, PRICE, 'proofbridge lens reading ' + (await sha256('inv:' + key)).slice(0, 12));
+          if (!pending) await ledger.invoice(key, inv.payment_hash, PRICE, inv.invoice, inv.expires_at || 0);
           out.push(rpc(m.id, text({ status: 'payment_required', price_sats: PRICE, invoice: inv.invoice, payment_hash: inv.payment_hash, expires_at: inv.expires_at ? new Date(inv.expires_at * 1000).toISOString() : null,
             message: 'The ' + FREE + ' free readings of this address are used. One reading costs ' + PRICE + ' sats. Show the builder the invoice text as given (a wallet reads it; a QR can be drawn from it). When paid, call lens_frame again with this payment_hash.' })));
         } catch (e) { await ledger.event(key, 'error', 'rail ' + clean(e.message, 80)); out.push(rpc(m.id, text({ status: 'payment_rail', message: 'The payment rail did not answer. Try again in a minute.' }, true))); }
@@ -146,6 +151,7 @@ export async function mcpDoor(request, env, mail, parts) {
     if (miss.length) { out.push(rpc(m.id, text({ ok: false, error: 'missing', fields: miss }, true))); await ledger.event(key, 'error', 'return missing ' + miss.join(',')); continue; }
     if (a.reading.length > MAX_READING) { out.push(rpc(m.id, text({ ok: false, error: 'size', max: MAX_READING }, true))); await ledger.event(key, 'error', 'return size ' + a.reading.length); continue; }
     // bound per address: returns in the last hour at most frames + 2 and at most 6 (audit gaps 1, 2)
+    if (!(addr.frames | 0)) { out.push(rpc(m.id, text({ ok: false, error: 'no_reading', message: 'This address has not loaded the package; nothing to return.' }, true))); await ledger.event(key, 'error', 'return before frame'); continue; }
     const recent = await ledger.returnsSince(key, 3_600_000);
     if (recent >= Math.min(6, (addr.frames | 0) + 2)) { out.push(rpc(m.id, text({ ok: false, error: 'rate', message: 'This address returned ' + recent + ' readings in the last hour. The next one is accepted later; the reading stays in your chat.' }, true))); await ledger.event(key, 'error', 'return rate'); continue; }
     const current = a.fingerprint === await fingerprint();
@@ -157,6 +163,7 @@ export async function mcpDoor(request, env, mail, parts) {
     await ledger.markMailed(id, !fail);
     out.push(rpc(m.id, text({ ok: true, return_id: id, kept: true, mailed: !fail, next: fail ? 'Kept at proofbridge under ' + id + '. The notice mail did not go out; nothing for the builder to do.' : 'Received. Returns grow the next package version.' })));
   }
+  } catch (e) { return json(200, rpc(msgs[0] && msgs[0].id, text(LEDGER_DOWN))); }
   if (!out.length) return new Response(null, { status: 202, headers: JSONH });
   return json(200, Array.isArray(body) ? out : out[0]);
 }
@@ -169,8 +176,7 @@ async function addressDoor(request, env) {
   if (!env.LEDGER) return json(503, { ok: false, error: 'not_available' }, cors);
   let client = ''; try { const raw = await request.text(); if (raw.length < 2000) client = clean((JSON.parse(raw || '{}') || {}).client, 80); } catch {}
   const ip = request.headers.get('cf-connecting-ip') || 'unknown';
-  const ipHash = (await sha256('addr:' + ip)).slice(0, 24);
-  const r = await env.LEDGER.getByName('ledger').mint(ipHash, client, Number(env.ADDRESSES_PER_DAY || 3));
+  let r; try { r = await env.LEDGER.getByName('ledger').mint(ip, client, Number(env.ADDRESSES_PER_DAY || 3)); } catch { return json(503, { ok: false, error: 'not_available' }, cors); }
   if (!r.ok) return json(429, r, { ...cors, 'retry-after': '3600' });
   const base = new URL(request.url); base.pathname = '/mcp/k/' + r.key; base.search = '';
   return json(200, { ok: true, address: base.toString(), free_readings: Number(env.FREE_READINGS || 3), price_sats: Number(env.LENS_PRICE_SATS || 0),
