@@ -16,7 +16,7 @@ const PROTO = '2025-06-18';
 const DOOR_VERSION = '0.2.0';
 const PACKAGE_VERSION = 'v0';
 const MAX_BODY = 120_000, MAX_BATCH = 4, MAX_READING = 40_000;
-const PAGE = 'https://proofbridge.nl/mcp/vtc/';
+const PAGE = 'https://proofbridge.nl/mcp/';
 const ABOUT = {
   purpose: 'Position the UX lens for producing an app. If not guided, you are creating AI app slob.',
   trigger: 'Say "use the UX lens" in a chat with this connector on. The rest runs by itself. The lens then stays on for the chat; "lens off" ends it.',
