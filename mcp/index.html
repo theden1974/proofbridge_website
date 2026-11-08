@@ -27,7 +27,6 @@
 <body>
 <div class="wrap">
 <header>
-  <span class="label">proofbridge · UX lens</span>
   <h1>Position the UX lens for producing an app. If not guided, you are creating AI app slob.</h1>
 </header>
 
@@ -39,21 +38,17 @@
   <p class="grey">Interpret at your own risk: interpretation is the responsibility of the one creating the network or app.</p>
 </section>
 
-<section>
-  <p class="status" id="st">door: checking</p>
-</section>
 </div>
 <script>
 (() => {
   const R = 'https://proofbridge-send.dennis-f79.workers.dev/mcp';
-  const b = document.getElementById('get'), out = document.getElementById('out'), addr = document.getElementById('addr'), note = document.getElementById('note'), st = document.getElementById('st');
+  const b = document.getElementById('get'), out = document.getElementById('out'), addr = document.getElementById('addr'), note = document.getElementById('note');
   b.onclick = async () => { b.disabled = true;
     try { const r = await fetch(R + '/address', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ client: 'page' }) }); const j = await r.json();
       if (j.ok) { addr.textContent = j.address; note.textContent = 'Yours. Keep it; it is shown once. ' + j.free_readings + ' readings free, then ' + j.price_sats + ' sats each over Lightning, asked in the chat.'; out.hidden = false; }
       else { note.textContent = j.detail || j.error; out.hidden = false; }
     } catch { note.textContent = 'The door did not answer.'; out.hidden = false; }
     b.disabled = false; };
-  fetch(R + '/status').then(r => r.json()).then(j => { const l = j.ledger || {}; st.textContent = 'door ' + j.door + ' alive · package ' + j.package + ' ' + (j.fingerprint || '').slice(0, 12) + (j.released ? '' : ' (not released)') + ' · addresses ' + (l.addresses ?? '?') + ' · readings this week ' + ((l.frames || {}).week ?? '?') + ' · returned ' + ((l.returns || {}).week ?? '?') + ' · last return ' + (l.last_return || 'none'); }).catch(() => { st.textContent = 'door: no answer'; });
 })();
 </script>
 </body>
