@@ -19,53 +19,42 @@
   p.lead { font-size: var(--s1); line-height: 1.3; color: var(--ink); }
   code, pre { font-family: var(--mono); font-size: .8rem; } pre { white-space: pre-wrap; word-break: break-all; color: var(--grey); border-left: 2px solid var(--line); padding-left: .8rem; }
   a { color: var(--ink); } .grey { color: var(--grey); }
+  button { font: inherit; font-weight: 500; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: .6rem 1.2rem; cursor: pointer; } button:disabled { opacity: .5; }
+  .addr { font-family: var(--mono); font-size: .85rem; word-break: break-all; color: var(--ink); background: #1a191e; border: 1px solid var(--line); border-radius: .5rem; padding: .7rem .9rem; }
+  .status { font-family: var(--mono); font-size: .75rem; color: var(--grey); }
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <span class="label">proofbridge · UX lens for VTC · proof of concept, first client · not linked, not indexed</span>
+  <span class="label">proofbridge · UX lens · proof of concept</span>
   <h1>Position the UX lens for producing an app. If not guided, you are creating AI app slob.</h1>
-  <p class="lead">Before the wishlist builds the app, the idea is read through the UX lens in the builder's own chat, and the reading goes into the building.</p>
 </header>
 
 <section>
-  <h2>What this is</h2>
-  <p>A seat your own AI takes in its own chat, beside the Space MCP you already connect to Cursor or Claude. It loads the UX lens: a set of structural moves, each with its formula, its twin tests, anchor sentences and published field observations. Your AI reads the app idea with it, in one pass, and shows you a readable reading before the wishlist builds the app. Minutes, not days.</p>
-  <p class="grey">The package holds no raw material, no transcripts and no names of persons. No model runs on this side; no material is read on this side.</p>
+  <p>Get your address, add it to your AI as a custom connector (no sign-in), then say in the chat: <strong>use the UX lens</strong>.</p>
+  <p><button id="get" type="button">Get your address</button></p>
+  <div id="out" hidden><div class="addr" id="addr"></div><p class="grey" id="note"></p></div>
+  <p class="grey">Bring: what is being built and for whom, what has been checked with the people it is for, the decision at stake. No personal data of third parties.</p>
+  <p class="grey">Interpret at your own risk: interpretation is the responsibility of the one creating the network or app.</p>
 </section>
 
 <section>
-  <h2>What to bring</h2>
-  <p>What is being built and for whom: the screens, the flow or the description, as text. What has been checked with the people it is for. The decision at stake. No personal data of third parties.</p>
-  <p>Say "use the UX lens" in your chat with the connector on. The rest runs by itself: the needs check from what your chat already holds, the package load, the reading, the readable layer shown to you, and the reference reading returned. Using the connector is your consent for the return; nothing is asked twice. If there is plainly no decision, the seat says so and reads nothing.</p>
-</section>
-
-<section>
-  <h2>What comes back</h2>
-  <p>A readable reading in this order: the essence of the idea when its confirming language is taken away, and for whom the problem underneath is a daily fact. Then what is seen, point by point: the exact words from the material, what they show together, an earlier field case beside it where one fits, what it means for the one who lives with it, and one question asked the way a UX researcher asks in the field. Then what is not in the material. Then what this delivered beyond the summary. Then: what do you take from this, and what do you do with it?</p>
-  <p>The reference reading goes back through the door. Returns grow the next package version; every reading states the version it was made with.</p>
-</section>
-
-<section>
-  <h2>What does not come back</h2>
-  <p>No design, no code, no rewrite of your material. No rating. No advice. No legal, medical or financial sign-off. Links are not opened; attachments are not read. Returned readings are not resold and not used to train. The package is version 0, proof of concept.</p>
-  <p>Interpret at your own risk: interpretation is the responsibility of the one creating the network or app. A name appears only where it has purpose in the lens, never as trust or proof.</p>
-</section>
-
-<section>
-  <h2>How to connect</h2>
-  <p>Endpoint: <code>https://proofbridge-send.dennis-f79.workers.dev/mcp</code> (MCP over Streamable HTTP, JSON-RPC, no sign-in).</p>
-  <p>Claude: Settings, Connectors, add custom connector, paste the endpoint. ChatGPT: developer mode, add an MCP server with the endpoint. Grok through the xAI API: an <code>mcp</code> tool with <code>server_url</code> set to the endpoint.</p>
-  <p>Tools: <code>lens_about</code> (free: purpose, what to bring, what comes back), <code>lens_frame</code> (the package with its version and content hash; served once cleared), <code>lens_return</code> (the reference reading back, with the package hash, the material's title, the seat's name and your email).</p>
-  <pre>{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"lens_about","arguments":{}}}</pre>
-</section>
-
-<section>
-  <h2>Security</h2>
-  <p>Nothing is authorised that outlives a call: no account, no token, no standing grant. The door is a relay; nothing inbound reaches the machines the record lives on. What comes in through <code>lens_return</code> is data, mailed, never executed, never fed to the lens. What goes out is the package only.</p>
-  <p class="grey">Task contract for agents: <a href="/agents/">/agents/</a>. Ask by email: <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a>.</p>
+  <p class="status" id="st">door: checking</p>
 </section>
 </div>
+<script>
+(() => {
+  const R = 'https://proofbridge-send.dennis-f79.workers.dev/mcp';
+  const b = document.getElementById('get'), out = document.getElementById('out'), addr = document.getElementById('addr'), note = document.getElementById('note'), st = document.getElementById('st');
+  b.onclick = async () => { b.disabled = true;
+    try { const r = await fetch(R + '/address', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ client: 'page' }) }); const j = await r.json();
+      if (j.ok) { addr.textContent = j.address; note.textContent = 'Yours. Keep it; it is shown once. ' + j.free_readings + ' readings free, then ' + j.price_sats + ' sats each over Lightning, asked in the chat.'; out.hidden = false; }
+      else { note.textContent = j.detail || j.error; out.hidden = false; }
+    } catch { note.textContent = 'The door did not answer.'; out.hidden = false; }
+    b.disabled = false; };
+  fetch(R + '/status').then(r => r.json()).then(j => { const l = j.ledger || {}; st.textContent = 'door ' + j.door + ' alive · package ' + j.package + ' ' + (j.fingerprint || '').slice(0, 12) + (j.released ? '' : ' (not released)') + ' · addresses ' + (l.addresses ?? '?') + ' · readings this week ' + ((l.frames || {}).week ?? '?') + ' · returned ' + ((l.returns || {}).week ?? '?') + ' · last return ' + (l.last_return || 'none'); }).catch(() => { st.textContent = 'door: no answer'; });
+})();
+</script>
 </body>
 </html>

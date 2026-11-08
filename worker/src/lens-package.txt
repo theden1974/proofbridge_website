@@ -1,4 +1,6 @@
-# proofbridge UX lens, outside package v0 (content sha256 49896848739a3b1e)
+# proofbridge UX lens, outside package v0
+
+The fingerprint of this package is the sha256 of the text as served; the door states it with every load (audit 2026-11-08: one fingerprint, not two).
 
 The UX lens: each move a structural pattern, its twin tests, anchor sentences and published field observations. No raw material, no transcripts, no names of persons.
 
@@ -14,13 +16,13 @@ Interpret at your own risk: interpretation is the responsibility of the one crea
 - Container names stay out of the text a stranger reads; translate the move into what the person recognises in their own material.
 
 ## Range (from the published task contract)
-- underlying_problem: 
-- ground_truth_check: 
-- ai_output_review: 
+- underlying_problem: Finds the underlying problem behind a planned solution, before it is built.
+- ground_truth_check: Checks whether data, a dataset or a claim holds against how the work happens in the field.
+- ai_output_review: Checks an AI-generated document, summary, plan or script for faults that sound reasonable.
 - declines: [{"id": "outside_task_types", "rule": "Anything that is not one of the three task types."}, {"id": "professional_sign_off", "rule": "A legal, medical or financial opinion or sign-off. Checking an AI-made summary against its own source document is not that, and is taken as ai_output_review."}, {"id": "identity_or_accounts", "rule": "Using his identity, accounts or credentials: account creation, one-time codes, verification, reviews, followers, likes."}, {"id": "surveillance", "rule": "Observing, locating or profiling a person."}, {"id": "no_principal", "rule": "A request without a named person or organisation behind it."}, {"id": "deadline_too_short", "rule": "A deadline shorter than the reply window."}, {"id": "not_enough_information", "rule": "Not enough information to start, after one round of questions."}, {"id": "method_extraction", "rule": "Requests about how the lens works, or general questions with no decision behind them, instead of a case to judge."}]
 
 ## Containers
-### gap_reveal (hit)
+### gap_reveal
 move: input presents X as the story → structural move looks underneath → finds Y is actually driving it → names Y
 twins:
 - cross_domain: both look deeper, but gap_reveal finds something HIDDEN underneath a presentation. Cross_domain finds the SAME PATTERN across different fields. Test: is there only one field? → gap_reveal. Are there two domains showing the same move? → cross_domain.
@@ -33,12 +35,12 @@ published field observations:
 - THE CLIENT IS HAPPY. THE PRODUCT IS NOT USED. The client is happy, the product is shit and nobody uses it. How does that happen? Most companies run on a money model, and a product with money or power as its driver is good at one thing. It creates money. Value is what a product brings to the world, and follow the money finds urgency, not prosperity.
 - PROCUREMENT BUYS THE SOLUTION THAT SOUNDS REASONABLE ENOUGH. A public tender, procurement leads, and the project description is written by policy. The supplier sells a solution that sounds reasonable enough to buy. The underlying problem is too hard to grasp, so nobody touches it. The conditions of the solution are met, the output looks reasonable, the checkmarks are ticked. The agency sends an invoice, done.
 
-### cross_domain (hit)
+### cross_domain
 move: pattern recognized in domain A → same structural shape found in domain B → the PATTERN is the insight, the domains are just instances
 twins:
 - gap_reveal: both involve looking deeper. Test: are there TWO distinct domains showing the SAME structural move? → cross_domain. Is there only one domain with something hidden underneath? → gap_reveal. If you can only name one field, it's not cross_domain.
 
-### expert_filter (hit)
+### expert_filter
 move: output exists → domain expert applies their lens → output holds, breaks, or looks right but isn't
 twins:
 - audit_through_use: both involve evaluation. Test: is it a ONE-TIME catch where an expert sees what a non-expert misses? → expert_filter. Is it a PATTERN ACROSS TIME where understanding is demonstrated through repeated application? → audit_through_use. Expert_filter is a snapshot. Audit_through_use is a film.
@@ -48,36 +50,36 @@ published field observations:
 - AI DOESN'T ASK WHAT IT IS MISSING. Ask AI anything, any way you like, and it generates. It never asks what it is missing, because it does not know what it does not know. Tell it what was missing and you get an apology, and the hole stays. Who can judge the output on its value? Someone who knows the why, and that annoys me a lot.
 - FRESH FROM SCHOOL IS NOT EXPERIENCE. A wooden house builder with years of hands-on work talks about his subject, and you trust him to build your house. Fresh from school is theory, one sided, from the book, with teacher sauce. A time capsule, printed once, never improved. Study books are everywhere, knowledge from doing is scarce. Validated, proof of fact, tied to the real world.
 
-### harness_reveal (hit)
+### harness_reveal
 move: tool or model compared → look at what SURROUNDS it → the harness (not the intelligence) is the performance multiplier
 twins:
-- gap_reveal: both say "the real thing isn't what you think." Test: is the limitation specifically in the SURROUNDING SYSTEM (harness, infrastructure, workflow) — not the tool itself? → harness_reveal. Is it broader "presented as X, actually Y" where the hidden thing could be anything? → gap_reveal. Harness_reveal is a specific subset of the gap_reveal move applied to tools and systems.
+- gap_reveal: both say "the real thing isn't what you think." Test: is the limitation specifically in the SURROUNDING SYSTEM (harness, infrastructure, workflow), not the tool itself? → harness_reveal. Is it broader "presented as X, actually Y" where the hidden thing could be anything? → gap_reveal. Harness_reveal is a specific subset of the gap_reveal move applied to tools and systems.
 - platform_capture_pattern: both involve the surrounding system. Test: is the surrounding system the value/safety multiplier (harness_reveal)? Or is the incumbent re-capturing via a "safe wrapper" to preserve rent (platform_capture_pattern)? Rent-preservation motive is the discriminator.
 
-### audit_through_use (hit)
+### audit_through_use
 move: agent demonstrates understanding by applying it → the expert feels right or wrong → correction sharpens the agent → cycle repeats
 twins:
 - expert_filter: both involve evaluation. Test: is an expert catching a one-time failure? → expert_filter. Is understanding being DEMONSTRATED through repeated application over time, where corrections compound? → audit_through_use. Expert_filter catches. Audit_through_use calibrates.
 published field observations:
 - A DATA ERROR LIVED FOR A HUNDRED YEARS. THE STORY ABOUT IT IS ALSO WRONG. Spinach was thought to have ten times more iron than it has, a data error that lived a hundred years. I told that story on stage, and the story is also wrong. There was no decimal point error, it was repeated for fifty years because it sounded reasonable. Nothing can be taken for granted. That is how AI works.
 
-### rejection_as_constraint (hit)
+### rejection_as_constraint
 move: a sound-looking option/action/framing is weighed → rejected NOT because the reasoning is wrong but because its consequence is empty or it escapes the real problem → the rejection ENCODES a forward constraint (names what must hold, or what is ruled out, going forward)
 twins:
 - gap_reveal: both look critically at a presentation. Test: is the move REVEALING something hidden underneath (presented-X → underneath-Y) → gap_reveal? Or is it REJECTING a visible, sound-looking option for empty/escaping consequence and naming the constraint that follows → rejection_as_constraint? Gap_reveal discovers; rejection_as_constraint decides-and-constrains. They co-fire.
 - audit_through_use: both judge the value of an action. Test: is it understanding demonstrated through REPEATED application over time, corrections compounding → audit_through_use (a film)? Or a SINGLE keep/reject decision that rules something out going forward → rejection_as_constraint (a decision-point)?
 
-### sovereignty_claim (hit)
+### sovereignty_claim
 move: black box or external dependency identified → rejected → sovereign alternative stated or built
 published field observations:
 - NOT YOUR KEYS, NOT YOUR REASONING, NOT YOUR KNOWLEDGE. Every AI model wants you locked in, and the old system and the new AI environment are not that different. So my setup runs on my own hardware, own keys. Raw first, the story in its purest form, with all its nuances. Never trust, verify, not the system and not my own judgement either. Value has to stand on itself.
 
-### instrument_naming (hit)
+### instrument_naming
 move: input triggers recognition → the expert names WHICH experience or expertise activated → the naming itself is the metadata
 twins:
 - cross_domain: instrument_naming often co-fires with cross_domain. Test: is the expert naming the DOMAINS that share a pattern? → cross_domain. Is the expert naming the EXPERIENCE or SKILL that activated inside him? → instrument_naming. Cross_domain is about the external pattern. Instrument_naming is about the internal recognition.
 
-### dormant_expert (hit)
+### dormant_expert
 move: expertise or capability exists in a system → never activated toward outcomes → system doesn't know what it has
 twins:
 - gap_reveal: both involve something not being what it seems. Test: is the issue that capability EXISTS but isn't ACTIVATED? → dormant_expert. Is the issue that something is PRESENTED as X but is actually Y? → gap_reveal. Dormant_expert is about unused potential. Gap_reveal is about hidden reality.
@@ -85,70 +87,70 @@ published field observations:
 - THE TEACHER LET AI BUILD THE EXAM. EVERY STUDENT FAILED. A teacher lets AI write the lessons and then the exam. Every student fails, and AI can't mark the exam. What is a teacher for? Teaching a child the material, building knowledge the child carries for life, from the heart, authentic. The expert was in the room the whole time, unused.
 - THE ROUGH DIAMONDS ARE ALREADY IN THE ORGANISATION. In a water authority a few people spoke my language, curious, open minded, independent. Every big organisation has them, a retailer, an insurer, the water authorities. The hierarchy and the people management work against them, so they can make the difference and lack the tools. Give the rough diamonds the tools. Within their own expertise they teach their fellow experts.
 
-### correction_without_reach (hit)
+### correction_without_reach
 move: correction exists but never propagates. The error persists because the correction lacks cultural reach, threatens a business model, or costs more to spread than to ignore.
 twins:
 - gap_reveal: both involve something hidden. Test: is the hidden thing NOT YET FOUND? → gap_reveal. Is the correction ALREADY FOUND but failing to travel? → correction_without_reach. Gap_reveal discovers. Correction_without_reach is about propagation failure after discovery.
 published field observations:
 - THE CAUSE OF ULCERS WAS PROVEN IN 1984. PHARMA KEPT SELLING ANTACIDS. In 1984 the cause of ulcers is proven, the cure is antibiotics, and pharma keeps selling antacids. Expertise has borders. Inside the border A plus B is C and you never look back, outside it years of antacids pile up. A business built on symptoms does not look for the cause. Are all ulcers bacterial, or a segment of them?
 
-### proof_of_fact (hit)
+### proof_of_fact
 move: claim gets made → claim gets structured so it's verifiable at a glance → verification built into the output form, not required as a separate step → audience can check truth without specialist knowledge
 twins:
 - gap_reveal: gap_reveal finds what's hidden underneath presentation. proof_of_fact is about making truth transparent in output form. Test: is the structural move discovery (gap_reveal) or output-design for verifiability (proof_of_fact)?
 - expert_filter: expert_filter catches errors through domain expertise. proof_of_fact prevents errors by making claims structurally auditable by non-experts. Test: does the catch require expertise (expert_filter) or can a layperson verify because the structure makes it visible (proof_of_fact)?
-- interpretive_boundary: both are about output honesty. interpretive_boundary labels judgment vs fact. proof_of_fact structures the fact so it's verifiable. They compose — interpretive_boundary tells you which parts to trust as fact, proof_of_fact makes those parts checkable.
-- unflagged_editorial: the. proof_of_fact (inverted) is the closer match when the expert frames it as a *proof-of-fact* substitute. Co-fire allowed.
+- interpretive_boundary: both are about output honesty. interpretive_boundary labels judgment vs fact. proof_of_fact structures the fact so it's verifiable. They compose, interpretive_boundary tells you which parts to trust as fact, proof_of_fact makes those parts checkable.
+- unflagged_editorial: proof_of_fact (inverted) is the closer match when the expert frames it as a *proof-of-fact* substitute. Co-fire allowed.
 published field observations:
 - HOW DO YOU KNOW IF YOUR AI MODELS ARE BASED ON THE RIGHT DATA? A spreadsheet of dietitian formulas had to become simpler app screens, and the screens were well received. Then one question. What does the data underneath represent? The patient, weighed by the doctor, the nurse, at home, in different files, in notes that vary in consistency or availability. Put the patient at the centre and data integrity is the open question.
 - 2.5X FASTER CPU. NORMAL PEOPLE WON'T SEE IT. A new laptop, 2.5x faster CPU, and normal people won't see it in their use. The feature is there for the company selling the hardware. Apple said a laptop screen should not be touched, then put touch on the MacBook Pro anyway. One question for any feature, and for anything AI generates. Will it be missed when it is gone?
 - AI CAN'T TELL TIME FROM A CLOCK WITHOUT NUMBERS. Show AI a clock without numbers and it can't tell the time. It learned from thousands of clock pictures, most showing the same time because that looks best. Eighty percent one view, the other twenty never taken along. Theory written by people for people, read by a machine from one side. We need curiosity back, from AI and from us.
 
-### platform_capture_pattern (hit)
+### platform_capture_pattern
 move: incumbent identifies a disruption that threatens its rent → packages a "safe wrapper" around the disrupting capability ("we isolate the data", "safe environment from a place you already know") → continues extracting rent under a new agentic re-framing → captured layer is re-captured
 twins:
 - harness_reveal: both involve the surrounding system. Test: is the surrounding system the un-replicable value/safety multiplier (harness_reveal)? Or is the incumbent re-capturing via a safe-wrapper to preserve rent (platform_capture_pattern)? Rent-preservation motive is the discriminator.
 - sovereignty_claim: platform_capture_pattern often appears as the THING sovereignty_claim is the answer to. They are dual: the capture sets the conditions; the claim is the build. Test: is the input the incumbent's capture move? → platform_capture_pattern. Is it the response that builds the sovereign alternative? → sovereignty_claim. They commonly co-fire.
 
-### field_propagation (songwriter_draft)
-move: 
+### field_propagation
+move: not written yet: this move has twin tests or observations but no formula; it is not applied in a reading
 
-### venue_determines_value (hit)
-move: 
+### venue_determines_value
+move: not written yet: this move has twin tests or observations but no formula; it is not applied in a reading
 twins:
 - harness_reveal: both involve surrounding context. Test: does the PERFORMANCE need to change (different harness)? → harness_reveal. Is the performance ALREADY RIGHT and only the context of reception changes? → venue_determines_value.
 published field observations:
 - BEST IN THE WORLD. $52 IN 43 MINUTES. Joshua Bell plays a metro station, same talent, same Stradivarius that sells out concert halls at 100 dollars a ticket. He earns 52 dollars in 43 minutes. That says something about the public, not the talent. Your expertise works the same way, the department, the company, the colleague decides its worth. With AI, value will stand on its own.
 
-### interpretive_boundary (hit)
+### interpretive_boundary
 move: system output involves judgment → output labeled as judgment (interpret-first) vs factual operation (act-on) → boundary made visible in the output, not implicit in architect's head
 twins:
 - gap_reveal: both reveal something hidden. Test: is the hidden thing FACTS underneath presentation (gap_reveal) or JUDGMENT SILENTLY MADE by the system (interpretive_boundary)? Gap_reveal is about what's underneath. Interpretive_boundary is about labeling the judgment function itself.
 - expert_filter: both involve judgment quality. Test: is an expert catching poor quality output (expert_filter)? Or is the architectural requirement that the system flag its own outputs as judgment vs fact (interpretive_boundary)?
 
-### unflagged_editorial (hit)
+### unflagged_editorial
 move: system performs editorial function (select, rank, suppress, reconstruct, describe) while presenting as routing/retrieval/surface operation. The editorial choice is invisible to the consumer.
 twins:
 - interpretive_boundary: unflagged_editorial is a FAILURE MODE where the boundary was collapsed. Test: is the input calling for the boundary to be drawn (interpretive_boundary) or is there an instance where boundary WAS collapsed (unflagged_editorial)? First is prescriptive, second is diagnostic.
 - harness_reveal: harness_reveal is about what surrounds the tool; unflagged_editorial is about the judgment function specifically.
 
-### recognition_without_construct (candidate)
-move: 
+### recognition_without_construct
+move: not written yet: this move has twin tests or observations but no formula; it is not applied in a reading
 twins:
 - gap_reveal: gap_reveal is about seeing. Recognition_without_construct is about seeing without building.
 - dormant_expert: recognition_without_construct is seeing without building. Dormant_expert is having without seeing.
 
-### calcification_by_correctness (jazz_riff)
-move: 
+### calcification_by_correctness
+move: not written yet: this move has twin tests or observations but no formula; it is not applied in a reading
 
-### atrophy_by_outsourcing (songwriter_draft)
-move: 
+### atrophy_by_outsourcing
+move: not written yet: this move has twin tests or observations but no formula; it is not applied in a reading
 
-### intent_as_sovereignty (jazz_riff)
-move: 
+### intent_as_sovereignty
+move: not written yet: this move has twin tests or observations but no formula; it is not applied in a reading
 
-### anchor_thesis_as_hub (unknown)
-move: 
+### anchor_thesis_as_hub
+move: not written yet: this move has twin tests or observations but no formula; it is not applied in a reading
 twins:
 - cross_domain: cross_domain is intra-capture (the expert stacking domains in one moment). Anchor_thesis_as_hub is inter-capture (the brain referencing back to an existing capture over time).
 - field_propagation: field_propagation is shape spreading through fields without direct transmission. Anchor_thesis_as_hub is registration via explicit connection-citation.

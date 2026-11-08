@@ -3,12 +3,13 @@
 //   /agent  agents: any origin, one JSON request per the request schema, checked before it is mailed.
 //   /person test of the paid journey for people (his remark 2026-10-31 16:51): the /ask/pay/ page only,
 //           a Lightning invoice per request (PERSON_PRICE_SATS; 0 closes the door), mailed once paid.
-//   /mcp    the lens as a seat (MCP, Streamable HTTP): lens_about, lens_frame (when cleared), lens_return to the mailbox.
+//   /mcp    the lens as a seat (MCP, Streamable HTTP): per-client addresses, counted in the LensLedger (Durable Object), see mcp.js.
 // The answer to either is never automatic: Dennis replies by email.
 import { WorkerMailer } from 'worker-mailer';
 import { checkRequest, mailText } from './agent.js';
 import { requestHash, description, makeInvoice, lookup, readProof } from './pay.js';
 import { mcpDoor } from './mcp.js';
+export { LensLedger } from './ledger.js';
 
 const MAX_BYTES = 60_000;
 const ID = /^REQ-[A-Z0-9-]{4,24}$/;
@@ -182,8 +183,9 @@ async function personDoor(request, env) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const path = new URL(request.url).pathname.replace(/\/+$/, '');
-    return path === '/agent' ? agentDoor(request, env) : path === '/person' ? personDoor(request, env) : path === '/mcp' ? mcpDoor(request, env, mail) : askDoor(request, env);
+    if (path === '/mcp' || path.startsWith('/mcp/')) return mcpDoor(request, env, mail, path.split('/').slice(2).filter(Boolean));
+    return path === '/agent' ? agentDoor(request, env) : path === '/person' ? personDoor(request, env) : askDoor(request, env);
   },
 };

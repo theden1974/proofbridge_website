@@ -1,5 +1,6 @@
 # proofbridge-send: Cloudflare Worker on Dennis's own account.
-# Secrets (set in the Cloudflare dashboard, never in this file): SMTP_USER, SMTP_PASS (the ask@proofbridge.nl mailbox).
+# Secrets (set in the Cloudflare dashboard, never in this file): SMTP_USER, SMTP_PASS (the ask@proofbridge.nl mailbox),
+# NWC_INVOICE_URL (invoice-only connection to his node), LEDGER_READ_TOKEN (owner's read of /mcp/ledger; unset = that door does not exist).
 name = "proofbridge-send"
 main = "src/index.js"
 compatibility_date = "2026-10-01"
@@ -15,6 +16,11 @@ SMTP_PORT = "465"
 AGENT_PRICE_SATS = "100"   # his line 2026-10-29: agents pay 100 sats per request; 0 switches the rail off
 PERSON_PRICE_SATS = "100"
 LENS_FRAME_OPEN = "1"     # UX lens package v0 served: his word "release", 2026-11-06 15:52
+# Lens door access (his lines 2026-11-08 03:11 and 03:25: access first, then payment; mechanical, no hand):
+FREE_READINGS = "3"       # free lens_frame loads per address
+LENS_PRICE_SATS = "100"   # after that, one Lightning invoice per reading; 0 closes payment (quota only)
+CREDITS_PER_PAYMENT = "1"
+ADDRESSES_PER_DAY = "3"   # addresses one caller can mint per day
 
 # Agent door (/agent): at most 2 requests per minute per address. The binding is created on deploy.
 [[ratelimits]]
@@ -24,6 +30,15 @@ simple = { limit = 2, period = 60 }
 
 [observability]
 enabled = false
+
+# The ledger behind the lens door: addresses, events, invoices, returns. SQLite-backed Durable Object (free plan since 2025-04-07).
+[[durable_objects.bindings]]
+name = "LEDGER"
+class_name = "LensLedger"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["LensLedger"]
 
 [[rules]]
 type = "Text"
