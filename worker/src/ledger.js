@@ -47,7 +47,13 @@ export class LensLedger extends DurableObject {
     const ipHash = [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('').slice(0, 24);
     const since = Date.now() - DAY;
     const n = this.sql.exec(`SELECT COUNT(*) AS n FROM addresses WHERE ip_hash=? AND created>?`, ipHash, since).one().n;
-    if (n >= perDay) { this.count('mint_refused'); return { ok: false, error: 'rate', detail: 'This caller already received ' + perDay + ' addresses today. Use one of them.' }; }
+    if (n >= perDay) {
+      // the same caller gets its latest address back instead of a refusal: a lost address is not a day lost (his 2026-11-09 01:53, by use)
+      const last = this.sql.exec(`SELECT key FROM addresses WHERE ip_hash=? AND off=0 ORDER BY created DESC LIMIT 1`, ipHash).toArray();
+      this.count('mint_reused');
+      if (last.length) return { ok: true, key: last[0].key, reused: true };
+      return { ok: false, error: 'rate', detail: 'This caller already received ' + perDay + ' addresses today.' };
+    }
     const bytes = crypto.getRandomValues(new Uint8Array(24));
     const key = [...bytes].map(b => 'abcdefghijklmnopqrstuvwxyz0123456789'[b % 36]).join('');
     this.sql.exec(`INSERT INTO addresses (key, created, ip_hash, client, last_seen) VALUES (?, ?, ?, ?, ?)`, key, Date.now(), ipHash, String(client || '').slice(0, 80), Date.now());

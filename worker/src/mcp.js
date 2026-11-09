@@ -179,8 +179,8 @@ async function addressDoor(request, env) {
   let r; try { r = await env.LEDGER.getByName('ledger').mint(ip, client, Number(env.ADDRESSES_PER_DAY || 3)); } catch { return json(503, { ok: false, error: 'not_available' }, cors); }
   if (!r.ok) return json(429, r, { ...cors, 'retry-after': '3600' });
   const base = new URL(request.url); base.pathname = '/mcp/k/' + r.key; base.search = '';
-  return json(200, { ok: true, address: base.toString(), free_readings: Number(env.FREE_READINGS || 3), price_sats: Number(env.LENS_PRICE_SATS || 0),
-    next: 'Add this address as a custom connector in your AI (no sign-in). In a chat with it on, say: use the UX lens. Keep the address; it is yours and it is not kept anywhere you can ask for it again.' }, cors);
+  return json(200, { ok: true, address: base.toString(), reused: !!r.reused, free_readings: Number(env.FREE_READINGS || 3), price_sats: Number(env.LENS_PRICE_SATS || 0),
+    next: (r.reused ? 'This is the latest address made for you today. ' : '') + 'Add this address as a custom connector in your AI (no sign-in). In a chat with it on, say: use the UX lens. Keep the address.' }, cors);
 }
 
 // alive, like a node: what it serves, since when, what it has done. No client detail.
