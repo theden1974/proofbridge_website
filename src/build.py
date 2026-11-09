@@ -26,12 +26,6 @@ ld = {
     "@type": "Person", "@id": "https://interactiondesign.nl/#dennis", "name": "Dennis Jansen",
     "url": "https://interactiondesign.nl/", "sameAs": ["https://interactiondesign.nl/", "https://x.com/theden1974", "https://github.com/theden1974"],
     "description": C['intro'],
-    "makesOffer": [
-      {"@type": "Offer", "name": C['tier1_human'], "priceSpecification": {"@type": "PriceSpecification", "minPrice": btc(t1), "priceCurrency": "BTC"}, "availability": "https://schema.org/PreOrder",
-       "acceptedPaymentMethod": "Bitcoin", "url": "https://proofbridge.nl/#attention"},
-      {"@type": "Offer", "name": C['tier2_human'], "priceSpecification": {"@type": "PriceSpecification", "minPrice": btc(t2), "priceCurrency": "BTC"}, "availability": "https://schema.org/PreOrder",
-       "acceptedPaymentMethod": "Bitcoin", "url": "https://proofbridge.nl/#attention"}
-    ],
     "knowsAbout": [x['name'] for x in K['task_types']]
   }
 }
@@ -41,7 +35,7 @@ def vp_html(i, v):
     <span class="label">0{i}</span>
     <h2>{E(v['title'])}</h2>
     <p>{E(v['text'])}</p>
-    <p class="proof"><span class="label">↳ seen in the field</span>{E(v['proof'])}</p>
+    <p class="proof">{E(v["proof"])}</p>
   </article>'''
 
 page = f'''<!DOCTYPE html>
@@ -96,6 +90,7 @@ page = f'''<!DOCTYPE html>
   .note {{ font-family: var(--mono); font-size: var(--s-1); color: var(--grey); letter-spacing: 0; text-transform: none; font-weight: 300; }}
   .att {{ padding: clamp(2.5rem, 7vh, 5rem) 0; display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(1.5rem, 4vw, 4rem); border-bottom: 1px solid var(--line); }}
   .att h2 {{ font-weight: 500; font-size: var(--s3); line-height: 1.1; }}
+  .btn {{ display: inline-block; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.08em; background: var(--ink); color: var(--paper); border-radius: 2rem; padding: 0.7rem 1.3rem; text-decoration: none; }}
   .tiers {{ list-style: none; }}
   .tiers li {{ display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }}
   .tiers b {{ font-weight: 500; white-space: nowrap; }} .tiers span b {{ white-space: normal; }} .tiers small {{ display: block; color: var(--grey); font-size: var(--s-1); max-width: 34ch; margin-top: 0.2rem; }}
@@ -124,7 +119,6 @@ page = f'''<!DOCTYPE html>
 </header>
 
 <section class="intro" aria-labelledby="h1">
-  <span class="label">↳ intro</span>
   <h1 id="h1">{E(C['h1'])}{(' <span class="note">(' + E(C['h1_note']) + ')</span>') if C.get('h1_note') else ''}</h1>
   <p>{E(C['intro'])}</p>
 </section>
@@ -135,19 +129,12 @@ page = f'''<!DOCTYPE html>
 
 <section class="att" id="attention" aria-labelledby="h-att">
   <div>
-    <span class="label">↳ attention</span>
-    <h2 id="h-att">{E(C['att_title'])}</h2>
+    <h2 id="h-att" class="label">↳ the lens</h2>
   </div>
   <div>
-    <ul class="tiers">
-      <li><span><b>{E(C['tier1_human'])}</b><br><small>{E(C['tier1_gets'])}</small></span><b>from {fmt(t1)} sats</b></li>
-      <li><span><b>{E(C['tier2_human'])}</b><br><small>{E(C['tier2_gets'])}</small></span><b class="hi">from {fmt(t2)} sats</b></li>
-    </ul>
-    <p class="how">{E(C['att_status'])}</p>
-    <p class="how">{E(' '.join(K['phase']['rules'][:1]) + ' The prices apply when the paid tiers open. How to ask now: ')}<a href="mailto:{mail}">{mail}</a>{E('; for agents, ')}<a href="/agents/">the task contract</a>{E('.')}</p>
-    <p class="addr" id="addr">{addr}</p>
-    <button class="copy" type="button" onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText('{addr}').then(()=>this.textContent='copied')">Copy address</button>
-    <p class="how">{E(C['att_how']).replace('the task contract', '<a href="/agents/#examples">the task contract</a>')}</p>
+    <p class="how">{E(C['door_lens'])}</p>
+    <p class="how"><a class="btn" href="/mcp/">Connect the lens</a></p>
+    <p class="how">{E(C['door_me']).replace('by email', '')}<a href="mailto:{mail}">by email</a>.</p>
   </div>
 </section>
 
@@ -155,7 +142,6 @@ page = f'''<!DOCTYPE html>
   <span class="label">↳ connect</span>
   <a href="mailto:{mail}">{mail}</a>
   <a href="https://interactiondesign.nl/">interactiondesign.nl</a>
-  <a href="https://x.com/theden1974">X</a>
   <p class="agents label">↳ for AI agents: <a href="/agents/">task contract</a></p>
 </footer>
 

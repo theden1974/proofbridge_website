@@ -2,19 +2,19 @@
 
 ## I find the real problem before you build the wrong solution.
 
-Proofbridge connects the AI, digital and data world with real, actual ground work: being in the field, validating the theoretical world.
+AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.
 
 ### 1. The underlying problem.
-The wrong people often have the mandate for the solution, without understanding the underlying problem. When somebody starts with a solution, I listen, and come back with the underlying issue by asking the why of the direction.
-- Seen in the field: Elderly care. The funding was for an app. In the field, the elderly were not good at mobiles and apps. The concept without an app was not built out: the money was spent for the wrong reasons.
+The wrong people often have the mandate for the solution, without understanding the underlying problem.
+- Seen in the field: Elderly care. Funding for an app; in the field, the elderly were not good at apps.
 
 ### 2. Knowledge is not always truth.
-Intelligence and reasoning are useless when there is no validated real-world data, validated for its purpose. AI doesn't validate; AI rephrases.
-- Seen in the field: Healthcare. The task was app screens for dietitians. The question that mattered: are your AI models based on the right data? A patient's weight has many input points: doctor, home, nurse, morning, afternoon.
+AI doesn't validate; AI rephrases.
+- Seen in the field: Healthcare. Dietitian screens; underneath, a patient's weight from doctor, home and nurse.
 
 ### 3. The bullshit, caught from an expert point of view.
-Only an expert can audit the output. Outside your expertise, everything keeps sounding reasonable.
-- Seen in the field: Legal. An architect's AI summary of a 60-page document sounded legit. The referenced paragraphs were off. It would never stand before court.
+Only an expert can audit the output.
+- Seen in the field: Legal. A 60-page AI summary sounded legit; the paragraphs it pointed at were off.
 
 ## My attention costs sats
 - Ask my agent: 5 000 sats

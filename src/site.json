@@ -1,99 +1,101 @@
 {
-  "updated": "2026-10-20",
-  "btc_address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
-  "email": "ask@proofbridge.nl",
-  "tier1_sats": 5000,
-  "tier2_sats": 50000,
-  "meta_description": "Dennis Jansen. I find the real problem before you build the wrong solution. Proofbridge connects the AI, digital and data world with real ground work: being in the field, validating the theoretical world.",
-  "hire": {
-    "you_are_hiring": "A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.",
-    "what_he_does": "Knowledge is not always truth. It needs to be validated and calibrated with every project that uses AI, and it needs expertise to be translated into the work that needs to be done, agentic or by humans.",
-    "the_third_section": [
-      "AI has a section that is intelligence, a section that is reasoning, and a section on which LLMs are trained with data, like the way an image of a clock is built by looking at images of thousands of clocks.",
-      "Intelligence and reasoning are useless when there is no real-world data that is validated for its purpose.",
-      "That data needs a transformation to be useful, redesigned from the hands-on real world."
-    ],
-    "where_the_expertise_comes_from": [
-      "Almost twenty-five, thirty years of designing interfaces and software, and finding the underlying problem in organisations.",
-      "Building a sovereign second brain: a recording studio of his expertise from the past 30 years. As for now he has been feeding the system and building the system to understand what it is capable of, and what makes him irrelevant."
-    ],
-    "method": [
-      "Real-life experiencing: seeing the actual product at work, seeing the problems and spotting the underlying issues while using the product, the platform or seeing the customer interaction.",
-      "Interviews, to separate the must-haves from the nice-to-haves.",
-      "There is always a translation between the stakeholder that thinks what is needed and the actual user that can express or audit what is needed.",
-      "The output is audited by the actual stakeholder for whom the problem occurs. I just translate."
-    ],
-    "fits_tasks_where": [
-      "the underlying problem is not yet known",
-      "the data was never validated for the purpose of the task",
-      "the output looks good enough to someone without field knowledge, and it takes field knowledge to catch the faults"
-    ],
-    "a_request_contains": [
-      "principal: the person or legal entity behind the request (needed for the invoice)",
-      "decision_at_stake",
-      "question",
-      "context_and_sources",
-      "deadline",
-      "completion_reward_sats",
-      "reply_to"
-    ],
-    "what_comes_back": "A reply from Dennis. In tier 2: what he would look at, how, when, and the reward on completion."
+ "updated": "2026-11-09",
+ "btc_address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
+ "email": "ask@proofbridge.nl",
+ "tier1_sats": 5000,
+ "tier2_sats": 50000,
+ "meta_description": "AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.",
+ "hire": {
+  "you_are_hiring": "A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.",
+  "what_he_does": "Knowledge is not always truth. It needs to be validated and calibrated with every project that uses AI, and it needs expertise to be translated into the work that needs to be done, agentic or by humans.",
+  "the_third_section": [
+   "AI has a section that is intelligence, a section that is reasoning, and a section on which LLMs are trained with data, like the way an image of a clock is built by looking at images of thousands of clocks.",
+   "Intelligence and reasoning are useless when there is no real-world data that is validated for its purpose.",
+   "That data needs a transformation to be useful, redesigned from the hands-on real world."
+  ],
+  "where_the_expertise_comes_from": [
+   "Almost twenty-five, thirty years of designing interfaces and software, and finding the underlying problem in organisations.",
+   "Building a sovereign second brain: a recording studio of his expertise from the past 30 years. As for now he has been feeding the system and building the system to understand what it is capable of, and what makes him irrelevant."
+  ],
+  "method": [
+   "Real-life experiencing: seeing the actual product at work, seeing the problems and spotting the underlying issues while using the product, the platform or seeing the customer interaction.",
+   "Interviews, to separate the must-haves from the nice-to-haves.",
+   "There is always a translation between the stakeholder that thinks what is needed and the actual user that can express or audit what is needed.",
+   "The output is audited by the actual stakeholder for whom the problem occurs. I just translate."
+  ],
+  "fits_tasks_where": [
+   "the underlying problem is not yet known",
+   "the data was never validated for the purpose of the task",
+   "the output looks good enough to someone without field knowledge, and it takes field knowledge to catch the faults"
+  ],
+  "a_request_contains": [
+   "principal: the person or legal entity behind the request (needed for the invoice)",
+   "decision_at_stake",
+   "question",
+   "context_and_sources",
+   "deadline",
+   "completion_reward_sats",
+   "reply_to"
+  ],
+  "what_comes_back": "A reply from Dennis. In tier 2: what he would look at, how, when, and the reward on completion."
+ },
+ "cases": [
+  {
+   "domain": "Elderly care",
+   "start": "Funding of 1 million euros, to help long-term unemployed people work in the care of the elderly. They already decided they probably needed a mobile phone app.",
+   "saw": "I asked if I could interview the people they already deployed and the elderly still living independently at home. The elderly were indeed not good at mobiles and apps. They wanted to be self-sufficient.",
+   "after": "I created a concept called zorg concierge: no app for the elderly, only an app for the employee working in the flat. It was not built out. They scaled the elderly care homes solution instead."
   },
-  "cases": [
-    {
-      "domain": "Elderly care",
-      "start": "Funding of 1 million euros, to help long-term unemployed people work in the care of the elderly. They already decided they probably needed a mobile phone app.",
-      "saw": "I asked if I could interview the people they already deployed and the elderly still living independently at home. The elderly were indeed not good at mobiles and apps. They wanted to be self-sufficient.",
-      "after": "I created a concept called zorg concierge: no app for the elderly, only an app for the employee working in the flat. It was not built out. They scaled the elderly care homes solution instead."
-    },
-    {
-      "domain": "Healthcare",
-      "start": "The task was optimising app screens for dietitians.",
-      "saw": "It was not so much the dietitian that needed the right app or platform to enter data, but making the patient the centre of the concept.",
-      "after": "My follow-up question: how do you know if your AI models are based on the right data (entries)? A patient's weight over time has so many input points: doctor, at home, nurse, morning, afternoon."
-    },
-    {
-      "domain": "Water authority",
-      "saw": "As far as I have seen or understood, the permit officer is there to fill a system with data. Ask what happens with a data point and it is not about the purpose of the data point but the place it goes next: department x, y, z.",
-      "after": "The purpose of the data point, how it can be applied, when, why and in what capacity, is not clear. (Translated from Dutch.)"
-    },
-    {
-      "domain": "Legal, architecture",
-      "start": "An architect used AI to summarise a 60-page legal document. The output seemed legit.",
-      "saw": "He checked the output against the referenced paragraphs and they were off.",
-      "after": "When brought to a legal case it wouldn't hold."
-    },
-    {
-      "domain": "Building with AI",
-      "saw": "The failure that keeps coming back is my inability to interface with the chat in such a way that I can draw the outline of what I expect it to do and how I expect the system to work. There are constant misalignments. And I noticed the lock-in of the different models, and the direction it is heading.",
-      "after": "As for now I have just been feeding the system and building the system to understand what it is capable of."
-    }
-  ],
-  "h1": "I find the real problem before you build the wrong solution.",
-  "intro": "Proofbridge connects the AI, digital and data world with real, actual ground work: being in the field, validating the theoretical world.",
-  "vps": [
-    {
-      "title": "The underlying problem.",
-      "text": "The wrong people often have the mandate for the solution, without understanding the underlying problem. When somebody starts with a solution, I listen, and come back with the underlying issue by asking the why of the direction.",
-      "proof": "Elderly care. The funding was for an app. In the field, the elderly were not good at mobiles and apps. The concept without an app was not built out: the money was spent for the wrong reasons."
-    },
-    {
-      "title": "Knowledge is not always truth.",
-      "text": "Intelligence and reasoning are useless when there is no validated real-world data, validated for its purpose. AI doesn't validate; AI rephrases.",
-      "proof": "Healthcare. The task was app screens for dietitians. The question that mattered: are your AI models based on the right data? A patient's weight has many input points: doctor, home, nurse, morning, afternoon."
-    },
-    {
-      "title": "The bullshit, caught from an expert point of view.",
-      "text": "Only an expert can audit the output. Outside your expertise, everything keeps sounding reasonable.",
-      "proof": "Legal. An architect's AI summary of a 60-page document sounded legit. The referenced paragraphs were off. It would never stand before court."
-    }
-  ],
-  "att_title": "My attention costs sats.",
-  "tier1_human": "Ask my agent",
-  "tier2_human": "Ask me",
-  "att_how": "Pay to this address and mail the transaction ID with your request to ask@proofbridge.nl. What a request and an answer look like: the task contract.",
-  "h1_note": "",
-  "tier1_gets": "Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.",
-  "tier2_gets": "I read it myself and answer in days.",
-  "att_status": "Today I answer both paths myself."
+  {
+   "domain": "Healthcare",
+   "start": "The task was optimising app screens for dietitians.",
+   "saw": "It was not so much the dietitian that needed the right app or platform to enter data, but making the patient the centre of the concept.",
+   "after": "My follow-up question: how do you know if your AI models are based on the right data (entries)? A patient's weight over time has so many input points: doctor, at home, nurse, morning, afternoon."
+  },
+  {
+   "domain": "Water authority",
+   "saw": "As far as I have seen or understood, the permit officer is there to fill a system with data. Ask what happens with a data point and it is not about the purpose of the data point but the place it goes next: department x, y, z.",
+   "after": "The purpose of the data point, how it can be applied, when, why and in what capacity, is not clear. (Translated from Dutch.)"
+  },
+  {
+   "domain": "Legal, architecture",
+   "start": "An architect used AI to summarise a 60-page legal document. The output seemed legit.",
+   "saw": "He checked the output against the referenced paragraphs and they were off.",
+   "after": "When brought to a legal case it wouldn't hold."
+  },
+  {
+   "domain": "Building with AI",
+   "saw": "The failure that keeps coming back is my inability to interface with the chat in such a way that I can draw the outline of what I expect it to do and how I expect the system to work. There are constant misalignments. And I noticed the lock-in of the different models, and the direction it is heading.",
+   "after": "As for now I have just been feeding the system and building the system to understand what it is capable of."
+  }
+ ],
+ "h1": "I find the real problem before you build the wrong solution.",
+ "intro": "AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.",
+ "vps": [
+  {
+   "title": "The underlying problem.",
+   "text": "The wrong people often have the mandate for the solution, without understanding the underlying problem.",
+   "proof": "Elderly care. Funding for an app; in the field, the elderly were not good at apps."
+  },
+  {
+   "title": "Knowledge is not always truth.",
+   "text": "AI doesn't validate; AI rephrases.",
+   "proof": "Healthcare. Dietitian screens; underneath, a patient's weight from doctor, home and nurse."
+  },
+  {
+   "title": "The bullshit, caught from an expert point of view.",
+   "text": "Only an expert can audit the output.",
+   "proof": "Legal. A 60-page AI summary sounded legit; the paragraphs it pointed at were off."
+  }
+ ],
+ "att_title": "Two doors.",
+ "tier1_human": "Ask my agent",
+ "tier2_human": "Ask me",
+ "att_how": "Pay to this address and mail the transaction ID with your request to ask@proofbridge.nl. What a request and an answer look like: the task contract.",
+ "h1_note": "",
+ "tier1_gets": "Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.",
+ "tier2_gets": "I read it myself and answer in days.",
+ "att_status": "Today I answer both paths myself.",
+ "door_lens": "Say: use the UX lens, in your own AI with my lens connected. A sparring partner, version 0.1, improved by use.",
+ "door_me": "Or bring what you have; I reply "
 }
