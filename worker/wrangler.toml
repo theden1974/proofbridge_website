@@ -17,7 +17,7 @@ AGENT_PRICE_SATS = "100"   # his line 2026-10-29: agents pay 100 sats per reques
 PERSON_PRICE_SATS = "100"
 LENS_FRAME_OPEN = "1"     # UX lens package v0 served: his word "release", 2026-11-06 15:52
 # Lens door access (his lines 2026-11-08 03:11 and 03:25: access first, then payment; mechanical, no hand):
-FREE_READINGS = "3"       # free lens_frame loads per address
+FREE_READINGS = "1000000" # counter off until the door is ready for production (his 2026-11-09 02:08); loads are still counted in the ledger. Production value: 3
 LENS_PRICE_SATS = "100"   # after that, one Lightning invoice per reading; 0 closes payment (quota only)
 CREDITS_PER_PAYMENT = "1"
 ADDRESSES_PER_DAY = "3"   # addresses one caller can mint per day
