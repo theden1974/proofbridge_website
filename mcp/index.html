@@ -43,7 +43,7 @@
   const b = document.getElementById('get'), out = document.getElementById('out'), addr = document.getElementById('addr'), note = document.getElementById('note');
   b.onclick = async () => { b.disabled = true;
     try { const r = await fetch(R + '/address', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ client: 'page' }) }); const j = await r.json();
-      if (j.ok) { addr.textContent = j.address; note.textContent = (j.reused ? 'The latest address made for you today. ' : 'Yours. Keep it. ') + j.free_readings + ' readings free, then ' + j.price_sats + ' sats each over Lightning, asked in the chat.'; out.hidden = false; }
+      if (j.ok) { addr.textContent = j.address; note.textContent = (j.reused ? 'The latest address made for you today. ' : 'Yours. Keep it.') + (j.free_readings < 1000 ? ' ' + j.free_readings + ' readings free, then ' + j.price_sats + ' sats each over Lightning, asked in the chat.' : ''); out.hidden = false; }
       else { note.textContent = j.detail || j.error; out.hidden = false; }
     } catch { note.textContent = 'The door did not answer.'; out.hidden = false; }
     b.disabled = false; };

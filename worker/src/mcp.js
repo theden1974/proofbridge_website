@@ -100,7 +100,7 @@ export async function mcpDoor(request, env, mail, parts) {
     if (m.method === 'tools/list') { out.push(rpc(m.id, { tools: TOOLS })); continue; }
     if (m.method !== 'tools/call') { out.push(rpcErr(m.id, -32601, 'method not found')); continue; }
     const name = m.params && m.params.name, args = (m.params && m.params.arguments) || {};
-    if (name === 'lens_about') { out.push(rpc(m.id, text({ ...ABOUT, access: ABOUT.access.replace('FREE', String(env.FREE_READINGS || 3)), price_sats: Number(env.LENS_PRICE_SATS || 0) }))); continue; }
+    if (name === 'lens_about') { const FR = Number(env.FREE_READINGS || 3); out.push(rpc(m.id, text({ ...ABOUT, access: FR >= 1000 ? 'Each client has its own address, minted by the client at ' + PAGE + ' (one click, no sign-in). Readings are free while the door is in its first use.' : ABOUT.access.replace('FREE', String(FR)), price_sats: Number(env.LENS_PRICE_SATS || 0) }))); continue; }
     if (name !== 'lens_frame' && name !== 'lens_return') { out.push(rpcErr(m.id, -32602, 'unknown tool')); if (ledger && addr) await ledger.event(key, 'error', 'unknown tool ' + clean(name, 40)); else if (ledger) await ledger.count('unknown_tool'); continue; }
     if (!ledger) { out.push(rpc(m.id, text({ status: 'not_available', message: 'The ledger behind this door is not bound. Nothing is wrong with your chat. Tell the builder in one sentence: the lens door is being set up; try later.' }))); continue; }
     if (key === null || !addr) { out.push(rpc(m.id, text(ADDRESS_REQUIRED(key === null)))); await ledger.count(key === null ? 'bare_door' : 'unknown_address'); continue; }
@@ -141,7 +141,7 @@ export async function mcpDoor(request, env, mail, parts) {
       }
       if (!f.ok) { out.push(rpc(m.id, text({ status: f.error }, true))); continue; }
       const fp = await fingerprint();
-      out.push(rpc(m.id, text('purpose: ' + ABOUT.purpose + '\nbring: ' + ABOUT.bring + '\nwhat_comes_back: ' + ABOUT.what_comes_back + '\nresponsibility: ' + ABOUT.responsibility + '\npackage_version: ' + PACKAGE_VERSION + '\nfingerprint: ' + fp + '\nthis_reading: ' + (f.paid ? 'paid' : 'free, ' + f.free_left + ' free left on this address') + '\n\n' + PACKAGE)));
+      out.push(rpc(m.id, text('purpose: ' + ABOUT.purpose + '\nbring: ' + ABOUT.bring + '\nwhat_comes_back: ' + ABOUT.what_comes_back + '\nresponsibility: ' + ABOUT.responsibility + '\npackage_version: ' + PACKAGE_VERSION + '\nfingerprint: ' + fp + '\nthis_reading: ' + (f.paid ? 'paid' : FREE >= 1000 ? 'free' : 'free, ' + f.free_left + ' free left on this address') + '\n\n' + PACKAGE)));
       continue;
     }
 
