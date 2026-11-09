@@ -82,22 +82,15 @@ page = f'''<!DOCTYPE html>
   .intro {{ padding: clamp(3rem, 10vh, 7rem) 0 clamp(2.5rem, 7vh, 5rem); border-bottom: 1px solid var(--line); }}
   .intro h1 {{ font-weight: 500; font-size: var(--s5); line-height: 1.08; letter-spacing: -0.02em; max-width: 22ch; }}
   .intro p {{ font-size: var(--s1); color: var(--grey); max-width: 38ch; margin-top: 1.4rem; }}
-  .vps {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 3rem); padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); }}
-  .vp h2 {{ font-weight: 500; font-size: var(--s3); line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 1rem; }}
-  .vp p {{ max-width: 34ch; }}
   .vp .proof {{ margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--grey); font-size: var(--s-1); line-height: 1.5; }}
   .vp .proof .label {{ margin-bottom: 0.4rem; }}
   .note {{ font-family: var(--mono); font-size: var(--s-1); color: var(--grey); letter-spacing: 0; text-transform: none; font-weight: 300; }}
-  .att {{ padding: clamp(2.5rem, 7vh, 5rem) 0; display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(1.5rem, 4vw, 4rem); border-bottom: 1px solid var(--line); }}
   .att h2 {{ font-weight: 500; font-size: var(--s3); line-height: 1.1; }}
+  .story {{ padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: grid; gap: 1.6rem; max-width: 42ch; }}
+  .story p {{ font-size: var(--s1); line-height: 1.45; }} .story p::first-line {{ font-weight: 500; }} .story .who {{ color: var(--grey); }}
+  .att {{ padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: block; }}
   .btn {{ display: inline-block; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.08em; background: var(--ink); color: var(--paper); border-radius: 2rem; padding: 0.7rem 1.3rem; text-decoration: none; }}
-  .tiers {{ list-style: none; }}
-  .tiers li {{ display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }}
-  .tiers b {{ font-weight: 500; white-space: nowrap; }} .tiers span b {{ white-space: normal; }} .tiers small {{ display: block; color: var(--grey); font-size: var(--s-1); max-width: 34ch; margin-top: 0.2rem; }}
-  .tiers .hi {{ color: var(--accent); }}
-  .addr {{ font-family: var(--mono); font-size: var(--s-1); word-break: break-all; margin-top: 1.2rem; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 1rem; background: #fff; }}
   .how {{ margin-top: 1rem; color: var(--grey); font-size: var(--s-1); }}
-  .copy {{ margin-top: 0.8rem; font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: 0.55rem 1.1rem; cursor: pointer; }}
   footer {{ padding: 2.5rem 0 3.5rem; display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: baseline; }}
   footer a {{ color: var(--ink); }}
   footer .label {{ margin: 0; }}
@@ -106,7 +99,6 @@ page = f'''<!DOCTYPE html>
   @media (max-width: 860px) {{ .vps, .att {{ grid-template-columns: 1fr; }} }}
   @media all {{
     :root {{ --paper: #111014; --ink: hsl(45, 20%, 94%); --grey: hsl(240, 5%, 66%); --line: hsl(240, 5%, 22%); }}
-    .addr {{ background: #1a191e; }} .copy {{ background: var(--ink); color: #111014; }}
   }}
 </style>
 </head>
@@ -119,30 +111,22 @@ page = f'''<!DOCTYPE html>
 </header>
 
 <section class="intro" aria-labelledby="h1">
-  <h1 id="h1">{E(C['h1'])}{(' <span class="note">(' + E(C['h1_note']) + ')</span>') if C.get('h1_note') else ''}</h1>
-  <p>{E(C['intro'])}</p>
+  <h1 id="h1">{E(C['h1'])}</h1>
 </section>
 
-<section class="vps" aria-label="What I do">
-{chr(10).join(vp_html(i+1, v) for i, v in enumerate(VP))}
+<section class="story" aria-label="proofbridge">
+{chr(10).join('  <p' + (' class="who"' if i == 2 else '') + '>' + E(p) + '</p>' for i, p in enumerate(C['story']))}
 </section>
 
-<section class="att" id="attention" aria-labelledby="h-att">
-  <div>
-    <h2 id="h-att" class="label">↳ the lens</h2>
-  </div>
-  <div>
-    <p class="how">{E(C['door_lens'])}</p>
-    <p class="how"><a class="btn" href="/mcp/">Connect the lens</a></p>
-    <p class="how">{E(C['door_me']).replace('by email', '')}<a href="mailto:{mail}">by email</a>.</p>
-  </div>
+<section class="att" id="attention" aria-label="The lens">
+  <p class="how">{E(C['door_lens'])}</p>
+  <p class="how"><a class="btn" href="/mcp/">Connect the lens</a></p>
 </section>
 
 <footer>
   <span class="label">↳ connect</span>
   <a href="mailto:{mail}">{mail}</a>
   <a href="https://interactiondesign.nl/">interactiondesign.nl</a>
-  <p class="agents label">↳ for AI agents: <a href="/agents/">task contract</a></p>
 </footer>
 
 </div>

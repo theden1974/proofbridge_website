@@ -4,7 +4,7 @@
  "email": "ask@proofbridge.nl",
  "tier1_sats": 5000,
  "tier2_sats": 50000,
- "meta_description": "AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.",
+ "meta_description": "Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.",
  "hire": {
   "you_are_hiring": "A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.",
   "what_he_does": "Knowledge is not always truth. It needs to be validated and calibrated with every project that uses AI, and it needs expertise to be translated into the work that needs to be done, agentic or by humans.",
@@ -70,7 +70,7 @@
   }
  ],
  "h1": "I find the real problem before you build the wrong solution.",
- "intro": "AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.",
+ "intro": "Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.",
  "vps": [
   {
    "title": "The underlying problem.",
@@ -96,6 +96,13 @@
  "tier1_gets": "Your agent sends the question and the data. My lens answers: the underlying problem, or a verdict with evidence.",
  "tier2_gets": "I read it myself and answer in days.",
  "att_status": "Today I answer both paths myself.",
- "door_lens": "Say: use the UX lens, in your own AI with my lens connected. A sparring partner, version 0.1, improved by use.",
- "door_me": "Or bring what you have; I reply "
+ "door_lens": "Say: use the UX lens. Version 0.1, improved by use.",
+ "door_me": "Or bring what you have; I reply ",
+ "story": [
+  "Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.",
+  "Nothing is true until validated. I keep what is said as it was said, nothing cut. A pattern that comes back in different fields is knowledge. The rest is theory.",
+  "For the one who builds with AI and has nobody in the room who can judge the output.",
+  "You leave with the problem underneath, in your own words. What was checked, and what was not. Thirty minutes with me, or a reading inside your own AI.",
+  "Raw first. The pattern that comes back. Proof of fact. Through the UX lens."
+ ]
 }

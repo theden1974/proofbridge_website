@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>proofbridge · Dennis Jansen</title>
-<meta name="description" content="AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.">
+<meta name="description" content="Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.">
 <link rel="canonical" href="https://proofbridge.nl/">
 <link rel="alternate" type="text/markdown" href="/index.md" title="This page as markdown">
 <link rel="alternate" type="application/json" href="/offer.json" title="Offer for AI agents (JSON)">
 <link rel="describedby" type="text/markdown" href="/llms.txt">
 <link rel="service-desc" type="application/openapi+json" href="/agents/openapi.json">
 <meta property="og:title" content="proofbridge · Dennis Jansen">
-<meta property="og:description" content="AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.">
+<meta property="og:description" content="Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.">
 <meta property="og:url" content="https://proofbridge.nl/">
 <meta property="og:type" content="profile">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,7 @@
   "url": "https://proofbridge.nl/",
   "name": "proofbridge · Dennis Jansen",
   "dateModified": "2026-11-09",
-  "description": "AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.",
+  "description": "Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.",
   "mainEntity": {
     "@type": "Person",
     "@id": "https://interactiondesign.nl/#dennis",
@@ -35,7 +35,7 @@
       "https://x.com/theden1974",
       "https://github.com/theden1974"
     ],
-    "description": "AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.",
+    "description": "Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.",
     "knowsAbout": [
       "Underlying problem",
       "Ground truth check",
@@ -66,22 +66,15 @@
   .intro { padding: clamp(3rem, 10vh, 7rem) 0 clamp(2.5rem, 7vh, 5rem); border-bottom: 1px solid var(--line); }
   .intro h1 { font-weight: 500; font-size: var(--s5); line-height: 1.08; letter-spacing: -0.02em; max-width: 22ch; }
   .intro p { font-size: var(--s1); color: var(--grey); max-width: 38ch; margin-top: 1.4rem; }
-  .vps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 3rem); padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); }
-  .vp h2 { font-weight: 500; font-size: var(--s3); line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 1rem; }
-  .vp p { max-width: 34ch; }
   .vp .proof { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--grey); font-size: var(--s-1); line-height: 1.5; }
   .vp .proof .label { margin-bottom: 0.4rem; }
   .note { font-family: var(--mono); font-size: var(--s-1); color: var(--grey); letter-spacing: 0; text-transform: none; font-weight: 300; }
-  .att { padding: clamp(2.5rem, 7vh, 5rem) 0; display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(1.5rem, 4vw, 4rem); border-bottom: 1px solid var(--line); }
   .att h2 { font-weight: 500; font-size: var(--s3); line-height: 1.1; }
+  .story { padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: grid; gap: 1.6rem; max-width: 42ch; }
+  .story p { font-size: var(--s1); line-height: 1.45; } .story p::first-line { font-weight: 500; } .story .who { color: var(--grey); }
+  .att { padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: block; }
   .btn { display: inline-block; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.08em; background: var(--ink); color: var(--paper); border-radius: 2rem; padding: 0.7rem 1.3rem; text-decoration: none; }
-  .tiers { list-style: none; }
-  .tiers li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
-  .tiers b { font-weight: 500; white-space: nowrap; } .tiers span b { white-space: normal; } .tiers small { display: block; color: var(--grey); font-size: var(--s-1); max-width: 34ch; margin-top: 0.2rem; }
-  .tiers .hi { color: var(--accent); }
-  .addr { font-family: var(--mono); font-size: var(--s-1); word-break: break-all; margin-top: 1.2rem; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 1rem; background: #fff; }
   .how { margin-top: 1rem; color: var(--grey); font-size: var(--s-1); }
-  .copy { margin-top: 0.8rem; font: inherit; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.06em; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: 0.55rem 1.1rem; cursor: pointer; }
   footer { padding: 2.5rem 0 3.5rem; display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: baseline; }
   footer a { color: var(--ink); }
   footer .label { margin: 0; }
@@ -90,7 +83,6 @@
   @media (max-width: 860px) { .vps, .att { grid-template-columns: 1fr; } }
   @media all {
     :root { --paper: #111014; --ink: hsl(45, 20%, 94%); --grey: hsl(240, 5%, 66%); --line: hsl(240, 5%, 22%); }
-    .addr { background: #1a191e; } .copy { background: var(--ink); color: #111014; }
   }
 </style>
 </head>
@@ -104,46 +96,25 @@
 
 <section class="intro" aria-labelledby="h1">
   <h1 id="h1">I find the real problem before you build the wrong solution.</h1>
-  <p>AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.</p>
 </section>
 
-<section class="vps" aria-label="What I do">
-  <article class="vp">
-    <span class="label">01</span>
-    <h2>The underlying problem.</h2>
-    <p>The wrong people often have the mandate for the solution, without understanding the underlying problem.</p>
-    <p class="proof">Elderly care. Funding for an app; in the field, the elderly were not good at apps.</p>
-  </article>
-  <article class="vp">
-    <span class="label">02</span>
-    <h2>Knowledge is not always truth.</h2>
-    <p>AI doesn&#x27;t validate; AI rephrases.</p>
-    <p class="proof">Healthcare. Dietitian screens; underneath, a patient&#x27;s weight from doctor, home and nurse.</p>
-  </article>
-  <article class="vp">
-    <span class="label">03</span>
-    <h2>The bullshit, caught from an expert point of view.</h2>
-    <p>Only an expert can audit the output.</p>
-    <p class="proof">Legal. A 60-page AI summary sounded legit; the paragraphs it pointed at were off.</p>
-  </article>
+<section class="story" aria-label="proofbridge">
+  <p>Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.</p>
+  <p>Nothing is true until validated. I keep what is said as it was said, nothing cut. A pattern that comes back in different fields is knowledge. The rest is theory.</p>
+  <p class="who">For the one who builds with AI and has nobody in the room who can judge the output.</p>
+  <p>You leave with the problem underneath, in your own words. What was checked, and what was not. Thirty minutes with me, or a reading inside your own AI.</p>
+  <p>Raw first. The pattern that comes back. Proof of fact. Through the UX lens.</p>
 </section>
 
-<section class="att" id="attention" aria-labelledby="h-att">
-  <div>
-    <h2 id="h-att" class="label">↳ the lens</h2>
-  </div>
-  <div>
-    <p class="how">Say: use the UX lens, in your own AI with my lens connected. A sparring partner, version 0.1, improved by use.</p>
-    <p class="how"><a class="btn" href="/mcp/">Connect the lens</a></p>
-    <p class="how">Or bring what you have; I reply <a href="mailto:ask@proofbridge.nl">by email</a>.</p>
-  </div>
+<section class="att" id="attention" aria-label="The lens">
+  <p class="how">Say: use the UX lens. Version 0.1, improved by use.</p>
+  <p class="how"><a class="btn" href="/mcp/">Connect the lens</a></p>
 </section>
 
 <footer>
   <span class="label">↳ connect</span>
   <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a>
   <a href="https://interactiondesign.nl/">interactiondesign.nl</a>
-  <p class="agents label">↳ for AI agents: <a href="/agents/">task contract</a></p>
 </footer>
 
 </div>

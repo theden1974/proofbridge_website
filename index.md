@@ -2,7 +2,7 @@
 
 ## I find the real problem before you build the wrong solution.
 
-AI is trained on the written word, people writing for people. What a project needs from the real world is not in there, and it is not self-evident. I bring it in, in a form AI can reason on.
+Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.
 
 ### 1. The underlying problem.
 The wrong people often have the mandate for the solution, without understanding the underlying problem.
