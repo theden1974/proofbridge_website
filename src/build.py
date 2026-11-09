@@ -89,6 +89,7 @@ page = f'''<!DOCTYPE html>
   .story {{ padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: grid; gap: 1.6rem; max-width: 42ch; }}
   .story p {{ font-size: var(--s1); line-height: 1.45; }} .story p::first-line {{ font-weight: 500; }} .story .who {{ color: var(--grey); }}
   .att {{ padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: block; }}
+  .att .door {{ font-size: var(--s1); line-height: 1.45; max-width: 42ch; margin-bottom: 1.2rem; }} .att .door::first-line {{ font-weight: 500; }}
   .btn {{ display: inline-block; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.08em; background: var(--ink); color: var(--paper); border-radius: 2rem; padding: 0.7rem 1.3rem; text-decoration: none; }}
   .how {{ margin-top: 1rem; color: var(--grey); font-size: var(--s-1); }}
   footer {{ padding: 2.5rem 0 3.5rem; display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: baseline; }}
@@ -119,8 +120,8 @@ page = f'''<!DOCTYPE html>
 </section>
 
 <section class="att" id="attention" aria-label="The lens">
-  <p class="how">{E(C['door_lens'])}</p>
-  <p class="how"><a class="btn" href="/mcp/">Connect the lens</a></p>
+  <p class="door">{E(C['door_lens'])}</p>
+  <p><a class="btn" href="/mcp/">Connect the lens</a></p>
 </section>
 
 <footer>
