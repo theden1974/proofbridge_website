@@ -88,7 +88,9 @@ page = f'''<!DOCTYPE html>
   .att h2 {{ font-weight: 500; font-size: var(--s3); line-height: 1.1; }}
   .story {{ padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: grid; gap: 1.6rem; max-width: 42ch; }}
   .story p {{ font-size: var(--s1); line-height: 1.45; }} .story p::first-line {{ font-weight: 500; }} .story .who {{ color: var(--grey); }}
-  .att {{ padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: block; }}
+  .ways {{ padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 4rem); }}
+  .way h2 {{ font-weight: 500; font-size: var(--s2); line-height: 1.15; margin-bottom: .8rem; }} .way p {{ max-width: 34ch; margin-bottom: 1rem; }}
+  @media (max-width: 860px) {{ .ways {{ grid-template-columns: 1fr; }} }}
   .att .door {{ font-size: var(--s1); line-height: 1.45; max-width: 42ch; margin-bottom: 1.2rem; }} .att .door::first-line {{ font-weight: 500; }}
   .btn {{ display: inline-block; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.08em; background: var(--ink); color: var(--paper); border-radius: 2rem; padding: 0.7rem 1.3rem; text-decoration: none; }}
   .how {{ margin-top: 1rem; color: var(--grey); font-size: var(--s-1); }}
@@ -115,13 +117,12 @@ page = f'''<!DOCTYPE html>
   <h1 id="h1">{E(C['h1'])}</h1>
 </section>
 
-<section class="story" aria-label="proofbridge">
-{chr(10).join('  <p' + (' class="who"' if i == 2 else '') + '>' + E(p) + '</p>' for i, p in enumerate(C['story']))}
+<section class="story" aria-label="The gap">
+{chr(10).join('  <p>' + E(p) + '</p>' for p in C['story'])}
 </section>
 
-<section class="att" id="attention" aria-label="The lens">
-  <p class="door">{E(C['door_lens'])}</p>
-  <p><a class="btn" href="/mcp/">Connect the lens</a></p>
+<section class="ways" aria-label="Two ways">
+{chr(10).join('  <div class="way"><h2>' + E(w['title']) + '</h2><p>' + E(w['text']) + '</p><p><a class="btn" href="' + w['href'] + '">' + E(w['btn']) + '</a></p></div>' for w in C['ways'])}
 </section>
 
 <footer>

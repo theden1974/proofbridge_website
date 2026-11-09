@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>proofbridge · Dennis Jansen</title>
-<meta name="description" content="Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.">
+<meta name="description" content="AI has the intelligence and the reasoning. The knowledge is missing: what was checked in the field, by someone who did the work. Whoever is handed the answer cannot judge it. That is the gap.">
 <link rel="canonical" href="https://proofbridge.nl/">
 <link rel="alternate" type="text/markdown" href="/index.md" title="This page as markdown">
 <link rel="alternate" type="application/json" href="/offer.json" title="Offer for AI agents (JSON)">
 <link rel="describedby" type="text/markdown" href="/llms.txt">
 <link rel="service-desc" type="application/openapi+json" href="/agents/openapi.json">
 <meta property="og:title" content="proofbridge · Dennis Jansen">
-<meta property="og:description" content="Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.">
+<meta property="og:description" content="AI has the intelligence and the reasoning. The knowledge is missing: what was checked in the field, by someone who did the work. Whoever is handed the answer cannot judge it. That is the gap.">
 <meta property="og:url" content="https://proofbridge.nl/">
 <meta property="og:type" content="profile">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,7 @@
   "url": "https://proofbridge.nl/",
   "name": "proofbridge · Dennis Jansen",
   "dateModified": "2026-11-09",
-  "description": "Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.",
+  "description": "AI has the intelligence and the reasoning. The knowledge is missing: what was checked in the field, by someone who did the work. Whoever is handed the answer cannot judge it. That is the gap.",
   "mainEntity": {
     "@type": "Person",
     "@id": "https://interactiondesign.nl/#dennis",
@@ -35,7 +35,7 @@
       "https://x.com/theden1974",
       "https://github.com/theden1974"
     ],
-    "description": "Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.",
+    "description": "AI has the intelligence and the reasoning. The knowledge is missing: what was checked in the field, by someone who did the work. Whoever is handed the answer cannot judge it. That is the gap.",
     "knowsAbout": [
       "Underlying problem",
       "Ground truth check",
@@ -72,7 +72,9 @@
   .att h2 { font-weight: 500; font-size: var(--s3); line-height: 1.1; }
   .story { padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: grid; gap: 1.6rem; max-width: 42ch; }
   .story p { font-size: var(--s1); line-height: 1.45; } .story p::first-line { font-weight: 500; } .story .who { color: var(--grey); }
-  .att { padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: block; }
+  .ways { padding: clamp(2.5rem, 7vh, 5rem) 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 4rem); }
+  .way h2 { font-weight: 500; font-size: var(--s2); line-height: 1.15; margin-bottom: .8rem; } .way p { max-width: 34ch; margin-bottom: 1rem; }
+  @media (max-width: 860px) { .ways { grid-template-columns: 1fr; } }
   .att .door { font-size: var(--s1); line-height: 1.45; max-width: 42ch; margin-bottom: 1.2rem; } .att .door::first-line { font-weight: 500; }
   .btn { display: inline-block; font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.08em; background: var(--ink); color: var(--paper); border-radius: 2rem; padding: 0.7rem 1.3rem; text-decoration: none; }
   .how { margin-top: 1rem; color: var(--grey); font-size: var(--s-1); }
@@ -99,17 +101,13 @@
   <h1 id="h1">I find the real problem before you build the wrong solution.</h1>
 </section>
 
-<section class="story" aria-label="proofbridge">
-  <p>Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.</p>
-  <p>Nothing is true until validated. I keep what is said as it was said, nothing cut. A pattern that comes back in different fields is knowledge. The rest is theory.</p>
-  <p class="who">For the one who builds with AI and has nobody in the room who can judge the output.</p>
-  <p>You leave with the problem underneath, in your own words. What was checked, and what was not. Thirty minutes with me, or a reading inside your own AI.</p>
-  <p>Raw first. The pattern that comes back. Proof of fact. Through the UX lens.</p>
+<section class="story" aria-label="The gap">
+  <p>AI has the intelligence and the reasoning. The knowledge is missing: what was checked in the field, by someone who did the work. Whoever is handed the answer cannot judge it. That is the gap.</p>
 </section>
 
-<section class="att" id="attention" aria-label="The lens">
-  <p class="door">Say: use the UX lens. Version 0.1, improved by use.</p>
-  <p><a class="btn" href="/mcp/">Connect the lens</a></p>
+<section class="ways" aria-label="Two ways">
+  <div class="way"><h2>Your AI, my lens.</h2><p>Connect it and say: use the UX lens. It reads your material with what I learned in the field and comes back with what is underneath, and with what it did not know.</p><p><a class="btn" href="/mcp/">Connect the lens</a></p></div>
+  <div class="way"><h2>Thirty minutes with me.</h2><p>Bring what you have. We find the real problem together. You leave with it in your own words.</p><p><a class="btn" href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a></p></div>
 </section>
 
 <footer>

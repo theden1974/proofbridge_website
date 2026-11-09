@@ -2,7 +2,7 @@
 
 ## I find the real problem before you build the wrong solution.
 
-Whoever is handed an answer cannot judge it. AI answers in the same confident tone, right or wrong. The one who can tell did the work in that field.
+AI has the intelligence and the reasoning. The knowledge is missing: what was checked in the field, by someone who did the work. Whoever is handed the answer cannot judge it. That is the gap.
 
 ### 1. The underlying problem.
 The wrong people often have the mandate for the solution, without understanding the underlying problem.
