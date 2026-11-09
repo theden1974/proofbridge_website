@@ -4,7 +4,7 @@
  "email": "ask@proofbridge.nl",
  "tier1_sats": 5000,
  "tier2_sats": 50000,
- "meta_description": "AI has the intelligence and the reasoning. The knowledge is missing: what was checked in the field, by someone who did the work. Whoever is handed the answer cannot judge it. That is the gap.",
+ "meta_description": "I find the real problem before you build the wrong solution.",
  "hire": {
   "you_are_hiring": "A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.",
   "what_he_does": "Knowledge is not always truth. It needs to be validated and calibrated with every project that uses AI, and it needs expertise to be translated into the work that needs to be done, agentic or by humans.",
@@ -70,7 +70,7 @@
   }
  ],
  "h1": "I find the real problem before you build the wrong solution.",
- "intro": "AI has the intelligence and the reasoning. The knowledge is missing: what was checked in the field, by someone who did the work. Whoever is handed the answer cannot judge it. That is the gap.",
+ "intro": "I find the real problem before you build the wrong solution.",
  "vps": [
   {
    "title": "The underlying problem.",
@@ -98,21 +98,13 @@
  "att_status": "Today I answer both paths myself.",
  "door_lens": "Say: use the UX lens. Version 0.1, improved by use.",
  "door_me": "Or bring what you have; I reply ",
- "story": [
-  "AI has the intelligence and the reasoning. The knowledge is missing: what was checked in the field, by someone who did the work. Whoever is handed the answer cannot judge it. That is the gap."
- ],
+ "story": [],
  "ways": [
   {
-   "title": "Your AI, my lens.",
-   "text": "Connect it and say: use the UX lens. It reads your material with what I learned in the field and comes back with what is underneath, and with what it did not know.",
+   "title": "",
+   "text": "Your AI, my lens. Connect it and say: use the UX lens.",
    "btn": "Connect the lens",
    "href": "/mcp/"
-  },
-  {
-   "title": "Thirty minutes with me.",
-   "text": "Bring what you have. We find the real problem together. You leave with it in your own words.",
-   "btn": "ask@proofbridge.nl",
-   "href": "mailto:ask@proofbridge.nl"
   }
  ]
 }
