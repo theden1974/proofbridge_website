@@ -28,7 +28,7 @@ const MAX_BODY = 120_000, MAX_BATCH = 4, MAX_READING = 40_000;
 const PAGE = 'https://proofbridge.nl/mcp/';
 const SOURCE = 'https://github.com/theden1974/proofbridge_website/tree/main/worker/src';
 const ABOUT = {
-  purpose: 'Position the UX lens for producing an app. If not guided, you are creating AI app slob.',
+  purpose: 'A business plan, a framework, a website, a startup plan: put it through the UX lens before you build on it. If not guided, you are creating AI slob.',
   what_it_is: 'A text: the UX lens of Dennis Jansen (proofbridge.nl), a set of structural moves with their tests, published field observations, and the form of a reading. Your AI loads it and reads your material with it, in your own chat.',
   what_leaves_your_chat: 'Nothing. This door has no tool that receives material, quotes or readings. It records that an address was made and when the lens was loaded.',
   bring: 'What is being built and for whom (screens, flow or description, as text). What has been checked with the people it is for. The decision at stake.',
