@@ -22,8 +22,9 @@
   button { font: inherit; font-weight: 500; background: var(--ink); color: var(--paper); border: 0; border-radius: 2rem; padding: .6rem 1.2rem; cursor: pointer; } button:disabled { opacity: .5; }
   .addr { font-family: var(--mono); font-size: .85rem; word-break: break-all; color: var(--ink); background: #1a191e; border: 1px solid var(--line); border-radius: .5rem; padding: .7rem .9rem; }
   .status { font-family: var(--mono); font-size: .75rem; color: var(--grey); }
-  .addrrow { display: flex; gap: .5rem; align-items: stretch; } .addrrow .addr { flex: 1; min-width: 0; }
-  .copy { flex: none; width: 44px; min-height: 44px; padding: 0; display: grid; place-items: center; background: none; color: var(--ink); border: 1px solid var(--line); border-radius: .5rem; }
+  .addrrow { display: flex; gap: .6rem; align-items: center; background: #1a191e; border: 1px solid var(--line); border-radius: .5rem; padding: .35rem .35rem .35rem .9rem; }
+  .addrrow .addr { flex: 1; min-width: 0; background: none; border: 0; padding: .35rem 0; }
+  .copy { flex: none; min-height: 44px; padding: 0 .8rem; display: inline-flex; gap: .4rem; align-items: center; background: none; color: var(--ink); border: 1px solid var(--line); border-radius: .4rem; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; }
   .copy.done { color: var(--paper); background: var(--ink); }
 </style>
 <link rel="alternate" type="text/markdown" href="/mcp/index.md" title="What this door does, for agents">
@@ -38,7 +39,7 @@
 <section>
   <p>Get your address, add it to your AI as a custom connector (no sign-in), then say in the chat: <strong>use the UX lens</strong>.</p>
   <p><button id="get" type="button">Get your address</button></p>
-  <div id="out" hidden><div class="addrrow"><div class="addr" id="addr"></div><button type="button" class="copy" id="copy" aria-label="Copy the address" title="Copy" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></div><p class="grey" id="note"></p></div>
+  <div id="out" hidden><div class="addrrow"><div class="addr" id="addr"></div><button type="button" class="copy" id="copy" aria-label="Copy the address" title="Copy" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span id="copytag">Copy</span></button></div><p class="grey" id="note"></p></div>
 </section>
 
 </div>
@@ -48,7 +49,7 @@
   const b = document.getElementById('get'), out = document.getElementById('out'), addr = document.getElementById('addr'), note = document.getElementById('note');
   const cp = document.getElementById('copy');
   cp.onclick = async () => { const v = addr.textContent; let ok = false; try { await navigator.clipboard.writeText(v); ok = true; } catch { try { const r = document.createRange(); r.selectNodeContents(addr); const s = getSelection(); s.removeAllRanges(); s.addRange(r); ok = document.execCommand('copy'); } catch {} }
-    if (ok) { cp.classList.add('done'); cp.setAttribute('aria-label', 'Copied'); setTimeout(() => { cp.classList.remove('done'); cp.setAttribute('aria-label', 'Copy the address'); }, 1200); } };
+    if (ok) { const tag = document.getElementById('copytag'); cp.classList.add('done'); tag.textContent = 'Copied'; setTimeout(() => { cp.classList.remove('done'); tag.textContent = 'Copy'; }, 1200); } };
   b.onclick = async () => { b.disabled = true;
     try { const r = await fetch(R + '/address', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ client: 'page' }) }); const j = await r.json();
       if (j.ok) { addr.textContent = j.address; cp.hidden = false; note.textContent = (j.reused ? 'The latest address made for you today. ' : 'Yours. Keep it.') + (j.free_readings < 1000 ? ' ' + j.free_readings + ' readings free, then ' + j.price_sats + ' sats each over Lightning, asked in the chat.' : ' Free for now.'); out.hidden = false; }
