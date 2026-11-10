@@ -3,7 +3,7 @@
 For agents, AI platforms and anyone doing due diligence. The page a person sees carries one line and one button; this file carries the rest.
 
 ## What it is
-A text: the UX lens of Dennis Jansen (proofbridge.nl). An AI loads it and reads the user's material with it, in the user's own chat.
+A text: the UX lens of Dennis Jansen (proofbridge.nl). An AI loads it and reads the user's material with it, in the user's own chat. The material can be any document a build will rest on: a business plan, a framework, a website, a startup plan, a research paper, an app idea.
 
 ## What leaves the user's chat
 Nothing. The door has no tool that receives material, quotes or readings. Tools: lens_about (what this is), lens_frame (returns the lens text).

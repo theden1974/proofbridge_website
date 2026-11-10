@@ -26,6 +26,7 @@
   .addrrow .addr { flex: 1; min-width: 0; background: none; border: 0; padding: .35rem 0; }
   .copy { flex: none; min-height: 44px; padding: 0 .8rem; display: inline-flex; gap: .4rem; align-items: center; background: none; color: var(--ink); border: 1px solid var(--line); border-radius: .4rem; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; }
   .copy.done { color: var(--paper); background: var(--ink); }
+  .sub { font-size: var(--s1); color: var(--grey); margin-top: 1rem; max-width: 34ch; }
 </style>
 <link rel="alternate" type="text/markdown" href="/mcp/index.md" title="What this door does, for agents">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebAPI", "name": "proofbridge UX lens (MCP)", "provider": {"@type": "Person", "name": "Dennis Jansen", "email": "ask@proofbridge.nl", "url": "https://proofbridge.nl/"}, "description": "A text, the UX lens, that an AI loads and reads the user's material with in the user's own chat.", "documentation": "https://proofbridge.nl/mcp/index.md", "termsOfService": "https://proofbridge.nl/mcp/index.md", "proofbridge:what_leaves_the_chat": "Nothing. The door has no tool that receives material, quotes or readings.", "proofbridge:what_is_recorded": "That an address was made and when the lens text was loaded; the caller's network address only as a salted hash, to bound addresses per day.", "proofbridge:verify": "The door states the sha256 of the lens text it serves (GET /mcp/status); the same text is public in the repository.", "proofbridge:source": "https://github.com/theden1974/proofbridge_website/tree/main/worker/src", "proofbridge:status": "https://proofbridge-send.dennis-f79.workers.dev/mcp/status"}</script>
@@ -33,7 +34,8 @@
 <body>
 <div class="wrap">
 <header>
-  <h1>Position the UX lens for producing an app. If not guided, you are creating AI app slob.</h1>
+  <h1>A business plan, a framework, a website, a startup plan: put it through the UX lens before you build on it.</h1>
+  <p class="sub">If not guided, you are creating AI slob.</p>
 </header>
 
 <section>
