@@ -105,14 +105,11 @@ export class LensLedger extends DurableObject {
       since: new Date(Number(this.sql.exec(`SELECT v FROM meta WHERE k='since'`).one().v)).toISOString(),
       addresses: this.sql.exec(`SELECT COUNT(*) AS n FROM addresses`).one().n,
       frames: { today: c('frame', d1), week: c('frame', d7), all: c('frame', 0) },
-      returns: { today: c('return', d1), week: c('return', d7), all: c('return', 0) },
       errors: { today: c('error', d1), week: c('error', d7) },
-      mail_failed: { week: c('mail_failed', d7) },
       unpaid_frames: { week: c('frame_unpaid', d7) },
       refused: this.counters(),
       paid_sats: this.sql.exec(`SELECT COALESCE(SUM(paid_sats),0) AS s FROM addresses`).one().s,
       last_frame: lastFrame ? new Date(lastFrame).toISOString().slice(0, 16) + 'Z' : null,
-      last_return: last ? new Date(last).toISOString().slice(0, 16) + 'Z' : null,
     };
   }
   // owner only (read token): per address, recent events, returns

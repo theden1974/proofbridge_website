@@ -34,6 +34,8 @@
   <p>Get your address, add it to your AI as a custom connector (no sign-in), then say in the chat: <strong>use the UX lens</strong>.</p>
   <p><button id="get" type="button">Get your address</button></p>
   <div id="out" hidden><div class="addr" id="addr"></div><p class="grey" id="note"></p></div>
+  <p class="grey">What it does. Your AI loads my lens, a text, and reads your material with it in your own chat. Nothing from your chat is sent to me; the door has no way to receive it. It records that an address was made and when the lens was loaded.</p>
+  <p class="grey">Don't trust, verify. <a href="https://github.com/theden1974/proofbridge_website/tree/main/worker/src">The code and the lens text are public</a>; the door states the fingerprint of the text it serves. Dennis Jansen, <a href="mailto:ask@proofbridge.nl">ask@proofbridge.nl</a>.</p>
 </section>
 
 </div>
@@ -43,7 +45,7 @@
   const b = document.getElementById('get'), out = document.getElementById('out'), addr = document.getElementById('addr'), note = document.getElementById('note');
   b.onclick = async () => { b.disabled = true;
     try { const r = await fetch(R + '/address', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ client: 'page' }) }); const j = await r.json();
-      if (j.ok) { addr.textContent = j.address; note.textContent = (j.reused ? 'The latest address made for you today. ' : 'Yours. Keep it.') + (j.free_readings < 1000 ? ' ' + j.free_readings + ' readings free, then ' + j.price_sats + ' sats each over Lightning, asked in the chat.' : ''); out.hidden = false; }
+      if (j.ok) { addr.textContent = j.address; note.textContent = (j.reused ? 'The latest address made for you today. ' : 'Yours. Keep it.') + (j.free_readings < 1000 ? ' ' + j.free_readings + ' readings free, then ' + j.price_sats + ' sats each over Lightning, asked in the chat.' : ' Free for now.'); out.hidden = false; }
       else { note.textContent = j.detail || j.error; out.hidden = false; }
     } catch { note.textContent = 'The door did not answer.'; out.hidden = false; }
     b.disabled = false; };
