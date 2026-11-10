@@ -40,7 +40,7 @@ const ABOUT = {
   maturity: 'Version 0.1 of the lens, improved by use. Package ' + PACKAGE_VERSION + ', door ' + DOOR_VERSION + '.',
 };
 
-// What the user's AI is told when the connector is attached. Written to be read by the user as well: it is shown in full on the page.
+// What the user's AI is told when the connector is attached. Written so a person can read it too; the same facts are in /mcp/index.md and in the page's JSON-LD.
 const INSTRUCTIONS = [
   'This connector serves the UX lens of Dennis Jansen (proofbridge.nl): a text your AI reads the builder\'s material with. ' + ABOUT.purpose,
   'Nothing from the chat is sent to this server. The only call a reading needs is lens_frame, which returns the lens text.',
