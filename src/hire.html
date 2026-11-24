@@ -1,0 +1,51 @@
+<!--css-->
+  .hire-open { font: inherit; color: var(--ink, var(--fg)); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 0.15em; min-height: 44px; }
+  dialog#hire { width: min(34rem, calc(100vw - 2rem)); margin: auto; padding: 1.618rem; background: var(--paper, var(--bg)); color: var(--ink, var(--fg)); border: 1px solid var(--line); border-radius: 0.6rem; }
+  dialog#hire::backdrop { background: rgba(0, 0, 0, 0.6); }
+  #hire form { display: grid; gap: 0.6rem; }
+  #hire .label { margin: 0 0 0.4rem; }
+  #hire label { font-weight: 500; }
+  #hire input[type=email], #hire textarea { width: 100%; font: inherit; color: inherit; background: transparent; border: 1px solid var(--grey, var(--muted)); border-radius: 0.4rem; padding: 0.6rem 0.7rem; }
+  #hire textarea { min-height: 8.5rem; resize: vertical; }
+  #hire .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  #hire .row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: 0.6rem; }
+  #hire button.btn { font-family: var(--mono); font-size: var(--s-1); text-transform: uppercase; letter-spacing: 0.08em; background: var(--ink, var(--fg)); color: var(--paper, var(--bg)); border: 0; border-radius: 2rem; padding: 0.7rem 1.3rem; min-height: 44px; cursor: pointer; }
+  #hire button.btn:disabled { opacity: 0.5; }
+  #hire .hire-close { font: inherit; color: var(--grey, var(--muted)); background: none; border: 0; cursor: pointer; text-decoration: underline; min-height: 44px; }
+  #hire-msg { color: var(--grey, var(--muted)); font-size: var(--s-1); flex-basis: 100%; }
+  #hire input:focus-visible, #hire textarea:focus-visible { outline: 2px solid var(--accent, var(--fg)); outline-offset: 2px; }
+<!--button-->
+  <button type="button" class="hire-open" id="hire-open">hire me</button>
+<!--dialog-->
+<dialog id="hire" aria-labelledby="hire-h">
+  <form id="hire-form" novalidate>
+    <span class="label" id="hire-h">↳ hire me</span>
+    <label for="hire-email">Your email</label>
+    <input id="hire-email" type="email" autocomplete="email" inputmode="email" required>
+    <label for="hire-context">Context</label>
+    <textarea id="hire-context" maxlength="4000" required></textarea>
+    <input type="text" class="hp" id="hire-website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="row"><button type="submit" class="btn" id="hire-send">Send</button><button type="button" class="hire-close" id="hire-close">Close</button><span id="hire-msg" role="status"></span></p>
+  </form>
+</dialog>
+<script>
+(() => {
+  const D = document.getElementById('hire'), F = document.getElementById('hire-form'), M = document.getElementById('hire-msg'), S = document.getElementById('hire-send');
+  const E = document.getElementById('hire-email'), C = document.getElementById('hire-context');
+  document.getElementById('hire-open').onclick = () => { M.textContent = ''; D.showModal(); E.focus(); };
+  document.getElementById('hire-close').onclick = () => D.close();
+  F.onsubmit = async e => { e.preventDefault();
+    const email = E.value.trim(), context = C.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { M.textContent = 'That address looks incomplete.'; E.focus(); return; }
+    if (!context) { M.textContent = 'Give me some context.'; C.focus(); return; }
+    S.disabled = true; M.textContent = 'Sending.';
+    try {
+      const r = await fetch('https://proofbridge-send.dennis-f79.workers.dev/hire', { method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, context, website: document.getElementById('hire-website').value }) });
+      const j = await r.json().catch(() => ({}));
+      if (j.ok) { M.textContent = 'Sent. I reply by email.'; F.querySelectorAll('input, textarea').forEach(x => x.disabled = true); return; }
+      M.textContent = j.error === 'email' ? 'That address looks incomplete.' : j.error === 'rate' ? 'Too fast. Try again in a minute.' : 'Not sent. Mail me at info@interactiondesign.nl.';
+    } catch { M.textContent = 'Not sent. Mail me at info@interactiondesign.nl.'; }
+    S.disabled = false; };
+})();
+</script>

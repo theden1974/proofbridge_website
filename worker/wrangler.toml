@@ -11,6 +11,8 @@ keep_vars = true
 [vars]
 ALLOWED_ORIGINS = "https://proofbridge.nl,https://www.proofbridge.nl"
 MAIL_TO = "ask@proofbridge.nl"
+HIRE_TO = "info@interactiondesign.nl"   # hire me in the footer of both sites (his line 2026-11-24 15:46)
+HIRE_ORIGINS = "https://proofbridge.nl,https://www.proofbridge.nl,https://interactiondesign.nl,https://www.interactiondesign.nl"
 SMTP_HOST = "mail.privateemail.com"
 SMTP_PORT = "465"
 AGENT_PRICE_SATS = "100"   # his line 2026-10-29: agents pay 100 sats per request; 0 switches the rail off

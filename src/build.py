@@ -7,6 +7,8 @@ import json, html, os
 SRC = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.dirname(SRC)
 C = json.load(open(os.path.join(SRC, 'site.json'), encoding='utf-8'))
 K = json.load(open(os.path.join(SRC, 'contract.json'), encoding='utf-8'))
+_h = open(os.path.join(SRC, 'hire.html'), encoding='utf-8').read()
+HIRE_CSS = _h.split('<!--css-->')[1].split('<!--button-->')[0].strip('\n'); HIRE_BTN = _h.split('<!--button-->')[1].split('<!--dialog-->')[0].strip('\n'); HIRE_DIALOG = _h.split('<!--dialog-->')[1].strip('\n')
 BL = json.load(open(os.path.join(OUT, 'backlog.json'), encoding='utf-8'))
 import datetime as _dt
 C['updated'] = _dt.date.today().isoformat()  # dates generated at build time
@@ -103,6 +105,7 @@ page = f'''<!DOCTYPE html>
   @media all {{
     :root {{ --paper: #111014; --ink: hsl(45, 20%, 94%); --grey: hsl(240, 5%, 66%); --line: hsl(240, 5%, 22%); }}
   }}
+{HIRE_CSS}
 </style>
 </head>
 <body>
@@ -125,9 +128,11 @@ page = f'''<!DOCTYPE html>
   <span class="label">↳ connect</span>
   <a href="mailto:{mail}">{mail}</a>
   <a href="https://interactiondesign.nl/">interactiondesign.nl</a>
+{HIRE_BTN}
 </footer>
 
 </div>
+{HIRE_DIALOG}
 </body>
 </html>
 '''
