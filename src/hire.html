@@ -3,6 +3,8 @@
   dialog#hire { width: min(34rem, calc(100vw - 2rem)); margin: auto; padding: 1.618rem; background: var(--paper, var(--bg)); color: var(--ink, var(--fg)); border: 1px solid var(--line); border-radius: 0.6rem; }
   dialog#hire::backdrop { background: rgba(0, 0, 0, 0.6); }
   #hire form { display: grid; gap: 0.6rem; }
+  #hire form[hidden] { display: none; }
+  #hire-thanks { margin: 0.6rem 0 0; font-size: var(--s1, 1.25rem); outline: none; }
   #hire .label { margin: 0 0 0.4rem; }
   #hire label { font-weight: 500; }
   #hire input[type=email], #hire textarea { width: 100%; font: inherit; color: inherit; background: transparent; border: 1px solid var(--grey, var(--muted)); border-radius: 0.4rem; padding: 0.6rem 0.7rem; }
@@ -27,13 +29,19 @@
     <input type="text" class="hp" id="hire-website" tabindex="-1" autocomplete="off" aria-hidden="true">
     <p class="row"><button type="submit" class="btn" id="hire-send">Send</button><button type="button" class="hire-close" id="hire-close">Close</button><span id="hire-msg" role="status"></span></p>
   </form>
+  <div id="hire-done" role="status" hidden>
+    <span class="label">↳ hire me</span>
+    <p id="hire-thanks" tabindex="-1">Thank you for your interest. I get back to you soon.</p>
+    <p class="row"><button type="button" class="hire-close" id="hire-close2">Close</button></p>
+  </div>
 </dialog>
 <script>
 (() => {
   const D = document.getElementById('hire'), F = document.getElementById('hire-form'), M = document.getElementById('hire-msg'), S = document.getElementById('hire-send');
   const E = document.getElementById('hire-email'), C = document.getElementById('hire-context');
-  document.getElementById('hire-open').onclick = () => { M.textContent = ''; D.showModal(); E.focus(); };
+  document.getElementById('hire-open').onclick = () => { M.textContent = ''; D.showModal(); if (!F.hidden) E.focus(); };
   document.getElementById('hire-close').onclick = () => D.close();
+  document.getElementById('hire-close2').onclick = () => D.close();
   F.onsubmit = async e => { e.preventDefault();
     const email = E.value.trim(), context = C.value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { M.textContent = 'That address looks incomplete.'; E.focus(); return; }
@@ -43,7 +51,7 @@
       const r = await fetch('https://proofbridge-send.dennis-f79.workers.dev/hire', { method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ email, context, website: document.getElementById('hire-website').value }) });
       const j = await r.json().catch(() => ({}));
-      if (j.ok) { M.textContent = 'Sent. I reply by email.'; F.querySelectorAll('input, textarea').forEach(x => x.disabled = true); return; }
+      if (j.ok) { F.hidden = true; const T = document.getElementById('hire-done'); T.hidden = false; document.getElementById('hire-thanks').focus(); return; }
       M.textContent = j.error === 'email' ? 'That address looks incomplete.' : j.error === 'rate' ? 'Too fast. Try again in a minute.' : 'Not sent. Mail me at info@interactiondesign.nl.';
     } catch { M.textContent = 'Not sent. Mail me at info@interactiondesign.nl.'; }
     S.disabled = false; };
