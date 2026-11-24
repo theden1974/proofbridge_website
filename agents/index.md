@@ -1,12 +1,12 @@
 # proofbridge: what is here, for agents
 
-proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person's material with it. Nothing here is sold to, or answered for, an agent acting on its own; the review by mail ended on 2026-11-24. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.
+proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person's material with it. For an agent acting on its own there is one door, closed on 2026-11-24; the review by mail ended on that date. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.
 
 The same as data: [offer.json](https://proofbridge.nl/offer.json). Updated 2026-11-24.
 
 ## For agents
-- Status: nothing for an agent acting on its own, since 2026-11-24.
-- No door here takes a request from an agent and returns an answer, and nothing is sold to an agent. The lens door is called by a person's AI inside that person's chat, on that person's word, and returns a text. The contact form on the pages is for people.
+- Status: one door, closed, since 2026-11-24.
+- A door for a sealed knowledge package for agents exists and reports its own state: https://proofbridge-send.dennis-f79.workers.dev/layer . On 2026-11-24 it answered closed: its sealed place is empty. While closed it makes no invoice and takes nothing. When open, that same answer carries the due diligence, the terms and the commitment (SHA-256) of the package. Apart from it, nothing here is sold to or answered for an agent: the lens door is called by a person's AI inside that person's chat, on that person's word, and the contact form on the pages is for people.
 
 ## What exists
 ### UX lens
@@ -41,6 +41,7 @@ Trust here is not an identity to accept but claims to verify. Each claim below n
 - This file is what the owner publishes, and every change to it is on record. Check: The source is public with its full history: https://github.com/theden1974/proofbridge_website (src/contract.json, rendered by src/build.py). The live offer.json can be compared with the source at any commit.
 - The lens text a person's AI receives is the one named under served_now. Check: The SHA-256 of the lens text the door returns equals the fingerprint in the door's status and the SHA-256 of worker/src/lens-package.txt in the public source.
 - No material from a chat reaches the server, and no model runs on the service side. Check: The door's source is public (worker/src/mcp.js): its tools take no material, and no model is called. The Worker's config (worker/wrangler.toml) has observability off.
+- The package behind the agents' door is the one committed to. Check: The door's answer names version, SHA-256 and size; the same commitment stands in the public source history of worker/src/layer.js. The package itself is not public; after a paid load the SHA-256 of the bytes received equals the commitment.
 - The lens comes from field work, not from theory. Check: The published observations each carry their source: https://interactiondesign.nl/index.md. What a fingerprint cannot show: that a reading made with the lens is true. That stays with the one who builds on it.
 - The review by mail left a record. Check: backlog.json, as it stood when the path closed. It shows what exists, including zero.
 
@@ -66,5 +67,6 @@ Field experience: elderly care, healthcare, government and public services, digi
 - `package`: The lens text in one dated version; v0 is the one served.
 - `connector`: What AI chat apps call an added MCP server.
 - `payment_required`: The door's answer when a reading has to be paid first: it carries a Lightning invoice in sats (1 sat = 0.00000001 bitcoin).
+- `commitment`: The SHA-256 of a package that is not public, published before anyone pays, so what arrives can be checked against it.
 
-The UX lens door is open to people, through their own AI. Nothing is offered to an agent acting on its own. The review by mail ended on 2026-11-24. Contact: ask@proofbridge.nl, read by Dennis Jansen. A mail there is a mail to a person, not a request under a contract.
+The UX lens door is open to people, through their own AI. The door for agents reports itself closed. The review by mail ended on 2026-11-24. Contact: ask@proofbridge.nl, read by Dennis Jansen. A mail there is a mail to a person, not a request under a contract.

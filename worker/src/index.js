@@ -2,9 +2,11 @@
 //   /hire   'hire me' in the footer of both sites (his line 2026-11-24 15:46): their email and a field for context, mailed to
 //           HIRE_TO; only the origins in HIRE_ORIGINS; honeypot; rate limited; nothing stored.
 //   /mcp    the lens as a seat (MCP, Streamable HTTP): per-client addresses, counted in the LensLedger (Durable Object), see mcp.js.
+//   /layer  the agent layer: a sealed knowledge package, pay first, then load; closed while its sealed place is empty, see layer.js.
 //   /agent, /person, /   closed 2026-11-24 (the review by mail ended): 410.
 import { WorkerMailer } from 'worker-mailer';
 import { mcpDoor } from './mcp.js';
+import { layerDoor } from './layer.js';
 export { LensLedger } from './ledger.js';
 
 const MAX_BYTES = 60_000;
@@ -82,6 +84,7 @@ export default {
     const path = new URL(request.url).pathname.replace(/\/+$/, '');
     if (path === '/mcp' || path.startsWith('/mcp/')) return mcpDoor(request, env, mail, path.split('/').slice(2).filter(Boolean));
     if (path === '/hire') return hireDoor(request, env);
+    if (path === '/layer' || path.startsWith('/layer/')) return layerDoor(request, env, path.split('/').slice(2).filter(Boolean));
     return closedDoor(request);
   },
 };

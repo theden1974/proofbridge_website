@@ -20,6 +20,7 @@ LENS_FRAME_OPEN = "1"     # UX lens package v0 served: his word "release", 2026-
 FREE_READINGS = "1000000" # counter off until the door is ready for production (his 2026-11-09 02:08); loads are still counted in the ledger. Production value: 3
 LENS_PRICE_SATS = "100"   # after that, one Lightning invoice per reading; 0 closes payment (quota only)
 CREDITS_PER_PAYMENT = "1"
+LAYER_PRICE_SATS = "100"  # agent layer (/layer): fee per settled payment; working number, his to set. 0 closes the door (no free load)
 ADDRESSES_PER_DAY = "3"   # addresses one caller can mint per day
 
 # Rate limit for the hire door (and the lens door's own use): at most 2 per minute per key. The binding is created on deploy.
@@ -27,6 +28,11 @@ ADDRESSES_PER_DAY = "3"   # addresses one caller can mint per day
 name = "AGENT_LIMIT"
 namespace_id = "1001"
 simple = { limit = 2, period = 60 }
+
+# The sealed place of the agent layer: one value under the key 'sealed', put there by the owner. Never in this repository.
+# No id here: the namespace is made on the first deploy and stays linked.
+[[kv_namespaces]]
+binding = "AGENT_LAYER"
 
 [observability]
 enabled = false

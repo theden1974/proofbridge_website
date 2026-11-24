@@ -14,7 +14,7 @@
       "en"
     ]
   },
-  "summary": "proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person's material with it. Nothing here is sold to, or answered for, an agent acting on its own; the review by mail ended on 2026-11-24.",
+  "summary": "proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person's material with it. For an agent acting on its own there is one door, closed on 2026-11-24; the review by mail ended on that date.",
   "exists": [
     {
       "id": "ux_lens",
@@ -49,9 +49,9 @@
     }
   ],
   "for_agents": {
-    "status": "nothing for an agent acting on its own",
+    "status": "one door, closed",
     "since": "2026-11-24",
-    "detail": "No door here takes a request from an agent and returns an answer, and nothing is sold to an agent. The lens door is called by a person's AI inside that person's chat, on that person's word, and returns a text. The contact form on the pages is for people."
+    "detail": "A door for a sealed knowledge package for agents exists and reports its own state: https://proofbridge-send.dennis-f79.workers.dev/layer . On 2026-11-24 it answered closed: its sealed place is empty. While closed it makes no invoice and takes nothing. When open, that same answer carries the due diligence, the terms and the commitment (SHA-256) of the package. Apart from it, nothing here is sold to or answered for an agent: the lens door is called by a person's AI inside that person's chat, on that person's word, and the contact form on the pages is for people."
   },
   "ended": [
     {
@@ -91,6 +91,10 @@
         "check": "The door's source is public (worker/src/mcp.js): its tools take no material, and no model is called. The Worker's config (worker/wrangler.toml) has observability off."
       },
       {
+        "claim": "The package behind the agents' door is the one committed to.",
+        "check": "The door's answer names version, SHA-256 and size; the same commitment stands in the public source history of worker/src/layer.js. The package itself is not public; after a paid load the SHA-256 of the bytes received equals the commitment."
+      },
+      {
         "claim": "The lens comes from field work, not from theory.",
         "check": "The published observations each carry their source: https://interactiondesign.nl/index.md. What a fingerprint cannot show: that a reading made with the lens is true. That stays with the one who builds on it."
       },
@@ -115,9 +119,10 @@
     "door": "The connector endpoint that serves the lens text (an MCP server on the Worker).",
     "package": "The lens text in one dated version; v0 is the one served.",
     "connector": "What AI chat apps call an added MCP server.",
-    "payment_required": "The door's answer when a reading has to be paid first: it carries a Lightning invoice in sats (1 sat = 0.00000001 bitcoin)."
+    "payment_required": "The door's answer when a reading has to be paid first: it carries a Lightning invoice in sats (1 sat = 0.00000001 bitcoin).",
+    "commitment": "The SHA-256 of a package that is not public, published before anyone pays, so what arrives can be checked against it."
   },
-  "status": "The UX lens door is open to people, through their own AI. Nothing is offered to an agent acting on its own. The review by mail ended on 2026-11-24.",
+  "status": "The UX lens door is open to people, through their own AI. The door for agents reports itself closed. The review by mail ended on 2026-11-24.",
   "processing": {
     "worker": "A Cloudflare Worker on Dennis's account carries the lens door and a contact form for people on the pages (their email and a note). Its source is public: https://github.com/theden1974/proofbridge_website/tree/main/worker",
     "mail": "A note from the contact form is mailed to Dennis and not stored by the Worker. Mail is carried by Namecheap Private Email (servers in the United States).",

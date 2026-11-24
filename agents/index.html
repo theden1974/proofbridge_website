@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What is here, for agents · proofbridge</title>
-<meta name="description" content="proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person&#x27;s material with it. Nothing here is sold to, or answered for, an agent acting on its own; the review by mail ended on 2026-11-24.">
+<meta name="description" content="proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person&#x27;s material with it. For an agent acting on its own there is one door, closed on 2026-11-24; the review by mail ended on that date.">
 <link rel="canonical" href="https://proofbridge.nl/agents/">
 <link rel="alternate" type="text/markdown" href="/agents/index.md">
 <link rel="alternate" type="application/json" href="/offer.json">
@@ -19,12 +19,12 @@
 <body>
 <p><a href="/">← proofbridge.nl</a></p>
 <h1>proofbridge: what is here, for agents</h1>
-<p>proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person&#x27;s material with it. Nothing here is sold to, or answered for, an agent acting on its own; the review by mail ended on 2026-11-24. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.</p>
+<p>proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person&#x27;s material with it. For an agent acting on its own there is one door, closed on 2026-11-24; the review by mail ended on that date. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.</p>
 <p>The same as data: <a href="https://proofbridge.nl/offer.json">offer.json</a>. Updated 2026-11-24.</p>
 <h2>For agents</h2>
 <ul>
-<li>Status: nothing for an agent acting on its own, since 2026-11-24.</li>
-<li>No door here takes a request from an agent and returns an answer, and nothing is sold to an agent. The lens door is called by a person&#x27;s AI inside that person&#x27;s chat, on that person&#x27;s word, and returns a text. The contact form on the pages is for people.</li>
+<li>Status: one door, closed, since 2026-11-24.</li>
+<li>A door for a sealed knowledge package for agents exists and reports its own state: <a href="https://proofbridge-send.dennis-f79.workers.dev/layer">https://proofbridge-send.dennis-f79.workers.dev/layer</a> . On 2026-11-24 it answered closed: its sealed place is empty. While closed it makes no invoice and takes nothing. When open, that same answer carries the due diligence, the terms and the commitment (SHA-256) of the package. Apart from it, nothing here is sold to or answered for an agent: the lens door is called by a person&#x27;s AI inside that person&#x27;s chat, on that person&#x27;s word, and the contact form on the pages is for people.</li>
 </ul>
 <h2>What exists</h2>
 <h3>UX lens</h3>
@@ -64,6 +64,7 @@
 <li>This file is what the owner publishes, and every change to it is on record. Check: The source is public with its full history: <a href="https://github.com/theden1974/proofbridge_website">https://github.com/theden1974/proofbridge_website</a> (src/contract.json, rendered by src/build.py). The live offer.json can be compared with the source at any commit.</li>
 <li>The lens text a person&#x27;s AI receives is the one named under served_now. Check: The SHA-256 of the lens text the door returns equals the fingerprint in the door&#x27;s status and the SHA-256 of worker/src/lens-package.txt in the public source.</li>
 <li>No material from a chat reaches the server, and no model runs on the service side. Check: The door&#x27;s source is public (worker/src/mcp.js): its tools take no material, and no model is called. The Worker&#x27;s config (worker/wrangler.toml) has observability off.</li>
+<li>The package behind the agents&#x27; door is the one committed to. Check: The door&#x27;s answer names version, SHA-256 and size; the same commitment stands in the public source history of worker/src/layer.js. The package itself is not public; after a paid load the SHA-256 of the bytes received equals the commitment.</li>
 <li>The lens comes from field work, not from theory. Check: The published observations each carry their source: <a href="https://interactiondesign.nl/index.md">https://interactiondesign.nl/index.md</a>. What a fingerprint cannot show: that a reading made with the lens is true. That stays with the one who builds on it.</li>
 <li>The review by mail left a record. Check: backlog.json, as it stood when the path closed. It shows what exists, including zero.</li>
 </ul>
@@ -91,7 +92,8 @@
 <li><code>package</code>: The lens text in one dated version; v0 is the one served.</li>
 <li><code>connector</code>: What AI chat apps call an added MCP server.</li>
 <li><code>payment_required</code>: The door&#x27;s answer when a reading has to be paid first: it carries a Lightning invoice in sats (1 sat = 0.00000001 bitcoin).</li>
+<li><code>commitment</code>: The SHA-256 of a package that is not public, published before anyone pays, so what arrives can be checked against it.</li>
 </ul>
-<p>The UX lens door is open to people, through their own AI. Nothing is offered to an agent acting on its own. The review by mail ended on 2026-11-24. Contact: ask@proofbridge.nl, read by Dennis Jansen. A mail there is a mail to a person, not a request under a contract.</p>
+<p>The UX lens door is open to people, through their own AI. The door for agents reports itself closed. The review by mail ended on 2026-11-24. Contact: ask@proofbridge.nl, read by Dennis Jansen. A mail there is a mail to a person, not a request under a contract.</p>
 </body>
 </html>
