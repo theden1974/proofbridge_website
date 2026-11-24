@@ -1,25 +1,17 @@
 # proofbridge.nl
 
-> Asynchronous review by one named human expert. Three task types. Requests by POST (agents, 100 sats over Lightning) or email; answers by email within 7 days. Paid tiers listed for later. Provider: Dennis Jansen, UX researcher and service designer.
+> proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person's material with it. Nothing here is sold to, or answered for, an agent acting on its own; the review by mail ended on 2026-11-24. Provider: Dennis Jansen, UX researcher and service designer.
 
-Task types (closed list):
-- `underlying_problem`: Finds the underlying problem behind a planned solution, before it is built. Output: The underlying problem as one statement, what was asked versus what is needed, and who in the field to check it with.
-- `ground_truth_check`: Checks whether data, a dataset or a claim holds against how the work happens in the field. Output: Verdict: holds, does not hold, or cannot determine; findings with evidence; what was not checked.
-- `ai_output_review`: Checks an AI-generated document, summary, plan or script for faults that sound reasonable. Output: Verdict: holds, does not hold, or cannot determine; each fault with its location and evidence; what was not checked.
+- For agents: nothing for an agent acting on its own, since 2026-11-24. No door here takes a request from an agent and returns an answer, and nothing is sold to an agent. The lens door is called by a person's AI inside that person's chat, on that person's word, and returns a text. The contact form on the pages is for people.
+- UX lens (a person, in their own AI chat): A text: the UX lens of Dennis Jansen, a set of structural moves with their tests, published field observations, and the form of a reading. The door's own line to people: "A business plan, a framework, a website, a startup plan: put it through the UX lens before you build on it. If not guided, you are creating AI slob." The person gets an address through the button 'Connect the lens' on https://proofbridge.nl/, adds it to their AI as a custom connector (no sign-in), and says in the chat: use the UX lens. No material, quotes or readings from the chat: the door has no tool that takes them. The call that loads the lens returns its text with version and fingerprint; after a payment that call carries the payment hash. The door records that an address was made and when the lens was loaded. The reading is written by the person's own AI.
+- Ended: Asynchronous review by Dennis Jansen of a request sent by POST (100 sats over Lightning from 2026-10-29), by email or through the ask page, answered by email within 7 days. (2026-10-20 to 2026-11-24.) The agent intake answers 410 and takes no request, no invoice and no payment. The ask page is closed. The request and response schemas, the examples and the OpenAPI file are withdrawn.
 
-Price: 100 sats per request through the agent intake, paid over Lightning (POST, then 402 with an invoice, pay, POST again with X-Payment-Hash). Email and the ask page: no payment. An agent drafts the request, its principal approves it, and the agent POSTs it as JSON to https://proofbridge-send.dennis-f79.workers.dev/agent (or it is emailed to ask@proofbridge.nl). The answer comes by email from Dennis. Reply within 7 days. Declines: `outside_task_types`, `professional_sign_off`, `identity_or_accounts`, `surveillance`, `no_principal`, `deadline_too_short`, `not_enough_information`, `method_extraction`.
-
-## Contract
-- [Task contract (markdown)](https://proofbridge.nl/agents/index.md)
-- [Task contract (HTML)](https://proofbridge.nl/agents/)
-- [Offer as JSON](https://proofbridge.nl/offer.json)
-- [Send a request: OpenAPI](https://proofbridge.nl/agents/openapi.json)
-- [Request schema](https://proofbridge.nl/schema/request.schema.json)
-- [Response schema](https://proofbridge.nl/schema/response.schema.json)
-- [Examples: one request and one answer per task type](https://proofbridge.nl/schema/examples.json)
-- [Backlog](https://proofbridge.nl/backlog.json)
+## What is here
+- [What is here, for agents (markdown)](https://proofbridge.nl/agents/index.md)
+- [The same as JSON](https://proofbridge.nl/offer.json)
+- [The same as a page](https://proofbridge.nl/agents/)
 
 ## Optional
-- [Background: value propositions and field evidence (markdown)](https://proofbridge.nl/index.md)
+- [Background: field evidence (markdown)](https://proofbridge.nl/index.md)
 - [How Dennis works](https://interactiondesign.nl/setup/index.md)
 - [Observations](https://interactiondesign.nl/index.md)

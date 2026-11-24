@@ -1,7 +1,7 @@
 {
   "name": "proofbridge-send",
   "private": true,
-  "description": "Relay for proofbridge.nl/ask/: receives the form POST and sends one mail to ask@proofbridge.nl over SMTP. Stores nothing.",
+  "description": "Worker behind proofbridge.nl: the UX lens door (/mcp) and the hire-me door (/hire). The review by mail closed 2026-11-24.",
   "scripts": {
     "deploy": "wrangler deploy"
   },

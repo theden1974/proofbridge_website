@@ -1,33 +1,6 @@
 {
   "site": "https://proofbridge.nl/",
-  "statement": "Public ledger of requests with public_backlog_ok true. Content of requests is never listed. Agent intake paid: 100 sats per request over Lightning, since 2026-10-29. Email and the ask page: no payment. Updated 2026-10-29.",
-  "address": "bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty",
-  "fields": [
-    "id",
-    "received",
-    "tier",
-    "task_type",
-    "payment_txid",
-    "status",
-    "decline_reason",
-    "eta",
-    "delivered_at",
-    "verdict",
-    "completion_reward_sats",
-    "reward_txid"
-  ],
-  "status_values": [
-    "submitted",
-    "seen",
-    "input_required",
-    "working",
-    "completed",
-    "declined"
-  ],
-  "requests": [],
-  "task_types": [
-    "underlying_problem",
-    "ground_truth_check",
-    "ai_output_review"
-  ]
+  "closed": "2026-11-24",
+  "statement": "Record of the review by mail, 2026-10-20 to 2026-11-24. Closed. Content of requests was never listed. The agent intake answers 410 and takes no request, no invoice and no payment. The ask page is closed. The request and response schemas, the examples and the OpenAPI file are withdrawn.",
+  "requests": []
 }

@@ -1,7 +1,7 @@
-# proofbridge.nl build (v4). One run renders every output from three sources:
+# proofbridge.nl build (v5, 2026-11-24). One run renders every output from three sources:
 #   src/site.json      human page text (his words, traced in the build record)
-#   src/contract.json  agent-facing contract (task types, inputs, outputs, lifecycle, payment, trust)
-#   backlog.json       the public ledger; counts on /agents/ and in /offer.json are computed from it
+#   src/contract.json  what the site says to agents: what exists, what ended, how to check it
+#   backlog.json       the record of the review by mail (ended 2026-11-24); its count is computed, never typed
 # Usage: python3 src/build.py   (from the repo root, or anywhere)
 import json, html, os
 SRC = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.dirname(SRC)
@@ -13,7 +13,7 @@ BL = json.load(open(os.path.join(OUT, 'backlog.json'), encoding='utf-8'))
 import datetime as _dt
 C['updated'] = _dt.date.today().isoformat()  # dates generated at build time
 H = C['hire']
-addr, t1, t2, mail = C['btc_address'], C['tier1_sats'], C['tier2_sats'], C['email']
+mail = C['email']
 E = html.escape
 def btc(s): return f"{s/1e8:.8f}".rstrip('0').rstrip('.')
 def fmt(n): return f"{n:,}".replace(',', ' ')
@@ -26,9 +26,9 @@ ld = {
   "description": C['meta_description'],
   "mainEntity": {
     "@type": "Person", "@id": "https://interactiondesign.nl/#dennis", "name": "Dennis Jansen",
-    "url": "https://interactiondesign.nl/", "sameAs": ["https://interactiondesign.nl/", "https://x.com/theden1974", "https://github.com/theden1974"],
+    "url": "https://interactiondesign.nl/", "sameAs": ["https://interactiondesign.nl/", "https://x.com/theden1974"],
     "description": C['intro'],
-    "knowsAbout": [x['name'] for x in K['task_types']]
+    "knowsAbout": K['knows_about']
   }
 }
 
@@ -49,9 +49,8 @@ page = f'''<!DOCTYPE html>
 <meta name="description" content="{E(C['meta_description'])}">
 <link rel="canonical" href="https://proofbridge.nl/">
 <link rel="alternate" type="text/markdown" href="/index.md" title="This page as markdown">
-<link rel="alternate" type="application/json" href="/offer.json" title="Offer for AI agents (JSON)">
+<link rel="alternate" type="application/json" href="/offer.json" title="What is here, for AI agents (JSON)">
 <link rel="describedby" type="text/markdown" href="/llms.txt">
-<link rel="service-desc" type="application/openapi+json" href="/agents/openapi.json">
 <meta property="og:title" content="proofbridge · Dennis Jansen">
 <meta property="og:description" content="{E(C['meta_description'])}">
 <meta property="og:url" content="https://proofbridge.nl/">
@@ -138,209 +137,52 @@ page = f'''<!DOCTYPE html>
 '''
 open(f"{OUT}/index.html", "w", encoding="utf-8").write(page)
 
-# ---------- stats, computed from the public ledger ----------
+# ---------- the record of the ended path: computed, never typed ----------
 reqs = BL.get('requests', [])
 def count(*st): return sum(1 for r in reqs if r.get('status') in st)
-stats = {"requests_listed": len(reqs), "completed": count('completed'), "declined": count('declined'),
-         "in_progress": count('seen', 'input_required', 'working'),
-         "rewards_paid": sum(1 for r in reqs if r.get('reward_txid')), "computed_on": C['updated']}
-TT = K['task_types']; TT_IDS = [x['id'] for x in TT]; DECL_IDS = [x['id'] for x in K['declines']]
-STATES = [s['id'] for s in K['lifecycle']['states']]
-T0, T1, T2 = K['tiers']
+record = {"requests_listed": len(reqs), "completed": count('completed'), "declined": count('declined'), "computed_on": C['updated']}
+L = lambda xs: "\n".join(f"- {x}" for x in xs)
+X = K['exists']; LENS = X[0]; END = K['ended']; T = K['trust']
+os.makedirs(f"{OUT}/agents", exist_ok=True)
 
-# ---------- JSON Schemas (2020-12) ----------
-req_schema = {
-  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://proofbridge.nl/schema/request.schema.json",
-  "title": "proofbridge request", "type": "object", "additionalProperties": False,
-  "required": ["request_id", "task_type", "question", "decision_at_stake", "principal", "deadline", "tier"],
-  "properties": {
-    "request_id": {"type": "string", "pattern": "^REQ-[A-Z0-9-]{4,24}$", "description": "Chosen by the sender. Goes in the email subject as PROOFBRIDGE {request_id} and in the body."},
-    "task_type": {"enum": TT_IDS, "description": "; ".join(f"{x['id']}: {x['does']}" for x in TT) + " Choosing: " + K['choosing_task_type']},
-    "question": {"type": "string", "description": "What the principal wants to know, in one or two sentences."},
-    "decision_at_stake": {"type": "string", "description": "The decision this answer informs."},
-    "artefact_urls": {"type": "array", "items": {"type": "string", "format": "uri"}, "description": "For reference only: links are not opened. Put the material in artefact_text."},
-    "artefact_text": {"type": "string", "maxLength": 50000, "description": "The material itself, as text (up to about 50 000 characters)."},
-    "context": {"type": "string", "description": "Who it is for, who decided it, where it is used."},
-    "principal": {"type": "object", "additionalProperties": False, "required": ["name", "kind", "email"],
-                  "properties": {"name": {"type": "string"}, "kind": {"enum": ["person", "organisation"]},
-                                 "email": {"type": "string", "format": "email"}, "agent": {"type": "string", "description": "Name of the agent sending on the principal's behalf, if any."}}},
-    "deadline": {"type": "string", "format": "date", "description": f"Date (UTC) at least {K['lifecycle']['reply_window_days']} days after the request is sent (test phase) or after the payment is seen (paid tiers)."},
-    "language": {"enum": K['provider']['languages'], "default": K['request']['default_language']},
-    "public_backlog_ok": {"type": "boolean", "default": False, "description": "true: task_type, status and dates may appear on the public backlog. The content never does."},
-    "tier": {"enum": [0, 1, 2], "description": "0: test phase, no payment. 1 and 2: paid, not open during the test phase."},
-    "payment_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "On-chain txid, or the Lightning payment hash once the Lightning rail is live."},
-    "payment_rail": {"enum": ["onchain", "lightning"], "default": "onchain"},
-    "payment_proof_bip322": {"type": "string", "description": "Optional. BIP-322 signature over the SHA-256 of this request body, by a key that spent an input of the payment."},
-    "completion_reward_sats": {"type": "integer", "minimum": 0, "description": "Optional proposal; the reward is agreed in the tier 2 reply."}
-  },
-  "allOf": [{"if": {"properties": {"tier": {"enum": [1, 2]}}, "required": ["tier"]}, "then": {"required": ["payment_txid"]}}]
-}
-evidence = {"type": "object", "required": ["type", "ref"], "additionalProperties": False,
-            "properties": {"type": {"enum": ["field_observation", "interview", "source_quote", "document_reference"]}, "ref": {"type": "string"}}}
-resp_schema = {
-  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://proofbridge.nl/schema/response.schema.json",
-  "title": "proofbridge response", "type": "object",
-  "required": ["request_id", "status", "accountable_human", "prepared_by"],
-  "properties": {
-    "request_id": {"type": "string", "pattern": "^REQ-[A-Z0-9-]{4,24}$"},
-    "payment_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "Paid tiers only."},
-    "illustrative": {"type": "boolean", "description": "true on published examples: not a real case, not a track record."},
-    "status": {"enum": STATES},
-    "eta": {"type": "string", "format": "date"},
-    "questions": {"type": "array", "description": "When status is input_required.", "items": {"type": "object", "required": ["key", "question"], "properties": {"key": {"type": "string"}, "question": {"type": "string"}}}},
-    "invitation": {"type": "object", "description": "Tier 1 reply that invites to tier 2.", "properties": {"scope": {"type": "string"}, "delivery_date": {"type": "string", "format": "date"}, "tier_2_sats": {"type": "integer"}, "completion_reward_sats": {"type": "integer"}}},
-    "decline_reason": {"enum": DECL_IDS},
-    "task_type": {"enum": TT_IDS},
-    "verdict": {"enum": ["holds", "does_not_hold", "cannot_determine"], "description": "For ground_truth_check and ai_output_review."},
-    "underlying_problem": {"type": "string", "description": "For underlying_problem: the problem as one statement."},
-    "asked_versus_needed": {"type": "string"},
-    "findings": {"type": "array", "items": {"type": "object", "required": ["statement", "evidence"], "properties": {"statement": {"type": "string"}, "location": {"type": "string"}, "evidence": {"type": "array", "minItems": 1, "items": evidence}}}},
-    "limits": {"type": "array", "items": {"type": "string"}, "description": "What was not checked."},
-    "next_step": {"type": "string"},
-    "accountable_human": {"type": "object", "required": ["name"], "properties": {"name": {"const": K['trust']['accountable_human']}, "role": {"type": "string"}}},
-    "prepared_by": {"enum": ["dennis"], "description": K['processing']['prepared_by']},
-    "delivered_at": {"type": "string", "format": "date"},
-    "deliverable_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "completion_reward_sats": {"type": "integer"}, "reward_txid": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
-  },
-  "allOf": [
-    {"if": {"properties": {"status": {"const": "declined"}}}, "then": {"required": ["decline_reason"]}},
-    {"if": {"properties": {"status": {"const": "input_required"}}}, "then": {"required": ["questions"]}},
-    {"if": {"properties": {"status": {"const": "completed"}}}, "then": {"anyOf": [{"required": ["verdict"]}, {"required": ["underlying_problem"]}]}}
-  ]
-}
-os.makedirs(f"{OUT}/schema", exist_ok=True); os.makedirs(f"{OUT}/agents", exist_ok=True)
-json.dump(req_schema, open(f"{OUT}/schema/request.schema.json", "w"), indent=2, ensure_ascii=False)
-json.dump(resp_schema, open(f"{OUT}/schema/response.schema.json", "w"), indent=2, ensure_ascii=False)
-json.dump({"$comment": "Illustrative: one request and one response per task type, built from real field situations with names invented. Not a track record; the track record is backlog.json.", "examples": K['examples']}, open(f"{OUT}/schema/examples.json", "w"), indent=2, ensure_ascii=False)
-
-EPT = K['request']['endpoint']
-_err = {"type": "object", "properties": {"ok": {"const": False}, "error": {"type": "string"}, "detail": {"type": "string"}}}
-openapi = {
-  "openapi": "3.1.0",
-  "info": {"title": "proofbridge agent intake", "version": C['updated'],
-           "description": "One operation: send a request. It is checked against the request schema and mailed to Dennis Jansen, who answers by email to principal.email within " + str(K['lifecycle']['reply_window_days']) + " days. Nothing is answered automatically. " + " ".join(K['phase']['rules']) + " Contract: https://proofbridge.nl/agents/index.md"},
-  "servers": [{"url": EPT['url'].rsplit('/', 1)[0]}],
-  "paths": {"/agent": {
-    "get": {"operationId": "describeIntake", "summary": "What this endpoint takes", "responses": {"200": {"description": "Pointers to the schema and contract."}}},
-    "post": {"operationId": "sendRequest", "summary": "Send one request for a human expert review (answer by email)",
-      "description": "Before calling: check when_to_call and when_not_to_call in the contract, and have the principal approve the request; their name and email go with it. " + EPT.get("payment", ""),
-      "parameters": [{"name": "X-Payment-Hash", "in": "header", "required": False, "schema": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "description": "On the retry after paying: the payment_hash from the 402 answer."}],
-      "requestBody": {"required": True, "content": {"application/json": {"schema": {"$ref": "https://proofbridge.nl/schema/request.schema.json"}}}},
-      "responses": {
-        "202": {"description": EPT['answers']['202'], "content": {"application/json": {"schema": {"type": "object", "required": ["ok", "request_id", "received_at", "status", "next"],
-               "properties": {"ok": {"const": True}, "request_id": {"type": "string"}, "received_at": {"type": "string", "format": "date-time"}, "status": {"const": "received"}, "next": {"type": "string"}}}}}},
-        "422": {"description": EPT['answers']['422'], "content": {"application/json": {"schema": {"type": "object", "properties": {"ok": {"const": False}, "error": {"const": "invalid"},
-               "errors": {"type": "array", "items": {"type": "object", "required": ["path", "problem"], "properties": {"path": {"type": "string"}, "problem": {"type": "string"}}}}}}}}},
-        **{c: {"description": EPT['answers'][c], "content": {"application/json": {"schema": _err}}} for c in ["400", "402", "409", "413", "415", "429", "502", "503"] if c in EPT["answers"]}}}}}}
-json.dump(openapi, open(f"{OUT}/agents/openapi.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-
-# ---------- offer.json: contract first, background after ----------
-offer = {k: v for k, v in K.items() if not k.startswith('_') and k != 'examples'}
-offer['examples'] = 'https://proofbridge.nl/schema/examples.json'
-offer.update({"site": "https://proofbridge.nl/", "updated": C['updated'], "stats": stats,
-  "contract_page": "https://proofbridge.nl/agents/", "contract_markdown": "https://proofbridge.nl/agents/index.md", "backlog": "https://proofbridge.nl/backlog.json",
-  "background_for_people": "https://proofbridge.nl/index.md"})
-_unused_background = ({
-    "value_propositions": [{"title": v['title'], "text": v['text'], "seen_in_the_field": v['proof']} for v in VP],
-    "you_are_hiring": H['you_are_hiring'], "what_he_does": H['what_he_does'],
-    "where_the_expertise_comes_from": H['where_the_expertise_comes_from'], "method": H['method'],
-    "evidence_from_the_field": [{k: v for k, v in c.items() if v} for c in C['cases']],
-    "more": ["https://interactiondesign.nl/setup/", "https://interactiondesign.nl/index.md"]})
+# ---------- offer.json: the contract as it is, plus pointers ----------
+offer = {k: v for k, v in K.items() if not k.startswith('_')}
+offer.update({"site": "https://proofbridge.nl/", "updated": C['updated'], "record_of_the_ended_path": record,
+  "this_as_page": "https://proofbridge.nl/agents/", "this_as_markdown": "https://proofbridge.nl/agents/index.md",
+  "background": "https://proofbridge.nl/index.md"})
 json.dump(offer, open(f"{OUT}/offer.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
-# ---------- the contract as markdown (agents/index.md) and HTML (agents/) ----------
-L = lambda xs: "\n".join(f"- {x}" for x in xs)
-P = K['payment']
-contract_md = f"""# proofbridge task contract
+# ---------- the same as markdown (agents/index.md) and HTML (agents/) ----------
+def exists_md(x):
+    s = f"### {x['name']}\n- For: {x['for']}\n- What: {x['what']}\n"
+    for k, lab in (('how', 'How'), ('what_travels', 'What travels'), ('payment', 'Payment'), ('status', 'Status'), ('url', 'Where'), ('responsibility', 'Responsibility')):
+        if x.get(k): s += f"- {lab}: {x[k]}\n"
+    if x.get('served_now'):
+        v = x['served_now']; s += f"- Served on {v['read_on']}: door {v['door']}, package {v['package']}, SHA-256 `{v['sha256']}`\n"
+    return s
+contract_md = f"""# proofbridge: what is here, for agents
 
 {K['summary']} Provider: {K['provider']['name']}, {K['provider']['role']}. Languages: {', '.join(K['provider']['languages'])}.
 
-Machine-readable: [offer.json](https://proofbridge.nl/offer.json) · [OpenAPI (send a request)](https://proofbridge.nl/agents/openapi.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [llms.txt](https://proofbridge.nl/llms.txt) · this page as [markdown](https://proofbridge.nl/agents/index.md). Updated {C['updated']}.
+The same as data: [offer.json](https://proofbridge.nl/offer.json). Updated {C['updated']}.
 
-## Phase
-- `{K['phase']['id']}` since {K['phase']['since']}. """ + " ".join(K['phase']['rules']) + f"""
+## For agents
+- Status: {K['for_agents']['status']}, since {K['for_agents']['since']}.
+- {K['for_agents']['detail']}
 
-## When to call
-All of:
-""" + "\n".join(f"- {x}" for x in K['when_to_call']['all_of']) + """
-And at least one of:
-""" + "\n".join(f"- `{x['task_type']}`: {x['condition']}" for x in K['when_to_call']['any_of']) + """
-
-## When not to call
-""" + "\n".join(f"- {x}" for x in K['when_not_to_call']) + f"""
-
-## How an agent sends a request
-""" + "\n".join(f"- {x}" for x in K['agent_flow']) + """
-
-## Human-only steps
-""" + "\n".join(f"- {x}" for x in K['human_only_steps']) + """
-
-## Paths
-""" + "\n".join(f"- `{x['id']}` ({x['for']}; {x['status']}): {x['how'] or '-'}" for x in K['paths']) + f"""
-
-## Task types
-| task_type | does | input | output |
-|---|---|---|---|
-""" + "\n".join(f"| `{x['id']}` | {x['does']} | {x['input']} | {x['output']} |" for x in TT) + f"""
-
-Field experience: {', '.join(K['domains_with_field_experience'])}.
-
-## Declined
-""" + "\n".join(f"- `{d['id']}`: {d['rule']}" for d in K['declines']) + f"""
-
-## Request
-- POST `{EPT['url']}` with `content-type: application/json`; the body is the request. [OpenAPI]({EPT['openapi']}).
-- Or email it to {K['request']['to']}, subject `{K['request']['subject']}`.
-- Endpoint answers:
-""" + "\n".join(f"  - `{c}` {t}" for c, t in EPT['answers'].items()) + f"""
-- Rate limit: {EPT['rate_limit']}
-- request_id: {K['request']['request_id_rule']}
-- Body: {K['request']['body']}
-- Schema: {K['request']['schema']}
-- Required: {', '.join('`'+r+'`' for r in req_schema['required'])}; `payment_txid` too for tiers 1 and 2.
-- Acknowledgement: {K['request']['acknowledgement']}
-- Size: {K['request']['size']}
-- Language: nl or en; default {K['request']['default_language']}.
-- Choosing the task type: {K['choosing_task_type']}
-
-## Tiers and price
-| tier | status | minimum | gets | performed by |
-|---|---|---|---|---|
-""" + "\n".join(f"| {x['tier']} | {x['status']} | {fmt(x['minimum_sats'])} sats ({btc(x['minimum_sats'])} BTC) | {x['gets']} | {x['performed_by']}; automation: {x['automation']} |" for x in K['tiers']) + f"""
-
-- Fee refunded on decline: no. Tier 1 fee counts toward tier 2: yes. Network fee: paid by the sender. Priced in sats only; no fiat reference.
-- Completion reward: {K['fees']['completion_reward']}
-
-## Payment
-- On-chain: `{P['address']}` ({P['address_type']}). Counts when: {P['counts_when']} Binding: {P['binding']}
-- Lightning: {P['rails'][1]['status']}
+## What exists
+""" + "\n".join(exists_md(x) for x in X) + """
+## What ended
+""" + "\n".join(f"### `{e['id']}` · {e['from']} to {e['until']}\n- Was: {e['was']}\n- Now: {e['now']}\n- Record: {e['record']} ({record['requests_listed']} listed, {record['completed']} completed, {record['declined']} declined; computed {record['computed_on']})\n" for e in END) + f"""
+## Trust: due diligence
+{T['principle']}
+- Accountable human: {T['accountable_human']}
+""" + "\n".join(f"- {x['claim']} Check: {x['check']}" for x in T['due_diligence']) + f"""
 
 ## Processing
-- Carriers: {' '.join(K['processing']['carriers'])}
-- Models: {K['processing']['models']}
-- Prepared by: {K['processing']['prepared_by']}
-- Retention: {K['processing']['retention']}
-- Terms on answers: {K['processing']['outputs_terms']}
+""" + "\n".join(f"- {v}" for v in K['processing'].values()) + f"""
 
-## Lifecycle
-""" + "\n".join(f"- `{s['id']}`: {s['meaning']}" for s in K['lifecycle']['states']) + f"""
-- Reply window: {K['lifecycle']['reply_window_days']} days. {K['lifecycle']['reply_window_rule']}
-- Public status: {K['lifecycle']['public_status']}
-
-## Response
-- Schema: {K['response']['schema']}
-- Completed work carries `verdict` (holds / does_not_hold / cannot_determine) or `underlying_problem`, `findings` with typed `evidence`, `limits`, `next_step`, and `accountable_human`.
-
-## Examples (illustrative, not a track record)
-One request and one answer per task type, built from real field situations with names invented; both valid against the schemas. Full JSON: [examples.json](https://proofbridge.nl/schema/examples.json).
-
-""" + "\n".join(f"### `{ex['task_type']}` · {ex['from_the_field']}\n- Request: {ex['request']['question']} Decision at stake: {ex['request']['decision_at_stake']}\n- Answer: " + (('verdict `' + ex['response']['verdict'] + '`. ') if ex['response'].get('verdict') else ('underlying problem: ' + ex['response']['underlying_problem'] + ' ')) + ex['response']['findings'][0]['statement'] + " Next step: " + ex['response']['next_step'] + "\n" for ex in K['examples']) + f"""
-## Trust: due diligence
-{K['trust']['principle']}
-- Accountable human: {K['trust']['accountable_human']}
-""" + "\n".join(f"- {x['claim']} Check: {x['check']}" for x in K['trust']['due_diligence']) + f"""
-- Track record now (from the backlog, {stats['computed_on']}): {stats['requests_listed']} listed, {stats['completed']} completed, {stats['declined']} declined, {stats['in_progress']} in progress, {stats['rewards_paid']} rewards paid.
+Field experience: {', '.join(K['domains_with_field_experience'])}.
 
 ## Not
 {L(K['not'])}
@@ -348,35 +190,29 @@ One request and one answer per task type, built from real field situations with 
 ## Glossary
 """ + "\n".join(f"- `{k}`: {v}" for k, v in K['glossary'].items()) + f"""
 
-{K['status']} Files: [offer.json](https://proofbridge.nl/offer.json) · [request schema](https://proofbridge.nl/schema/request.schema.json) · [response schema](https://proofbridge.nl/schema/response.schema.json) · [backlog](https://proofbridge.nl/backlog.json) · [human page](https://proofbridge.nl/)
+{K['status']} Contact: {K['contact']}
 """
 open(f"{OUT}/agents/index.md", "w", encoding="utf-8").write(contract_md)
 
 def md_to_html(md):
-    out, inlist, intable = [], False, False
+    out, inlist = [], False
     def inline(s):
         s = E(s)
         import re as _r
         s = _r.sub(r'`([^`]+)`', r'<code>\1</code>', s)
         s = _r.sub(r'\[([^\]]+)\]\((https?://[^)]+)\)', r'<a href="\2">\1</a>', s)
+        s = _r.sub(r'(?<![">])(https?://[^\s<)]+[^\s<).,;:])', r'<a href="\1">\1</a>', s)
         return s
     for line in md.split("\n"):
-        if line.startswith('|'):
-            cells = [c.strip() for c in line.strip('|').split('|')]
-            if set(''.join(cells)) <= set('-'): continue
-            if not intable: out.append('<table>'); intable = True; out.append('<tr>' + ''.join(f'<th>{inline(c)}</th>' for c in cells) + '</tr>'); continue
-            out.append('<tr>' + ''.join(f'<td>{inline(c)}</td>' for c in cells) + '</tr>'); continue
-        if intable: out.append('</table>'); intable = False
         if line.startswith('- '):
             if not inlist: out.append('<ul>'); inlist = True
             out.append(f'<li>{inline(line[2:])}</li>'); continue
         if inlist: out.append('</ul>'); inlist = False
         if line.startswith('# '): out.append(f'<h1>{inline(line[2:])}</h1>')
-        elif line.startswith('## '): out.append(f'<h2 id="{line[3:].split(" ")[0].strip("(,").lower()}">{inline(line[3:])}</h2>')
+        elif line.startswith('## '): out.append(f'<h2>{inline(line[3:])}</h2>')
         elif line.startswith('### '): out.append(f'<h3>{inline(line[4:])}</h3>')
         elif line.strip(): out.append(f'<p>{inline(line)}</p>')
     if inlist: out.append('</ul>')
-    if intable: out.append('</table>')
     return "\n".join(out)
 
 agents_html = f"""<!DOCTYPE html>
@@ -384,21 +220,17 @@ agents_html = f"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Task contract · proofbridge</title>
+<title>What is here, for agents · proofbridge</title>
 <meta name="description" content="{E(K['summary'])}">
 <link rel="canonical" href="https://proofbridge.nl/agents/">
 <link rel="alternate" type="text/markdown" href="/agents/index.md">
 <link rel="alternate" type="application/json" href="/offer.json">
-<link rel="service-desc" type="application/openapi+json" href="/agents/openapi.json">
 <style>
   *, *::before, *::after {{ box-sizing: border-box; }}
-  html {{ background: hsl(45, 20%, 96%); color: #111014; }}
+  html {{ background: #111014; color: hsl(45, 20%, 94%); color-scheme: dark; }}
   body {{ font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 0.9rem; line-height: 1.55; max-width: 60rem; margin: 0 auto; padding: 2rem clamp(1rem, 4vw, 2rem) 4rem; overflow-wrap: anywhere; }}
-  h1 {{ font-size: 1.4rem; }} h2 {{ font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2.2rem; border-top: 1px solid hsl(45, 10%, 82%); padding-top: 1rem; }}
-  table {{ border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }} th, td {{ text-align: left; vertical-align: top; padding: 0.4rem 0.6rem 0.4rem 0; border-bottom: 1px solid hsl(45, 10%, 86%); }}
-  code {{ background: hsl(45, 15%, 90%); padding: 0 0.2rem; word-break: break-all; }} td:first-child code {{ white-space: nowrap; word-break: normal; }}
-  @media (max-width: 700px) {{ table, tbody, tr, td {{ display: block; width: 100%; }} thead {{ display: none; }} tr {{ padding: 0.6rem 0; border-bottom: 1px solid hsl(45, 10%, 82%); }} td {{ border: 0; padding: 0.15rem 0; }} td:first-child code {{ white-space: normal; }} }} a {{ color: inherit; }}
-  @media all {{ html {{ background: #111014; color: hsl(45, 20%, 94%); }} code {{ background: #1f1e24; }} h2, th, td {{ border-color: hsl(240, 5%, 24%); }} }}
+  h1 {{ font-size: 1.4rem; }} h2 {{ font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2.2rem; border-top: 1px solid hsl(240, 5%, 24%); padding-top: 1rem; }} h3 {{ font-size: 0.9rem; margin-top: 1.4rem; }}
+  code {{ background: #1f1e24; padding: 0 0.2rem; word-break: break-all; }} a {{ color: inherit; }}
 </style>
 </head>
 <body>
@@ -409,28 +241,22 @@ agents_html = f"""<!DOCTYPE html>
 """
 open(f"{OUT}/agents/index.html", "w", encoding="utf-8").write(agents_html)
 
-# ---------- llms.txt: short, task language, pointers ----------
+# ---------- llms.txt: short, pointers ----------
 llms = f"""# proofbridge.nl
 
 > {K['summary']} Provider: {K['provider']['name']}, {K['provider']['role']}.
 
-Task types (closed list):
-""" + "\n".join(f"- `{x['id']}`: {x['does']} Output: {x['output']}" for x in TT) + f"""
+- For agents: {K['for_agents']['status']}, since {K['for_agents']['since']}. {K['for_agents']['detail']}
+- UX lens ({LENS['for']}): {LENS['what']} {LENS['how']} {LENS['what_travels']}
+- Ended: """ + " ".join(f"{e['was']} ({e['from']} to {e['until']}.) {e['now']}" for e in END) + f"""
 
-Price: {EPT['price_sats']} sats per request through the agent intake, paid over Lightning (POST, then 402 with an invoice, pay, POST again with X-Payment-Hash). Email and the ask page: no payment. An agent drafts the request, its principal approves it, and the agent POSTs it as JSON to {EPT['url']} (or it is emailed to {K['request']['to']}). The answer comes by email from Dennis. Reply within {K['lifecycle']['reply_window_days']} days. Declines: {', '.join('`'+d+'`' for d in DECL_IDS)}.
-
-## Contract
-- [Task contract (markdown)](https://proofbridge.nl/agents/index.md)
-- [Task contract (HTML)](https://proofbridge.nl/agents/)
-- [Offer as JSON](https://proofbridge.nl/offer.json)
-- [Send a request: OpenAPI](https://proofbridge.nl/agents/openapi.json)
-- [Request schema](https://proofbridge.nl/schema/request.schema.json)
-- [Response schema](https://proofbridge.nl/schema/response.schema.json)
-- [Examples: one request and one answer per task type](https://proofbridge.nl/schema/examples.json)
-- [Backlog](https://proofbridge.nl/backlog.json)
+## What is here
+- [What is here, for agents (markdown)](https://proofbridge.nl/agents/index.md)
+- [The same as JSON](https://proofbridge.nl/offer.json)
+- [The same as a page](https://proofbridge.nl/agents/)
 
 ## Optional
-- [Background: value propositions and field evidence (markdown)](https://proofbridge.nl/index.md)
+- [Background: field evidence (markdown)](https://proofbridge.nl/index.md)
 - [How Dennis works](https://interactiondesign.nl/setup/index.md)
 - [Observations](https://interactiondesign.nl/index.md)
 """
@@ -441,12 +267,8 @@ def case_md(c):
     s = f"### {c['domain']}\n"
     if c.get('start'): s += f"- Starting point: {c['start']}\n"
     return s + f"- What I saw: {c['saw']}\n- After: {c['after']}\n"
-bg = f"# proofbridge · Dennis Jansen\n\n## {C['h1']}\n\n{C['intro']}\n\n" + "\n".join(f"### {i+1}. {v['title']}\n{v['text']}\n- Seen in the field: {v['proof']}\n" for i, v in enumerate(VP)) + f"""
-## My attention costs sats
-- {C['tier1_human']}: {fmt(T1['minimum_sats'])} sats
-- {C['tier2_human']}: {fmt(T2['minimum_sats'])} sats
-- {C['att_how']}
-
+W = C['ways'][0]
+bg = f"# proofbridge · Dennis Jansen\n\n## {C['h1']}\n\n{W['text']} [{W['btn']}](https://proofbridge.nl{W['href']})\n\n" + "\n".join(f"### {i+1}. {v['title']}\n{v['text']}\n- Seen in the field: {v['proof']}\n" for i, v in enumerate(VP)) + f"""
 ## Background
 {H['you_are_hiring']}
 
@@ -459,23 +281,19 @@ bg = f"# proofbridge · Dennis Jansen\n\n## {C['h1']}\n\n{C['intro']}\n\n" + "\n
 {L(H['method'])}
 
 ### Evidence from the field
-""" + "\n".join(case_md(c) for c in C['cases']) + "\nThe task contract for agents: https://proofbridge.nl/agents/index.md\n"
+""" + "\n".join(case_md(c) for c in C['cases']) + "\nWhat is here, for agents: https://proofbridge.nl/agents/index.md\n"
 open(f"{OUT}/index.md", "w", encoding="utf-8").write(bg)
 
-# ---------- backlog.json keeps its entries; its field list follows the contract ----------
-BL.update({"address": P['address'], "statement": f"Public ledger of requests with public_backlog_ok true. Content of requests is never listed. {K['status']}",
-           "fields": ["id", "received", "tier", "task_type", "payment_txid", "status", "decline_reason", "eta", "delivered_at", "verdict", "completion_reward_sats", "reward_txid"],
-           "status_values": STATES, "task_types": TT_IDS})
+# ---------- backlog.json: the record of the ended path, closed as it stood ----------
+BL = {"site": "https://proofbridge.nl/", "closed": END[0]['until'],
+      "statement": f"Record of the review by mail, {END[0]['from']} to {END[0]['until']}. Closed. Content of requests was never listed. {END[0]['now']}",
+      "requests": reqs}
 json.dump(BL, open(f"{OUT}/backlog.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
-# ---------- /ask/ (prototype; src/ask.json + src/ask.template.html via build_ask.py) ----------
-import sys; sys.path.insert(0, SRC); from build_ask import build_ask
-ask_html = build_ask(C, page, E, fmt, t1, t2, mail, OUT, SRC)
-
 # ---------- sitemap ----------
-urls = ["https://proofbridge.nl/", "https://proofbridge.nl/agents/", "https://proofbridge.nl/agents/index.md", "https://proofbridge.nl/llms.txt", "https://proofbridge.nl/offer.json", "https://proofbridge.nl/index.md", "https://proofbridge.nl/backlog.json", "https://proofbridge.nl/schema/request.schema.json", "https://proofbridge.nl/schema/response.schema.json", "https://proofbridge.nl/schema/examples.json", "https://proofbridge.nl/agents/openapi.json"]
+urls = ["https://proofbridge.nl/", "https://proofbridge.nl/agents/", "https://proofbridge.nl/agents/index.md", "https://proofbridge.nl/llms.txt", "https://proofbridge.nl/offer.json", "https://proofbridge.nl/index.md"]
 open(f"{OUT}/sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{u}</loc><lastmod>{C['updated']}</lastmod></url>\n" for u in urls) + "</urlset>\n")
 
 import re
 txt = re.sub(r'<script.*?</script>', '', page[page.index('<body>'):], flags=re.S); txt = re.sub(r'<[^>]+>', ' ', txt)
-print("visible words:", len(html.unescape(txt).split()), "| stats:", stats)
+print("visible words:", len(html.unescape(txt).split()), "| record:", record)

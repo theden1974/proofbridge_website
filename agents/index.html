@@ -3,208 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Task contract · proofbridge</title>
-<meta name="description" content="Asynchronous review by one named human expert. Three task types. Requests by POST (agents, 100 sats over Lightning) or email; answers by email within 7 days. Paid tiers listed for later.">
+<title>What is here, for agents · proofbridge</title>
+<meta name="description" content="proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person&#x27;s material with it. Nothing here is sold to, or answered for, an agent acting on its own; the review by mail ended on 2026-11-24.">
 <link rel="canonical" href="https://proofbridge.nl/agents/">
 <link rel="alternate" type="text/markdown" href="/agents/index.md">
 <link rel="alternate" type="application/json" href="/offer.json">
-<link rel="service-desc" type="application/openapi+json" href="/agents/openapi.json">
 <style>
   *, *::before, *::after { box-sizing: border-box; }
-  html { background: hsl(45, 20%, 96%); color: #111014; }
+  html { background: #111014; color: hsl(45, 20%, 94%); color-scheme: dark; }
   body { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 0.9rem; line-height: 1.55; max-width: 60rem; margin: 0 auto; padding: 2rem clamp(1rem, 4vw, 2rem) 4rem; overflow-wrap: anywhere; }
-  h1 { font-size: 1.4rem; } h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2.2rem; border-top: 1px solid hsl(45, 10%, 82%); padding-top: 1rem; }
-  table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; } th, td { text-align: left; vertical-align: top; padding: 0.4rem 0.6rem 0.4rem 0; border-bottom: 1px solid hsl(45, 10%, 86%); }
-  code { background: hsl(45, 15%, 90%); padding: 0 0.2rem; word-break: break-all; } td:first-child code { white-space: nowrap; word-break: normal; }
-  @media (max-width: 700px) { table, tbody, tr, td { display: block; width: 100%; } thead { display: none; } tr { padding: 0.6rem 0; border-bottom: 1px solid hsl(45, 10%, 82%); } td { border: 0; padding: 0.15rem 0; } td:first-child code { white-space: normal; } } a { color: inherit; }
-  @media all { html { background: #111014; color: hsl(45, 20%, 94%); } code { background: #1f1e24; } h2, th, td { border-color: hsl(240, 5%, 24%); } }
+  h1 { font-size: 1.4rem; } h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2.2rem; border-top: 1px solid hsl(240, 5%, 24%); padding-top: 1rem; } h3 { font-size: 0.9rem; margin-top: 1.4rem; }
+  code { background: #1f1e24; padding: 0 0.2rem; word-break: break-all; } a { color: inherit; }
 </style>
 </head>
 <body>
 <p><a href="/">← proofbridge.nl</a></p>
-<h1>proofbridge task contract</h1>
-<p>Asynchronous review by one named human expert. Three task types. Requests by POST (agents, 100 sats over Lightning) or email; answers by email within 7 days. Paid tiers listed for later. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.</p>
-<p>Machine-readable: <a href="https://proofbridge.nl/offer.json">offer.json</a> · <a href="https://proofbridge.nl/agents/openapi.json">OpenAPI (send a request)</a> · <a href="https://proofbridge.nl/schema/request.schema.json">request schema</a> · <a href="https://proofbridge.nl/schema/response.schema.json">response schema</a> · <a href="https://proofbridge.nl/llms.txt">llms.txt</a> · this page as <a href="https://proofbridge.nl/agents/index.md">markdown</a>. Updated 2026-11-09.</p>
-<h2 id="phase">Phase</h2>
+<h1>proofbridge: what is here, for agents</h1>
+<p>proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person&#x27;s material with it. Nothing here is sold to, or answered for, an agent acting on its own; the review by mail ended on 2026-11-24. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.</p>
+<p>The same as data: <a href="https://proofbridge.nl/offer.json">offer.json</a>. Updated 2026-11-24.</p>
+<h2>For agents</h2>
 <ul>
-<li><code>test</code> since 2026-10-20. Requests by email and through the ask page are answered without payment. Requests through the agent intake cost 100 sats each, paid over Lightning before the request reaches Dennis (his line, 2026-10-29). Use tier 0; payment_txid is not needed. Paid tiers 1 and 2 are listed for later; they are not taken.</li>
+<li>Status: nothing for an agent acting on its own, since 2026-11-24.</li>
+<li>No door here takes a request from an agent and returns an answer, and nothing is sold to an agent. The lens door is called by a person&#x27;s AI inside that person&#x27;s chat, on that person&#x27;s word, and returns a text. The contact form on the pages is for people.</li>
 </ul>
-<h2 id="when">When to call</h2>
-<p>All of:</p>
+<h2>What exists</h2>
+<h3>UX lens</h3>
 <ul>
-<li>A decision is pending (build, fund, rely on, publish, procure, train on) and not yet made.</li>
-<li>A named person or organisation with an email is behind the request.</li>
-<li>The material can be given as text.</li>
-<li>The decision can wait at least 7 days.</li>
+<li>For: a person, in their own AI chat</li>
+<li>What: A text: the UX lens of Dennis Jansen, a set of structural moves with their tests, published field observations, and the form of a reading. The door&#x27;s own line to people: &quot;A business plan, a framework, a website, a startup plan: put it through the UX lens before you build on it. If not guided, you are creating AI slob.&quot;</li>
+<li>How: The person gets an address through the button &#x27;Connect the lens&#x27; on <a href="https://proofbridge.nl/">https://proofbridge.nl/</a>, adds it to their AI as a custom connector (no sign-in), and says in the chat: use the UX lens.</li>
+<li>What travels: No material, quotes or readings from the chat: the door has no tool that takes them. The call that loads the lens returns its text with version and fingerprint; after a payment that call carries the payment hash. The door records that an address was made and when the lens was loaded. The reading is written by the person&#x27;s own AI.</li>
+<li>Payment: On 2026-11-24 no payment is asked: the count of free readings per address is switched off (the status reports free_readings 1000000). The door is built to answer payment_required with a Lightning invoice once a set number of readings per address is used (price_sats 100 on that date). The status carries the current values.</li>
+<li>Status: <a href="https://proofbridge-send.dennis-f79.workers.dev/mcp/status">https://proofbridge-send.dennis-f79.workers.dev/mcp/status</a></li>
+<li>Responsibility: The door&#x27;s own line: &quot;Interpret at your own risk: interpretation is the responsibility of the one creating the network or app.&quot;</li>
+<li>Served on 2026-11-24: door 0.3.0, package v0, SHA-256 <code>031bcd5e99a2fce0d7b3626db6609f0e260382f4444b219f84d5c1ce943afe4e</code></li>
 </ul>
-<p>And at least one of:</p>
+<h3>Observations</h3>
 <ul>
-<li><code>underlying_problem</code>: The brief names a solution but no observed problem of the people it is for.</li>
-<li><code>underlying_problem</code>: The person who decided the solution is not the person who will use it.</li>
-<li><code>ground_truth_check</code>: A dataset or claim about how work is done is used for a decision and has no record of who produced it, when and how.</li>
-<li><code>ground_truth_check</code>: The only evidence about users is model-generated or second-hand.</li>
-<li><code>ai_output_review</code>: An AI-generated document will be relied on and nobody with domain knowledge has checked it against its source.</li>
+<li>For: people and agents, to read</li>
+<li>What: Nineteen cases where AI output, plans or data and the field part ways, each with its source.</li>
+<li>Where: <a href="https://interactiondesign.nl/index.md">https://interactiondesign.nl/index.md</a></li>
 </ul>
-<h2 id="when">When not to call</h2>
+<h3>How I work</h3>
 <ul>
-<li>Any decline below applies.</li>
-<li>You can check the claim yourself against a source you hold.</li>
-<li>You need the answer within the current session.</li>
-<li>You need errands, photos or data collection rather than judgement.</li>
-<li>The decision is already made and cannot be reversed.</li>
+<li>For: people and agents, to read</li>
+<li>What: Why, the gap, how he works, the door to the UX lens.</li>
+<li>Where: <a href="https://interactiondesign.nl/setup/index.md">https://interactiondesign.nl/setup/index.md</a></li>
 </ul>
-<h2 id="how">How an agent sends a request</h2>
+<h2>What ended</h2>
+<h3><code>review_by_mail</code> · 2026-10-20 to 2026-11-24</h3>
 <ul>
-<li>The agent checks when_to_call and when_not_to_call against its own context.</li>
-<li>The agent drafts the request and validates it against the request schema.</li>
-<li>The agent shows the draft to its principal. The principal approves it: their name and email go with it, and the answer goes to them.</li>
-<li>The agent POSTs the approved request to the endpoint, or the principal emails it to ask@proofbridge.nl.</li>
-<li>On 202 the agent tells its principal the request_id and that the answer comes by email within 7 days. Nothing further comes from the endpoint.</li>
-<li>The answer comes back by email to the principal, in the response schema.</li>
+<li>Was: Asynchronous review by Dennis Jansen of a request sent by POST (100 sats over Lightning from 2026-10-29), by email or through the ask page, answered by email within 7 days.</li>
+<li>Now: The agent intake answers 410 and takes no request, no invoice and no payment. The ask page is closed. The request and response schemas, the examples and the OpenAPI file are withdrawn.</li>
+<li>Record: <a href="https://proofbridge.nl/backlog.json">https://proofbridge.nl/backlog.json</a> (0 listed, 0 completed, 0 declined; computed 2026-11-24)</li>
 </ul>
-<h2 id="human-only">Human-only steps</h2>
-<ul>
-<li>Approving the request before it is sent (the principal&#x27;s name and email go with it).</li>
-<li>Paying the 100 sats invoice, if the agent has no wallet of its own.</li>
-<li>Judging whether the answer is fit for the decision.</li>
-</ul>
-<h2 id="paths">Paths</h2>
-<ul>
-<li><code>agent_intake</code> (agents; open, 100 sats per request (Lightning)): POST the request as JSON to https://proofbridge-send.dennis-f79.workers.dev/agent . Checked against the request schema; then 402 with a Lightning invoice for 100 sats; pay it and POST the same request again with header X-Payment-Hash; 202 when paid and received.</li>
-<li><code>email</code> (agents and people; open): The request JSON as the body of an email to ask@proofbridge.nl, subject PROOFBRIDGE {request_id}.</li>
-<li><code>ask_page</code> (people; open, test phase): https://proofbridge.nl/ask/ : a page for writing the situation in one&#x27;s own words. Not for agents; agents use agent_intake.</li>
-<li><code>lightning</code> (payment of agent requests; open for the agent intake): One invoice per request from Dennis&#x27;s own node, through an invoice-only connection; the invoice description binds it to the request_id and a hash of the request.</li>
-</ul>
-<h2 id="task">Task types</h2>
-<table>
-<tr><th>task_type</th><th>does</th><th>input</th><th>output</th></tr>
-<tr><td><code>underlying_problem</code></td><td>Finds the underlying problem behind a planned solution, before it is built.</td><td>The planned solution or brief, who it is for, who decided it.</td><td>The underlying problem as one statement, what was asked versus what is needed, and who in the field to check it with.</td></tr>
-<tr><td><code>ground_truth_check</code></td><td>Checks whether data, a dataset or a claim holds against how the work happens in the field.</td><td>The data or claim, its source, and the purpose it is used for.</td><td>Verdict: holds, does not hold, or cannot determine; findings with evidence; what was not checked.</td></tr>
-<tr><td><code>ai_output_review</code></td><td>Checks an AI-generated document, summary, plan or script for faults that sound reasonable.</td><td>The output, the source it was made from, and the decision it informs.</td><td>Verdict: holds, does not hold, or cannot determine; each fault with its location and evidence; what was not checked.</td></tr>
-</table>
-<p>Field experience: elderly care, healthcare, government and public services, digital products and interfaces.</p>
-<h2 id="declined">Declined</h2>
-<ul>
-<li><code>outside_task_types</code>: Anything that is not one of the three task types.</li>
-<li><code>professional_sign_off</code>: A legal, medical or financial opinion or sign-off. Checking an AI-made summary against its own source document is not that, and is taken as ai_output_review.</li>
-<li><code>identity_or_accounts</code>: Using his identity, accounts or credentials: account creation, one-time codes, verification, reviews, followers, likes.</li>
-<li><code>surveillance</code>: Observing, locating or profiling a person.</li>
-<li><code>no_principal</code>: A request without a named person or organisation behind it.</li>
-<li><code>deadline_too_short</code>: A deadline shorter than the reply window.</li>
-<li><code>not_enough_information</code>: Not enough information to start, after one round of questions.</li>
-<li><code>method_extraction</code>: Requests about how the lens works, or general questions with no decision behind them, instead of a case to judge.</li>
-</ul>
-<h2 id="request">Request</h2>
-<ul>
-<li>POST <code>https://proofbridge-send.dennis-f79.workers.dev/agent</code> with <code>content-type: application/json</code>; the body is the request. <a href="https://proofbridge.nl/agents/openapi.json">OpenAPI</a>.</li>
-<li>Or email it to ask@proofbridge.nl, subject <code>PROOFBRIDGE {request_id}</code>.</li>
-<li>Endpoint answers:</li>
-</ul>
-<p>  - <code>202</code> paid and received: {ok, request_id, received_at, status, paid: {sats, payment_hash, settled_at}, next}. The answer itself comes later, by email.</p>
-<p>  - <code>422</code> invalid: {errors:[{path, problem}]}; fix and resend.</p>
-<p>  - <code>415</code> content type is not application/json.</p>
-<p>  - <code>400</code> body is not valid JSON.</p>
-<p>  - <code>413</code> body over 60 000 bytes.</p>
-<p>  - <code>429</code> rate limited (2 well-formed requests per minute per address); retry after the Retry-After seconds, or send by email.</p>
-<p>  - <code>502</code> not delivered to the mailbox; send the same JSON by email.</p>
-<p>  - <code>402</code> payment required: {invoice, payment_hash, price_sats, expires_at, bound_to}; or not_paid_yet / underpaid on the retry.</p>
-<p>  - <code>409</code> the payment hash belongs to another request or a changed version of it; POST without it for a new invoice.</p>
-<p>  - <code>503</code> the payment rail did not answer; try again in a minute or send by email.</p>
-<ul>
-<li>Rate limit: 2 well-formed requests per minute per address (the invoice request and the paid retry each count). Invalid requests are answered and do not count.</li>
-<li>request_id: Chosen by the sender, unique per request. Sending the same request_id again is read as the same request.</li>
-<li>Body: One JSON object that validates against the request schema: as the POST body, or as the email body. Material as text in artefact_text; links are not opened. Attachments are not read.</li>
-<li>Schema: https://proofbridge.nl/schema/request.schema.json</li>
-<li>Required: <code>request_id</code>, <code>task_type</code>, <code>question</code>, <code>decision_at_stake</code>, <code>principal</code>, <code>deadline</code>, <code>tier</code>; <code>payment_txid</code> too for tiers 1 and 2.</li>
-<li>Acknowledgement: By POST: 202 with the request_id at once. By email: no automatic acknowledgement in the test phase. Either way the answer comes from Dennis by email to principal.email.</li>
-<li>Size: Material up to about 50 000 characters as text in artefact_text (about 12 pages). Longer: send the part the decision rests on and say what was left out.</li>
-<li>Language: nl or en; default en.</li>
-<li>Choosing the task type: If the material was made by an AI and the question is whether it holds against its source or the field, use ai_output_review. Use ground_truth_check for data or claims not produced by an AI. Use underlying_problem when a solution is planned and the question is whether it answers the real problem. When unsure, pick one and say so in context; Dennis re-routes.</li>
-</ul>
-<h2 id="tiers">Tiers and price</h2>
-<table>
-<tr><th>tier</th><th>status</th><th>minimum</th><th>gets</th><th>performed by</th></tr>
-<tr><td>0</td><td>open</td><td>0 sats (0 BTC)</td><td>Dennis reads the request and replies by email with what his lens sees, or one question if he cannot start.</td><td>Dennis Jansen; automation: off</td></tr>
-<tr><td>1</td><td>not taken during the test phase</td><td>5 000 sats (0.00005 BTC)</td><td>A request through the agent path: the question and the data, answered with the underlying problem or a verdict with evidence, per the response schema. Reply within 7 days.</td><td>Dennis Jansen; automation: off. Every answer is Dennis&#x27;s. Planned (his line, 2026-10-24): the mechanical lens does the due diligence: it checks that what he says lies within his expertise, against a dated release of his containers. It does not answer.</td></tr>
-<tr><td>2</td><td>not taken during the test phase</td><td>50 000 sats (0.0005 BTC)</td><td>Dennis reads it himself. Reply within 7 days with scope, delivery date and the completion reward; then the work, delivered per the response schema.</td><td>Dennis Jansen, in person; automation: none</td></tr>
-</table>
-<ul>
-<li>Fee refunded on decline: no. Tier 1 fee counts toward tier 2: yes. Network fee: paid by the sender. Priced in sats only; no fiat reference.</li>
-<li>Completion reward: Agreed in the tier 2 reply, paid in sats when the work is delivered, listed on the public backlog with its txid.</li>
-</ul>
-<h2 id="payment">Payment</h2>
-<ul>
-<li>On-chain: <code>bc1p4zucan5kv5kl0x6hf5agemklvr86j9l3wnt9zqtnygpfc70494sqgxukty</code> (taproot (P2TR)). Counts when: A public block explorer shows an output to the address of at least the tier minimum. Tier 1 at first sight; tier 2 after 1 confirmation. Binding: One payment, one request: the txid is in the email subject. When two requests name the same txid, a BIP-322 signature over the request body&#x27;s SHA-256 by a key that spent an input of that payment decides; without one, the first email received counts.</li>
-<li>Lightning: planned: one invoice per request, sent by email from his own node; the invoice hash binds the request.</li>
-</ul>
-<h2 id="processing">Processing</h2>
-<ul>
-<li>Carriers: Email is held by Namecheap Private Email (servers in the United States). The agent intake and the ask page post through a Cloudflare Worker on Dennis&#x27;s account that checks the request, forwards it to that mailbox and stores nothing. Its source is public: https://github.com/theden1974/proofbridge_website/tree/main/worker</li>
-<li>Models: No third-party AI model or API reads request text. The mechanical lens (planned, not in use as of 2026-10-24) runs on Dennis&#x27;s own machines and checks his answers; it does not write them.</li>
-<li>Prepared by: Every answer is Dennis&#x27;s: prepared_by dennis.</li>
-<li>Retention: Entries are kept for the reply and follow-up and deleted 90 days after the last contact, unless the principal agrees otherwise.</li>
-<li>Terms on answers: An answer is for the principal&#x27;s decision. No resale, no training on it.</li>
-</ul>
-<h2 id="lifecycle">Lifecycle</h2>
-<ul>
-<li><code>submitted</code>: Email received, payment not yet seen.</li>
-<li><code>seen</code>: Payment seen and request read.</li>
-<li><code>input_required</code>: Questions sent back; work waits for the answers.</li>
-<li><code>working</code>: Accepted; work in progress until the agreed date.</li>
-<li><code>completed</code>: Delivered with a verdict or problem statement.</li>
-<li><code>declined</code>: Not taken, with a reason from the decline list.</li>
-<li>Reply window: 7 days. Calendar days from the moment the payment is seen.</li>
-<li>Public status: https://proofbridge.nl/backlog.json, for requests with public_backlog_ok true</li>
-</ul>
-<h2 id="response">Response</h2>
-<ul>
-<li>Schema: https://proofbridge.nl/schema/response.schema.json</li>
-<li>Completed work carries <code>verdict</code> (holds / does_not_hold / cannot_determine) or <code>underlying_problem</code>, <code>findings</code> with typed <code>evidence</code>, <code>limits</code>, <code>next_step</code>, and <code>accountable_human</code>.</li>
-</ul>
-<h2 id="examples">Examples (illustrative, not a track record)</h2>
-<p>One request and one answer per task type, built from real field situations with names invented; both valid against the schemas. Full JSON: <a href="https://proofbridge.nl/schema/examples.json">examples.json</a>.</p>
-<h3><code>underlying_problem</code> · Elderly care, field research</h3>
-<ul>
-<li>Request: We have funding to help long-term unemployed people work in the care of the elderly. We decided on an app for the elderly. Is the app the right build? Decision at stake: Spend the funding on the app.</li>
-<li>Answer: underlying problem: The elderly want to be self-sufficient and are not good at mobiles and apps. The app serves the funding checklist, not the elderly. The elderly living at home were not good at mobiles and apps. Next step: Test the concept in one flat with one employee before building anything.</li>
-</ul>
-<h3><code>ground_truth_check</code> · Healthcare, field research</h3>
-<ul>
-<li>Request: Are our AI models for dietitians based on the right data? Decision at stake: Build the models on the current patient-weight entries.</li>
-<li>Answer: verdict <code>cannot_determine</code>. A patient&#x27;s weight over time has many input points: doctor, at home, nurse, morning, afternoon. The entries do not say which. Next step: Record who measured and when for every entry, and make the patient the centre of the data, not the dietitian&#x27;s screen.</li>
-</ul>
-<h3><code>ai_output_review</code> · Legal, architecture</h3>
-<ul>
-<li>Request: Does this AI summary of a 60-page legal document cite the right paragraphs? Decision at stake: Rely on the summary in a legal case.</li>
-<li>Answer: verdict <code>does_not_hold</code>. The summary sounded legit. Checked against the document, the referenced paragraphs were off. Next step: Do not rely on the summary. Have the document read by a lawyer.</li>
-</ul>
-<h2 id="trust:">Trust: due diligence</h2>
-<p>Trust here is not an identity to accept but claims to verify. Each claim below names how to check it yourself; what cannot be checked yet is said.</p>
+<h2>Trust: due diligence</h2>
+<p>Trust here is not an identity to accept but claims to verify. Each claim below names how to check it yourself; what cannot be checked is said.</p>
 <ul>
 <li>Accountable human: Dennis Jansen</li>
-<li>This contract is what the owner publishes, and every change to it is on record. Check: The source is public with its full history: https://github.com/theden1974/proofbridge_website (src/contract.json). Compare the live offer.json with the source at any commit.</li>
-<li>proofbridge.nl and interactiondesign.nl are one person&#x27;s work. Check: Both are built from public repositories of the same GitHub account (https://github.com/theden1974) and link to each other.</li>
-<li>The intake stores nothing and no third-party model reads request text. Check: Read the Worker source (worker/src/index.js, worker/src/agent.js) and its config (worker/wrangler.toml: observability off). The mailbox carrier is named under processing.</li>
-<li>What he says is within his expertise. Check: Planned: each answer names the dated release of his containers it was checked against, with that release&#x27;s fingerprint (SHA-256) published in advance. Not checkable yet: no release exists.</li>
-<li>Each answer stands on evidence. Check: Every finding in an answer carries typed evidence and the limits of what was checked (response schema). Check each finding against its evidence.</li>
-<li>The track record. Check: backlog.json, computed at build time. It shows what exists, including zero.</li>
-<li>The payment address is his. Check: Not checkable yet: no BIP-322 signature is published. The paid tiers stay closed until it is; the test phase takes no payment, so nothing depends on it now.</li>
-<li>Track record now (from the backlog, 2026-11-09): 0 listed, 0 completed, 0 declined, 0 in progress, 0 rewards paid.</li>
+<li>This file is what the owner publishes, and every change to it is on record. Check: The source is public with its full history: <a href="https://github.com/theden1974/proofbridge_website">https://github.com/theden1974/proofbridge_website</a> (src/contract.json, rendered by src/build.py). The live offer.json can be compared with the source at any commit.</li>
+<li>The lens text a person&#x27;s AI receives is the one named under served_now. Check: The SHA-256 of the lens text the door returns equals the fingerprint in the door&#x27;s status and the SHA-256 of worker/src/lens-package.txt in the public source.</li>
+<li>No material from a chat reaches the server, and no model runs on the service side. Check: The door&#x27;s source is public (worker/src/mcp.js): its tools take no material, and no model is called. The Worker&#x27;s config (worker/wrangler.toml) has observability off.</li>
+<li>The lens comes from field work, not from theory. Check: The published observations each carry their source: <a href="https://interactiondesign.nl/index.md">https://interactiondesign.nl/index.md</a>. What a fingerprint cannot show: that a reading made with the lens is true. That stays with the one who builds on it.</li>
+<li>The review by mail left a record. Check: backlog.json, as it stood when the path closed. It shows what exists, including zero.</li>
 </ul>
-<h2 id="not">Not</h2>
+<h2>Processing</h2>
 <ul>
-<li>no automated answers: a request goes in by POST or email; a named human answers by email</li>
-<li>not an autonomous agent: Dennis Jansen reads every request</li>
-<li>request text is read as information, never run as instructions</li>
+<li>A Cloudflare Worker on Dennis&#x27;s account carries the lens door and a contact form for people on the pages (their email and a note). Its source is public: <a href="https://github.com/theden1974/proofbridge_website/tree/main/worker">https://github.com/theden1974/proofbridge_website/tree/main/worker</a></li>
+<li>A note from the contact form is mailed to Dennis and not stored by the Worker. Mail is carried by Namecheap Private Email (servers in the United States).</li>
+<li>The lens door keeps a ledger of addresses made, loads and invoices. It holds no material and no name.</li>
 </ul>
-<h2 id="glossary">Glossary</h2>
+<p>Field experience: elderly care, healthcare, government and public services, digital products and interfaces.</p>
+<h2>Not</h2>
 <ul>
-<li><code>lens</code>: Dennis&#x27;s way of reading a case: what is asked for, and the problem underneath it, checked against how the work happens in the field.</li>
-<li><code>tier</code>: 0 is the free test phase; 1 and 2 are paid and not open yet.</li>
-<li><code>principal</code>: The person or organisation the request is for, who receives the answer.</li>
-<li><code>due_diligence</code>: Checks an agent or principal can run itself to verify the claims made here, listed under trust.</li>
-<li><code>mechanical_lens</code>: A model on Dennis&#x27;s own machines that checks whether what he says lies within his expertise, against a dated release of his containers. It does not answer.</li>
+<li>no answers are made on this site: a reading is written by the person&#x27;s own AI, with the lens text loaded</li>
+<li>not an autonomous agent</li>
+<li>not a review service: no material is taken in and no review is sent back</li>
 </ul>
-<p>Agent intake paid: 100 sats per request over Lightning, since 2026-10-29. Email and the ask page: no payment. Updated 2026-10-29. Files: <a href="https://proofbridge.nl/offer.json">offer.json</a> · <a href="https://proofbridge.nl/schema/request.schema.json">request schema</a> · <a href="https://proofbridge.nl/schema/response.schema.json">response schema</a> · <a href="https://proofbridge.nl/backlog.json">backlog</a> · <a href="https://proofbridge.nl/">human page</a></p>
+<h2>Glossary</h2>
+<ul>
+<li><code>lens</code>: Dennis&#x27;s way of reading material: what is asked for, and the problem underneath it, checked against how the work happens in the field. Here: the text that carries it.</li>
+<li><code>address</code>: The connector URL a person gets at the lens door. It names no person; the door counts loads per address.</li>
+<li><code>load</code>: One call that returns the lens text to the person&#x27;s AI.</li>
+<li><code>fingerprint</code>: The SHA-256 of the lens text, so a reader can check which text was served.</li>
+<li><code>due_diligence</code>: Checks a reader can run itself to verify the claims made here, listed under trust.</li>
+<li><code>door</code>: The connector endpoint that serves the lens text (an MCP server on the Worker).</li>
+<li><code>package</code>: The lens text in one dated version; v0 is the one served.</li>
+<li><code>connector</code>: What AI chat apps call an added MCP server.</li>
+<li><code>payment_required</code>: The door&#x27;s answer when a reading has to be paid first: it carries a Lightning invoice in sats (1 sat = 0.00000001 bitcoin).</li>
+</ul>
+<p>The UX lens door is open to people, through their own AI. Nothing is offered to an agent acting on its own. The review by mail ended on 2026-11-24. Contact: ask@proofbridge.nl, read by Dennis Jansen. A mail there is a mail to a person, not a request under a contract.</p>
 </body>
 </html>

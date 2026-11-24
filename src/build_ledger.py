@@ -37,6 +37,6 @@ page = ('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8"><meta 
   '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">\n<style>' + css + '</style>\n</head>\n<body>\n<div class="wrap">\n'
   '<header>\n  <span class="label">proofbridge · Dennis Jansen</span>\n  <h1>People say one thing. Something else is going on underneath. Someone with the experience hears it.</h1>\n</header>\n\n'
   + ''.join(obs(o) for o in N['observations']) +
-  '<section class="cta">\n  <h2>' + E(C['heading']) + '</h2>\n  <p>' + E(C['text']) + '</p>\n  <a class="btn" href="' + E(C['link']) + '">Hand it over</a>\n</section>\n</div>\n</body>\n</html>\n')
+  ('<section class="cta">\n  <h2>' + E(C['heading']) + '</h2>\n  <p>' + E(C['text']) + '</p>\n  <a class="btn" href="' + E(C['link']) + '">Hand it over</a>\n</section>\n' if C.get('link') else '') + '</div>\n</body>\n</html>\n')
 os.makedirs(os.path.join(OUT, 'ledger'), exist_ok=True)
 open(os.path.join(OUT, 'ledger', 'index.html'), 'w', encoding='utf-8').write(page); print('ledger/index.html', len(page))

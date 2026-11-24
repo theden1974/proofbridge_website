@@ -80,6 +80,7 @@
  "cta": {
   "heading": "Bring material",
   "text": "If we have just talked, bring something as it is: a transcript, an interview, a recorded talk, a call you were in. Don't clean it up, I read it raw. What comes back is what was said, word for word, and what sits under it, so you can check every step yourself. Try it on your own material.",
-  "link": "/ask/"
+  "link": null,
+  "_note": "Withdrawn 2026-11-24: it led to the ask page of the review by mail, which ended. Text kept; not rendered while link is null."
  }
 }

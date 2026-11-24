@@ -15,8 +15,6 @@ HIRE_TO = "info@interactiondesign.nl"   # hire me in the footer of both sites (h
 HIRE_ORIGINS = "https://proofbridge.nl,https://www.proofbridge.nl,https://interactiondesign.nl,https://www.interactiondesign.nl"
 SMTP_HOST = "mail.privateemail.com"
 SMTP_PORT = "465"
-AGENT_PRICE_SATS = "100"   # his line 2026-10-29: agents pay 100 sats per request; 0 switches the rail off
-PERSON_PRICE_SATS = "100"
 LENS_FRAME_OPEN = "1"     # UX lens package v0 served: his word "release", 2026-11-06 15:52
 # Lens door access (his lines 2026-11-08 03:11 and 03:25: access first, then payment; mechanical, no hand):
 FREE_READINGS = "1000000" # counter off until the door is ready for production (his 2026-11-09 02:08); loads are still counted in the ledger. Production value: 3
@@ -24,7 +22,7 @@ LENS_PRICE_SATS = "100"   # after that, one Lightning invoice per reading; 0 clo
 CREDITS_PER_PAYMENT = "1"
 ADDRESSES_PER_DAY = "3"   # addresses one caller can mint per day
 
-# Agent door (/agent): at most 2 requests per minute per address. The binding is created on deploy.
+# Rate limit for the hire door (and the lens door's own use): at most 2 per minute per key. The binding is created on deploy.
 [[ratelimits]]
 name = "AGENT_LIMIT"
 namespace_id = "1001"

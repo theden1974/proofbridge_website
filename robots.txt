@@ -1,5 +1,5 @@
 # proofbridge.nl · people and AI agents are welcome to read everything here.
-# The page states the offer in brief; /agents/ and /offer.json carry the task contract, with the same facts.
+# /agents/ and /offer.json say what is here for agents, with the same facts.
 
 User-agent: *
 Allow: /

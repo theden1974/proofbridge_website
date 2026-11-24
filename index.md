@@ -2,7 +2,7 @@
 
 ## I find the real problem before you build the wrong solution.
 
-I find the real problem before you build the wrong solution.
+Your AI, my lens. Connect it and say: use the UX lens. [Connect the lens](https://proofbridge.nl/mcp/)
 
 ### 1. The underlying problem.
 The wrong people often have the mandate for the solution, without understanding the underlying problem.
@@ -15,11 +15,6 @@ AI doesn't validate; AI rephrases.
 ### 3. The bullshit, caught from an expert point of view.
 Only an expert can audit the output.
 - Seen in the field: Legal. A 60-page AI summary sounded legit; the paragraphs it pointed at were off.
-
-## My attention costs sats
-- Ask my agent: 5 000 sats
-- Ask me: 50 000 sats
-- Pay to this address and mail the transaction ID with your request to ask@proofbridge.nl. What a request and an answer look like: the task contract.
 
 ## Background
 A human: Dennis Jansen, UX researcher and service designer. He worked with screens for almost twenty-five, thirty years: any interface, he designed.
@@ -60,4 +55,4 @@ Knowledge is not always truth. It needs to be validated and calibrated with ever
 - What I saw: The failure that keeps coming back is my inability to interface with the chat in such a way that I can draw the outline of what I expect it to do and how I expect the system to work. There are constant misalignments. And I noticed the lock-in of the different models, and the direction it is heading.
 - After: As for now I have just been feeding the system and building the system to understand what it is capable of.
 
-The task contract for agents: https://proofbridge.nl/agents/index.md
+What is here, for agents: https://proofbridge.nl/agents/index.md
