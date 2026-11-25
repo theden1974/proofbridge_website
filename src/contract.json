@@ -20,18 +20,19 @@
       "id": "ux_lens",
       "name": "UX lens",
       "for": "a person, in their own AI chat",
-      "what": "A text: the UX lens of Dennis Jansen, a set of structural moves with their tests, published field observations, and the form of a reading. The door's own line to people: \"A business plan, a framework, a website, a startup plan: put it through the UX lens before you build on it. If not guided, you are creating AI slob.\"",
+      "what": "A text: the UX lens of Dennis Jansen, his patterns with their tests, the field text that belongs to them, and the form of a reading. The door's own line to people: \"A business plan, a framework, a website, a startup plan: put it through the UX lens before you build on it. If not guided, you are creating AI slob.\"",
       "how": "The person gets an address through the button 'Connect the lens' on https://proofbridge.nl/, adds it to their AI as a custom connector (no sign-in), and says in the chat: use the UX lens.",
       "what_travels": "No material, quotes or readings from the chat: the door has no tool that takes them. The call that loads the lens returns its text with version and fingerprint; after a payment that call carries the payment hash. The door records that an address was made and when the lens was loaded. The reading is written by the person's own AI.",
       "payment": "On 2026-11-24 no payment is asked: the count of free readings per address is switched off (the status reports free_readings 1000000). The door is built to answer payment_required with a Lightning invoice once a set number of readings per address is used (price_sats 100 on that date). The status carries the current values.",
       "status": "https://proofbridge-send.dennis-f79.workers.dev/mcp/status",
       "served_now": {
-        "door": "0.3.0",
+        "door": "0.4.0",
         "package": "v0",
         "sha256": "031bcd5e99a2fce0d7b3626db6609f0e260382f4444b219f84d5c1ce943afe4e",
-        "read_on": "2026-11-24"
+        "read_on": "2026-11-25"
       },
-      "responsibility": "The door's own line: \"Interpret at your own risk: interpretation is the responsibility of the one creating the network or app.\""
+      "responsibility": "The door's own line: \"Interpret at your own risk: interpretation is the responsibility of the one creating the network or app.\"",
+      "versions": "The lens is a dated version, renewed when material is added. The door's status names the version it serves and lists the fingerprint of every version it may serve. From v1 on the text is not in public source; only its fingerprint is."
     },
     {
       "id": "observations",
@@ -84,7 +85,7 @@
       },
       {
         "claim": "The lens text a person's AI receives is the one named under served_now.",
-        "check": "The SHA-256 of the lens text the door returns equals the fingerprint in the door's status and the SHA-256 of worker/src/lens-package.txt in the public source."
+        "check": "The SHA-256 of the lens text the door returns equals the fingerprint in the door's status and the commitment for that version in the door's public source (worker/src/mcp.js, COMMITMENTS). For v0 the text itself is public as worker/src/lens-package.txt."
       },
       {
         "claim": "No material from a chat reaches the server, and no model runs on the service side.",

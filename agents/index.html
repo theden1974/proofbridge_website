@@ -20,7 +20,7 @@
 <p><a href="/">← proofbridge.nl</a></p>
 <h1>proofbridge: what is here, for agents</h1>
 <p>proofbridge.nl carries the UX lens of Dennis Jansen: a text a person loads into their own AI chat as a connector, and that AI then reads the person&#x27;s material with it. For an agent acting on its own there is one door, closed on 2026-11-24; the review by mail ended on that date. Provider: Dennis Jansen, UX researcher and service designer. Languages: nl, en.</p>
-<p>The same as data: <a href="https://proofbridge.nl/offer.json">offer.json</a>. Updated 2026-11-24.</p>
+<p>The same as data: <a href="https://proofbridge.nl/offer.json">offer.json</a>. Updated 2026-11-25.</p>
 <h2>For agents</h2>
 <ul>
 <li>Status: one door, closed, since 2026-11-24.</li>
@@ -30,13 +30,14 @@
 <h3>UX lens</h3>
 <ul>
 <li>For: a person, in their own AI chat</li>
-<li>What: A text: the UX lens of Dennis Jansen, a set of structural moves with their tests, published field observations, and the form of a reading. The door&#x27;s own line to people: &quot;A business plan, a framework, a website, a startup plan: put it through the UX lens before you build on it. If not guided, you are creating AI slob.&quot;</li>
+<li>What: A text: the UX lens of Dennis Jansen, his patterns with their tests, the field text that belongs to them, and the form of a reading. The door&#x27;s own line to people: &quot;A business plan, a framework, a website, a startup plan: put it through the UX lens before you build on it. If not guided, you are creating AI slob.&quot;</li>
 <li>How: The person gets an address through the button &#x27;Connect the lens&#x27; on <a href="https://proofbridge.nl/">https://proofbridge.nl/</a>, adds it to their AI as a custom connector (no sign-in), and says in the chat: use the UX lens.</li>
 <li>What travels: No material, quotes or readings from the chat: the door has no tool that takes them. The call that loads the lens returns its text with version and fingerprint; after a payment that call carries the payment hash. The door records that an address was made and when the lens was loaded. The reading is written by the person&#x27;s own AI.</li>
 <li>Payment: On 2026-11-24 no payment is asked: the count of free readings per address is switched off (the status reports free_readings 1000000). The door is built to answer payment_required with a Lightning invoice once a set number of readings per address is used (price_sats 100 on that date). The status carries the current values.</li>
+<li>Versions: The lens is a dated version, renewed when material is added. The door&#x27;s status names the version it serves and lists the fingerprint of every version it may serve. From v1 on the text is not in public source; only its fingerprint is.</li>
 <li>Status: <a href="https://proofbridge-send.dennis-f79.workers.dev/mcp/status">https://proofbridge-send.dennis-f79.workers.dev/mcp/status</a></li>
 <li>Responsibility: The door&#x27;s own line: &quot;Interpret at your own risk: interpretation is the responsibility of the one creating the network or app.&quot;</li>
-<li>Served on 2026-11-24: door 0.3.0, package v0, SHA-256 <code>031bcd5e99a2fce0d7b3626db6609f0e260382f4444b219f84d5c1ce943afe4e</code></li>
+<li>Served on 2026-11-25: door 0.4.0, package v0, SHA-256 <code>031bcd5e99a2fce0d7b3626db6609f0e260382f4444b219f84d5c1ce943afe4e</code></li>
 </ul>
 <h3>Observations</h3>
 <ul>
@@ -55,14 +56,14 @@
 <ul>
 <li>Was: Asynchronous review by Dennis Jansen of a request sent by POST (100 sats over Lightning from 2026-10-29), by email or through the ask page, answered by email within 7 days.</li>
 <li>Now: The agent intake answers 410 and takes no request, no invoice and no payment. The ask page is closed. The request and response schemas, the examples and the OpenAPI file are withdrawn.</li>
-<li>Record: <a href="https://proofbridge.nl/backlog.json">https://proofbridge.nl/backlog.json</a> (0 listed, 0 completed, 0 declined; computed 2026-11-24)</li>
+<li>Record: <a href="https://proofbridge.nl/backlog.json">https://proofbridge.nl/backlog.json</a> (0 listed, 0 completed, 0 declined; computed 2026-11-25)</li>
 </ul>
 <h2>Trust: due diligence</h2>
 <p>Trust here is not an identity to accept but claims to verify. Each claim below names how to check it yourself; what cannot be checked is said.</p>
 <ul>
 <li>Accountable human: Dennis Jansen</li>
 <li>This file is what the owner publishes, and every change to it is on record. Check: The source is public with its full history: <a href="https://github.com/theden1974/proofbridge_website">https://github.com/theden1974/proofbridge_website</a> (src/contract.json, rendered by src/build.py). The live offer.json can be compared with the source at any commit.</li>
-<li>The lens text a person&#x27;s AI receives is the one named under served_now. Check: The SHA-256 of the lens text the door returns equals the fingerprint in the door&#x27;s status and the SHA-256 of worker/src/lens-package.txt in the public source.</li>
+<li>The lens text a person&#x27;s AI receives is the one named under served_now. Check: The SHA-256 of the lens text the door returns equals the fingerprint in the door&#x27;s status and the commitment for that version in the door&#x27;s public source (worker/src/mcp.js, COMMITMENTS). For v0 the text itself is public as worker/src/lens-package.txt.</li>
 <li>No material from a chat reaches the server, and no model runs on the service side. Check: The door&#x27;s source is public (worker/src/mcp.js): its tools take no material, and no model is called. The Worker&#x27;s config (worker/wrangler.toml) has observability off.</li>
 <li>The package behind the agents&#x27; door is the one committed to. Check: The door&#x27;s answer names version, SHA-256 and size; the same commitment stands in the public source history of worker/src/layer.js. The package itself is not public; after a paid load the SHA-256 of the bytes received equals the commitment.</li>
 <li>The lens comes from field work, not from theory. Check: The published observations each carry their source: <a href="https://interactiondesign.nl/index.md">https://interactiondesign.nl/index.md</a>. What a fingerprint cannot show: that a reading made with the lens is true. That stays with the one who builds on it.</li>

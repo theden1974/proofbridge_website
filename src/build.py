@@ -155,7 +155,7 @@ json.dump(offer, open(f"{OUT}/offer.json", "w", encoding="utf-8"), indent=2, ens
 # ---------- the same as markdown (agents/index.md) and HTML (agents/) ----------
 def exists_md(x):
     s = f"### {x['name']}\n- For: {x['for']}\n- What: {x['what']}\n"
-    for k, lab in (('how', 'How'), ('what_travels', 'What travels'), ('payment', 'Payment'), ('status', 'Status'), ('url', 'Where'), ('responsibility', 'Responsibility')):
+    for k, lab in (('how', 'How'), ('what_travels', 'What travels'), ('payment', 'Payment'), ('versions', 'Versions'), ('status', 'Status'), ('url', 'Where'), ('responsibility', 'Responsibility')):
         if x.get(k): s += f"- {lab}: {x[k]}\n"
     if x.get('served_now'):
         v = x['served_now']; s += f"- Served on {v['read_on']}: door {v['door']}, package {v['package']}, SHA-256 `{v['sha256']}`\n"

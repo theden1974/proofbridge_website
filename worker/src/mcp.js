@@ -2,8 +2,11 @@
 //
 // What this door does, in full (his line 2026-11-10: "Not your keys, manifesto and the proof of fact protocol needs to be in
 // place for me and for an external user"):
-//   1. It serves one text, the lens package. The same text to everyone. Its fingerprint is the sha256 of that text; the file
-//      is worker/src/lens-package.txt in this public repository, so anyone can hash it and compare (don't trust, verify).
+//   1. It serves one text, the lens. The same text to everyone. Its fingerprint is the sha256 of that text (don't trust,
+//      verify). Since door 0.4.0 (his lines 2026-11-24/25, BUILD-RECORD B203-B212) the lens is a CD: a dated version built from
+//      his system, his patterns with their supporting text. A CD is not in this public repository: it sits in the door's
+//      sealed place (KV, key 'cd'), put there by the owner; this file carries only the fingerprint of each version (COMMITMENTS).
+//      While the sealed place holds no CD that matches a commitment, the door serves v0 (worker/src/lens-package.txt).
 //   2. The reading is made by the user's own AI, in the user's own chat. Nothing from that chat comes back here. There is no
 //      tool that sends material, quotes or readings to this door (removed 2026-11-10 after an outside security read: the
 //      return was sent without asking; not your keys applies to the user's reasoning as much as to the owner's).
@@ -22,22 +25,26 @@ import PACKAGE from './lens-package.txt';
 import { makeInvoice, lookup } from './pay.js';
 
 const PROTO = '2025-06-18';
-const DOOR_VERSION = '0.3.0';
-const PACKAGE_VERSION = 'v0';
+const DOOR_VERSION = '0.4.0';
+// What this door may serve: the fingerprint of every version, public, so the history of this file shows what was committed to and when.
+const COMMITMENTS = [
+  { version: 'v0', sha256: '031bcd5e99a2fce0d7b3626db6609f0e260382f4444b219f84d5c1ce943afe4e', committed: '2026-11-08', where: 'worker/src/lens-package.txt in this repository' },
+  { version: 'v1', sha256: 'cb1e0b56c1d7c9405866fece88dc2f9b50457b4728ea03caa42f8902c006a03e', committed: '2026-11-25', where: 'the door\'s sealed place; the text is not public' },
+];
 const MAX_BODY = 120_000, MAX_BATCH = 4, MAX_READING = 40_000;
 const PAGE = 'https://proofbridge.nl/mcp/';
 const SOURCE = 'https://github.com/theden1974/proofbridge_website/tree/main/worker/src';
 const ABOUT = {
   purpose: 'A business plan, a framework, a website, a startup plan: put it through the UX lens before you build on it. If not guided, you are creating AI slob.',
-  what_it_is: 'A text: the UX lens of Dennis Jansen (proofbridge.nl), a set of structural moves with their tests, published field observations, and the form of a reading. Your AI loads it and reads your material with it, in your own chat.',
+  what_it_is: 'A text: the UX lens of Dennis Jansen (proofbridge.nl), his patterns with their tests, the field text that belongs to them, and the form of a reading. Your AI loads it and reads your material with it, in your own chat.',
   what_leaves_your_chat: 'Nothing. This door has no tool that receives material, quotes or readings. It records that an address was made and when the lens was loaded.',
   bring: 'What is being built and for whom (screens, flow or description, as text). What has been checked with the people it is for. The decision at stake.',
   what_comes_back: 'A reading in your chat: cards first (an image from the field, the exact line from your material, the pattern in one sentence), then the full reading, ending with what it used and what it did not know. Where the lens does not know, it asks; it does not fill.',
   what_not: 'No answer is made on this side. No material is read on this side. No design, no code, no rating, no advice.',
   access: 'Each user makes their own address at ' + PAGE + ' (one click, no sign-in).',
-  verify: 'The package fingerprint is the sha256 of the text served; the same file is public at ' + SOURCE + '/lens-package.txt. The door\'s code is in the same folder.',
+  verify: 'The fingerprint is the sha256 of the text served. The fingerprint of every version is public in the door\'s source (' + SOURCE + '/mcp.js, COMMITMENTS), with the door\'s code.',
   responsibility: 'Interpret at your own risk: interpretation is the responsibility of the one creating the network or app.',
-  maturity: 'Version 0.1 of the lens, improved by use. Package ' + PACKAGE_VERSION + ', door ' + DOOR_VERSION + '.',
+  maturity: 'The lens is a dated version, renewed when material is added. Door ' + DOOR_VERSION + '; the version served is in the status and in every load.',
 };
 
 // What the user's AI is told when the connector is attached. Written so a person can read it too; the same facts are in /mcp/index.md and in the page's JSON-LD.
@@ -54,12 +61,29 @@ const INSTRUCTIONS = [
 
 const TOOLS = [
   { name: 'lens_about', title: 'About the UX lens', description: 'What the UX lens is, what leaves the chat (nothing), what the door records, how to verify it. Free.', inputSchema: { type: 'object', properties: {}, additionalProperties: false } },
-  { name: 'lens_frame', title: 'Load the UX lens', description: 'Returns the UX lens as text (moves, tests, published field observations, the form of a reading) with its version and fingerprint. Use it when the builder asks to use the UX lens, before writing about their material: a reading under the lens\'s name needs this text. Takes no material and sends none. May return payment_required with a Lightning invoice for the builder, or address_required.', inputSchema: { type: 'object', properties: { payment_hash: { type: 'string', description: 'After paying an invoice from a previous answer: its payment_hash.' } }, additionalProperties: false } }
+  { name: 'lens_frame', title: 'Load the UX lens', description: 'Returns the UX lens as text (patterns, their tests, the field text that belongs to them, the form of a reading) with its version and fingerprint. Use it when the builder asks to use the UX lens, before writing about their material: a reading under the lens\'s name needs this text. Takes no material and sends none. May return payment_required with a Lightning invoice for the builder, or address_required.', inputSchema: { type: 'object', properties: { payment_hash: { type: 'string', description: 'After paying an invoice from a previous answer: its payment_hash.' } }, additionalProperties: false } }
 ];
 
 async function sha256(s) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
-let FINGERPRINT = null;
-const fingerprint = async () => FINGERPRINT || (FINGERPRINT = await sha256(PACKAGE));
+// The text this door serves now: the newest CD in the sealed place whose fingerprint is committed above; otherwise v0.
+let SERVED = null, SERVED_AT = 0, V0_FP = null;
+async function served(env) {
+  if (SERVED && Date.now() - SERVED_AT < 60_000) return SERVED;
+  let out = null;
+  try {
+    const raw = env.AGENT_LAYER ? await env.AGENT_LAYER.get('cd') : null;
+    if (raw) {
+      const v = JSON.parse(raw);
+      if (v && typeof v.text === 'string' && typeof v.version === 'string') {
+        const fp = await sha256(v.text);
+        if (COMMITMENTS.some(c => c.version === v.version && c.sha256 === fp)) out = { version: v.version, text: v.text, fingerprint: fp };
+      }
+    }
+  } catch { out = null; }
+  if (!out) out = { version: 'v0', text: PACKAGE, fingerprint: V0_FP || (V0_FP = await sha256(PACKAGE)) };
+  SERVED = out; SERVED_AT = Date.now();
+  return out;
+}
 const rpc = (id, result) => ({ jsonrpc: '2.0', id, result });
 const rpcErr = (id, code, message) => ({ jsonrpc: '2.0', id, error: { code, message } });
 const text = (t, isError = false) => ({ content: [{ type: 'text', text: typeof t === 'string' ? t : JSON.stringify(t, null, 1) }], isError });
@@ -131,7 +155,8 @@ export async function mcpDoor(request, env, mail, parts) {
           } catch (e) { await ledger.event(key, 'error', 'rail ' + clean(e.message, 80)); out.push(rpc(m.id, text({ status: 'payment_rail', message: 'The payment rail did not answer. Call again in a minute with the same payment_hash.' }, true))); continue; }
         }
       }
-      const f = await ledger.frame(key, FREE, PACKAGE.length, Date.now() - t0);
+      const cd = await served(env);
+      const f = await ledger.frame(key, FREE, cd.text.length, Date.now() - t0);
       if (!f.ok && f.error === 'payment_required') {
         if (!PRICE) { out.push(rpc(m.id, text({ status: 'quota', message: 'The free readings of this address are used and payment is not open on this door. Tell the builder in one sentence.' }))); continue; }
         try {
@@ -145,8 +170,8 @@ export async function mcpDoor(request, env, mail, parts) {
         continue;
       }
       if (!f.ok) { out.push(rpc(m.id, text({ status: f.error }, true))); continue; }
-      const fp = await fingerprint();
-      out.push(rpc(m.id, text('purpose: ' + ABOUT.purpose + '\nwhat_leaves_your_chat: ' + ABOUT.what_leaves_your_chat + '\nverify: ' + ABOUT.verify + '\nresponsibility: ' + ABOUT.responsibility + '\npackage_version: ' + PACKAGE_VERSION + '\nfingerprint: ' + fp + '\nthis_reading: ' + (f.paid ? 'paid' : FREE >= 1000 ? 'free' : 'free, ' + f.free_left + ' free left on this address') + '\n\n' + PACKAGE)));
+      const fp = cd.fingerprint;
+      out.push(rpc(m.id, text('purpose: ' + ABOUT.purpose + '\nwhat_leaves_your_chat: ' + ABOUT.what_leaves_your_chat + '\nverify: ' + ABOUT.verify + '\nresponsibility: ' + ABOUT.responsibility + '\npackage_version: ' + cd.version + '\nfingerprint: ' + fp + '\nthis_reading: ' + (f.paid ? 'paid' : FREE >= 1000 ? 'free' : 'free, ' + f.free_left + ' free left on this address') + '\n\n' + cd.text)));
       continue;
     }
 
@@ -176,7 +201,8 @@ async function statusDoor(request, env) {
   const cors = pageCors(request, env);
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...cors, 'access-control-allow-methods': 'GET, OPTIONS' } });
   const s = env.LEDGER ? await env.LEDGER.getByName('ledger').status() : null;
-  return json(200, { alive: true, source: SOURCE, door: DOOR_VERSION, package: PACKAGE_VERSION, fingerprint: await fingerprint(), released: env.LENS_FRAME_OPEN === '1', free_readings: Number(env.FREE_READINGS || 3), price_sats: Number(env.LENS_PRICE_SATS || 0), now: new Date().toISOString(), ledger: s }, { ...cors, 'cache-control': 'no-store' });
+  const cd = await served(env);
+  return json(200, { alive: true, source: SOURCE, door: DOOR_VERSION, package: cd.version, fingerprint: cd.fingerprint, commitments: COMMITMENTS, released: env.LENS_FRAME_OPEN === '1', free_readings: Number(env.FREE_READINGS || 3), price_sats: Number(env.LENS_PRICE_SATS || 0), now: new Date().toISOString(), ledger: s }, { ...cors, 'cache-control': 'no-store' });
 }
 
 // owner's view, read token only (set as a secret; without it this door does not exist)
