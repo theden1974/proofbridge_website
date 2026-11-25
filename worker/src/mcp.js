@@ -29,7 +29,7 @@ const DOOR_VERSION = '0.4.0';
 // What this door may serve: the fingerprint of every version, public, so the history of this file shows what was committed to and when.
 const COMMITMENTS = [
   { version: 'v0', sha256: '031bcd5e99a2fce0d7b3626db6609f0e260382f4444b219f84d5c1ce943afe4e', committed: '2026-11-08', where: 'worker/src/lens-package.txt in this repository' },
-  { version: 'v1', sha256: 'cb1e0b56c1d7c9405866fece88dc2f9b50457b4728ea03caa42f8902c006a03e', committed: '2026-11-25', where: 'the door\'s sealed place; the text is not public' },
+  { version: 'v4', sha256: 'a89b7355868ec4449f1b10ac3be4453aec067b7a04adea7fdf09757eeb8f165f', committed: '2026-11-25', where: 'the door\'s sealed place; the text is not public' },
 ];
 const MAX_BODY = 120_000, MAX_BATCH = 4, MAX_READING = 40_000;
 const PAGE = 'https://proofbridge.nl/mcp/';
